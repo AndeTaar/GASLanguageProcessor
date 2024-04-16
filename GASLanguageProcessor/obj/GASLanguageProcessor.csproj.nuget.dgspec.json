@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\coolf\\Desktop\\paradiso\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
+    "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\coolf\\Desktop\\paradiso\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\coolf\\Desktop\\paradiso\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\coolf\\Desktop\\paradiso\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
         "packagesPath": "C:\\Users\\coolf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\coolf\\Desktop\\paradiso\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "outputPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\coolf\\AppData\\Roaming\\NuGet\\NuGet.Config",
