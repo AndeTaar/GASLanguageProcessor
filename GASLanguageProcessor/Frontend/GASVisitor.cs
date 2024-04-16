@@ -110,6 +110,24 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCircle([NotNull] GASParser.CircleContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.polygon"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPolygon([NotNull] GASParser.PolygonContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.text"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitText([NotNull] GASParser.TextContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.line"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLine([NotNull] GASParser.LineContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.pointDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -133,6 +151,36 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCircleDeclaration([NotNull] GASParser.CircleDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.polygonDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPolygonDeclaration([NotNull] GASParser.PolygonDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.textDecleration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTextDecleration([NotNull] GASParser.TextDeclerationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.lineDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLineDeclaration([NotNull] GASParser.LineDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.colourDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitColourDeclaration([NotNull] GASParser.ColourDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.stringDecleration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStringDecleration([NotNull] GASParser.StringDeclerationContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.collectionDeclaration"/>.
 	/// </summary>
@@ -169,6 +217,18 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAllTypes([NotNull] GASParser.AllTypesContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString([NotNull] GASParser.StringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.colour"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitColour([NotNull] GASParser.ColourContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.expression"/>.
 	/// </summary>
@@ -211,6 +271,30 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitTerm([NotNull] GASParser.TermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.pointTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPointTerm([NotNull] GASParser.PointTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.colourTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitColourTerm([NotNull] GASParser.ColourTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListTerm([NotNull] GASParser.ListTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.stringTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStringTerm([NotNull] GASParser.StringTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.functionCall"/>.
 	/// </summary>

@@ -7,7 +7,7 @@ canvas : 'canvas' '(' NUM ',' NUM ')' ';';
 //Statements
 statement : declaration | pointDeclaration | squareDeclaration | rectangleDeclaration | circleDeclaration | assignment |
  print | ifStatement | whileStatement | collectionDeclaration | groupDeclaration | functionCall | functionDeclaration |
- polygonDeclaration | textDecleration | lineDeclaration | colourDeclaration;
+ polygonDeclaration | textDecleration | lineDeclaration | colourDeclaration | stringDecleration;
 declaration : dataType IDENTIFIER ';' | dataType IDENTIFIER '=' expression ';';
 assignment : IDENTIFIER '=' expression ';';
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
@@ -42,6 +42,8 @@ lineDeclaration : line IDENTIFIER '=' '(' pointTerm ',' pointTerm (',' colourTer
 //Red Green Blue Alpha
 colourDeclaration : colour IDENTIFIER '=' '(' NUM ',' NUM ',' NUM ',' NUM')' ';';
 
+stringDecleration : string IDENTIFIER '=' stringTerm ';';
+
 
 //Collection types
 collectionDeclaration : list '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
@@ -50,8 +52,8 @@ groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (statement (',' 
 listAccess : IDENTIFIER '[' expression ']';
 
 //Standard data types
-dataType : 'number' | 'bool' | string;
-allTypes : dataType | point | rectangle | square | circle;
+dataType : 'number' | 'bool';
+allTypes : dataType | point | rectangle | square | circle | string | text | polygon | colour;
 string : 'string';
 colour : 'colour' | 'color';
 
@@ -69,12 +71,12 @@ term : IDENTIFIER | NUM | 'true' | 'false' | '(' expression ')' | pointTerm | po
 pointTerm : IDENTIFIER | '(' NUM ',' NUM ')' | functionCall;
 colourTerm: IDENTIFIER | '(' NUM ',' NUM ',' NUM ',' NUM ')' | functionCall;
 listTerm : IDENTIFIER | '{' (expression (',' expression)*)? '}' | functionCall;
-stringTerm : IDENTIFIER | '"' ALLSTRINGS '"' | functionCall;
+stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall;
 
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 IDENTIFIER : [a-z_][a-z0-9_]* ;
-ALLSTRINGS : [a-zA-Z0-9_]*;
 NUM : '0' | [1-9][0-9]* ;
 WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace
+ALLSTRINGS : '"'[a-zA-Z0-9_]+'"';
