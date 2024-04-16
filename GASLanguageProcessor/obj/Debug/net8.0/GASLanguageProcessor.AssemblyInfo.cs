@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GASLanguageProcessor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+497be709fc477dd5b63f3dd62ec96d1dcba0533f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("GASLanguageProcessor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GASLanguageProcessor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
