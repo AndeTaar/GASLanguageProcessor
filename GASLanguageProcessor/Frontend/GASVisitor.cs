@@ -296,6 +296,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStringTerm([NotNull] GASParser.StringTermContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.lineTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLineTerm([NotNull] GASParser.LineTermContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.functionCall"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

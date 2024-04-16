@@ -74,7 +74,7 @@ colourTerm: IDENTIFIER | '(' NUM ',' NUM ',' NUM ',' NUM ')' | functionCall;
 listTerm : IDENTIFIER | '{' (expression (',' expression)*)? '}' | functionCall;
 stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall;
 // Start and end points and colour
-lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm (',' colourTerm )? | functionCall;
+lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm (',' colourTerm )? ')' | functionCall;
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
