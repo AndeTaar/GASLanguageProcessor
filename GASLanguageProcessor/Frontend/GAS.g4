@@ -26,7 +26,7 @@ text: 'text';
 line: 'line';
 
 //Shape declarations
-pointDeclaration : point IDENTIFIER '=' '(' NUM ',' NUM ')' ';';
+pointDeclaration : point IDENTIFIER '=' pointTerm ';';
 // Top left, width and height
 rectangleDeclaration : rectangle IDENTIFIER '=' '(' pointTerm ',' NUM ',' NUM ')' ';';
 // Top left and side length
@@ -37,10 +37,10 @@ circleDeclaration : circle IDENTIFIER '=' '(' pointTerm ',' NUM ')' ';';
 polygonDeclaration : polygon IDENTIFIER '=' '(' listTerm (',' colourTerm )?')' ';';
 //Top left, text, colour and Font-Size
 textDecleration : text IDENTIFIER '=' '(' pointTerm ',' stringTerm ',' NUM (',' colourTerm )? ')' ';';
-// Start and end points and colour
-lineDeclaration : line IDENTIFIER '=' '(' pointTerm ',' pointTerm (',' colourTerm )? ';';
-//Red Green Blue Alpha
-colourDeclaration : colour IDENTIFIER '=' '(' NUM ',' NUM ',' NUM ',' NUM')' ';';
+
+lineDeclaration : line IDENTIFIER '=' lineTerm ';';
+
+colourDeclaration : colour IDENTIFIER '=' colourTerm ';';
 
 stringDecleration : string IDENTIFIER '=' stringTerm ';';
 
@@ -48,7 +48,7 @@ stringDecleration : string IDENTIFIER '=' stringTerm ';';
 //Collection types
 collectionDeclaration : list '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
 list : 'list';
-groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (statement (',' statement)*)? '}' ')' ';';
+groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (expression (',' expression)*)? '}' ')' ';';
 listAccess : IDENTIFIER '[' expression ']';
 
 //Standard data types
@@ -69,10 +69,12 @@ notExpression : ('!' | '-')* term ;
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | '(' expression ')' | pointTerm | pointTerm | colourTerm | listTerm | functionCall | listAccess;
 pointTerm : IDENTIFIER | '(' NUM ',' NUM ')' | functionCall;
+//Red Green Blue Alpha
 colourTerm: IDENTIFIER | '(' NUM ',' NUM ',' NUM ',' NUM ')' | functionCall;
 listTerm : IDENTIFIER | '{' (expression (',' expression)*)? '}' | functionCall;
 stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall;
-
+// Start and end points and colour
+lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm (',' colourTerm )? | functionCall;
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
