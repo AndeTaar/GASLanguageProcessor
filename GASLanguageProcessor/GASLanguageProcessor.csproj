@@ -11,4 +11,10 @@
       <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Frontend\test.gas">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
