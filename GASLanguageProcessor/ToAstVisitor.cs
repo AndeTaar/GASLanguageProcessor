@@ -1,5 +1,7 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
 using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
 
 namespace GASLanguageProcessor;
@@ -7,6 +9,9 @@ namespace GASLanguageProcessor;
 public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitProgram ( GASParser.ProgramContext context )
     {
+        var deadKid = context.children[0].Accept(this);
+        context.children.RemoveAt(0);
+        
         var statements = context.children.Cast<GASParser.StatementContext>()
             .Select ( stmt => (Statement) stmt.Accept(this)).ToList();
         return ToCompound(statements);
@@ -15,6 +20,37 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitStatement(GASParser.StatementContext context)
     {
         return base.VisitStatement(context);
+    }
+
+    public override AstNode VisitCanvas(GASParser.CanvasContext context)
+    {
+        var width = context.GetChild(2).GetText();
+        var height = context.GetChild(4).GetText();
+        
+        // some might have a lust for more security ;) (is it null? is it negging you?)
+        
+        if (context.children.Count > 6)
+        {
+            var color = context.GetChild(6).Accept(this) as ColourTerm;
+            return new Canvas(width, height, color);
+        }
+        
+        // Also, here and in colour term, consider if "string" is the best type for these values
+        
+        return new Canvas(width, height);
+    }
+    
+    public override AstNode VisitColourTerm (GASParser.ColourTermContext context)
+    {
+        Console.WriteLine(context.GetChild(1).GetText());
+        Console.WriteLine(context.GetChild(3).GetText());
+        Console.WriteLine(context.GetChild(5).GetText());
+        var red = context.GetChild(2).GetText();
+        var green = context.GetChild(4).GetText();
+        var blue = context.GetChild(6).GetText();
+        var alpha = context.GetChild(8).GetText();
+        
+        return new ColourTerm(red, green, blue, alpha);
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
@@ -157,6 +193,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     private static Statement ToCompound(List<Statement> statements)
     {
+        if(statements.Count == 0)
+        {
+            return new Compound(null, null);
+        }
+        
         if(statements.Count == 1)
         {
             return statements[0];
