@@ -1,0 +1,24 @@
+﻿canvas (500, 500, Color.White);
+Square square = new (Point(10,10), 180, Color.White, Color.Black, 3);
+
+Group mouse = new (Point(100, 50),
+{
+    Group mouseEars = new (Point(0, 0),
+    {
+        Circle leftEar = new (Point(-30, 0), 37, Color.Black, Color.Black, 1),
+        Circle rightEar = new (Point(30, 0), 37, Color.Black, Color.Black, 1)
+    });
+
+    Group mouseFace = new (Point(0, 0),
+    {
+        Circle leftEye = new (Point(-30, 0), 30, Color.White, Color.Black, 1),
+        Circle rightEye = new (Point(30, 0), 30, Color.White, Color.Black, 1),
+        Circle nose = new (Point(0, 30), 50, Color.White, Color.Black, 3)
+    });
+});
+
+Point x = new (0, 0);
+Line line = new (x, Point(200, 200), Color.Red, 10);
+Line line1 = new (Point(200, 0), Point(0, 200), Color.Red, 10);
+Rectangle rectangle = new (Point(10, 150), 180, 40, Color.White, Color.Black, 3);
+Text txt = new ("It's even worse for mouses!", Point(17, 170), 14, "Arial", Color.Black);

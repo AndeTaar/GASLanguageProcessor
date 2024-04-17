@@ -1,12 +1,13 @@
-﻿
-using Antlr4.Runtime ;
-using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime ;
+using GASLanguageProcessor;
 
-Main([" int i; i = 3+3*3; print true;"]);
+ Main(["Frontend\\test.gas"]);
 
 static void Main(string[] args)
 {
-    var inputStream = CharStreams.fromString(args[0]);
+    var fileContents = File.ReadAllText(args[0]);
+
+    var inputStream = CharStreams.fromString(fileContents);
     var lexer = new GASLexer(inputStream);
 
     var tokenStream = new CommonTokenStream(lexer);

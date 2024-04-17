@@ -2,7 +2,7 @@ grammar GAS;
 
 //Program
 program : canvas (statement)* ;
-canvas : 'canvas' '(' NUM ',' NUM ')' ';';
+canvas : 'canvas' '(' NUM ',' NUM ( ',' colourTerm )? ')' ';';
 
 //Statements
 statement : declaration | pointDeclaration | squareDeclaration | rectangleDeclaration | circleDeclaration | assignment |
@@ -27,16 +27,16 @@ line: 'line';
 
 //Shape declarations
 pointDeclaration : point IDENTIFIER '=' pointTerm ';';
-// Top left, width and height
-rectangleDeclaration : rectangle IDENTIFIER '=' '(' pointTerm ',' NUM ',' NUM ')' ';';
-// Top left and side length
-squareDeclaration : square IDENTIFIER '=' '(' pointTerm ',' NUM ')' ';';
-//Center and radius
-circleDeclaration : circle IDENTIFIER '=' '(' pointTerm ',' NUM ')' ';';
+// Top left, width, height, stroke, strokeColour, fillColour
+rectangleDeclaration : rectangle IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
+// Top left, side length, stroke, strokeColour, fillColour
+squareDeclaration : square IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
+//Center, radius  stroke, strokeColour, fillColour
+circleDeclaration : circle IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
 //List of points
 polygonDeclaration : polygon IDENTIFIER '=' '(' listTerm (',' colourTerm )?')' ';';
-//Top left, text, colour and Font-Size
-textDecleration : text IDENTIFIER '=' '(' pointTerm ',' stringTerm ',' NUM (',' colourTerm )? ')' ';';
+//Top left, text, Font-Size, Font, colour
+textDecleration : text IDENTIFIER '=' '(' pointTerm ',' stringTerm ',' numTerm ',' stringTerm (',' colourTerm )? ')' ';';
 
 lineDeclaration : line IDENTIFIER '=' lineTerm ';';
 
@@ -48,7 +48,7 @@ stringDecleration : string IDENTIFIER '=' stringTerm ';';
 //Collection types
 collectionDeclaration : list '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
 list : 'list';
-groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (expression (',' expression)*)? '}' ')' ';';
+groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (statement (',' statement)*)? '}' ')' ';';
 listAccess : IDENTIFIER '[' expression ']';
 
 //Standard data types
@@ -67,18 +67,19 @@ notExpression : ('!' | '-')* term ;
 
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | '(' expression ')' | pointTerm | pointTerm | colourTerm | listTerm | functionCall | listAccess;
-pointTerm : IDENTIFIER | '(' NUM ',' NUM ')' | functionCall;
+numTerm: NUM | IDENTIFIER | functionCall | listAccess;
+term : IDENTIFIER | numTerm | 'true' | 'false' | '(' expression ')' | pointTerm | pointTerm | colourTerm | listTerm | functionCall | listAccess;
+pointTerm : IDENTIFIER | '(' numTerm ',' numTerm ')' | functionCall | listAccess;
 //Red Green Blue Alpha
-colourTerm: IDENTIFIER | '(' NUM ',' NUM ',' NUM ',' NUM ')' | functionCall;
+colourTerm: IDENTIFIER | '(' numTerm ',' numTerm ',' numTerm ',' numTerm ')' | functionCall | listAccess;
 listTerm : IDENTIFIER | '{' (expression (',' expression)*)? '}' | functionCall;
-stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall;
+stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall | listAccess;
 // Start and end points and colour
-lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm (',' colourTerm )? ')' | functionCall;
+lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm ',' numTerm (',' colourTerm )? ')' | functionCall;
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
-IDENTIFIER : [a-z_][a-z0-9_]* ;
-NUM : '0' | [1-9][0-9]* ;
+IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
+NUM : '0' | [-]?[1-9][0-9]* ;
+ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';
 WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace
-ALLSTRINGS : '"'[a-zA-Z0-9_]+'"';
