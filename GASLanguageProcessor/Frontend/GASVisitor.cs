@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Daniel/CLionProjects/terminalgraphics/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from C://Users//danbo//source//repos//GASLanguageProcessor//GASLanguageProcessor//Frontend//GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -265,6 +265,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitNotExpression([NotNull] GASParser.NotExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.numTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNumTerm([NotNull] GASParser.NumTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.term"/>.
 	/// </summary>
