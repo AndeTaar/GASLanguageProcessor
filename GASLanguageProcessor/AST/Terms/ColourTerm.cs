@@ -2,12 +2,13 @@
 
 public class ColourTerm : AstNode
 {
-    public string Red { get; protected set; }
-    public string Green { get; protected set; }
-    public string Blue { get; protected set; }
-    public string Alpha { get; protected set; }
+    public NumTerm Red { get; protected set; }
+    public NumTerm Green { get; protected set; }
+    public NumTerm Blue { get; protected set; }
+    public NumTerm Alpha { get; protected set; }
+    public string? name { get; protected set; }
 
-    public ColourTerm(string red, string green, string blue, string alpha)
+    public ColourTerm(NumTerm red, NumTerm green, NumTerm blue, NumTerm alpha)
     {
         Red = red;
         Green = green;

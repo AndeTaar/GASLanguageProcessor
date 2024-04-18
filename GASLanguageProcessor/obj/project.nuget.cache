@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Jwd8uI9EGui9kdVQiVwEMWTFaAIfK28nCgVkKnpFUVImFD7MkD4rHiAu01GqFB+glR6b+JyaIqbgledWbht8tQ==",
+  "dgSpecHash": "aMipC0Mu9c23mFRzifhR/t/zmOBoydanAugw15yASf/pSZP5Bh8O0T0K3wEZtfZV21+PRjxzIQGE/tikVx7kOg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+  "projectFilePath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\v\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
+    "/Users/viktorjohnsen/.nuget/packages/antlr4.runtime.standard/4.13.1/antlr4.runtime.standard.4.13.1.nupkg.sha512"
   ],
   "logs": []
 }

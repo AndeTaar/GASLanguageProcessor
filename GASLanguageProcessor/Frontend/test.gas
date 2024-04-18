@@ -1,6 +1,6 @@
 ﻿canvas (500, 500, (255, 255, 255, 1));
-colour green = (0, 255, 0, 1);
-colour black = (0, 0, 0, 1);
+color green = (0, 255, 0, 1);
+color black = (0, 0, 0, 1);
 square firkant = ((10,10), 180, green, black);
 
 group mouse = ((100, 50),

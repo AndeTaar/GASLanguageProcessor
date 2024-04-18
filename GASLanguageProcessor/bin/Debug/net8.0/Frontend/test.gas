@@ -1,1 +1,27 @@
 ﻿canvas (500, 500, (255, 255, 255, 1));
+color green = (0, 255, 0, 1);
+color black1 = (0, 0, 0, 1);
+square firkant = ((10,10), 180, green, black);
+
+group mouse = ((100, 50),
+{
+    group mousEars = ((0, 0),
+    {
+        circle leftEar = ((30, 0), 37, 10, black, black);,
+        circle rightEar = ((30, 0), 37, 10, black, black);
+    });,
+
+    group mouseFace = ((0, 0),
+    {
+        circle leftEye = ((-30, 0), 30, 10, white, black);,
+        circle rightEye = ((30, 0), 30, 10, white, black);,
+        circle nose = ((0, 30), 50, 10, white, black);
+    });
+});
+
+color red = (255, 0, 0, 1);
+point x = (0, 0);
+line aline = (x,(200, 200), 10, red);
+line line1 = ((200, 0), (0, 200), 10, red);
+rectangle rectangle1 = ((10, 150), 180, 10, 10);
+text txt = ((0,0), "Its even worse for mouses!", 14, "Arial", black);

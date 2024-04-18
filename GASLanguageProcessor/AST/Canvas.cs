@@ -4,18 +4,11 @@ using GASLanguageProcessor.AST.Terms;
 
 public class Canvas : AstNode
 {
-    public string Width { get; protected set; }
-    public string Height { get; protected set; }
+    public NumTerm Width { get; protected set; }
+    public NumTerm Height { get; protected set; }
     public ColourTerm? Color { get; protected set; }
     
-
-    public Canvas(string width, string height)
-    {
-        Width = width;
-        Height = height;
-    }
-    
-    public Canvas(string width, string height, ColourTerm color)
+    public Canvas(NumTerm width, NumTerm height, ColourTerm color)
     {
         Width = width;
         Height = height;
