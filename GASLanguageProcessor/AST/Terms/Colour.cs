@@ -1,13 +1,15 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Expressions;
+
+namespace GASLanguageProcessor.AST.Terms;
 
 public class Colour: AstNode
 {
-    public int Red { get; protected set; }
-    public int Green { get; protected set; }
-    public int Blue { get; protected set; }
-    public int Alpha { get; protected set; }
+    public Number Red { get; protected set; }
+    public Number Green { get; protected set; }
+    public Number Blue { get; protected set; }
+    public Number Alpha { get; protected set; }
 
-    public Colour(int red, int green, int blue, int alpha)
+    public Colour(Number red, Number green, Number blue, Number alpha)
     {
         Red = red;
         Green = green;
@@ -15,9 +17,13 @@ public class Colour: AstNode
         Alpha = alpha;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        Console.WriteLine(this.GetType().Name);
+        Console.WriteLine(indent + this.GetType().Name);
+        Red.Accept(visitor, indent + "   ");
+        Green.Accept(visitor, indent + "   ");
+        Blue.Accept(visitor, indent + "   ");
+        Alpha.Accept(visitor, indent + "   ");
         return this;
     }
 }

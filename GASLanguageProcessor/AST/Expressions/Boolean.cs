@@ -2,16 +2,16 @@
 
 public class Boolean : Expression
 {
-    public bool Value { get; protected set; }
+    public string Value { get; protected set; }
 
-    public Boolean(bool value)
+    public Boolean(string value)
     {
         Value = value;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        Console.WriteLine(this.GetType().Name);
+        Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
 }

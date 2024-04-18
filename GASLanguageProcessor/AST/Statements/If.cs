@@ -13,12 +13,12 @@ public class If : Statement
         Else = @else;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        var condition = Condition.Accept(visitor);
-        var then = Then.Accept(visitor);
-        var @else = Else.Accept(visitor);
-        Console.WriteLine(this.GetType().Name);
+        Condition.Accept(visitor, indent + "   ");
+        Then.Accept(visitor, indent + "   ");
+        Else.Accept(visitor, indent + "   ");
+        Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
 }

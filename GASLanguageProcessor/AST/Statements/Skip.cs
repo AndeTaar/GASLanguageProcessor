@@ -6,9 +6,10 @@ public class Skip : Statement
     {
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        Console.WriteLine(this.GetType().Name);
+        Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
 }

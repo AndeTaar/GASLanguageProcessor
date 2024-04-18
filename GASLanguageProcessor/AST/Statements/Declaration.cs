@@ -3,18 +3,18 @@
 public class Declaration : Statement
 {
     public string Identifier { get; protected set; }
-    public Expression? Expression { get; protected set; }
+    public AstNode? Value { get; protected set; }
 
-    public Declaration(string identifier, Expression? expression)
+    public Declaration(string identifier, AstNode? value)
     {
         Identifier = identifier;
-        Expression = expression;
+        Value = value;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        var expression = Expression?.Accept(visitor);
-        Console.WriteLine(this.GetType().Name);
+        var expression = Value?.Accept(visitor, indent + "   ");
+        Console.WriteLine(indent + this.GetType().Name + ' ' + this.Identifier);
         return this;
     }
 }

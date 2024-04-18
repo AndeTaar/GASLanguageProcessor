@@ -11,10 +11,10 @@ public class UnaryOp :  Expression
         Expression = expression;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        var expression = Expression.Accept(visitor);
-        Console.WriteLine(this.GetType().Name);
+        Expression.Accept(visitor, indent + "   ");
+        Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
 }

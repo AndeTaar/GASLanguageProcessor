@@ -36,12 +36,59 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitColourTerm(context);
         }
 
-        int.TryParse(context.GetChild(1).GetText(), out int red);
-        int.TryParse(context.GetChild(3).GetText(), out int green);
-        int.TryParse(context.GetChild(5).GetText(), out int blue);
-        int.TryParse(context.GetChild(7).GetText(), out int alpha);
+        var red = context.GetChild(1).Accept(this) as Number;
+        var green = context.GetChild(3).Accept(this) as Number;
+        var blue = context.GetChild(5).Accept(this) as Number;
+        var alpha = context.GetChild(7).Accept(this) as Number;
 
-        return new Colour(red, green, blue, alpha);    }
+        return new Colour(red, green, blue, alpha);
+
+    }
+
+    public override AstNode VisitSquareTerm(GASParser.SquareTermContext context)
+    {
+        var point = context.GetChild(1).Accept(this);
+
+        var side = context.GetChild(5).Accept(this);
+
+        var stroke = context.GetChild(7).Accept(this);
+
+        var colour = context.GetChild(9)?.Accept(this);
+
+        var fillColour = context.GetChild(11)?.Accept(this);
+
+        return new Square(point, side, stroke, colour, fillColour);
+    }
+
+    public override AstNode VisitLineTerm(GASParser.LineTermContext context)
+    {
+        var start = context.GetChild(1).Accept(this);
+
+        var end = context.GetChild(3).Accept(this);
+
+        var stroke = context.GetChild(5).Accept(this);
+
+        var colour = context.GetChild(7)?.Accept(this);
+
+        var strokeColour = context.GetChild(9)?.Accept(this);
+
+        return new Line(start, end, stroke, colour, strokeColour);
+    }
+
+    public override AstNode VisitBoolTerm(GASParser.BoolTermContext context)
+    {
+        return new Boolean(context.GetChild(0).GetText());
+    }
+
+    public override AstNode VisitNumTerm(GASParser.NumTermContext context)
+    {
+        return new Number(context.GetChild(0).GetText());
+    }
+
+    public override AstNode VisitTerm(GASParser.TermContext context)
+    {
+        return new Variable(context.GetText(), null);
+    }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
@@ -52,13 +99,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             throw new Exception("Assignment context is null");
         }
 
-        var expression = context.GetChild(2).Accept(this) as Expression;
+        var value = context.GetChild(2).Accept(this) as AstNode;
 
-        if (expression == null)
+        if (value == null)
         {
             throw new Exception("Expression is null");
         }
-        return new Assignment(identifier, expression);
+        return new Assignment(identifier, value);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -70,9 +117,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             throw new Exception("Identifier is null");
         }
 
-        var expression = context.GetChild(3)?.Accept(this) as Expression;
+        var value = context.GetChild(3)?.Accept(this) as AstNode;
 
-        return new Declaration(identifier, expression);
+        return new Declaration(identifier, value);
     }
 
     public override AstNode VisitPrint(GASParser.PrintContext context)
@@ -87,9 +134,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Print(expression);
     }
 
-    public override AstNode VisitExpression(GASParser.ExpressionContext context)
+    public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
     {
-        return base.VisitExpression(context);
+        var statementNodes = context.children
+            .Where(child => child is GASParser.StatementContext)
+            .Cast<GASParser.StatementContext>()
+            .ToList();
+
+        var statements = statementNodes.Select(statement => statement.Accept(this)).ToList();
+
+        return new Group(statements);
     }
 
     public override AstNode VisitEqualityExpression(GASParser.EqualityExpressionContext context)
@@ -106,17 +160,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
-    public override AstNode VisitColourDeclaration(GASParser.ColourDeclarationContext context)
-    {
-        var identifier = context.GetChild(1).GetText();
-
-        var colour = context.GetChild(3).Accept(this) as Colour;
-
-        return new Variable(identifier, colour);
-    }
-
-
-
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
     {
         if(context.children.Count == 1)
@@ -129,6 +172,37 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var right = context.GetChild(2).Accept(this);
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
+    }
+
+    // Centre, radius, stroke, strokeColour, fillColour
+
+    public override AstNode VisitCircleTerm(GASParser.CircleTermContext context)
+    {
+        var point = context.GetChild(1).Accept(this);
+
+        var radius = context.GetChild(5).Accept(this);
+
+        var stroke = context.GetChild(7).Accept(this);
+
+        var colour = context.GetChild(9)?.Accept(this);
+
+        var fillColour = context.GetChild(11)?.Accept(this);
+
+        return new Circle(point, radius, stroke, colour, fillColour);
+    }
+
+    public override AstNode VisitPointTerm(GASParser.PointTermContext context)
+    {
+        if(context.children.Count == 1)
+        {
+            return base.VisitPointTerm(context);
+        }
+
+        var x = context.GetChild(1).Accept(this);
+
+        var y = context.GetChild(3).Accept(this);
+
+        return new Point(x, y);
     }
 
     public override AstNode VisitBinaryExpression(GASParser.BinaryExpressionContext context)
@@ -166,31 +240,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         return new UnaryOp(context.GetChild(0).GetText(), expression);
     }
-
-    /// <summary>
-    /// Det her må kunne gøres bedre
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public override AstNode VisitTerm(GASParser.TermContext context)
-    {
-        var isBool = bool.TryParse(context.GetText(), out var boolean);
-
-        if (isBool)
-        {
-            return new Boolean(boolean);
-        }
-
-        var isNumber = float.TryParse(context.GetText(), out var number);
-
-        if (isNumber)
-        {
-            return new Number(number);
-        }
-
-        return new Variable(context.GetText());
-    }
-
 
     private static AstNode ToCompound(List<AstNode> lines)
     {

@@ -10,9 +10,9 @@ public class Variable : Expression
         Name = name;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        Console.WriteLine(this.GetType().Name);
+        Console.WriteLine(indent + this.GetType().Name + ' ' + this.Name);
         return this;
     }
 }

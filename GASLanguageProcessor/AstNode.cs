@@ -6,5 +6,5 @@ namespace GASLanguageProcessor;
 
 public abstract class AstNode
 {
-    public abstract AstNode Accept(IAstVisitor visitor);
+    public abstract AstNode Accept(IAstVisitor visitor, string indent);
 }

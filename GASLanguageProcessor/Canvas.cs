@@ -18,9 +18,9 @@ public class Canvas : AstNode
         BackgroundColour = backgroundColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor)
+    public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        Console.WriteLine(this.GetType().Name);
+        Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
 }
