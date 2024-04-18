@@ -11,4 +11,11 @@ public class Assignment : Statement
         Expression = expression;
     }
 
+    public override AstNode Accept(IAstVisitor visitor)
+    {
+        var expression = Expression.Accept(visitor);
+        Console.WriteLine(this.GetType().Name);
+        return this;
+    }
+
 }

@@ -12,4 +12,13 @@ public class If : Statement
         Then = then;
         Else = @else;
     }
+
+    public override AstNode Accept(IAstVisitor visitor)
+    {
+        var condition = Condition.Accept(visitor);
+        var then = Then.Accept(visitor);
+        var @else = Else.Accept(visitor);
+        Console.WriteLine(this.GetType().Name);
+        return this;
+    }
 }

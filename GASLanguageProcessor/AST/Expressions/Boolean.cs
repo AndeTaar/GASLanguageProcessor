@@ -8,4 +8,10 @@ public class Boolean : Expression
     {
         Value = value;
     }
+
+    public override AstNode Accept(IAstVisitor visitor)
+    {
+        Console.WriteLine(this.GetType().Name);
+        return this;
+    }
 }

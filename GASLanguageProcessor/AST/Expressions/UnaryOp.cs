@@ -10,4 +10,11 @@ public class UnaryOp :  Expression
         Op = op;
         Expression = expression;
     }
+
+    public override AstNode Accept(IAstVisitor visitor)
+    {
+        var expression = Expression.Accept(visitor);
+        Console.WriteLine(this.GetType().Name);
+        return this;
+    }
 }

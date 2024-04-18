@@ -1,5 +1,6 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
 using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
 
 namespace GASLanguageProcessor;
@@ -7,15 +8,40 @@ namespace GASLanguageProcessor;
 public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitProgram ( GASParser.ProgramContext context )
     {
-        var statements = context.children.Cast<GASParser.StatementContext>()
-            .Select ( stmt => (Statement) stmt.Accept(this)).ToList();
-        return ToCompound(statements);
+        var lines =  context.children
+            .Select ( line => line.Accept(this)).ToList();
+
+        return ToCompound(lines);
     }
 
     public override AstNode VisitStatement(GASParser.StatementContext context)
     {
         return base.VisitStatement(context);
     }
+
+    public override AstNode VisitCanvas(GASParser.CanvasContext context)
+    {
+        int.TryParse(context.GetChild(2).GetText(), out int width);
+        int.TryParse(context.GetChild(4).GetText(), out int height);
+
+        Colour backgroundColour = (context.GetChild(6)?.Accept(this) as Colour)!;
+
+        return new Canvas(width, height, backgroundColour);
+    }
+
+    public override AstNode VisitColourTerm(GASParser.ColourTermContext context)
+    {
+        if(context.children.Count == 1)
+        {
+            return base.VisitColourTerm(context);
+        }
+
+        int.TryParse(context.GetChild(1).GetText(), out int red);
+        int.TryParse(context.GetChild(3).GetText(), out int green);
+        int.TryParse(context.GetChild(5).GetText(), out int blue);
+        int.TryParse(context.GetChild(7).GetText(), out int alpha);
+
+        return new Colour(red, green, blue, alpha);    }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
@@ -79,6 +105,17 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
+
+    public override AstNode VisitColourDeclaration(GASParser.ColourDeclarationContext context)
+    {
+        var identifier = context.GetChild(1).GetText();
+
+        var colour = context.GetChild(3).Accept(this) as Colour;
+
+        return new Variable(identifier, colour);
+    }
+
+
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
     {
@@ -155,19 +192,19 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     }
 
 
-    private static Statement ToCompound(List<Statement> statements)
+    private static AstNode ToCompound(List<AstNode> lines)
     {
-        if(statements.Count == 1)
+        if(lines.Count == 1)
         {
-            return statements[0];
+            return lines[0];
         }
 
-        if (statements[0] is Compound compound)
+        if (lines[0] is Compound compound)
         {
             return new Compound(compound.Statement1,
-                new Compound(compound.Statement2, ToCompound(statements.Skip(1).ToList())));
+                new Compound(compound.Statement2, ToCompound(lines.Skip(1).ToList())));
         }
 
-        return new Compound(statements[0], ToCompound(statements.Skip(1).ToList()));
+        return new Compound(lines[0], ToCompound(lines.Skip(1).ToList()));
         }
 }
