@@ -1,0 +1,10 @@
+
+GASLanguageProcessor/obj/rider.project.restore.info
+GASLanguageProcessor/obj/rider.project.model.nuget.info
+*.json
+*.cache
+GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.g.props
+GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.GeneratedMSBuildEditorConfig.editorconfig
+GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.FileListAbsolute.txt
+GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs
+GASLanguageProcessor/obj/Debug/net8.0/apphost
