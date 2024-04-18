@@ -14,11 +14,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return ToCompound(lines);
     }
 
-    public override AstNode VisitStatement(GASParser.StatementContext context)
-    {
-        return base.VisitStatement(context);
-    }
-
     public override AstNode VisitCanvas(GASParser.CanvasContext context)
     {
         int.TryParse(context.GetChild(2).GetText(), out int width);
@@ -60,6 +55,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Square(point, side, stroke, colour, fillColour);
     }
 
+    public override AstNode VisitRectangleTerm(GASParser.RectangleTermContext context)
+    {
+        var topLeft = context.GetChild(1).Accept(this);
+
+        var bottomRight = context.GetChild(5).Accept(this);
+
+        var stroke = context.GetChild(7).Accept(this);
+
+        var colour = context.GetChild(9)?.Accept(this);
+
+        var fillColour = context.GetChild(11)?.Accept(this);
+
+        return new Rectangle(topLeft, bottomRight, stroke, colour, fillColour);
+    }
+
     public override AstNode VisitLineTerm(GASParser.LineTermContext context)
     {
         var start = context.GetChild(1).Accept(this);
@@ -85,11 +95,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Number(context.GetChild(0).GetText());
     }
 
-    public override AstNode VisitTerm(GASParser.TermContext context)
-    {
-        return new Variable(context.GetText(), null);
-    }
-
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
         var identifier = context.GetChild(0).GetText();
@@ -106,6 +111,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             throw new Exception("Expression is null");
         }
         return new Assignment(identifier, value);
+    }
+
+    public override AstNode VisitIdentifierTerm(GASParser.IdentifierTermContext context)
+    {
+        return new Variable(context.GetChild(0).GetText(), null);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -173,8 +183,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
-
-    // Centre, radius, stroke, strokeColour, fillColour
 
     public override AstNode VisitCircleTerm(GASParser.CircleTermContext context)
     {

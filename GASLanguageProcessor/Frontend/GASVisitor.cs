@@ -152,6 +152,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitNotExpression([NotNull] GASParser.NotExpressionContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.identifierTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifierTerm([NotNull] GASParser.IdentifierTermContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.numTerm"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

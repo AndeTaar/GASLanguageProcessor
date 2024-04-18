@@ -8,6 +8,7 @@ public class Variable : Expression
     public Variable(string name, AstNode? value)
     {
         Name = name;
+        Value = value;
     }
 
     public override AstNode Accept(IAstVisitor visitor, string indent)

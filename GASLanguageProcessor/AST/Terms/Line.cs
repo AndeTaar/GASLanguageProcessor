@@ -3,6 +3,7 @@
 public class Line : AstNode
 {
     public AstNode Start { get; protected set; }
+
     public AstNode End { get; protected set; }
 
     public AstNode Stroke { get; protected set; }
