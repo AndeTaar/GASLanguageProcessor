@@ -11,4 +11,11 @@ public class While : Statement
         Body = body;
     }
 
+    public override AstNode Accept(IAstVisitor visitor, string indent)
+    {
+        Condition.Accept(visitor, indent + "   ");
+        Body.Accept(visitor, indent + "   ");
+        Console.WriteLine(indent + this.GetType().Name);
+        return this;
+    }
 }

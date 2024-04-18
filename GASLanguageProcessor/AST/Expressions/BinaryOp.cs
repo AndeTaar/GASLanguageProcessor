@@ -12,4 +12,12 @@ public class BinaryOp : Expression
         Op = op;
         Right = right;
     }
+
+    public override AstNode Accept(IAstVisitor visitor, string indent)
+    {
+        Left.Accept(visitor, indent + "   ");
+        Right.Accept(visitor, indent + "   ");
+        Console.WriteLine(indent + this.GetType().Name);
+        return this;
+    }
 }

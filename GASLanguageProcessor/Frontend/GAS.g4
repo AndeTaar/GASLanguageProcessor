@@ -5,57 +5,25 @@ program : canvas (statement)* ;
 canvas : 'canvas' '(' NUM ',' NUM ( ',' colourTerm )? ')' ';';
 
 //Statements
-statement : declaration | pointDeclaration | squareDeclaration | rectangleDeclaration | circleDeclaration | assignment |
- print | ifStatement | whileStatement | collectionDeclaration | groupDeclaration | functionCall | functionDeclaration |
- polygonDeclaration | textDecleration | lineDeclaration | colourDeclaration | stringDecleration;
-declaration : dataType IDENTIFIER ';' | dataType IDENTIFIER '=' expression ';';
-assignment : IDENTIFIER '=' expression ';';
+statement : declaration | assignment | print | ifStatement | whileStatement | collectionDeclaration | groupDeclaration |
+ functionCall | functionDeclaration;
+
+// (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
+declaration : allTypes identifierTerm ';' | allTypes identifierTerm '=' expression';';
+assignment : identifierTerm '=' expression ';';
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 print : 'print' expression ';';
-functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* '}' ;
-
-
-//Shapes
-point: 'point';
-rectangle: 'rectangle';
-square: 'square';
-circle: 'circle';
-polygon: 'polygon';
-text: 'text';
-line: 'line';
-
-//Shape declarations
-pointDeclaration : point IDENTIFIER '=' pointTerm ';';
-// Top left, width, height, stroke, strokeColour, fillColour
-rectangleDeclaration : rectangle IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
-// Top left, side length, stroke, strokeColour, fillColour
-squareDeclaration : square IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
-//Center, radius  stroke, strokeColour, fillColour
-circleDeclaration : circle IDENTIFIER '=' '(' pointTerm ',' numTerm ',' numTerm (',' colourTerm)? (',' colourTerm)? ')' ';';
-//List of points
-polygonDeclaration : polygon IDENTIFIER '=' '(' listTerm (',' colourTerm )?')' ';';
-//Top left, text, Font-Size, Font, colour
-textDecleration : text IDENTIFIER '=' '(' pointTerm ',' stringTerm ',' numTerm ',' stringTerm (',' colourTerm )? ')' ';';
-
-lineDeclaration : line IDENTIFIER '=' lineTerm ';';
-
-colourDeclaration : colour IDENTIFIER '=' colourTerm ';';
-
-stringDecleration : string IDENTIFIER '=' stringTerm ';';
-
+functionDeclaration : allTypes identifierTerm '(' (allTypes identifierTerm (',' allTypes identifierTerm)*)? ')' '{' (statement)* '}' ;
 
 //Collection types
-collectionDeclaration : list '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
+collectionDeclaration : list '<' allTypes '>' identifierTerm '=' '{' (expression (',' expression)*)? '}' ';';
 list : 'list';
-groupDeclaration : 'group' IDENTIFIER '=' '(' pointTerm ',' '{' (statement (',' statement)*)? '}' ')' ';';
-listAccess : IDENTIFIER '[' expression ']';
+groupDeclaration : 'group' identifierTerm '=' '(' pointTerm ',' '{' (statement (',' statement)*)? '}' ')' ';';
+listAccess : identifierTerm '[' expression ']';
 
 //Standard data types
-dataType : 'number' | 'bool';
-allTypes : dataType | point | rectangle | square | circle | string | text | polygon | colour;
-string : 'string';
-colour : 'colour' | 'color';
+allTypes: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' | 'list' | 'group' | 'string' | 'line';
 
 // Expressions
 expression : equalityExpression ('||' equalityExpression)* ;
@@ -67,17 +35,31 @@ notExpression : ('!' | '-')* term ;
 
 
 //Terms
-numTerm: NUM | IDENTIFIER | functionCall | listAccess;
-term : IDENTIFIER | numTerm | 'true' | 'false' | '(' expression ')' | pointTerm | pointTerm | colourTerm | listTerm | functionCall | listAccess;
-pointTerm : IDENTIFIER | '(' numTerm ',' numTerm ')' | functionCall | listAccess;
-//Red Green Blue Alpha
-colourTerm: IDENTIFIER | '(' numTerm ',' numTerm ',' numTerm ',' numTerm ')' | functionCall | listAccess;
-listTerm : IDENTIFIER | '{' (expression (',' expression)*)? '}' | functionCall;
-stringTerm : IDENTIFIER |  ALLSTRINGS  | functionCall | listAccess;
-// Start and end points and colour
-lineTerm : IDENTIFIER | '(' pointTerm ',' pointTerm ',' numTerm (',' colourTerm )? ')' | functionCall;
+identifierTerm: IDENTIFIER;
+numTerm: NUM | identifierTerm | functionCall | listAccess;
+boolTerm : 'true' | 'false' | identifierTerm | functionCall | listAccess;
+term : identifierTerm | numTerm | boolTerm | '(' expression ')' | pointTerm | colourTerm | listTerm |
+ functionCall | listAccess | stringTerm | lineTerm | squareTerm | polygonTerm | circleTerm | rectangleTerm | textTerm;
 
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+pointTerm : identifierTerm | 'point(' numTerm ',' numTerm ')' | listAccess | functionCall;
+//Red Green Blue Alpha
+colourTerm: identifierTerm | 'colour(' numTerm ',' numTerm ',' numTerm ',' numTerm ')' | functionCall | listAccess;
+listTerm : identifierTerm | '{' (expression (',' expression)*)? '}' | functionCall;
+stringTerm : identifierTerm |  ALLSTRINGS  | functionCall | listAccess;
+// Start and end points and colour
+lineTerm : identifierTerm | 'line(' pointTerm ',' pointTerm ',' numTerm (',' colourTerm )? ')' | functionCall;
+// Top left, width, height, stroke, strokeColour, fillColour
+squareTerm: identifierTerm | 'square(' pointTerm ',' numTerm ',' numTerm ((',' colourTerm ) (',' colourTerm)?)? ')' | functionCall;
+// Colour, list of points
+polygonTerm : identifierTerm | 'polygon(' colourTerm ',' listTerm ')' | functionCall;
+// Centre, radius, stroke, strokeColour, fillColour
+circleTerm : identifierTerm | 'circle(' pointTerm ',' numTerm ',' numTerm ((',' colourTerm) (',' colourTerm)?)? ')' | functionCall;
+// Top left, width, height, stroke, strokeColour, fillColour
+rectangleTerm : identifierTerm | 'rectangle(' pointTerm ',' numTerm ',' numTerm ',' numTerm ((',' colourTerm) (',' colourTerm)?)? ')' | functionCall;
+// Text, point, size, font, colour
+textTerm : identifierTerm | 'text(' stringTerm ',' pointTerm ',' numTerm ',' stringTerm (',' colourTerm)? ')' | functionCall;
+
+functionCall : identifierTerm '(' (expression (',' expression)*)? ')';
 
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUM : '0' | [-]?[1-9][0-9]* ;

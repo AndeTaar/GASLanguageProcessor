@@ -15,5 +15,6 @@ static void Main(string[] args)
     var parseTree = parser.program();
 
     AstNode ast = parseTree.Accept(new ToAstVisitor());
+    ast.Accept(new SimpleAstVisitor(), "");
     Console.WriteLine(ast);
 }

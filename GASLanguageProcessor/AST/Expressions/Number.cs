@@ -2,10 +2,16 @@
 
 public class Number : Expression
 {
-    public float Value { get; protected set; }
+    public string Value { get; protected set; }
 
-    public Number(float value)
+    public Number(string value)
     {
         Value = value;
+    }
+
+    public override AstNode Accept(IAstVisitor visitor, string indent)
+    {
+        Console.WriteLine(indent + this.GetType().Name);
+        return this;
     }
 }
