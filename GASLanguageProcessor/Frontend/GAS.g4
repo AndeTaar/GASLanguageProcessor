@@ -39,7 +39,7 @@ term : IDENTIFIER | NUM | 'true' | 'false'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS;
 
 listTerm : '{' (expression (',' expression)*)? '}';
-compoundStatements : '{' (statement)* '}';
+compoundStatements : '{' (statement (',' statement)*)? '}';
 groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' compoundStatements ')' ';';
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
