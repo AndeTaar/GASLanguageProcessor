@@ -33,7 +33,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             throw new Exception("Assignment context is null");
         }
 
-        var value = context.GetChild(2).Accept(this) as AstNode;
+        var value = context.GetChild(2).Accept(this);
 
         if (value == null)
         {
