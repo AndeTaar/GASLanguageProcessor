@@ -9,7 +9,7 @@ statement : declaration | assignment | ifStatement | whileStatement | collection
 functionDeclaration | returnStatement | groupDeclaration;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : allTypes IDENTIFIER ('=' expression)?';';
+declaration : allTypes IDENTIFIER ('=' expression)?';'; 
 assignment : IDENTIFIER '=' expression ';';
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -35,8 +35,16 @@ listAccessExpression : term ('[' expression ']')?;
 
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS;
+term 
+    : IDENTIFIER
+    | NUM 
+    | 'true' 
+    | 'false'  
+    | '(' expression ')'
+    | listTerm 
+    | functionCall 
+    | ALLSTRINGS
+    ;
 
 listTerm : '{' (expression (',' expression)*)? '}';
 compoundStatements : '{' (statement (',' statement)*)? '}';
@@ -44,7 +52,7 @@ groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' compoundSta
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
-IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
-NUM : '0' | [-]?[1-9][0-9]* ;
-ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';
-WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace
+IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;                               
+NUM : '0' | [-]?[1-9][0-9]* ;                                                  
+ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';                                    
+WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace               

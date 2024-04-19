@@ -42,6 +42,108 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Assignment(identifier, value);
     }
 
+    public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
+    {
+        
+        var identifier = context.GetChild(1).GetText();
+
+        if (identifier == null)
+        {
+            throw new Exception("GroupDeclaration context is null");
+        }
+        
+        var expression = context.GetChild(5).Accept(this) as Point;
+        var statements = context.GetChild(7).Accept(this) as Compound;
+        
+        if (expression == null || statements == null)
+        {
+            throw new Exception("GroupDeclaration context is null");
+        }
+        
+        return new Group(expression, statements);
+    }
+
+    
+    public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
+    {
+        var identifier = new Identifier(context.GetChild(0).GetText());
+
+        if (identifier == null)
+        {
+            throw new Exception("FunctionCall context is null");
+        }
+        
+        var arguments = new List<Expression>();
+        foreach (var child in context.children)
+        {
+            if (child is GASParser.ExpressionContext)
+            {
+                Console.WriteLine($"Currently trying to accept {child.GetText()}");
+                var argument = child.Accept(this) as Expression;
+                if (argument == null)
+                {
+                    throw new Exception("FunctionCall argument is null");
+                }
+                arguments.Add(argument);
+            }
+        }
+
+        if (arguments == null)
+        {
+            throw new Exception("FunctionCall arguments are null");
+        }
+
+        return new FunctionCall(identifier, arguments);
+    }
+
+    public override AstNode VisitTerm(GASParser.TermContext context)
+    {
+        if (context.children.Count > 1)
+        {
+            var expression = context.GetChild(1).Accept(this) as Expression;
+            if (expression == null)
+            {
+                throw new Exception("Expression is null");
+            }
+
+            return expression;
+        }
+        
+        var isBool = bool.TryParse(context.GetChild(0).GetText(), out bool boolean);
+        if (isBool)
+        {
+            return new Boolean(boolean.ToString());
+        }
+        if (context.IDENTIFIER() is { } i) {
+            return new Identifier(i.GetText());
+        }
+        if (context.NUM() is { } n) {
+            return new Number(n.GetText());
+        }
+        if (context.listTerm() is { } l) {
+            return l.Accept(this);
+        }
+        if (context.functionCall() is { } f)
+        {
+            return f.Accept(this);
+        }
+
+        if (context.ALLSTRINGS() is { } a)
+        {
+            return new AString(a.GetText()) as AstNode;
+        }
+
+        throw new Exception("Unrecognized term.");
+    }
+
+    public override AstNode VisitCompoundStatements(GASParser.CompoundStatementsContext context)
+    {
+        var lines = context.children
+            .Select(line => line.Accept(this)).ToList();
+
+        return ToCompound(lines);
+    }
+
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var identifier = context.GetChild(1)?.GetText();

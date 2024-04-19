@@ -1,20 +1,22 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Statements;
+
+namespace GASLanguageProcessor.AST.Terms;
 
 public class Group: AstNode
 {
-    public List<AstNode> Terms { get; protected set; }
+    
+    public Point Start { get; protected set; }
+    public Compound Statements { get; protected set; }
 
-    public Group(List<AstNode> terms)
+    public Group(Point start, Compound statements)
     {
-        Terms = terms;
+        Start = start;
+        Statements = statements;
     }
 
     public override AstNode Accept(IAstVisitor visitor, string indent)
     {
-        foreach (var term in Terms)
-        {
-            term.Accept(visitor, indent + "   ");
-        }
+        Statements.Accept(visitor, indent + "   ");
         Console.WriteLine(indent + this.GetType().Name);
         return this;
     }
