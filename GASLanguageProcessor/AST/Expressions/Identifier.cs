@@ -1,14 +1,12 @@
 ﻿namespace GASLanguageProcessor.AST.Expressions;
 
-public class Variable : Expression
+public class Identifier : Expression
 {
     public string Name { get; protected set; }
-    public AstNode? Value { get; protected set; }
 
-    public Variable(string name, AstNode? value)
+    public Identifier(string name)
     {
         Name = name;
-        Value = value;
     }
 
     public override AstNode Accept(IAstVisitor visitor, string indent)

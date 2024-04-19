@@ -113,11 +113,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Assignment(identifier, value);
     }
 
-    public override AstNode VisitIdentifierTerm(GASParser.IdentifierTermContext context)
-    {
-        return new Variable(context.GetChild(0).GetText(), null);
-    }
-
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var identifier = context.GetChild(1)?.GetText();
@@ -130,18 +125,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var value = context.GetChild(3)?.Accept(this) as AstNode;
 
         return new Declaration(identifier, value);
-    }
-
-    public override AstNode VisitPrint(GASParser.PrintContext context)
-    {
-        var expression = context.GetChild(1).Accept(this);
-
-        if (expression == null)
-        {
-            throw new Exception("Expression is null");
-        }
-
-        return new Print(expression);
     }
 
     public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
