@@ -9,18 +9,17 @@ public class Canvas : AstNode
 
     public int Height { get; protected set; }
 
-    public Colour BackgroundColour { get; protected set; }
+    public AstNode BackgroundColour { get; protected set; }
 
-    public Canvas(int width, int height, Colour backgroundColour)
+    public Canvas(int width, int height, AstNode backgroundColour)
     {
         Width = width;
         Height = height;
         BackgroundColour = backgroundColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitCanvas(this);
     }
 }

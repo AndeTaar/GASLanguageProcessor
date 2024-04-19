@@ -11,11 +11,8 @@ public class Assignment : Statement
         Value = value;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        var expression = Value.Accept(visitor, indent + "   ");
-        Console.WriteLine(this.GetType().Name);
-        return this;
+        return visitor.VisitAssignment(this);
     }
-
 }

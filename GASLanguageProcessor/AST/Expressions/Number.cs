@@ -9,9 +9,8 @@ public class Number : Expression
         Value = value;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitNumber(this);
     }
 }

@@ -1,7 +1,9 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using Antlr4.Runtime.Tree;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
-using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
+using String = GASLanguageProcessor.AST.Terms.String;
+using Type = GASLanguageProcessor.AST.Terms.Type;
 
 namespace GASLanguageProcessor;
 
@@ -19,7 +21,12 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         int.TryParse(context.GetChild(2).GetText(), out int width);
         int.TryParse(context.GetChild(4).GetText(), out int height);
 
-        Colour backgroundColour = (context.GetChild(6)?.Accept(this) as Colour)!;
+        AstNode backgroundColour = context.GetChild(6)?.Accept(this);
+
+        if(backgroundColour == null)
+        {
+            throw new Exception("Background colour is null");
+        }
 
         return new Canvas(width, height, backgroundColour);
     }
@@ -44,6 +51,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
+        var type = context.GetChild(0)?.Accept(this);
         var identifier = context.GetChild(1)?.GetText();
 
         if (identifier == null)
@@ -53,7 +61,12 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var value = context.GetChild(3)?.Accept(this) as AstNode;
 
-        return new Declaration(identifier, value);
+        return new Declaration(type, identifier, value);
+    }
+
+    public override AstNode VisitAllTypes(GASParser.AllTypesContext context)
+    {
+        return new Type(context.GetText());
     }
 
     public override AstNode VisitEqualityExpression(GASParser.EqualityExpressionContext context)
@@ -68,6 +81,31 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var right = context.GetChild(2).Accept(this);
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
+    }
+
+    public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
+    {
+        var identifier = context.GetChild(0).Accept(this);
+
+        var arguments = context.GetChild(1).Accept(this);
+
+        return new FunctionCall(identifier, arguments);
+    }
+
+    public override AstNode VisitCompoundExpressions(GASParser.CompoundExpressionsContext context)
+    {
+        var lines = context.children
+            .Where(line =>
+            {
+                string lineText = line.GetText();
+                return !string.IsNullOrWhiteSpace(lineText) &&
+                       lineText != "," &&
+                       lineText != "(" &&
+                       lineText != ")";
+            })
+            .Select(line => line.Accept(this)).ToList();
+
+        return ToCompound(lines);
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
@@ -96,6 +134,35 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var right = context.GetChild(2).Accept(this);
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
+    }
+
+    public override AstNode VisitTerminal(ITerminalNode node)
+    {
+        return new Identifier(node.GetText());
+    }
+
+    public override AstNode VisitTerm(GASParser.TermContext context)
+    {
+        var child = context.GetChild(0).Accept(this);
+        if (context.Start.Type != context.Stop.Type)
+        {
+            return base.VisitTerm(context);
+        }
+
+        switch (context.Start.Type)
+        {
+            case GASParser.NUM:
+                return new Number(context.GetChild(0).GetText());
+
+            case GASParser.ALLSTRINGS:
+                return new String(context.GetChild(0).GetText());
+
+            case GASParser.IDENTIFIER:
+                return new Identifier(context.GetChild(0).GetText());
+
+            default:
+                throw new NotSupportedException($"Term type not supported: {context.Start.Type}");
+        }
     }
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)

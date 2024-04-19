@@ -13,12 +13,8 @@ public class If : Statement
         Else = @else;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Condition.Accept(visitor, indent + "   ");
-        Then.Accept(visitor, indent + "   ");
-        Else.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitIfStatement(this);
     }
 }

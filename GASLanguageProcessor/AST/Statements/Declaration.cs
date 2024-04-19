@@ -1,20 +1,22 @@
-﻿namespace GASLanguageProcessor.AST.Statements;
+﻿using GASLanguageProcessor.AST.Terms;
+
+namespace GASLanguageProcessor.AST.Statements;
 
 public class Declaration : Statement
 {
+    public AstNode Type { get; protected set; }
     public string Identifier { get; protected set; }
     public AstNode? Value { get; protected set; }
 
-    public Declaration(string identifier, AstNode? value)
+    public Declaration(AstNode type, string identifier, AstNode? value)
     {
+        Type = type;
         Identifier = identifier;
         Value = value;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        var expression = Value?.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name + ' ' + this.Identifier);
-        return this;
+        return visitor.VisitDeclaration(this);
     }
 }

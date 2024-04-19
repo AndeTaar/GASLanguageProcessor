@@ -21,14 +21,8 @@ public class Rectangle: AstNode
         StrokeColour = strokeColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        TopLeft.Accept(visitor, indent + "   ");
-        BottomRight.Accept(visitor, indent + "   ");
-        Stroke?.Accept(visitor, indent + "   ");
-        Colour?.Accept(visitor, indent + "   ");
-        StrokeColour?.Accept(visitor, indent + "   ");
-        return this;
+        return visitor.VisitRectangle(this);
     }
 }

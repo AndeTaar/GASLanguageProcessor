@@ -1,4 +1,5 @@
 ﻿canvas (500, 500, Colour(255, 255, 255, 1));
+number x = 0;
 colour green = Colour(0, 255, 0, 1);
 colour black = Colour(0, 0, 0, 1);
 square firkant = Square(Point(10,10), 180, green, black);

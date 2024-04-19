@@ -9,13 +9,8 @@ public class Group: AstNode
         Terms = terms;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        foreach (var term in Terms)
-        {
-            term.Accept(visitor, indent + "   ");
-        }
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitGroup(this);
     }
 }

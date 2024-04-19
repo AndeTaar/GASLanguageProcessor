@@ -11,11 +11,8 @@ public class Compound : Statement
         Statement2 = statement2;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Statement1.Accept(visitor, indent + "   ");
-        Statement2.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitCompound(this);
     }
 }

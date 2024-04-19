@@ -40,9 +40,10 @@ term : IDENTIFIER | NUM | 'true' | 'false'  | '(' expression ')' | listTerm |
 
 listTerm : '{' (expression (',' expression)*)? '}';
 compoundStatements : '{' (statement (',' statement)*)? '}';
+compoundExpressions : '(' (expression (',' expression)*)? ')';
 groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' compoundStatements ')' ';';
 
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCall : IDENTIFIER compoundExpressions;
 
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUM : '0' | [-]?[1-9][0-9]* ;

@@ -22,15 +22,8 @@ public class Circle : AstNode
         StrokeColour = strokeColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        Center.Accept(visitor, indent + "   ");
-        Radius.Accept(visitor, indent + "   ");
-        StrokeWidth?.Accept(visitor, indent + "   ");
-        Colour?.Accept(visitor, indent + "   ");
-        StrokeColour?.Accept(visitor, indent + "   ");
-        return this;
+        return visitor.VisitCircle(this);
     }
-
 }

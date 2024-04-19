@@ -9,9 +9,8 @@ public class Identifier : Expression
         Name = name;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name + ' ' + this.Name);
-        return this;
+        return visitor.VisitIdentifier(this);
     }
 }

@@ -13,11 +13,8 @@ public class BinaryOp : Expression
         Right = right;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Left.Accept(visitor, indent + "   ");
-        Right.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitBinaryOp(this);
     }
 }
