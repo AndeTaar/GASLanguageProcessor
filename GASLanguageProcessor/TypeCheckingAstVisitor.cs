@@ -99,7 +99,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         GasType type;
         try
         {
-            type = vTable.Get(node.Name);
+            type = vTable.Get(node.Name).Type;
         }
         catch (Exception e)
         {
@@ -114,31 +114,49 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var left = node.Statement1?.Accept(this);
         var right = node.Statement2?.Accept(this);
 
-        return GasType.Colour;
+        if (left != null)
+        {
+            return left ?? GasType.Error;
+        }
+
+        if (right != null)
+        {
+            return right ?? GasType.Error;
+        }
+
+        return GasType.Error;
     }
 
     public GasType VisitAssignment(Assignment node)
     {
         var left = node.Identifier.Name;
-        var right = node.Value.Accept(this);
+        var type = node.Value.Accept(this);
 
-        var type = vTable.Get(left);
+        var variable = vTable.Get(left);
 
-        if (type != right)
+        if (variable.Type != type)
         {
             throw new System.Exception("Invalid assignment");
         }
 
-        return right;
+        return type;
     }
 
     public GasType VisitDeclaration(Declaration node)
     {
         var identifier = node.Identifier.Name;
         var type = node.Type.Accept(this);
+        var value = node.Value;
+        var typeOfValue = value?.Accept(this);
+        if (type != typeOfValue && typeOfValue != null)
+        {
+            errors.Add("Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
+            return GasType.Error;
+        }
+
         try
         {
-            vTable.Add(identifier, type);
+            vTable.Add(identifier, new VariableType(type, value));
         }
         catch (Exception e)
         {
@@ -180,7 +198,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitString(String s)
     {
-        throw new NotImplementedException();
+        return GasType.String;
     }
 
     public GasType VisitType(Type type)
@@ -216,17 +234,9 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         var identifier = functionDeclaration.Identifier;
 
-        var parameterTypes = new List<GasType>();
-        foreach (var parameter in functionDeclaration.Parameters)
-        {
-            var parameterType = parameter.Accept(this);
-            parameterTypes.Add(parameterType);
-        }
-        var body = functionDeclaration.Body.Accept(this);
+        var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this)).ToList();
 
-
-        this.fTable.Add(identifier.Name, new FunctionType(returnType, parameterTypes));
-        //Add function to function table
+        fTable.Add(identifier.Name, new FunctionType(returnType, parameterTypes));
 
         return returnType;
     }
@@ -255,11 +265,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
 
         bool error = false;
-        for (int i = type.ParameterTypes.Count - 1; i >= 0; i--)
+        for (int i = 0; i < type.ParameterTypes.Count; i++)
         {
             if (type.ParameterTypes[i] != parameterTypes[i])
             {
-                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: ");
+                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.ParameterTypes[i] + " got: " + parameterTypes[i]);
                 error = true;
             }
         }

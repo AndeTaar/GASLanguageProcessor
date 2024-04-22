@@ -3,16 +3,16 @@ using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.TableType;
 
-public class VariableTable: ITable<GasType>
+public class VariableTable: ITable<VariableType>
 {
-    public Dictionary<string, GasType> Variables { get; protected set; } = new();
+    public Dictionary<string, VariableType> Variables { get; protected set; } = new();
 
-    public void Add(string key, GasType value)
+    public void Add(string key, VariableType value)
     {
         Variables.Add(key, value);
     }
 
-    public GasType Get(string key)
+    public VariableType Get(string key)
     {
         return Variables[key];
     }

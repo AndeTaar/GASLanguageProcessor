@@ -6,13 +6,13 @@ public class FunctionDeclaration: AstNode
 {
     public AstNode ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }
-    public List<AstNode> Parameters { get; protected set; }
-    public AstNode Body { get; protected set; }
+    public List<Declaration> Declarations { get; protected set; }
+    public List<AstNode> Body { get; protected set; }
 
-    public FunctionDeclaration(Identifier identifier, List<AstNode> parameters, AstNode body, AstNode returnType)
+    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, List<AstNode> body, AstNode returnType)
     {
         Identifier = identifier;
-        Parameters = parameters;
+        Declarations = declarations;
         Body = body;
         ReturnType = returnType;
     }
