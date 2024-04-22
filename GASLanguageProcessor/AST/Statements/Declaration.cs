@@ -1,14 +1,15 @@
-﻿using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.AST.Statements;
 
 public class Declaration : Statement
 {
     public AstNode Type { get; protected set; }
-    public string Identifier { get; protected set; }
+    public Identifier Identifier { get; protected set; }
     public AstNode? Value { get; protected set; }
 
-    public Declaration(AstNode type, string identifier, AstNode? value)
+    public Declaration(AstNode type, Identifier identifier, AstNode? value)
     {
         Type = type;
         Identifier = identifier;

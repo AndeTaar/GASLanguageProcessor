@@ -33,7 +33,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var identifier = context.GetChild(0).GetText();
+        var identifier = context.GetChild(0).Accept(this) as Identifier;
 
         if (identifier == null)
         {
@@ -52,7 +52,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var type = context.GetChild(0)?.Accept(this);
-        var identifier = context.GetChild(1)?.GetText();
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
 
         if (identifier == null)
         {
@@ -85,27 +85,32 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var identifier = context.GetChild(0).Accept(this);
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var i = 2;
+        List<AstNode> parameters = new();
+        while (context.children.Count > i)
+        {
+            parameters.Add(context.GetChild(i).Accept(this));
+            i+=2;
+        }
 
-        var arguments = context.GetChild(1).Accept(this);
-
-        return new FunctionCall(identifier, arguments);
+        return new FunctionCall(identifier, parameters);
     }
 
-    public override AstNode VisitCompoundExpressions(GASParser.CompoundExpressionsContext context)
+    public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        var lines = context.children
-            .Where(line =>
-            {
-                string lineText = line.GetText();
-                return !string.IsNullOrWhiteSpace(lineText) &&
-                       lineText != "," &&
-                       lineText != "(" &&
-                       lineText != ")";
-            })
-            .Select(line => line.Accept(this)).ToList();
+        var returnType = context.GetChild(0).Accept(this);
+        var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
+        var i = 2;
+        List<AstNode> parameters = new();
+        while (context.GetChild(i).GetText() != ")")
+        {
+            parameters.Add(context.GetChild(i).Accept(this));
+            i++;
+        }
+        var body = context.GetChild(i).Accept(this);
 
-        return ToCompound(lines);
+        return new FunctionDeclaration(identifier, parameters, body, returnType);
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
@@ -136,32 +141,31 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
-    public override AstNode VisitTerminal(ITerminalNode node)
-    {
-        return new Identifier(node.GetText());
-    }
-
     public override AstNode VisitTerm(GASParser.TermContext context)
     {
-        var child = context.GetChild(0).Accept(this);
-        if (context.Start.Type != context.Stop.Type)
+        if (context.NUM() != null)
         {
-            return base.VisitTerm(context);
+            return new Number(context.NUM().GetText());
         }
-
-        switch (context.Start.Type)
+        else if (context.IDENTIFIER() != null)
         {
-            case GASParser.NUM:
-                return new Number(context.GetChild(0).GetText());
-
-            case GASParser.ALLSTRINGS:
-                return new String(context.GetChild(0).GetText());
-
-            case GASParser.IDENTIFIER:
-                return new Identifier(context.GetChild(0).GetText());
-
-            default:
-                throw new NotSupportedException($"Term type not supported: {context.Start.Type}");
+            return new Identifier(context.IDENTIFIER().GetText());
+        }
+        else if (context.functionCall() != null)
+        {
+            return VisitFunctionCall(context.functionCall());
+        }
+        else if (context.ALLSTRINGS() != null)
+        {
+            return new String(context.ALLSTRINGS().GetText());
+        }
+        else if (context.expression() != null)
+        {
+            return VisitExpression(context.expression());
+        }
+        else
+        {
+            throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
     }
 

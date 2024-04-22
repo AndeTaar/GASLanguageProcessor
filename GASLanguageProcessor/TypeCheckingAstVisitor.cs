@@ -1,6 +1,7 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
 using String = GASLanguageProcessor.AST.Terms.String;
 using Type = GASLanguageProcessor.AST.Terms.Type;
@@ -10,7 +11,10 @@ namespace GASLanguageProcessor;
 public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 {
     //Everything is global scope for now
-    private Dictionary<string, GasType> vTable = new Dictionary<string, GasType>();
+    private VariableTable vTable = new VariableTable();
+    private FunctionTable fTable = new FunctionTable();
+
+    public List<string> errors = new();
 
     public GasType VisitText(Text node)
     {
@@ -41,17 +45,18 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitCircle(Circle node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Circle;
     }
 
     public GasType VisitColour(Colour node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Colour;
     }
 
     public GasType VisitGroup(Group node)
     {
-        throw new System.NotImplementedException();
+        node.Terms.ForEach(no => no.Accept(this));
+        return GasType.Group;
     }
 
     public GasType VisitNumber(Number node)
@@ -61,22 +66,22 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitPoint(Point node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Point;
     }
 
     public GasType VisitRectangle(Rectangle node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Rectangle;
     }
 
     public GasType VisitSquare(Square node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Square;
     }
 
     public GasType VisitLine(Line node)
     {
-        throw new System.NotImplementedException();
+        return GasType.Line;
     }
 
     public GasType VisitIfStatement(If node)
@@ -91,37 +96,57 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitIdentifier(Identifier node)
     {
-        throw new System.NotImplementedException();
+        GasType type;
+        try
+        {
+            type = vTable.Get(node.Name);
+        }
+        catch (Exception e)
+        {
+            errors.Add("Variable name: " + node.Name + " not found");
+            return GasType.Error;
+        }
+        return type;
     }
 
     public GasType VisitCompound(Compound node)
     {
-        var left = node.Statement1.Accept(this);
-        var right = node.Statement2.Accept(this);
+        var left = node.Statement1?.Accept(this);
+        var right = node.Statement2?.Accept(this);
 
-        return right;
+        return GasType.Colour;
     }
 
     public GasType VisitAssignment(Assignment node)
     {
-        var left = node.Identifier;
+        var left = node.Identifier.Name;
         var right = node.Value.Accept(this);
 
-        //Lookup left in variable table and check if right is the same type
+        var type = vTable.Get(left);
+
+        if (type != right)
+        {
+            throw new System.Exception("Invalid assignment");
+        }
 
         return right;
     }
 
     public GasType VisitDeclaration(Declaration node)
     {
-        var identifier = node.Identifier;
+        var identifier = node.Identifier.Name;
         var type = node.Type.Accept(this);
+        try
+        {
+            vTable.Add(identifier, type);
+        }
+        catch (Exception e)
+        {
+            errors.Add("Variable name: " + identifier + " is already declared elsewhere");
+            return GasType.Error;
+        }
 
-        vTable.Add(identifier, type);
-
-        //Add to variable table
-
-        throw new System.NotImplementedException();
+        return type;
     }
 
     public GasType VisitCanvas(Canvas node)
@@ -129,11 +154,13 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var width = node.Width;
         var height = node.Height;
         var backgroundColourType = node.BackgroundColour.Accept(this);
-        if(backgroundColourType != GasType.Colour)
+        if (backgroundColourType != GasType.Colour)
         {
-            throw new System.Exception("Invalid background colour type");
+            errors.Add("Invalid background colour type");
+            return GasType.Error;
         }
-        throw new System.NotImplementedException();
+
+        return GasType.Canvas;
     }
 
     public GasType VisitWhile(While node)
@@ -160,21 +187,88 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         switch (type.Value)
         {
-            case "Number":
+            case "number":
                 return GasType.Number;
-            case "Text":
+            case "text":
                 return GasType.Text;
+            case "colour":
+                return GasType.Colour;
+            case "boolean":
+                return GasType.Boolean;
+            case "square":
+                return GasType.Square;
+            case "rectangle":
+                return GasType.Rectangle;
+            case "point":
+                return GasType.Point;
+            case "line":
+                return GasType.Line;
+            case "circle":
+                return GasType.Circle;
         }
-        throw new Exception(type.Value + " Not implemented");
+        errors.Add(type.Value + " Not implemented");
+        return GasType.Error;
     }
 
     public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration)
     {
-        throw new NotImplementedException();
+        var returnType = functionDeclaration.ReturnType.Accept(this);
+
+        var identifier = functionDeclaration.Identifier;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionDeclaration.Parameters)
+        {
+            var parameterType = parameter.Accept(this);
+            parameterTypes.Add(parameterType);
+        }
+        var body = functionDeclaration.Body.Accept(this);
+
+
+        this.fTable.Add(identifier.Name, new FunctionType(returnType, parameterTypes));
+        //Add function to function table
+
+        return returnType;
     }
 
     public GasType VisitFunctionCall(FunctionCall functionCall)
     {
-        throw new NotImplementedException();
+        var identifier = functionCall.Identifier;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionCall.Parameters)
+        {
+            parameterTypes.Add(parameter.Accept(this));
+        }
+
+        FunctionType type;
+        try
+        {
+            type = fTable.Get(identifier.Name);
+
+        }
+        catch (Exception e)
+        {
+            errors.Add("Function name: " + functionCall.Identifier.Name + " not found");
+            return GasType.Error;
+        }
+
+
+        bool error = false;
+        for (int i = type.ParameterTypes.Count - 1; i >= 0; i--)
+        {
+            if (type.ParameterTypes[i] != parameterTypes[i])
+            {
+                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: ");
+                error = true;
+            }
+        }
+
+        if (error)
+        {
+            return GasType.Error;
+        }
+
+        return type.ReturnType;
     }
 }

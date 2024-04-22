@@ -164,12 +164,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCompoundStatements([NotNull] GASParser.CompoundStatementsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.compoundExpressions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitCompoundExpressions([NotNull] GASParser.CompoundExpressionsContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.groupDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

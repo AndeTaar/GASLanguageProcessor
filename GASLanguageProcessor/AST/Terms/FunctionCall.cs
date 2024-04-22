@@ -4,10 +4,10 @@ namespace GASLanguageProcessor.AST.Terms;
 
 public class FunctionCall: AstNode
 {
-    public AstNode Identifier { get; protected set; }
-    public AstNode Parameters { get; protected set; }
+    public Identifier Identifier { get; protected set; }
+    public List<AstNode> Parameters { get; protected set; }
 
-    public FunctionCall(AstNode identifier, AstNode parameters)
+    public FunctionCall(Identifier identifier, List<AstNode> parameters)
     {
         Identifier = identifier;
         Parameters = parameters;

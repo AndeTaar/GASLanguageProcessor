@@ -14,7 +14,7 @@ assignment : IDENTIFIER '=' expression ';';
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
-functionDeclaration : allTypes IDENTIFIER '(' (allTypes   (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* '}' ;
+functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* '}' ;
 
 //Collection types
 collectionDeclaration : 'list' '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
@@ -40,10 +40,9 @@ term : IDENTIFIER | NUM | 'true' | 'false'  | '(' expression ')' | listTerm |
 
 listTerm : '{' (expression (',' expression)*)? '}';
 compoundStatements : '{' (statement (',' statement)*)? '}';
-compoundExpressions : '(' (expression (',' expression)*)? ')';
 groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' compoundStatements ')' ';';
 
-functionCall : IDENTIFIER compoundExpressions;
+functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUM : '0' | [-]?[1-9][0-9]* ;
