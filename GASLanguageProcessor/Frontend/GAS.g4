@@ -2,26 +2,28 @@ grammar GAS;
 
 //Program
 program : canvas (statement)* ;
-canvas : 'canvas' '(' NUM ',' NUM ( ',' expression )? ')' ';';
+canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
 functionDeclaration | returnStatement | groupDeclaration;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : allTypes IDENTIFIER ('=' expression)?';';
+declaration : type IDENTIFIER ('=' expression)?';';
 assignment : IDENTIFIER '=' expression ';';
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
-functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* '}';
+parameterAccess : IDENTIFIER '.' IDENTIFIER;
+classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* '}';
 
 //Collection types
-collectionDeclaration : 'list' '<' allTypes '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
+collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
 listAccess : term ('[' expression ']')?;
 
 //Standard data types
-allTypes: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
+type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
 'list' | 'group' | 'string' | 'line' | 'group' | 'T';
 
 // Expressions

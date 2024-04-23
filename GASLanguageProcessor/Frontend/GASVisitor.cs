@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from GAS.g4 by ANTLR 4.13.1
+// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -80,6 +80,18 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitReturnStatement([NotNull] GASParser.ReturnStatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.parameterAccess"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameterAccess([NotNull] GASParser.ParameterAccessContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.classDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitClassDeclaration([NotNull] GASParser.ClassDeclarationContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.functionDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -98,11 +110,11 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitListAccess([NotNull] GASParser.ListAccessContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.allTypes"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.type"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAllTypes([NotNull] GASParser.AllTypesContext context);
+	Result VisitType([NotNull] GASParser.TypeContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.expression"/>.
 	/// </summary>

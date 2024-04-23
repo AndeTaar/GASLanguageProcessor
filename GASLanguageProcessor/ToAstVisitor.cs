@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Tree;
-using GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using String = GASLanguageProcessor.AST.Terms.String;
@@ -18,10 +17,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitCanvas(GASParser.CanvasContext context)
     {
-        int.TryParse(context.GetChild(2).GetText(), out int width);
-        int.TryParse(context.GetChild(4).GetText(), out int height);
+        AstNode width = context.expression()[0].Accept(this);
 
-        AstNode backgroundColour = context.GetChild(6)?.Accept(this);
+        AstNode height = context.expression()[1].Accept(this);
+
+        AstNode backgroundColour = context.expression()[2]?.Accept(this);
 
         if(backgroundColour == null)
         {
@@ -63,7 +63,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
-        var type = context.allTypes().Accept(this);
+        var type = context.type().Accept(this);
         var identifier = new Identifier(context.IDENTIFIER().GetText());
 
         var value = context.expression().Accept(this) as AstNode;
@@ -71,7 +71,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Declaration(type, identifier, value);
     }
 
-    public override AstNode VisitAllTypes(GASParser.AllTypesContext context)
+    public override AstNode VisitType(GASParser.TypeContext context)
     {
         return new Type(context.GetText());
     }
@@ -99,10 +99,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        var returnType = context.allTypes()[0].Accept(this);
+        var returnType = context.type()[0].Accept(this);
         var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
 
-        var types = context.allTypes().Skip(1).ToList();
+        var types = context.type().Skip(1).ToList();
         var identifiers = context.IDENTIFIER().Skip(1).ToList();
 
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>

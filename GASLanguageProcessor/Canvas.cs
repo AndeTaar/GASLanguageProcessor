@@ -5,13 +5,13 @@ namespace GASLanguageProcessor;
 
 public class Canvas : AstNode
 {
-    public int Width { get; protected set; }
+    public AstNode Width { get; protected set; }
 
-    public int Height { get; protected set; }
+    public AstNode Height { get; protected set; }
 
     public AstNode BackgroundColour { get; protected set; }
 
-    public Canvas(int width, int height, AstNode backgroundColour)
+    public Canvas(AstNode width, AstNode height, AstNode backgroundColour)
     {
         Width = width;
         Height = height;
