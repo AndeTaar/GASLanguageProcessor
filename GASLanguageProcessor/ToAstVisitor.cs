@@ -30,6 +30,35 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         return new Canvas(width, height, backgroundColour);
     }
+    
+    public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
+    {
+        var condition = context.expression().Accept(this);
+        
+        var statements = context.statement()
+            .Select(s => s.Accept(this))
+            .ToList();
+        
+        AstNode ifBody = ToCompound(statements) as Compound;
+        
+        
+        AstNode elseBody = context.elseStatement().Accept(this);
+        
+        return new If(condition, ifBody, elseBody);
+    }
+    
+    public override AstNode VisitElseStatement(GASParser.ElseStatementContext context)
+    {
+        var statements = context.statement()
+            .Select(s => s.Accept(this))
+            .ToList();
+        
+        AstNode elseBody = ToCompound(statements);
+        
+        var condition = context.ifStatement()?.Accept(this) as If;
+        
+        return new Else(elseBody, condition);
+    }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
@@ -200,6 +229,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     private static AstNode ToCompound(List<AstNode> lines)
     {
+        if (lines.Count == 0)
+        {
+            return null;
+        }
+        
         if(lines.Count == 1)
         {
             return lines[0];

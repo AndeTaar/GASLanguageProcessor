@@ -11,7 +11,8 @@ functionDeclaration | returnStatement | groupDeclaration;
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
 assignment : IDENTIFIER '=' expression ';';
-ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
+ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
+elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
 parameterAccess : IDENTIFIER '.' IDENTIFIER;

@@ -2,11 +2,11 @@
 
 public class If : Statement
 {
-    public Expression Condition { get; protected set; }
-    public Statement Then { get; protected set; }
-    public Statement Else { get; protected set; }
+    public AstNode Condition { get; protected set; }
+    public AstNode Then { get; protected set; }
+    public AstNode? Else { get; protected set; }
 
-    public If(Expression condition, Statement then, Statement @else)
+    public If(AstNode condition, AstNode then, AstNode @else)
     {
         Condition = condition;
         Then = then;

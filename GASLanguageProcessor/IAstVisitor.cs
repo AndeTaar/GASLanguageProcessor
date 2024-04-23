@@ -12,7 +12,7 @@ public interface IAstVisitor<T>
     T VisitText(Text node);
 
     T VisitBinaryOp(BinaryOp node);
-
+    
     T VisitCircle(Circle node);
 
     T VisitColour(Colour node);
@@ -30,6 +30,8 @@ public interface IAstVisitor<T>
     T VisitLine(Line node);
 
     T VisitIfStatement(If node);
+    
+    T VisitElseStatement(Else node);
 
     T VisitBoolean(Boolean node);
 

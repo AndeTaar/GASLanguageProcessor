@@ -88,6 +88,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         throw new System.NotImplementedException();
     }
+    
+    public GasType VisitElseStatement(Else node)
+    {
+        throw new System.NotImplementedException();
+    }
 
     public GasType VisitBoolean(Boolean node)
     {
