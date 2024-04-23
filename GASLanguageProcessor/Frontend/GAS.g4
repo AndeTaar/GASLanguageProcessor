@@ -30,7 +30,7 @@ type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon
 // Expressions
 expression : equalityExpression ('||' equalityExpression)* ;
 equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
-relationExpression : binaryExpression (('<' | '>') binaryExpression)* ;
+relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
 binaryExpression : multExpression (('+' | '-') multExpression)* ;
 multExpression : notExpression ('*' notExpression)* ;
 notExpression : ('!' | '-')* listAccessExpression ;
