@@ -73,6 +73,23 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         
         return new While(condition, whileBody);
     }
+    
+    public override AstNode VisitForStatement(GASParser.ForStatementContext context)
+    {
+        // Bad, but we don't know if it's an assignment or declaration.
+        var initializer = context.GetChild(2).Accept(this);
+        var condition = context.expression().Accept(this);
+        // Can't just accept assignment, since the initializer could be an assignment
+        var increment = context.GetChild(5).Accept(this);
+        
+        var statements = context.statement()
+            .Select(s => s.Accept(this))
+            .ToList();
+        
+        AstNode forBody = ToCompound(statements);
+        
+        return new For(initializer, condition, increment, forBody);
+    }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {

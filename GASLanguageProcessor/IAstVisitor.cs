@@ -46,6 +46,8 @@ public interface IAstVisitor<T>
     T VisitCanvas(Canvas node);
 
     T VisitWhile(While node);
+    
+    T VisitFor(For node);
 
     T VisitSkip(Skip node);
 

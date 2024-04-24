@@ -203,6 +203,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             errors.Add("Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
             return GasType.Error;
         }
+        
 
         try
         {
@@ -239,6 +240,28 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         if (condition != GasType.Boolean)
         {
             errors.Add("Invalid type for while condition: expected: Boolean, got: " + condition);
+            return GasType.Error;
+        }
+
+        return GasType.Error;
+    }
+    
+    public GasType VisitFor(For node)
+    {
+        var initializer = node.Initializer.Accept(this);
+        var condition = node.Condition.Accept(this);
+        var increment = node.Increment.Accept(this);
+        node.Body.Accept(this);
+        
+        if(initializer != GasType.Number)
+        {
+            errors.Add("Invalid type for for initializer: expected: Number, got: " + initializer);
+            return GasType.Error;
+        }
+        
+        if (condition != GasType.Boolean)
+        {
+            errors.Add("Invalid type for for condition: expected: Boolean, got: " + condition);
             return GasType.Error;
         }
 
