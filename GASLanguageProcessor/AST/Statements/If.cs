@@ -2,23 +2,19 @@
 
 public class If : Statement
 {
-    public Expression Condition { get; protected set; }
-    public Statement Then { get; protected set; }
-    public Statement Else { get; protected set; }
+    public AstNode Condition { get; protected set; }
+    public AstNode Statements { get; protected set; }
+    public AstNode? Else { get; protected set; }
 
-    public If(Expression condition, Statement then, Statement @else)
+    public If(AstNode condition, AstNode statements, AstNode @else)
     {
         Condition = condition;
-        Then = then;
+        Statements = statements;
         Else = @else;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Condition.Accept(visitor, indent + "   ");
-        Then.Accept(visitor, indent + "   ");
-        Else.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitIfStatement(this);
     }
 }

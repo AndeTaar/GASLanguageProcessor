@@ -5,22 +5,21 @@ namespace GASLanguageProcessor;
 
 public class Canvas : AstNode
 {
-    public int Width { get; protected set; }
+    public AstNode Width { get; protected set; }
 
-    public int Height { get; protected set; }
+    public AstNode Height { get; protected set; }
 
-    public Colour BackgroundColour { get; protected set; }
+    public AstNode BackgroundColour { get; protected set; }
 
-    public Canvas(int width, int height, Colour backgroundColour)
+    public Canvas(AstNode width, AstNode height, AstNode backgroundColour)
     {
         Width = width;
         Height = height;
         BackgroundColour = backgroundColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitCanvas(this);
     }
 }

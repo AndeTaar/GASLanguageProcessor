@@ -2,64 +2,48 @@ grammar GAS;
 
 //Program
 program : canvas (statement)* ;
-canvas : 'canvas' '(' NUM ',' NUM ( ',' colourTerm )? ')' ';';
+canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
-statement : declaration | assignment | print | ifStatement | whileStatement | collectionDeclaration | groupDeclaration |
- functionCall | functionDeclaration;
+statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
+functionDeclaration | groupDeclaration;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : allTypes identifierTerm ';' | allTypes identifierTerm '=' expression';';
-assignment : identifierTerm '=' expression ';';
-ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
+declaration : type IDENTIFIER ('=' expression)?';';
+assignment : IDENTIFIER '=' expression ';';
+ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
+elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
-print : 'print' expression ';';
-functionDeclaration : allTypes identifierTerm '(' (allTypes identifierTerm (',' allTypes identifierTerm)*)? ')' '{' (statement)* '}' ;
+returnStatement : 'return' expression ';';
+parameterAccess : IDENTIFIER '.' IDENTIFIER;
+classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* returnStatement? '}';
 
 //Collection types
-collectionDeclaration : list '<' allTypes '>' identifierTerm '=' '{' (expression (',' expression)*)? '}' ';';
-list : 'list';
-groupDeclaration : 'group' identifierTerm '=' '(' pointTerm ',' '{' (statement (',' statement)*)? '}' ')' ';';
-listAccess : identifierTerm '[' expression ']';
+collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
 
 //Standard data types
-allTypes: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' | 'list' | 'group' | 'string' | 'line';
+type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
+'list' | 'group' | 'string' | 'line' | 'group' | 'T' | 'void';
 
 // Expressions
-expression : equalityExpression ('||' equalityExpression)* ;
+expression : equalityExpression (('||' | '&&') equalityExpression)* ;
 equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
-relationExpression : binaryExpression ('<' binaryExpression)* ;
+relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
 binaryExpression : multExpression (('+' | '-') multExpression)* ;
-multExpression : notExpression ('*' notExpression)* ;
-notExpression : ('!' | '-')* term ;
+multExpression : notExpression (('*' | '/') notExpression)* ;
+notExpression : ('!' | '-')* listAccessExpression ;
+listAccessExpression : term ('[' expression ']')?;
 
 
 //Terms
-identifierTerm: IDENTIFIER;
-numTerm: NUM | identifierTerm | functionCall | listAccess;
-boolTerm : 'true' | 'false' | identifierTerm | functionCall | listAccess;
-term : identifierTerm | numTerm | boolTerm | '(' expression ')' | pointTerm | colourTerm | listTerm |
- functionCall | listAccess | stringTerm | lineTerm | squareTerm | polygonTerm | circleTerm | rectangleTerm | textTerm;
+term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+ functionCall | ALLSTRINGS;
 
-pointTerm : identifierTerm | 'point(' numTerm ',' numTerm ')' | listAccess | functionCall;
-//Red Green Blue Alpha
-colourTerm: identifierTerm | 'colour(' numTerm ',' numTerm ',' numTerm ',' numTerm ')' | functionCall | listAccess;
-listTerm : identifierTerm | '{' (expression (',' expression)*)? '}' | functionCall;
-stringTerm : identifierTerm |  ALLSTRINGS  | functionCall | listAccess;
-// Start and end points and colour
-lineTerm : identifierTerm | 'line(' pointTerm ',' pointTerm ',' numTerm (',' colourTerm )? ')' | functionCall;
-// Top left, width, height, stroke, strokeColour, fillColour
-squareTerm: identifierTerm | 'square(' pointTerm ',' numTerm ',' numTerm ((',' colourTerm ) (',' colourTerm)?)? ')' | functionCall;
-// Colour, list of points
-polygonTerm : identifierTerm | 'polygon(' colourTerm ',' listTerm ')' | functionCall;
-// Centre, radius, stroke, strokeColour, fillColour
-circleTerm : identifierTerm | 'circle(' pointTerm ',' numTerm ',' numTerm ((',' colourTerm) (',' colourTerm)?)? ')' | functionCall;
-// Top left, width, height, stroke, strokeColour, fillColour
-rectangleTerm : identifierTerm | 'rectangle(' pointTerm ',' numTerm ',' numTerm ',' numTerm ((',' colourTerm) (',' colourTerm)?)? ')' | functionCall;
-// Text, point, size, font, colour
-textTerm : identifierTerm | 'text(' stringTerm ',' pointTerm ',' numTerm ',' stringTerm (',' colourTerm)? ')' | functionCall;
+listTerm : '{' (expression (',' expression)*)? '}';
+groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')' ';';
 
-functionCall : identifierTerm '(' (expression (',' expression)*)? ')';
+functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUM : '0' | [-]?[1-9][0-9]* ;

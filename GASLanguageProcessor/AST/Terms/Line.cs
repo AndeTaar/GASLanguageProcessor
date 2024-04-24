@@ -21,14 +21,8 @@ public class Line : AstNode
         StrokeColour = strokeColour;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        Start.Accept(visitor, indent + "   ");
-        End.Accept(visitor, indent + "   ");
-        Stroke.Accept(visitor, indent + "   ");
-        Colour?.Accept(visitor, indent + "   ");
-        StrokeColour?.Accept(visitor, indent + "   ");
-        return this;
+        return visitor.VisitLine(this);
     }
 }

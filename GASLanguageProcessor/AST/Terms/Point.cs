@@ -11,12 +11,8 @@ public class Point : AstNode
         Y = y;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        X.Accept(visitor, indent + "   ");
-        Y.Accept(visitor, indent + "   ");
-        Console.WriteLine(indent + this.GetType().Name);
-        return this;
+        return visitor.VisitPoint(this);
     }
-
 }

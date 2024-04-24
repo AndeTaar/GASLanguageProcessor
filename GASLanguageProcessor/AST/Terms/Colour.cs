@@ -17,13 +17,8 @@ public class Colour: AstNode
         Alpha = alpha;
     }
 
-    public override AstNode Accept(IAstVisitor visitor, string indent)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        Console.WriteLine(indent + this.GetType().Name);
-        Red.Accept(visitor, indent + "   ");
-        Green.Accept(visitor, indent + "   ");
-        Blue.Accept(visitor, indent + "   ");
-        Alpha.Accept(visitor, indent + "   ");
-        return this;
+        return visitor.VisitColour(this);
     }
 }
