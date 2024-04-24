@@ -3,13 +3,13 @@
 public class If : Statement
 {
     public AstNode Condition { get; protected set; }
-    public AstNode Then { get; protected set; }
+    public AstNode Statements { get; protected set; }
     public AstNode? Else { get; protected set; }
 
-    public If(AstNode condition, AstNode then, AstNode @else)
+    public If(AstNode condition, AstNode statements, AstNode @else)
     {
         Condition = condition;
-        Then = then;
+        Statements = statements;
         Else = @else;
     }
 

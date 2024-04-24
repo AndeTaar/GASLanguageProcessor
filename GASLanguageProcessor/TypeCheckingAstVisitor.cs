@@ -23,24 +23,44 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitBinaryOp(BinaryOp node)
     {
-        var operant = node.Op;
+        var @operator = node.Op;
         var left = node.Left.Accept(this);
         var right = node.Right.Accept(this);
 
-        switch (operant)
+        switch (@operator)
         {
-            case "+" or "-" or "*" or "/":
+            case "+":
+                if (left == GasType.String && right == GasType.String)
+                    return GasType.String;
+
                 if (left == GasType.Number && right == GasType.Number)
-                {
                     return GasType.Number;
-                }
-                else
-                {
-                    throw new System.Exception("Invalid types for operant");
-                }
+
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Number, got: " + left + " and " + right);
+                break;
+
+            case "-" or "*" or "/" or "<" or ">" or "<=" or ">=":
+                if (left == GasType.Number && right == GasType.Number)
+                    return GasType.Number;
+
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
+                break;
+
+            case "&&" or "||" or "==" or "!=":
+                if (left == GasType.Boolean && right == GasType.Boolean)
+                    return GasType.Boolean;
+
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
+                break;
+
+            default:
+                errors.Add("Invalid operator: " + @operator);
+                break;
         }
 
-        throw new System.Exception("Invalid operant");
+        errors.Add("Invalid operator: " + @operator + " for binary operation");
+
+        return GasType.Error;
     }
 
     public GasType VisitCircle(Circle node)
@@ -86,12 +106,19 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitIfStatement(If node)
     {
-        throw new System.NotImplementedException();
+        node.Condition.Accept(this);
+        node.Statements.Accept(this);
+        node.Else?.Accept(this);
+
+        return GasType.Error;
     }
-    
+
     public GasType VisitElseStatement(Else node)
     {
-        throw new System.NotImplementedException();
+        node.Statements?.Accept(this);
+        node.If?.Accept(this);
+
+        return GasType.Error;
     }
 
     public GasType VisitBoolean(Boolean node)
