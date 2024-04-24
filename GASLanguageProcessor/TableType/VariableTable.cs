@@ -1,7 +1,4 @@
-﻿using GASLanguageProcessor.AST.Expressions;
-using GASLanguageProcessor.AST.Terms;
-
-namespace GASLanguageProcessor.TableType;
+﻿namespace GASLanguageProcessor.TableType;
 
 public class VariableTable: ITable<VariableType>
 {

@@ -11,7 +11,8 @@ functionDeclaration | returnStatement | groupDeclaration;
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
 assignment : IDENTIFIER '=' expression ';';
-ifStatement : 'if' '(' expression ')' '{' (statement)* '}' ('else' '{' (statement)* '}')?;
+ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
+elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
 parameterAccess : IDENTIFIER '.' IDENTIFIER;
@@ -29,7 +30,7 @@ type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon
 // Expressions
 expression : equalityExpression ('||' equalityExpression)* ;
 equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
-relationExpression : binaryExpression ('<' binaryExpression)* ;
+relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
 binaryExpression : multExpression (('+' | '-') multExpression)* ;
 multExpression : notExpression ('*' notExpression)* ;
 notExpression : ('!' | '-')* listAccessExpression ;

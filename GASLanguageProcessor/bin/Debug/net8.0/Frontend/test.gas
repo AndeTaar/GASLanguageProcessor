@@ -36,3 +36,14 @@ line aline = Line(xy, Point(200, 200), 10, red, black);
 line line1 = Line(Point(200, 0), Point(0, 200), 10, red, black);
 rectangle rectangle1 = Rectangle(Point(10, 150), 180, 10, black, red);
 text txt = Text(Point(0,0), "Its even worse for mouses!", 14, "Arial", black);
+
+if (2 > 4 || 2 < 9) {
+  x = 8;
+  number y = 9;
+} else if (98 < 3) {
+  x = 9;
+  y = 8;
+} else {
+  x = 5;
+  y = 4;
+}
