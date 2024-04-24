@@ -264,6 +264,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Line;
             case "circle":
                 return GasType.Circle;
+            case "bool":
+                return GasType.Boolean;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;
@@ -277,9 +279,27 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this)).ToList();
 
+        var returnStatement = functionDeclaration.ReturnStatement?.Accept(this);
+
+        if (returnType != returnStatement && returnType != GasType.Null && returnStatement != GasType.Null && returnType != GasType.Void)
+        {
+            errors.Add("Invalid return type for function: " + identifier.Name + " expected: " + returnType + " got: " + returnStatement);
+            return GasType.Error;
+        }
+
         fTable.Add(identifier.Name, new FunctionType(returnType, parameterTypes));
 
         return returnType;
+    }
+
+    public GasType VisitReturn(Return @return)
+    {
+        return @return.Expression.Accept(this);
+    }
+
+    public GasType VisitNull(Null @null)
+    {
+        return GasType.Null;
     }
 
     public GasType VisitFunctionCall(FunctionCall functionCall)

@@ -1,6 +1,7 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
+using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
 using String = GASLanguageProcessor.AST.Terms.String;
 using Type = GASLanguageProcessor.AST.Terms.Type;
 
@@ -21,7 +22,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         AstNode height = context.expression()[1].Accept(this);
 
-        AstNode backgroundColour = context.expression()[2]?.Accept(this);
+        AstNode backgroundColour = context.expression()[2]?.Accept(this)!;
 
         if(backgroundColour == null)
         {
@@ -95,7 +96,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var type = context.type().Accept(this);
         var identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        var value = context.expression().Accept(this) as AstNode;
+        var value = context.expression().Accept(this);
 
         return new Declaration(type, identifier, value);
     }
@@ -132,6 +133,12 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
+    public override AstNode VisitReturnStatement(GASParser.ReturnStatementContext context)
+    {
+        var expression = context?.expression().Accept(this);
+        return new Return(expression);
+    }
+
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
@@ -154,8 +161,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return new Declaration(type, identif, null);
         }).ToList();
 
-        var body = context.statement().Select(stmt => stmt.Accept(this)).ToList();
-        return new FunctionDeclaration(identifier, parameters, body, returnType);
+        var returnStatement = context.returnStatement()?.Accept(this);
+        var statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList());
+        return new FunctionDeclaration(identifier, parameters, statements,  returnStatement, returnType);
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
@@ -208,6 +216,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return VisitExpression(context.expression());
         }
+        else if (context.GetText() == "true" || context.GetText() == "false")
+        {
+            return new Boolean(context.GetText());
+        }
+        else if (context.GetText() == "null")
+        {
+            return new Null();
+        }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
@@ -244,7 +260,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         if (lines.Count == 0)
         {
-            return null;
+            return null!;
         }
 
         if(lines.Count == 1)

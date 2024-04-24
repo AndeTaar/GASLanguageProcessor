@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
-functionDeclaration | returnStatement | groupDeclaration;
+functionDeclaration | groupDeclaration;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
@@ -17,15 +17,14 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
 parameterAccess : IDENTIFIER '.' IDENTIFIER;
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
-functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* returnStatement? '}';
 
 //Collection types
 collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
-listAccess : term ('[' expression ']')?;
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
-'list' | 'group' | 'string' | 'line' | 'group' | 'T';
+'list' | 'group' | 'string' | 'line' | 'group' | 'T' | 'void';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;
@@ -38,7 +37,7 @@ listAccessExpression : term ('[' expression ']')?;
 
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false'  | '(' expression ')' | listTerm |
+term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS;
 
 listTerm : '{' (expression (',' expression)*)? '}';

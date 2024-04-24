@@ -4,7 +4,8 @@ public enum GasType
 {
     Number,
     Text,
-    Identifier,
+    Null,
+    Void,
     String,
     Boolean,
     Canvas,
