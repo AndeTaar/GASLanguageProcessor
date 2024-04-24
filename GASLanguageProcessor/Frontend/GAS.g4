@@ -28,11 +28,11 @@ type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon
 'list' | 'group' | 'string' | 'line' | 'group' | 'T';
 
 // Expressions
-expression : equalityExpression ('||' equalityExpression)* ;
+expression : equalityExpression (('||' | '&&') equalityExpression)* ;
 equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
 binaryExpression : multExpression (('+' | '-') multExpression)* ;
-multExpression : notExpression ('*' notExpression)* ;
+multExpression : notExpression (('*' | '/') notExpression)* ;
 notExpression : ('!' | '-')* listAccessExpression ;
 listAccessExpression : term ('[' expression ']')?;
 

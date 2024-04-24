@@ -37,30 +37,33 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                     return GasType.Number;
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Number, got: " + left + " and " + right);
-                break;
+                return GasType.Error;
 
-            case "-" or "*" or "/" or "<" or ">" or "<=" or ">=":
+            case "-" or "*" or "/":
                 if (left == GasType.Number && right == GasType.Number)
                     return GasType.Number;
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
-                break;
+                return GasType.Error;
+
+            case "<" or ">" or "<=" or ">=":
+                if (left == GasType.Number && right == GasType.Number)
+                    return GasType.Boolean;
+
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
+                return GasType.Error;
 
             case "&&" or "||" or "==" or "!=":
                 if (left == GasType.Boolean && right == GasType.Boolean)
                     return GasType.Boolean;
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
-                break;
+                return GasType.Error;
 
             default:
                 errors.Add("Invalid operator: " + @operator);
-                break;
+                return GasType.Error;
         }
-
-        errors.Add("Invalid operator: " + @operator + " for binary operation");
-
-        return GasType.Error;
     }
 
     public GasType VisitCircle(Circle node)
@@ -106,9 +109,15 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitIfStatement(If node)
     {
-        node.Condition.Accept(this);
+        var condition = node.Condition.Accept(this);
         node.Statements.Accept(this);
         node.Else?.Accept(this);
+
+        if (condition != GasType.Boolean)
+        {
+            errors.Add("Invalid type for if condition: expected: Boolean, got: " + condition);
+            return GasType.Error;
+        }
 
         return GasType.Error;
     }

@@ -105,6 +105,19 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Type(context.GetText());
     }
 
+    public override AstNode VisitExpression(GASParser.ExpressionContext context)
+    {
+        if (context.children.Count == 1)
+        {
+            return base.VisitExpression(context);
+        }
+
+        var left = context.equalityExpression()[0].Accept(this);
+        var right = context.equalityExpression()[0].Accept(this);
+
+        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+    }
+
     public override AstNode VisitEqualityExpression(GASParser.EqualityExpressionContext context)
     {
         if (context.children.Count == 1)
@@ -152,9 +165,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitRelationExpression(context);
         }
 
-        var left = context.GetChild(0).Accept(this);
+        var left = context.binaryExpression()[0].Accept(this);
 
-        var right = context.GetChild(2).Accept(this);
+        var right = context.binaryExpression()[1].Accept(this);
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
