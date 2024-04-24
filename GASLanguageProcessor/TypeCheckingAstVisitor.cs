@@ -53,12 +53,21 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
-            case "&&" or "||" or "==" or "!=":
+            case "&&" or "||":
                 if (left == GasType.Boolean && right == GasType.Boolean)
                     return GasType.Boolean;
-
+                
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
+                
+            case "==" or "!=":
+                if ((left == GasType.Boolean && right == GasType.Boolean) ||
+                    (left == GasType.Number && right == GasType.Number))
+                    return GasType.Boolean;
+                        
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
+                return GasType.Error;
+                
 
             default:
                 errors.Add("Invalid operator: " + @operator);
@@ -224,7 +233,16 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitWhile(While node)
     {
-        throw new System.NotImplementedException();
+        var condition = node.Condition.Accept(this);
+        node.Statements.Accept(this);
+        
+        if (condition != GasType.Boolean)
+        {
+            errors.Add("Invalid type for while condition: expected: Boolean, got: " + condition);
+            return GasType.Error;
+        }
+
+        return GasType.Error;
     }
 
     public GasType VisitSkip(Skip node)

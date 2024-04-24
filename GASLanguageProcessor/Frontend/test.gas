@@ -16,6 +16,14 @@ bool GetBool()
     return true;
 }
 
+number pik = 1;
+number tiller = 2;
+
+while(pik == tiller) 
+{
+    number semanticist = 1;
+}
+
 number i = Width;
 
 circle cirkel = CircleCreator(Point(250, 250), 100, 10, green, black);

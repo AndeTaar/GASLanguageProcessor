@@ -61,6 +61,19 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Else(elseBody, condition);
     }
 
+    public override AstNode VisitWhileStatement(GASParser.WhileStatementContext context)
+    {
+        var condition = context.expression().Accept(this);
+        
+        var statements = context.statement()
+            .Select(s => s.Accept(this))
+            .ToList();
+        
+        AstNode whileBody = ToCompound(statements);
+        
+        return new While(condition, whileBody);
+    }
+
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
