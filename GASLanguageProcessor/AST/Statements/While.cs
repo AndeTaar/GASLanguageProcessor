@@ -1,18 +1,20 @@
-﻿namespace GASLanguageProcessor.AST.Statements;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Statements;
 
 public class While : Statement
 {
-    public Expression Condition { get; protected set; }
-    public Statement Body { get; protected set; }
+    public AstNode Condition { get; protected set; }
+    public AstNode Statements { get; protected set; }
 
-    public While(Expression condition, Statement body)
+    public While(AstNode condition, AstNode statements)
     {
         Condition = condition;
-        Body = body;
+        Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitWhile(this);
+        return visitor.VisitWhile(this, scope);
     }
 }

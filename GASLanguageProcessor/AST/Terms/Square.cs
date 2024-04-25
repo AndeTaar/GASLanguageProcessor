@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Terms;
 
 public class Square: AstNode
 {
@@ -20,8 +22,8 @@ public class Square: AstNode
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitSquare(this);
+        return visitor.VisitSquare(this, scope);
     }
 }

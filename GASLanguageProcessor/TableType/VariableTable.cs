@@ -1,32 +1,28 @@
 ﻿namespace GASLanguageProcessor.TableType;
 
-public class VariableTable: ITable<VariableType>
+public class VariableTable
 {
     public Dictionary<string, VariableType> Variables { get; protected set; } = new();
 
-    public void Add(string key, VariableType value)
+    public Scope Scope { get; set; }
+
+    public VariableTable(Scope scope)
+    {
+        this.Scope = scope;
+    }
+
+    public void Bind(string key, VariableType value)
     {
         Variables.Add(key, value);
     }
 
-    public VariableType Get(string key)
+    public VariableType? LookUp(string key)
     {
-        return Variables[key];
-    }
-
-    public bool Contains(string key)
-    {
-        return Variables.ContainsKey(key);
-    }
-
-    public void Remove(string key)
-    {
-        Variables.Remove(key);
-    }
-
-    public void Clear()
-    {
-        Variables.Clear();
+        if (Variables.ContainsKey(key))
+        {
+            return Variables[key];
+        }
+        return this.Scope.ParentScope?.vTable.LookUp(key);
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
@@ -19,8 +20,8 @@ public class FunctionDeclaration: AstNode
         ReturnType = returnType;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitFunctionDeclaration(this);
+        return visitor.VisitFunctionDeclaration(this, scope);
     }
 }

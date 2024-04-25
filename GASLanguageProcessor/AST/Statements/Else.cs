@@ -1,3 +1,5 @@
+using GASLanguageProcessor.TableType;
+
 namespace GASLanguageProcessor.AST.Statements;
 
 public class Else : Statement
@@ -11,8 +13,8 @@ public class Else : Statement
         If = @if;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitElseStatement(this);
+        return visitor.VisitElseStatement(this, scope);
     }
 }

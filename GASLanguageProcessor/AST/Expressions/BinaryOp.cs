@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Expressions;
 
 public class BinaryOp : Expression
 {
@@ -13,8 +15,8 @@ public class BinaryOp : Expression
         Right = right;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitBinaryOp(this);
+        return visitor.VisitBinaryOp(this, scope);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Terms;
 
 public class Type: AstNode
 {
@@ -9,8 +11,8 @@ public class Type: AstNode
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitType(this);
+        return visitor.VisitType(this, scope);
     }
 }

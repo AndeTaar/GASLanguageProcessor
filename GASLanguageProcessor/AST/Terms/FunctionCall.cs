@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
@@ -13,8 +14,8 @@ public class FunctionCall: AstNode
         Parameters = parameters;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitFunctionCall(this);
+        return visitor.VisitFunctionCall(this, scope);
     }
 }
