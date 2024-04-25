@@ -180,8 +180,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var left = node.Identifier.Name;
         var type = node.Value.Accept(this, scope);
 
-        var variable = scope.GlobalLookupVariable(left);
-        
+        var variable = scope.vTable.LookUp(left);
+
         if (variable == null)
         {
             errors.Add("Variable name: " + left + " not found");
@@ -209,14 +209,14 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        if (scope.GlobalLookupVariable(identifier) != null)
+        if (scope.vTable.LookUp(identifier) != null)
         {
             errors.Add("Variable name: " + identifier + " is already declared elsewhere");
             return GasType.Error;
         }
-        
+
         scope.vTable.Bind(identifier, new VariableType(type, value));
-        
+
         return type;
     }
 
@@ -359,7 +359,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             parameterTypes.Add(parameter.Accept(this, scope));
         }
 
-        var type = scope.GlobalLookupFunction(identifier.Name);
+        var type = scope.fTable.LookUp(identifier.Name);
 
         if(type == null){
             errors.Add("Function name: " + functionCall.Identifier.Name + " not found");

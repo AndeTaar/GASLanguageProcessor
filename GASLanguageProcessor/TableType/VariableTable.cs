@@ -2,22 +2,14 @@
 
 public class VariableTable
 {
-    public static VariableTable? GlobalScope { get; set; }
-
-    public VariableTable ParentScope { get; set; }
-
     public Dictionary<string, VariableType> Variables { get; protected set; } = new();
 
-    public static List<VariableTable> Scopes { get; set; } = new();
+    public Scope Scope { get; set; }
 
-    public VariableTable()
+    public VariableTable(Scope scope)
     {
-        if(GlobalScope == null)
-        {
-            GlobalScope = this;
-        }
+        this.Scope = scope;
     }
-
 
     public void Bind(string key, VariableType value)
     {
@@ -30,7 +22,7 @@ public class VariableTable
         {
             return Variables[key];
         }
-        return null;
+        return this.Scope.ParentScope?.vTable.LookUp(key);
     }
 
 }

@@ -12,25 +12,10 @@ public class Scope
 
     public VariableTable vTable { get; set; }
 
-    /**
-     *  Functions.Add("Colour", new FunctionType(GasType.Colour, [ GasType.Number, GasType.Number, GasType.Number, GasType.Number ]));
-        Functions.Add("Point", new FunctionType(GasType.Point, [ GasType.Number, GasType.Number ]));
-        Functions.Add("Square", new FunctionType(GasType.Square, [ GasType.Point, GasType.Number, GasType.Colour, GasType.Colour]));
-        Functions.Add("Circle", new FunctionType(GasType.Circle, [GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour]));
-        Functions.Add("Line", new FunctionType(GasType.Line, [GasType.Point, GasType.Point, GasType.Number, GasType.Colour]));
-        Functions.Add("Rectangle", new FunctionType(GasType.Rectangle, [GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour]));
-        Functions.Add("Text", new FunctionType(GasType.Text, [GasType.Point, GasType.String, GasType.Number, GasType.String, GasType.Colour]));
-
-        if(GlobalScope == null)
-        {
-            GlobalScope = this;
-        }
-     */
-
     public Scope(Scope? parentScope)
     {
-        fTable = new FunctionTable();
-        vTable = new VariableTable();
+        fTable = new FunctionTable(this);
+        vTable = new VariableTable(this);
 
         ParentScope = parentScope;
 
@@ -52,26 +37,6 @@ public class Scope
             fTable.Bind("Text",
                 new FunctionType(GasType.Text, new List<GasType> { GasType.Point, GasType.String, GasType.Number, GasType.String, GasType.Colour }));
         }
-    }
-
-    public FunctionType? GlobalLookupFunction(string key)
-    {
-        if (fTable.LookUp(key) != null)
-        {
-            return fTable.LookUp(key);
-        }
-
-        return ParentScope?.GlobalLookupFunction(key);
-    }
-
-    public VariableType? GlobalLookupVariable(string key)
-    {
-        if (vTable.LookUp(key) != null)
-        {
-            return vTable.LookUp(key);
-        }
-
-        return ParentScope?.GlobalLookupVariable(key);
     }
 
     public Scope EnterScope()
