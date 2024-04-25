@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Expressions;
 
 public class Boolean : Expression
 {
@@ -9,8 +11,8 @@ public class Boolean : Expression
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitBoolean(this);
+        return visitor.VisitBoolean(this, scope);
     }
 }

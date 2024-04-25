@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Expressions;
 
 public class Identifier : Expression
 {
@@ -9,8 +11,8 @@ public class Identifier : Expression
         Name = name;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitIdentifier(this);
+        return visitor.VisitIdentifier(this, scope);
     }
 }
