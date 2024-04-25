@@ -40,24 +40,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bujee\\.nuget\\packages\\": {}
+    "C:\\Users\\coolf\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "projectUniqueName": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
       "projectName": "GASLanguageProcessor",
-      "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-      "packagesPath": "C:\\Users\\Bujee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+      "projectPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "packagesPath": "C:\\Users\\coolf\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bujee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\coolf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -70,11 +72,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {

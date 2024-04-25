@@ -10,10 +10,6 @@ namespace GASLanguageProcessor;
 
 public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 {
-    //Everything is global scope for now
-    private VariableTable vTable = new VariableTable();
-    private FunctionTable fTable = new FunctionTable();
-
     public List<string> errors = new();
 
     public GasType VisitText(Text node)
@@ -56,18 +52,18 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             case "&&" or "||":
                 if (left == GasType.Boolean && right == GasType.Boolean)
                     return GasType.Boolean;
-                
+
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
-                
+
             case "==" or "!=":
                 if ((left == GasType.Boolean && right == GasType.Boolean) ||
                     (left == GasType.Number && right == GasType.Number))
                     return GasType.Boolean;
-                        
+
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
-                
+
 
             default:
                 errors.Add("Invalid operator: " + @operator);
@@ -144,12 +140,12 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Boolean;
     }
 
-    public GasType VisitIdentifier(Identifier node)
+    public GasType VisitIdentifier(Identifier node, Scope scope)
     {
         GasType type;
         try
         {
-            type = vTable.Get(node.Name).Type;
+            type = scope.vTable.LookUp(node.Name).Type;
         }
         catch (Exception e)
         {
@@ -177,12 +173,12 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Error;
     }
 
-    public GasType VisitAssignment(Assignment node)
+    public GasType VisitAssignment(Assignment node, Scope scope)
     {
         var left = node.Identifier.Name;
         var type = node.Value.Accept(this);
 
-        var variable = vTable.Get(left);
+        var variable = scope.vTable.LookUp(left);
 
         if (variable.Type != type)
         {
@@ -192,7 +188,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return type;
     }
 
-    public GasType VisitDeclaration(Declaration node)
+    public GasType VisitDeclaration(Declaration node, VariableTable vTable, FunctionTable fTable)
     {
         var identifier = node.Identifier.Name;
         var type = node.Type.Accept(this);
@@ -203,11 +199,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             errors.Add("Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
             return GasType.Error;
         }
-        
+
 
         try
         {
-            vTable.Add(identifier, new VariableType(type, value));
+            vTable.Bind(identifier, new VariableType(type, value));
         }
         catch (Exception e)
         {
@@ -232,11 +228,12 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Canvas;
     }
 
-    public GasType VisitWhile(While node)
+    public GasType VisitWhile(While node, Scope scope)
     {
-        var condition = node.Condition.Accept(this);
-        node.Statements.Accept(this);
-        
+        var condition = node.Condition.Accept(this, scope);
+        var whileScope = scope.EnterScope();
+        node.Statements.Accept(this, whileScope);
+
         if (condition != GasType.Boolean)
         {
             errors.Add("Invalid type for while condition: expected: Boolean, got: " + condition);
@@ -245,20 +242,21 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         return GasType.Error;
     }
-    
-    public GasType VisitFor(For node)
+
+    public GasType VisitFor(For node, Scope scope)
     {
-        var initializer = node.Initializer.Accept(this);
-        var condition = node.Condition.Accept(this);
-        var increment = node.Increment.Accept(this);
-        node.Body.Accept(this);
-        
+        var scopeFor = scope.EnterScope();
+        var initializer = node.Initializer.Accept(this, scopeFor);
+        var condition = node.Condition.Accept(this, scopeFor);
+        var increment = node.Increment.Accept(this, scopeFor);
+        node.Body.Accept(this, scopeFor);
+
         if(initializer != GasType.Number)
         {
             errors.Add("Invalid type for for initializer: expected: Number, got: " + initializer);
             return GasType.Error;
         }
-        
+
         if (condition != GasType.Boolean)
         {
             errors.Add("Invalid type for for condition: expected: Boolean, got: " + condition);
@@ -312,15 +310,17 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Error;
     }
 
-    public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration)
+    public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration, Scope scope)
     {
-        var returnType = functionDeclaration.ReturnType.Accept(this);
+        var returnType = functionDeclaration.ReturnType.Accept(this, scope);
 
         var identifier = functionDeclaration.Identifier;
 
-        var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this)).ToList();
+        var funcDeclScope = scope.EnterScope();
 
-        var returnStatement = functionDeclaration.ReturnStatement?.Accept(this);
+        var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this, funcDeclScope)).ToList();
+
+        var returnStatement = functionDeclaration.ReturnStatement?.Accept(this, funcDeclScope);
 
         if (returnType != returnStatement && returnType != GasType.Null && returnStatement != GasType.Null && returnType != GasType.Void)
         {
@@ -328,39 +328,34 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        fTable.Add(identifier.Name, new FunctionType(returnType, parameterTypes));
+        scope.fTable.Bind(identifier.Name, new FunctionType(returnType, parameterTypes));
 
         return returnType;
     }
 
-    public GasType VisitReturn(Return @return)
+    public GasType VisitReturn(Return @return, Scope scope)
     {
-        return @return.Expression.Accept(this);
+        return @return.Expression.Accept(this, scope);
     }
 
-    public GasType VisitNull(Null @null)
+    public GasType VisitNull(Null @null, Scope scope)
     {
         return GasType.Null;
     }
 
-    public GasType VisitFunctionCall(FunctionCall functionCall)
+    public GasType VisitFunctionCall(FunctionCall functionCall, Scope scope)
     {
         var identifier = functionCall.Identifier;
 
         var parameterTypes = new List<GasType>();
         foreach (var parameter in functionCall.Parameters)
         {
-            parameterTypes.Add(parameter.Accept(this));
+            parameterTypes.Add(parameter.Accept(this, scope));
         }
 
-        FunctionType type;
-        try
-        {
-            type = fTable.Get(identifier.Name);
+        var type = scope.GlobalLookupFunction(identifier.Name);
 
-        }
-        catch (Exception e)
-        {
+        if(type == null){
             errors.Add("Function name: " + functionCall.Identifier.Name + " not found");
             return GasType.Error;
         }

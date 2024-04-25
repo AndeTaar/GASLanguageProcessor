@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime ;
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
- Main(["Frontend/test.gas"]);
+Main(["Frontend/test.gas"]);
 
 static void Main(string[] args)
 {
@@ -16,7 +17,8 @@ static void Main(string[] args)
 
     AstNode ast = parseTree.Accept(new ToAstVisitor());
     var typeCheckingVisitor = new TypeCheckingAstVisitor();
-    ast.Accept(typeCheckingVisitor);
+    var globalScope = new Scope(null);
+    ast.Accept(typeCheckingVisitor, globalScope);
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
     Console.WriteLine(ast);
 }
