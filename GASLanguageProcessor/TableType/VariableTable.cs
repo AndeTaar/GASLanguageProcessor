@@ -26,7 +26,11 @@ public class VariableTable
 
     public VariableType? LookUp(string key)
     {
-        return Variables[key];
+        if (Variables.ContainsKey(key))
+        {
+            return Variables[key];
+        }
+        return null;
     }
 
 }

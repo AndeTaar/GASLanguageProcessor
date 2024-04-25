@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
@@ -15,8 +16,8 @@ public class Group: AstNode
         Point = point;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitGroup(this);
+        return visitor.VisitGroup(this, scope);
     }
 }

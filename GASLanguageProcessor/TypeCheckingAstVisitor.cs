@@ -132,7 +132,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         var elseScope = scope.EnterScope();
         node.Statements?.Accept(this, elseScope);
-        node.If?.Accept(this);
+        node.If?.Accept(this, scope);
 
         return GasType.Error;
     }

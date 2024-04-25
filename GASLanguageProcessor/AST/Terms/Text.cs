@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.TableType;
+
+namespace GASLanguageProcessor.AST.Terms;
 
 public class Text: AstNode
 {
@@ -17,8 +19,8 @@ public class Text: AstNode
         Colour = colour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitText(this);
+        return visitor.VisitText(this, scope);
     }
 }

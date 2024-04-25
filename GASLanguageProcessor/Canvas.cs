@@ -1,5 +1,6 @@
 ﻿using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor;
 
@@ -18,8 +19,8 @@ public class Canvas : AstNode
         BackgroundColour = backgroundColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitCanvas(this);
+        return visitor.VisitCanvas(this, scope);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
@@ -22,8 +23,8 @@ public class Circle : AstNode
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitCircle(this);
+        return visitor.VisitCircle(this, scope);
     }
 }
