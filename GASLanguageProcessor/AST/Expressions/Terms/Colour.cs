@@ -3,7 +3,7 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Colour: AstNode
+public class Colour: Expression
 {
     public Number Red { get; protected set; }
     public Number Green { get; protected set; }

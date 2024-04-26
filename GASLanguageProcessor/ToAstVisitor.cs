@@ -34,18 +34,26 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
-        var condition = context.expression().Accept(this);
+        Expression condition = context.expression().Accept(this) as Expression;
 
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
 
-        AstNode ifBody = ToCompound(statements);
+        Compound ifBody = ToCompound(statements) as Compound;
 
+        var @else = context.elseStatement().Accept(this);
 
-        AstNode elseBody = context.elseStatement().Accept(this);
+        Compound? elseBody = @else as Compound;
 
-        return new If(condition, ifBody, elseBody);
+        If? @if = @else as If;
+
+        if(@else != null && (elseBody == null && @if == null))
+        {
+            throw new Exception("Else is not a compound or if statement");
+        }
+
+        return new If(condition, ifBody, @if != null ? @if : elseBody);
     }
 
     public override AstNode VisitElseStatement(GASParser.ElseStatementContext context)
@@ -56,38 +64,37 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         AstNode elseBody = ToCompound(statements);
 
-        var condition = context.ifStatement()?.Accept(this) as If;
+        var elseIf = context.ifStatement()?.Accept(this) as If;
 
-        return new Else(elseBody, condition);
+        return elseIf ?? elseBody;
     }
 
     public override AstNode VisitWhileStatement(GASParser.WhileStatementContext context)
     {
         var condition = context.expression().Accept(this);
-        
+
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
-        
+
         AstNode whileBody = ToCompound(statements);
-        
+
         return new While(condition, whileBody);
     }
-    
+
     public override AstNode VisitForStatement(GASParser.ForStatementContext context)
     {
-        // Bad, but we don't know if it's an assignment or declaration.
-        var initializer = context.GetChild(2).Accept(this);
-        var condition = context.expression().Accept(this);
+        var initializer = context.statement()[0].Accept(this) as Statement;
+        var condition = context.expression().Accept(this) as Expression;
         // Can't just accept assignment, since the initializer could be an assignment
-        var increment = context.GetChild(5).Accept(this);
-        
+        var increment = context.Accept(this) as Expression;
+
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
-        
-        AstNode forBody = ToCompound(statements);
-        
+
+        Compound forBody = ToCompound(statements) as Compound;
+
         return new For(initializer, condition, increment, forBody);
     }
 
@@ -207,7 +214,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var right = context.binaryExpression()[1].Accept(this);
 
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitBinaryExpression(GASParser.BinaryExpressionContext context)
@@ -221,7 +228,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var right = context.multExpression()[1].Accept(this);
 
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitTerm(GASParser.TermContext context)

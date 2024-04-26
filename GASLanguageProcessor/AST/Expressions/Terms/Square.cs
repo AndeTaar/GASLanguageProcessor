@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Square: AstNode
+public class Square: Expression
 {
     public AstNode TopLeft { get; protected set; }
     public AstNode BottomRight { get; protected set; }

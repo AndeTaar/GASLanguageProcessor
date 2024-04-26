@@ -6,6 +6,8 @@ public class FunctionType
 {
     public GasType ReturnType { get; protected set; }
 
+    public List<FunctionType> ParameterAcceptanceStates { get; protected set; }
+
     public List<GasType> ParameterTypes { get; protected set; }
 
     public FunctionType(GasType returnType, List<GasType> parameterTypes)

@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Text: AstNode
+public class Text: Expression
 {
     public AstNode Value { get; protected set; }
     public AstNode Position { get; protected set; }

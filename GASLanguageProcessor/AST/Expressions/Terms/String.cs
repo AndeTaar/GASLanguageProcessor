@@ -2,17 +2,18 @@
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Type: AstNode
+public class String: Expression
 {
     public string Value { get; protected set; }
 
-    public Type(string value)
+    public String(string value)
     {
         Value = value;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitType(this, scope);
+        return visitor.VisitString(this, scope);
     }
+
 }

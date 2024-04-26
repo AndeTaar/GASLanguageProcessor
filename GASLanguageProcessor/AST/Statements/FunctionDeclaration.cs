@@ -3,7 +3,7 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class FunctionDeclaration: AstNode
+public class FunctionDeclaration: Statement
 {
     public AstNode ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }

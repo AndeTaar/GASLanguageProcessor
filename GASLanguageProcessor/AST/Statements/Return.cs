@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class Return: AstNode
+public class Return: Statement
 {
     public AstNode Expression { get; protected set; }
 

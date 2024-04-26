@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
@@ -115,8 +116,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitIfStatement(If node, Scope scope)
     {
         var condition = node.Condition.Accept(this, scope);
-        var ifScope = scope.EnterScope();
-        node.Statements.Accept(this, ifScope);
+        var ifScope = scope.EnterScope(node);
+        node.Statements?.Accept(this, ifScope);
         node.Else?.Accept(this, scope);
 
         if (condition != GasType.Boolean)
@@ -124,15 +125,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             errors.Add("Invalid type for if condition: expected: Boolean, got: " + condition);
             return GasType.Error;
         }
-
-        return GasType.Error;
-    }
-
-    public GasType VisitElseStatement(Else node, Scope scope)
-    {
-        var elseScope = scope.EnterScope();
-        node.Statements?.Accept(this, elseScope);
-        node.If?.Accept(this, scope);
 
         return GasType.Error;
     }
@@ -161,16 +153,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         var left = node.Statement1?.Accept(this, scope);
         var right = node.Statement2?.Accept(this, scope);
-
-        if (left != null)
-        {
-            return left ?? GasType.Error;
-        }
-
-        if (right != null)
-        {
-            return right ?? GasType.Error;
-        }
 
         return GasType.Error;
     }
@@ -237,7 +219,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitWhile(While node, Scope scope)
     {
         var condition = node.Condition.Accept(this, scope);
-        var whileScope = scope.EnterScope();
+        var whileScope = scope.EnterScope(node);
         node.Statements.Accept(this, whileScope);
 
         if (condition != GasType.Boolean)
@@ -251,7 +233,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitFor(For node, Scope scope)
     {
-        var scopeFor = scope.EnterScope();
+        var scopeFor = scope.EnterScope(node);
         var initializer = node.Initializer.Accept(this, scopeFor);
         var condition = node.Condition.Accept(this, scopeFor);
         var increment = node.Increment.Accept(this, scopeFor);
@@ -322,7 +304,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         var identifier = functionDeclaration.Identifier;
 
-        var funcDeclScope = scope.EnterScope();
+        var funcDeclScope = scope.EnterScope(functionDeclaration);
 
         var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this, funcDeclScope)).ToList();
 

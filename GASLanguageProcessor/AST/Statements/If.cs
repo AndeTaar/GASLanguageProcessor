@@ -4,11 +4,11 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class If : Statement
 {
-    public AstNode Condition { get; protected set; }
-    public AstNode Statements { get; protected set; }
-    public AstNode? Else { get; protected set; }
+    public Expression Condition { get; protected set; }
+    public Statement Statements { get; protected set; }
+    public Statement? Else { get; protected set; }
 
-    public If(AstNode condition, AstNode statements, AstNode @else)
+    public If(Expression condition, Statement statements, Statement @else)
     {
         Condition = condition;
         Statements = statements;

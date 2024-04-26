@@ -3,7 +3,7 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Circle : AstNode
+public class Circle : Expression
 {
     public AstNode Center { get; protected set; }
     public AstNode Radius { get; protected set; }

@@ -3,19 +3,21 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class FunctionCall: AstNode
+public class Group: Expression
 {
     public Identifier Identifier { get; protected set; }
-    public List<AstNode> Parameters { get; protected set; }
+    public List<AstNode> Terms { get; protected set; }
+    public AstNode Point { get; protected set; }
 
-    public FunctionCall(Identifier identifier, List<AstNode> parameters)
+    public Group(Identifier identifier, AstNode point, List<AstNode> terms)
     {
         Identifier = identifier;
-        Parameters = parameters;
+        Terms = terms;
+        Point = point;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitFunctionCall(this, scope);
+        return visitor.VisitGroup(this, scope);
     }
 }

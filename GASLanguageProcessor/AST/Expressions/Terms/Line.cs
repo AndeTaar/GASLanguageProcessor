@@ -2,11 +2,11 @@
 
 namespace GASLanguageProcessor.AST.Terms;
 
-public class Rectangle: AstNode
+public class Line : Expression
 {
-    public AstNode TopLeft { get; protected set; }
+    public AstNode Start { get; protected set; }
 
-    public AstNode BottomRight { get; protected set; }
+    public AstNode End { get; protected set; }
 
     public AstNode Stroke { get; protected set; }
 
@@ -14,10 +14,10 @@ public class Rectangle: AstNode
 
     public AstNode? StrokeColour { get; protected set; }
 
-    public Rectangle(AstNode topLeft, AstNode bottomRight, AstNode stroke, AstNode? colour, AstNode? strokeColour)
+    public Line(AstNode start, AstNode end, AstNode stroke, AstNode? colour, AstNode? strokeColour)
     {
-        TopLeft = topLeft;
-        BottomRight = bottomRight;
+        Start = start;
+        End = end;
         Stroke = stroke;
         Colour = colour;
         StrokeColour = strokeColour;
@@ -25,6 +25,6 @@ public class Rectangle: AstNode
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitRectangle(this, scope);
+        return visitor.VisitLine(this, scope);
     }
 }

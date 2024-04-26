@@ -5,6 +5,7 @@ namespace GASLanguageProcessor.TableType;
 public class Scope
 {
     public Scope? ParentScope { get; set; }
+    public AstNode? ScopeNode { get; set; }
 
     public List<Scope> Scopes { get; set; } = new();
 
@@ -12,12 +13,19 @@ public class Scope
 
     public VariableTable vTable { get; set; }
 
-    public Scope(Scope? parentScope)
+    public Scope(Scope? parentScope, AstNode? node)
     {
         fTable = new FunctionTable(this);
         vTable = new VariableTable(this);
 
         ParentScope = parentScope;
+
+        ScopeNode = node;
+
+        if (node != null)
+        {
+            node.Scope = this;
+        }
 
         if (ParentScope == null)
         {
@@ -39,9 +47,9 @@ public class Scope
         }
     }
 
-    public Scope EnterScope()
+    public Scope EnterScope(AstNode node)
     {
-        var scope = new Scope(this);
+        var scope = new Scope(this, node);
         Scopes.Add(scope);
         return scope;
     }

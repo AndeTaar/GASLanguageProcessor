@@ -16,9 +16,8 @@ elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) expression  ';' assignment ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
-parameterAccess : IDENTIFIER '.' IDENTIFIER;
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
-functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* returnStatement? '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement | returnStatement)* ? '}';
 
 //Collection types
 collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
@@ -40,6 +39,7 @@ listAccessExpression : term ('[' expression ']')?;
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS;
+parameterAccess : IDENTIFIER '.' IDENTIFIER;
 
 listTerm : '{' (expression (',' expression)*)? '}';
 groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')' ';';

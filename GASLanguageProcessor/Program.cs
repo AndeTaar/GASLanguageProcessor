@@ -4,6 +4,7 @@ using GASLanguageProcessor.TableType;
 
 Main(["Frontend/test.gas"]);
 
+
 static void Main(string[] args)
 {
     var fileContents = File.ReadAllText(args[0]);
@@ -17,7 +18,7 @@ static void Main(string[] args)
 
     AstNode ast = parseTree.Accept(new ToAstVisitor());
     var typeCheckingVisitor = new TypeCheckingAstVisitor();
-    var globalScope = new Scope(null);
+    var globalScope = new Scope(null, null);
     ast.Accept(typeCheckingVisitor, globalScope);
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
     Console.WriteLine(ast);

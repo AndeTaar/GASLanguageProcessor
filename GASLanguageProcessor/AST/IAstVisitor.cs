@@ -6,7 +6,7 @@ using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
 using String = GASLanguageProcessor.AST.Terms.String;
 using Type = GASLanguageProcessor.AST.Terms.Type;
 
-namespace GASLanguageProcessor;
+namespace GASLanguageProcessor.AST;
 
 public interface IAstVisitor<T>
 {
@@ -31,8 +31,6 @@ public interface IAstVisitor<T>
     T VisitLine(Line node, Scope scope);
 
     T VisitIfStatement(If node, Scope scope);
-
-    T VisitElseStatement(Else node, Scope scope);
 
     T VisitBoolean(Boolean node, Scope scope);
 
@@ -63,7 +61,6 @@ public interface IAstVisitor<T>
     T VisitFunctionCall(FunctionCall functionCall, Scope scope);
 
     T VisitReturn(Return @return, Scope scope);
-
 
     T VisitNull(Null @null, Scope scope);
 }

@@ -2,14 +2,14 @@
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class For : AstNode
+public class For : Statement
 {
-    public AstNode Initializer { get; protected set; }
-    public AstNode Condition { get; protected set; }
-    public AstNode Increment { get; protected set; }
-    public AstNode Body { get; protected set; }
+    public Statement Initializer { get; protected set; }
+    public Expression Condition { get; protected set; }
+    public Expression Increment { get; protected set; }
+    public Statement Body { get; protected set; }
 
-    public For(AstNode initializer, AstNode condition, AstNode increment, AstNode body)
+    public For(Statement initializer, Expression condition, Expression increment, Statement body)
     {
         Initializer = initializer;
         Condition = condition;
