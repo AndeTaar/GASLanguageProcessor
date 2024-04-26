@@ -1,11 +1,12 @@
 ﻿using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
-using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
-using String = GASLanguageProcessor.AST.Terms.String;
-using Type = GASLanguageProcessor.AST.Terms.Type;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using String = GASLanguageProcessor.AST.Expressions.Terms.String;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor;
 

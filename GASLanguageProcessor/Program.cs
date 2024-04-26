@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime ;
 using GASLanguageProcessor;
+using GASLanguageProcessor.AST;
 using GASLanguageProcessor.TableType;
 
 Main(["Frontend/test.gas"]);

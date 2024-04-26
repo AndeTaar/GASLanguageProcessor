@@ -1,7 +1,7 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.TableType;
 
-namespace GASLanguageProcessor.AST.Terms;
+namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Circle : Expression
 {

@@ -1,16 +1,18 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Statements;
 
 public class Declaration : Statement
 {
-    public AstNode Type { get; protected set; }
+    public Type Type { get; protected set; }
     public Identifier Identifier { get; protected set; }
-    public AstNode? Value { get; protected set; }
+    public Expression? Value { get; protected set; }
 
-    public Declaration(AstNode type, Identifier identifier, AstNode? value)
+    public Declaration(Type type, Identifier identifier, Expression? value)
     {
         Type = type;
         Identifier = identifier;

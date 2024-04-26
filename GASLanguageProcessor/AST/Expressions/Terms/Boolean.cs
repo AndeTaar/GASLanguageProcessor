@@ -1,6 +1,6 @@
 ﻿using GASLanguageProcessor.TableType;
 
-namespace GASLanguageProcessor.AST.Expressions;
+namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Boolean : Expression
 {

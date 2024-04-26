@@ -1,13 +1,14 @@
-﻿using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
 public class While : Statement
 {
-    public AstNode Condition { get; protected set; }
-    public AstNode Statements { get; protected set; }
+    public Expression Condition { get; protected set; }
+    public Compound Statements { get; protected set; }
 
-    public While(AstNode condition, AstNode statements)
+    public While(Expression condition, Compound statements)
     {
         Condition = condition;
         Statements = statements;

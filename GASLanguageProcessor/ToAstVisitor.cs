@@ -1,9 +1,10 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
-using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
-using String = GASLanguageProcessor.AST.Terms.String;
-using Type = GASLanguageProcessor.AST.Terms.Type;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using String = GASLanguageProcessor.AST.Expressions.Terms.String;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor;
 
@@ -71,13 +72,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitWhileStatement(GASParser.WhileStatementContext context)
     {
-        var condition = context.expression().Accept(this);
+        Expression condition = context.expression().Accept(this) as Expression;
 
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
 
-        AstNode whileBody = ToCompound(statements);
+        Compound whileBody = ToCompound(statements) as Compound;
 
         return new While(condition, whileBody);
     }
@@ -86,7 +87,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         var initializer = context.statement()[0].Accept(this) as Statement;
         var condition = context.expression().Accept(this) as Expression;
-        // Can't just accept assignment, since the initializer could be an assignment
         var increment = context.Accept(this) as Expression;
 
         var statements = context.statement()
@@ -100,14 +100,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
         if (identifier == null)
         {
             throw new Exception("Assignment context is null");
         }
 
-        var value = context.GetChild(2).Accept(this);
+        Expression value = context.expression().Accept(this) as Expression;
 
         if (value == null)
         {
@@ -130,10 +130,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
-        var type = context.type().Accept(this);
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var type = context.type().Accept(this) as Type;
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        var value = context.expression().Accept(this);
+        Expression value = context.expression().Accept(this) as Expression;
 
         return new Declaration(type, identifier, value);
     }
@@ -172,7 +172,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitReturnStatement(GASParser.ReturnStatementContext context)
     {
-        var expression = context?.expression().Accept(this);
+        Expression expression = context?.expression().Accept(this) as Expression;
         return new Return(expression);
     }
 
@@ -185,7 +185,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        var returnType = context.type()[0].Accept(this);
+        Type returnType = context.type()[0].Accept(this) as Type;
         var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
 
         var types = context.type().Skip(1).ToList();
@@ -193,13 +193,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
-            var type = typeNode.Accept(this);
+            var type = typeNode.Accept(this) as Type;
             var identif = new Identifier(identifierNode.GetText());
             return new Declaration(type, identif, null);
         }).ToList();
 
-        var returnStatement = context.returnStatement()?.Accept(this);
-        var statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList());
+        Compound returnStatement = context.returnStatement()?.Accept(this) as Compound;
+        Compound statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList()) as Compound;
         return new FunctionDeclaration(identifier, parameters, statements,  returnStatement, returnType);
     }
 

@@ -1,7 +1,6 @@
-﻿using GASLanguageProcessor.AST;
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.TableType;
 
-namespace GASLanguageProcessor;
+namespace GASLanguageProcessor.AST;
 
 public abstract class AstNode
 {

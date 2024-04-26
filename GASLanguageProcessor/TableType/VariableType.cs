@@ -1,13 +1,14 @@
-﻿using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.TableType;
 
 public class VariableType
 {
     public GasType Type { get; protected set; }
-    public AstNode Value { get; protected set; }
+    public Expression Value { get; protected set; }
 
-    public VariableType(GasType type, AstNode value)
+    public VariableType(GasType type, Expression value)
     {
         Type = type;
         Value = value;

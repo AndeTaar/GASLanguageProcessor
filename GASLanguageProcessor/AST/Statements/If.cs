@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 

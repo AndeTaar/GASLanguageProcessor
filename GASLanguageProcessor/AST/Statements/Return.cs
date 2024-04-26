@@ -1,12 +1,13 @@
-﻿using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
 public class Return: Statement
 {
-    public AstNode Expression { get; protected set; }
+    public Expression Expression { get; protected set; }
 
-    public Return(AstNode expression)
+    public Return(Expression expression)
     {
         Expression = expression;
     }

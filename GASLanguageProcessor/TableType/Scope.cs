@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.TableType;
 
