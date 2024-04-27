@@ -53,12 +53,20 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         Compound? elseBody = @else as Compound;
 
-        If? @if = @else as If;
-
-        if(@else != null && (elseBody == null && @if == null))
-        {
-            throw new Exception("Else is not a compound or if statement");
-        }
+        If? @if = @else as If; // God forgive me for this
+        
+        // What was the intention with this code?
+        /* Try this
+           if (true) {
+               number x = 0;
+           } else {
+               number y = 2;
+           } 
+         */
+        // if(@else != null && (elseBody == null && @if == null))
+        // {
+        //     throw new Exception("Else is not a compound or if statement");
+        // }
 
         return new If(condition, ifBody, @if != null ? @if : elseBody);
     }

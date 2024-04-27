@@ -1,5 +1,7 @@
 ﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
 
-if (x > 4 || 2 < 9) {
-  x = 8;
+if (true) {
+    number x = 0;
+} else {
+    number y = 2;
 } 

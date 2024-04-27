@@ -1,5 +1,5 @@
 ﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
 
-if (x > 4 || 2 < 9) {
-  x = 8;
-} 
+for (number i = 0; i < 10; i = i + 1;) {
+    number x = i;
+}

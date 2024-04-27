@@ -6,5 +6,8 @@
     &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitCanvas.FailVisitCanvas&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitProgram.PassVisitProgram&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitIfStatement.PassVisitIfStatement&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitElseStatement.PassVisitElseStatement&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitWhileStatement.PassVisitWhileStatement&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitForStatement.PassVisitForStatement&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
