@@ -235,14 +235,15 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitFor(For node, Scope scope)
     {
         var scopeFor = scope.EnterScope(node);
-        var initializer = node.Initializer.Accept(this, scopeFor);
+        var assignment = node.Assignment?.Accept(this, scopeFor);
+        var declaration = node.Declaration?.Accept(this, scopeFor);
         var condition = node.Condition.Accept(this, scopeFor);
         var increment = node.Increment.Accept(this, scopeFor);
         node.Body.Accept(this, scopeFor);
 
-        if(initializer != GasType.Number)
+        if(assignment != GasType.Number && declaration != GasType.Number)
         {
-            errors.Add("Invalid type for for initializer: expected: Number, got: " + initializer);
+            errors.Add("Invalid type for for initializer: expected: Number, got: " + (declaration == null ? declaration : assignment));
             return GasType.Error;
         }
 

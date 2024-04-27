@@ -85,9 +85,17 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitForStatement(GASParser.ForStatementContext context)
     {
-        var initializer = context.statement()[0].Accept(this) as Statement;
+        var declaration = context.declaration()?.Accept(this) as Declaration;
+        var assignment = context.assignment()[0].Accept(this) as Assignment;
+
+        Assignment assignment2 = null;
+
+        if (declaration == null)
+        {
+            assignment2 = context.assignment()[1].Accept(this) as Assignment;
+        }
+
         var condition = context.expression().Accept(this) as Expression;
-        var increment = context.Accept(this) as Expression;
 
         var statements = context.statement()
             .Select(s => s.Accept(this))
@@ -95,7 +103,12 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         Compound forBody = ToCompound(statements) as Compound;
 
-        return new For(initializer, condition, increment, forBody);
+        if (declaration != null)
+        {
+            return new For(declaration, condition, assignment, forBody);
+        }
+
+        return new For(assignment, condition, assignment2, forBody);
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
