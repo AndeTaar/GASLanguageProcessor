@@ -9,15 +9,15 @@ public class FunctionDeclaration: Statement
     public Type ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }
     public List<Declaration> Declarations { get; protected set; }
-    public Statement? ReturnStatement { get; protected set; }
-    public Compound Statements { get; protected set; }
+    public Compound? ReturnStatements { get; protected set; }
+    public Compound? Statements { get; protected set; }
 
-    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, Compound statements, Statement? returnStatement, Type returnType)
+    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, Compound? statements, Compound? returnStatements, Type returnType)
     {
         Identifier = identifier;
         Declarations = declarations;
         Statements = statements;
-        ReturnStatement = returnStatement;
+        ReturnStatements = returnStatements;
         ReturnType = returnType;
     }
 
