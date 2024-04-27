@@ -310,7 +310,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this, funcDeclScope)).ToList();
 
-        var returnStatement = functionDeclaration.ReturnStatement?.Accept(this, funcDeclScope);
+        var returnStatement = functionDeclaration.ReturnStatements?.Accept(this, funcDeclScope);
 
         if (returnType != returnStatement && returnType != GasType.Null && returnStatement != GasType.Null && returnType != GasType.Void)
         {

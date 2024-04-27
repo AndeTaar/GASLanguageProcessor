@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Daniel/CLionProjects/terminalgraphics/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -92,12 +92,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitReturnStatement([NotNull] GASParser.ReturnStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.parameterAccess"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitParameterAccess([NotNull] GASParser.ParameterAccessContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.classDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -169,6 +163,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitTerm([NotNull] GASParser.TermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.parameterAccess"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameterAccess([NotNull] GASParser.ParameterAccessContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.listTerm"/>.
 	/// </summary>

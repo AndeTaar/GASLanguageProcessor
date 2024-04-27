@@ -211,9 +211,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return new Declaration(type, identif, null);
         }).ToList();
 
-        Compound returnStatement = context.returnStatement()?.Accept(this) as Compound;
         Compound statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList()) as Compound;
-        return new FunctionDeclaration(identifier, parameters, statements,  returnStatement, returnType);
+        Compound returnStatements = ToCompound(context.returnStatement().Select(stmt => stmt.Accept(this)).ToList()) as Compound;
+        return new FunctionDeclaration(identifier, parameters, statements,  returnStatements, returnType);
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
