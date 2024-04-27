@@ -3,7 +3,7 @@ using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.TableType;
 
-Main(["Frontend/test.gas"]);
+Main(new string[] {"Frontend/test.gas"});
 
 
 static void Main(string[] args)
