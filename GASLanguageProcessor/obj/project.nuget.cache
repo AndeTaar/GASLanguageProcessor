@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "4drU5E/kDzG74z3xAFrLYJNQbZ8i7g1OvFwwCQKsS5TEbOx1peCFFbQ3awVEWN781Sec8dGpw6aq9a7tZvn7Pg==",
+  "dgSpecHash": "qNP3pAbxQwG8NanTLkBRakH2+np701fNsM5f380sT70g5Arrl9cF93BRoD58IyjfBbnXY91Acs3/dTM9/jJd/A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+  "projectFilePath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Daniel\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
+    "/home/chris/.nuget/packages/antlr4.runtime.standard/4.13.1/antlr4.runtime.standard.4.13.1.nupkg.sha512",
+    "/home/chris/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.3/microsoft.aspnetcore.app.ref.8.0.3.nupkg.sha512"
   ],
   "logs": []
 }

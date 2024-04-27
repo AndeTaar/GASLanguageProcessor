@@ -337,6 +337,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var identifier = functionCall.Identifier;
 
         var parameterTypes = new List<GasType>();
+        
         foreach (var parameter in functionCall.Parameters)
         {
             parameterTypes.Add(parameter.Accept(this, scope));
@@ -349,20 +350,19 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-
-        bool error = false;
+        if (type.ParameterTypes.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + type.ParameterTypes.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
+        
         for (int i = 0; i < type.ParameterTypes.Count; i++)
         {
             if (type.ParameterTypes[i] != parameterTypes[i])
             {
                 errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.ParameterTypes[i] + " got: " + parameterTypes[i]);
-                error = true;
+                return GasType.Error;
             }
-        }
-
-        if (error)
-        {
-            return GasType.Error;
         }
 
         return type.ReturnType;
