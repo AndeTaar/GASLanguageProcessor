@@ -129,17 +129,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        if (identifier == null)
-        {
-            throw new Exception("Assignment context is null");
-        }
-
         Expression value = context.expression().Accept(this) as Expression;
-
-        if (value == null)
-        {
-            throw new Exception("Expression is null");
-        }
+        
         return new Assignment(identifier, value);
     }
 

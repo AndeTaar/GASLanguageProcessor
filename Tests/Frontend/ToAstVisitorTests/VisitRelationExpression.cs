@@ -1,40 +1,41 @@
 using Antlr4.Runtime;
 using GASLanguageProcessor;
-using GASLanguageProcessor.AST.Statements;
-using Xunit.Abstractions;
+using GASLanguageProcessor.AST.Expressions;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 
 namespace Tests.Frontend.ToAstVisitorTests;
 
-public class VisitCanvas
+public class VisitRelationExpression
 {
     [Fact]
-    public void PassVisitCanvas()
+    public void PassVisitRelationExpression()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));");
+            "1 < 2");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
-        var context = parser.canvas();
-        var result = visitor.VisitCanvas(context);
+        var context = parser.relationExpression();
+        var result = visitor.VisitRelationExpression(context);
         
         Assert.NotNull(result);
-        Assert.IsType<Canvas>(result);
+        Assert.IsType<BinaryOp>(result);
     }
     
     [Fact]
-    public void FailVisitCanvas()
+    public void PassVisitRelationExpressionWithOneChild()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50);");
+            "true");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
-        var context = parser.canvas();
+        var context = parser.relationExpression();
+        var result = visitor.VisitRelationExpression(context);
         
-        var exception = Assert.Throws<Exception>(() => visitor.VisitCanvas(context));
-        Assert.Equal("Background colour is null", exception.Message);
+        Assert.NotNull(result);
+        Assert.IsType<Boolean>(result);
     }
 }
