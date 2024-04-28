@@ -22,11 +22,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitCanvas(GASParser.CanvasContext context)
     {
-        AstNode width = context.expression()[0].Accept(this);
+        var width = context.expression()[0].Accept(this) as Expression;
 
-        AstNode height = context.expression()[1].Accept(this);
+        var height = context.expression()[1].Accept(this) as Expression;
 
-        AstNode backgroundColour = context.expression()[2]?.Accept(this)!;
+        var backgroundColour = context.expression()[2]?.Accept(this)! as Expression;
 
         if(backgroundColour == null)
         {

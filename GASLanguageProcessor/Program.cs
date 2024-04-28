@@ -24,5 +24,7 @@ static void Main(string[] args)
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
     Interpreter interpreter = new Interpreter();
     interpreter.EvaluateStatement(ast as Statement, globalScope);
+    SvgGenerator svgGenerator = new SvgGenerator();
+    svgGenerator.GenerateSvg(globalScope.vTable);
     Console.WriteLine(ast);
 }

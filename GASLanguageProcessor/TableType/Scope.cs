@@ -13,7 +13,7 @@ public class Scope
     public Scope? ParentScope { get; set; }
     public AstNode? ScopeNode { get; set; }
 
-    public List<Scope> Scopes { get; set; } = new();
+    public static List<Scope> Scopes { get; set; } = new();
 
     public FunctionTable fTable { get; set; }
 
@@ -107,13 +107,13 @@ public class Scope
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
             {
                 new Variable("topLeft", GasType.Point),
-                new Variable("size", GasType.Number),
+                new Variable("length", GasType.Number),
                 new Variable("stroke", GasType.Number),
                 new Variable("colour", GasType.Colour),
                 new Variable("strokeColour", GasType.Colour)
             }, new Return(new Square(
                 new Identifier("topLeft"),
-                new Identifier("size"),
+                new Identifier("length"),
                 new Identifier("stroke"),
                 new Identifier("colour"),
                 new Identifier("strokeColour")

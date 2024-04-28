@@ -170,15 +170,28 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitCanvas(Canvas node, Scope scope)
     {
-        var width = node.Width;
-        var height = node.Height;
+        var width = node.Width.Accept(this, scope);
+        var height = node.Height.Accept(this, scope);
+        
+        if (width != GasType.Number)
+        {
+            errors.Add("Invalid width type");
+            return GasType.Error;
+        }
+        
+        if (height != GasType.Number)
+        {
+            errors.Add("Invalid height type");
+            return GasType.Error;
+        }
+        
         var backgroundColourType = node.BackgroundColour.Accept(this, scope);
         if (backgroundColourType != GasType.Colour)
         {
             errors.Add("Invalid background colour type");
             return GasType.Error;
         }
-
+        
         return GasType.Canvas;
     }
 
