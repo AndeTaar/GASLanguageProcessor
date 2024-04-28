@@ -41,7 +41,7 @@ group mouse = Group(Point(100, 50),
     });
 });
 
-colour red = Colour(255, 0, 0, 1);
+colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
 line aline = Line(xy, Point(200 * 10, 200), 10, red, black);
 line line1 = Line(Point(200, 0), Point(0, 200), 10, red, black);

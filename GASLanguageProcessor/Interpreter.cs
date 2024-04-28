@@ -84,8 +84,11 @@ public class Interpreter
                 return float.Parse(number.Value);
 
             case Colour colour:
-                return new { red = EvaluateExpression(colour.Red, scope), green = EvaluateExpression(colour.Green, scope),
-                    blue = EvaluateExpression(colour.Blue, scope), alpha = EvaluateExpression(colour.Alpha, scope) };
+                var red = (float)EvaluateExpression(colour.Red, scope);
+                var green = (float)EvaluateExpression(colour.Green, scope);
+                var blue = (float)EvaluateExpression(colour.Blue, scope);
+                var alpha = (float)EvaluateExpression(colour.Alpha, scope);
+                return new {red, green, blue, alpha};
         }
 
         return null;
