@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/chris/desktop/coding/p4/GASLanguageProcessor/Tests/Tests.csproj": {}
+    "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
+    "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
-        "packagesPath": "/home/chris/.nuget/packages/",
-        "outputPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/obj/",
+        "projectPath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/chris/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -54,45 +61,41 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.3, 8.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/chris/desktop/coding/p4/GASLanguageProcessor/Tests/Tests.csproj": {
+    "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/chris/desktop/coding/p4/GASLanguageProcessor/Tests/Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\Tests\\Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/Tests/Tests.csproj",
-        "packagesPath": "/home/chris/.nuget/packages/",
-        "outputPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/Tests/obj/",
+        "projectPath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\Tests\\Tests.csproj",
+        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/chris/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
-                "projectPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj"
+              "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+                "projectPath": "C:\\Users\\Daniel\\CLionProjects\\terminalgraphics\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj"
               }
             }
           }
@@ -101,6 +104,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -135,18 +143,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.3, 8.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -28,7 +28,7 @@ public class VisitCanvas
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "if (x > 4 || 2 < 9) {\n  x = 8;\n}");
+            "canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);

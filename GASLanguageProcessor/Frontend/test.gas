@@ -1,4 +1,4 @@
-﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
+﻿
 number x = 0;
 colour green = Colour(0, 255, 0, 1);
 colour black = Colour(0, 0, 0, 1);

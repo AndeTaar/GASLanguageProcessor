@@ -1,4 +1,10 @@
-﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
+﻿
+number x = 0;
+colour green = Colour(0, 255, 0, 1);
+colour black = Colour(0, 0, 0, 1);
+colour white = Colour(255, 255, 255, 1);
+square firkant = Square(Point(10,10), 180, green, black);
+text txt = Text(Point(0,0), "Its even worse for mouses!", 14, "Arial", black);
 
 
 for(number i = 0; x < 10; x = x + 1;)
