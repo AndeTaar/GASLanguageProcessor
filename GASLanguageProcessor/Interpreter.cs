@@ -5,13 +5,12 @@ using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
+using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 
 namespace GASLanguageProcessor;
 
 public class Interpreter
 {
-    Dictionary<string, object> values = new();
-
     public object EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
@@ -21,7 +20,7 @@ public class Interpreter
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
                 return null;
             case FunctionDeclaration functionDeclaration:
-                return EvaluateStatement(functionDeclaration.Statements, functionDeclaration.Scope ?? scope);;
+                return null;
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, declaration.Scope ?? scope);
                 var identifier = declaration.Identifier.Name;
@@ -31,7 +30,7 @@ public class Interpreter
                     Console.WriteLine($"Variable {identifier} not found");
                     return null;
                 }
-                values[identifier] = val;
+                variable.ActualValue = val;
                 return val;
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
@@ -51,6 +50,7 @@ public class Interpreter
                     throw new Exception($"Function {functionCall.Identifier.Name} not found");
                 }
                 var functionScope = function.Scope;
+                functionScope.vTable.Variables.Clear();
                 for (var i = 0; i < functionCall.Arguments.Count; i++)
                 {
                     var val = EvaluateExpression(functionCall.Arguments[i], functionScope);
@@ -91,6 +91,9 @@ public class Interpreter
             case Number number:
                 return float.Parse(number.Value);
 
+            case String stringTerm:
+                return stringTerm.Value;
+
             case Colour colour:
                 var red = (float)EvaluateExpression(colour.Red, scope);
                 var green = (float)EvaluateExpression(colour.Green, scope);
@@ -106,11 +109,27 @@ public class Interpreter
             case Square square:
                 var topLeft = EvaluateExpression(square.TopLeft, scope);
                 var bottomRight = EvaluateExpression(square.BottomRight, scope);
-                var stroke = (float) EvaluateExpression(square.Stroke, scope);
-                var fillColour = EvaluateExpression(square.Colour, scope);
-                var strokeColour = EvaluateExpression(square.StrokeColour, scope);
-                return new { topLeft, bottomRight, stroke, fillColour, strokeColour };
-            }
+                var strokeSize = (float) EvaluateExpression(square.Stroke, scope);
+                var squareFillColour = EvaluateExpression(square.Colour, scope);
+                var squareStrokeColour = EvaluateExpression(square.StrokeColour, scope);
+                return new { topLeft, bottomRight, strokeSize, squareFillColour, squareStrokeColour };
+
+            case Text text:
+                var value = (string) EvaluateExpression(text.Value, scope);
+                var position = EvaluateExpression(text.Position, scope);
+                var font = (string) EvaluateExpression(text.Font, scope);
+                var fontSize = (float) EvaluateExpression(text.FontSize, scope);
+                var textColour = EvaluateExpression(text.Colour, scope);
+                return new { value, position, font, fontSize, textColour };
+
+            case Circle circle:
+                var centre = EvaluateExpression(circle.Center, scope);
+                var radius = (float) EvaluateExpression(circle.Radius, scope);
+                var stroke = (float) EvaluateExpression(circle.Stroke, scope);
+                var fillColour = EvaluateExpression(circle.Colour, scope);
+                var strokeColour = EvaluateExpression(circle.StrokeColour, scope);
+                return new { centre, radius, stroke, fillColour, strokeColour };
+        }
 
         return null;
     }

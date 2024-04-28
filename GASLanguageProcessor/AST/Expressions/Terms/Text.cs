@@ -8,9 +8,9 @@ public class Text: Term
     public Expression Position { get; protected set; }
     public Expression Font { get; protected set; }
     public Expression FontSize { get; protected set; }
-    public Expression? Colour { get; protected set; }
+    public Expression Colour { get; protected set; }
 
-    public Text(Expression value, Expression position, Expression font, Expression fontSize, Expression? colour)
+    public Text(Expression value, Expression position, Expression font, Expression fontSize, Expression colour)
     {
         Value = value;
         Position = position;

@@ -118,17 +118,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        if (identifier == null)
-        {
-            throw new Exception("Assignment context is null");
-        }
-
         Expression value = context.expression().Accept(this) as Expression;
 
-        if (value == null)
-        {
-            throw new Exception("Expression is null");
-        }
         return new Assignment(identifier, value);
     }
 
@@ -214,8 +205,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return new Declaration(type, identif, null);
         }).ToList();
 
-        Compound statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList()) as Compound;
-        return new FunctionDeclaration(identifier, parameters, statements, returnType);
+        var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
+        var body = ToCompound(statements);
+        return new FunctionDeclaration(identifier, parameters, body, returnType);
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)

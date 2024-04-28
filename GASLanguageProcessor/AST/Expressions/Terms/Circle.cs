@@ -9,17 +9,17 @@ public class Circle : Term
 
     public Expression Radius { get; protected set; }
 
-    public Expression StrokeWidth { get; protected set; }
+    public Expression Stroke { get; protected set; }
 
     public Expression Colour { get; protected set; }
 
     public Expression StrokeColour { get; protected set; }
 
-    public Circle(Expression center, Expression radius, Expression strokeWidth, Expression colour, Expression strokeColour)
+    public Circle(Expression center, Expression radius, Expression stroke, Expression colour, Expression strokeColour)
     {
         Center = center;
         Radius = radius;
-        StrokeWidth = strokeWidth;
+        Stroke = stroke;
         Colour = colour;
         StrokeColour = strokeColour;
     }
