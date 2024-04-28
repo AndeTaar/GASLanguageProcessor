@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
-functionDeclaration | groupDeclaration | forStatement;
+functionDeclaration | groupDeclaration | forStatement | returnStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
@@ -17,7 +17,7 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) expression  ';' assignment ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
-functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement | returnStatement)* ? '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
 //Collection types
 collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';

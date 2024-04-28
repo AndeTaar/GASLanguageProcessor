@@ -4,11 +4,11 @@ namespace GASLanguageProcessor.AST.Expressions;
 
 public class BinaryOp : Expression
 {
-    public AstNode Left { get; protected set; }
-    public AstNode Right { get; protected set; }
+    public Expression Left { get; protected set; }
+    public Expression Right { get; protected set; }
     public string Op { get; protected set; }
 
-    public BinaryOp(AstNode left, string op, AstNode right)
+    public BinaryOp(Expression left, string op, Expression right)
     {
         Left = left;
         Op = op;

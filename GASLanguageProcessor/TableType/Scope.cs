@@ -1,4 +1,9 @@
-﻿using GASLanguageProcessor.AST;
+﻿using System;
+using System.Collections.Generic;
+using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.TableType;
@@ -31,20 +36,27 @@ public class Scope
         if (ParentScope == null)
         {
             fTable.Bind("Colour",
-                new FunctionType(GasType.Colour,
-                    new List<GasType> { GasType.Number, GasType.Number, GasType.Number, GasType.Number }));
+                new Function(GasType.Colour,
+                    new List<Variable> { new Variable("red", GasType.Number),  new Variable("green", GasType.Number),
+                        new Variable("blue", GasType.Number),  new Variable("alpha", GasType.Number) },
+                    new Compound(new Return(new Colour(
+                        new Identifier("red"),
+                        new Identifier("green"),
+                        new Identifier("blue"),
+                        new Identifier("alpha")
+                    }))));
             fTable.Bind("Point",
-                new FunctionType(GasType.Point, new List<GasType> { GasType.Number, GasType.Number }));
+                new Function(GasType.Point, new List<GasType> { GasType.Number, GasType.Number }));
             fTable.Bind("Square",
-                new FunctionType(GasType.Square, new List<GasType> { GasType.Point, GasType.Number, GasType.Colour, GasType.Colour }));
+                new Function(GasType.Square, new List<GasType> { GasType.Point, GasType.Number, GasType.Colour, GasType.Colour }));
             fTable.Bind("Circle",
-                new FunctionType(GasType.Circle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
+                new Function(GasType.Circle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
             fTable.Bind("Line",
-                new FunctionType(GasType.Line, new List<GasType> { GasType.Point, GasType.Point, GasType.Number, GasType.Colour }));
+                new Function(GasType.Line, new List<GasType> { GasType.Point, GasType.Point, GasType.Number, GasType.Colour }));
             fTable.Bind("Rectangle",
-                new FunctionType(GasType.Rectangle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
+                new Function(GasType.Rectangle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
             fTable.Bind("Text",
-                new FunctionType(GasType.Text, new List<GasType> { GasType.Point, GasType.String, GasType.Number, GasType.String, GasType.Colour }));
+                new Function(GasType.Text, new List<GasType> { GasType.Point, GasType.String, GasType.Number, GasType.String, GasType.Colour }));
         }
     }
 

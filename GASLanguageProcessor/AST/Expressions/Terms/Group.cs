@@ -1,9 +1,10 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using System.Collections.Generic;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Group: Expression
+public class Group: Term
 {
     public Identifier Identifier { get; protected set; }
     public List<AstNode> Terms { get; protected set; }

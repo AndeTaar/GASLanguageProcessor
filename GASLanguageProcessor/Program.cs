@@ -22,5 +22,7 @@ static void Main(string[] args)
     var globalScope = new Scope(null, null);
     ast.Accept(typeCheckingVisitor, globalScope);
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
+    Interpreter interpreter = new Interpreter();
+    interpreter.EvaluateStatement(ast as Statement, globalScope);
     Console.WriteLine(ast);
 }
