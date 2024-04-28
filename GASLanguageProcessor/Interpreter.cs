@@ -5,36 +5,43 @@ using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
+using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
 
 namespace GASLanguageProcessor;
 
 public class Interpreter
 {
-    public void EvaluateStatement(Statement statement, Scope scope)
+    Dictionary<string, object> values = new();
+
+    public object EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
         {
             case Compound compound:
                 EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
-                return;
+                return null;
             case FunctionDeclaration functionDeclaration:
-                EvaluateStatement(functionDeclaration.Statements, functionDeclaration.Scope ?? scope);
-            return;
+                return EvaluateStatement(functionDeclaration.Statements, functionDeclaration.Scope ?? scope);;
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, declaration.Scope ?? scope);
                 var identifier = declaration.Identifier.Name;
                 var variable = scope.vTable.LookUp(identifier);
                 if (variable == null)
                 {
-                    throw new Exception($"Variable {identifier} not found");
+                    Console.WriteLine($"Variable {identifier} not found");
+                    return null;
                 }
-                variable.Value = val;
-                return;
+                values[identifier] = (float)val;
+                return val;
+            case Return returnStatement:
+                return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
         }
+
+        return null;
     }
 
-    public Term EvaluateExpression(Expression expression, Scope scope)
+    public object EvaluateExpression(Expression expression, Scope scope)
     {
         switch (expression)
         {
@@ -44,33 +51,41 @@ public class Interpreter
                 {
                     throw new Exception($"Function {functionCall.Identifier.Name} not found");
                 }
-                var functionScope = functionCall.Scope;
+                var functionScope = function.Scope;
                 for (var i = 0; i < functionCall.Arguments.Count; i++)
                 {
                     var val = EvaluateExpression(functionCall.Arguments[i], functionScope);
                     var identifier = function.Parameters[i].Identifier;
-                    var type = function.Parameters[i].Type;
-                    functionScope.vTable.Bind(identifier, new Variable(identifier, type, val));
+                    values[identifier] = val;
                 }
-                EvaluateStatement(function.Statements, functionScope);
-                return null;
+                return EvaluateStatement(function.Statements, functionScope);
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, binaryOp.Scope ?? scope);
                 var right = EvaluateExpression(binaryOp.Right, binaryOp.Scope ?? scope);
+
                 return binaryOp.Op switch
                 {
-                    "+" => (dynamic)left + (dynamic)right,
-                    "-" => (dynamic)left - (dynamic)right,
-                    "*" => (dynamic)left * (dynamic)right,
-                    "/" => (dynamic)left / (dynamic)right,
+                    "+" => binaryOp.Type switch
+                    {
+                        GasType.Number => (float)left + (float)right,
+                        GasType.String => (string)left + (string)right,
+                        _ => throw new NotImplementedException()
+                    },
+                    "-" => (float)left - (float)right,
+                    "*" => (float)left * (float)right,
+                    "/" => (float)left / (float)right,
                     _ => throw new NotImplementedException()
                 };
 
             case Identifier identifier:
-                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.Value, scope);
+                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.Expression, scope);
 
             case Number number:
-                return number;
+                return float.Parse(number.Value);
+
+            case Colour colour:
+                return new { red = EvaluateExpression(colour.Red, scope), green = EvaluateExpression(colour.Green, scope),
+                    blue = EvaluateExpression(colour.Blue, scope), alpha = EvaluateExpression(colour.Alpha, scope) };
         }
 
         return null;

@@ -49,4 +49,18 @@ public interface IAstVisitor<T>
     T VisitReturn(Return @return, Scope scope);
 
     T VisitNull(Null @null, Scope scope);
+
+    T VisitLine(Line line, Scope scope);
+
+    T VisitText(Text text, Scope scope);
+
+    T VisitCircle(Circle circle, Scope scope);
+
+    T VisitRectangle(Rectangle rectangle, Scope scope);
+
+    T VisitPoint(Point point, Scope scope);
+
+    T VisitColour(Colour colour, Scope scope);
+
+    T VisitSquare(Square square, Scope scope);
 }

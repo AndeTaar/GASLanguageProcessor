@@ -5,12 +5,12 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Colour: Expression
 {
-    public Number Red { get; protected set; }
-    public Number Green { get; protected set; }
-    public Number Blue { get; protected set; }
-    public Number Alpha { get; protected set; }
+    public Expression Red { get; protected set; }
+    public Expression Green { get; protected set; }
+    public Expression Blue { get; protected set; }
+    public Expression Alpha { get; protected set; }
 
-    public Colour(Number red, Number green, Number blue, Number alpha)
+    public Colour(Expression red, Expression green, Expression blue, Expression alpha)
     {
         Red = red;
         Green = green;

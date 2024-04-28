@@ -79,7 +79,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitNumber(Number node, Scope scope)
     {
-    return GasType.Number;
+        return GasType.Number;
     }
 
     public GasType VisitIfStatement(If node, Scope scope)
@@ -279,7 +279,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             decl.Accept(this, funcDeclScope), null)).ToList();
 
         var statements = functionDeclaration.Statements;
-        scope.fTable.Bind(identifier.Name, new Function(returnType, parameters, statements));
+        scope.fTable.Bind(identifier.Name, new Function(returnType, parameters, statements, funcDeclScope));
 
         return returnType;
     }
@@ -292,6 +292,41 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitNull(Null @null, Scope scope)
     {
         return GasType.Null;
+    }
+
+    public GasType VisitLine(Line line, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitText(Text text, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitCircle(Circle circle, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitRectangle(Rectangle rectangle, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitPoint(Point point, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitColour(Colour colour, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitSquare(Square square, Scope scope)
+    {
+        throw new NotImplementedException();
     }
 
     public GasType VisitFunctionCall(FunctionCall functionCall, Scope scope)
@@ -311,6 +346,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
+        if (type.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + type.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
 
         bool error = false;
         for (int i = 0; i < type.Parameters.Count; i++)

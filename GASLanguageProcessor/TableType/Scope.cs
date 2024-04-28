@@ -37,26 +37,102 @@ public class Scope
         {
             fTable.Bind("Colour",
                 new Function(GasType.Colour,
-                    new List<Variable> { new Variable("red", GasType.Number),  new Variable("green", GasType.Number),
-                        new Variable("blue", GasType.Number),  new Variable("alpha", GasType.Number) },
-                    new Compound(new Return(new Colour(
+                    new List<Variable>
+                    {
+                        new Variable("red", GasType.Number), new Variable("green", GasType.Number),
+                        new Variable("blue", GasType.Number), new Variable("alpha", GasType.Number)
+                    },
+                    new Return(new Colour(
                         new Identifier("red"),
                         new Identifier("green"),
                         new Identifier("blue"),
-                        new Identifier("alpha")
-                    }))));
-            fTable.Bind("Point",
-                new Function(GasType.Point, new List<GasType> { GasType.Number, GasType.Number }));
-            fTable.Bind("Square",
-                new Function(GasType.Square, new List<GasType> { GasType.Point, GasType.Number, GasType.Colour, GasType.Colour }));
-            fTable.Bind("Circle",
-                new Function(GasType.Circle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
-            fTable.Bind("Line",
-                new Function(GasType.Line, new List<GasType> { GasType.Point, GasType.Point, GasType.Number, GasType.Colour }));
-            fTable.Bind("Rectangle",
-                new Function(GasType.Rectangle, new List<GasType> { GasType.Point, GasType.Number, GasType.Number, GasType.Colour, GasType.Colour }));
-            fTable.Bind("Text",
-                new Function(GasType.Text, new List<GasType> { GasType.Point, GasType.String, GasType.Number, GasType.String, GasType.Colour }));
+                        new Identifier("alpha"))),
+                this));
+
+            fTable.Bind("Point", new Function(GasType.Point, new List<Variable>()
+                {
+                    new Variable("x", GasType.Number),
+                    new Variable("y", GasType.Number)
+                },
+                new Return(new Point(
+                    new Identifier("x"),
+                    new Identifier("y"))),
+                this));
+            fTable.Bind("Rectangle", new Function(GasType.Rectangle, new List<Variable>()
+                {
+                    new Variable("topLeft", GasType.Point),
+                    new Variable("bottomRight", GasType.Point),
+                    new Variable("stroke", GasType.Number),
+                    new Variable("colour", GasType.Colour),
+                    new Variable("strokeColour", GasType.Colour)
+                },
+                new Return(new Rectangle(
+                    new Identifier("topLeft"),
+                    new Identifier("bottomRight"),
+                    new Identifier("stroke"),
+                    new Identifier("colour"),
+                    new Identifier("strokeColour"))),
+                this));
+
+            fTable.Bind("Text", new Function(GasType.Text, new List<Variable>()
+            {
+                new Variable("value", GasType.String),
+                new Variable("position", GasType.Point),
+                new Variable("font", GasType.String),
+                new Variable("fontSize", GasType.Number),
+                new Variable("colour", GasType.Colour)
+            }, new Return(new Text(
+                new Identifier("value"),
+                new Identifier("position"),
+                new Identifier("font"),
+                new Identifier("fontSize"),
+                new Identifier("colour")
+            )), this));
+
+            fTable.Bind("Line", new Function(GasType.Line, new List<Variable>()
+            {
+                new Variable("start", GasType.Point),
+                new Variable("end", GasType.Point),
+                new Variable("stroke", GasType.Number),
+                new Variable("colour", GasType.Colour),
+                new Variable("strokeColour", GasType.Colour)
+            }, new Return(new Line(
+                new Identifier("start"),
+                new Identifier("end"),
+                new Identifier("stroke"),
+                new Identifier("colour"),
+                new Identifier("strokeColour")
+            )), this));
+
+            fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
+            {
+                new Variable("topLeft", GasType.Point),
+                new Variable("size", GasType.Number),
+                new Variable("stroke", GasType.Number),
+                new Variable("colour", GasType.Colour),
+                new Variable("strokeColour", GasType.Colour)
+            }, new Return(new Square(
+                new Identifier("topLeft"),
+                new Identifier("size"),
+                new Identifier("stroke"),
+                new Identifier("colour"),
+                new Identifier("strokeColour")
+            )), this));
+
+            fTable.Bind("Circle", new Function(GasType.Circle, new List<Variable>()
+            {
+                new Variable("centre", GasType.Point),
+                new Variable("radius", GasType.Number),
+                new Variable("stroke", GasType.Number),
+                new Variable("colour", GasType.Colour),
+                new Variable("strokeColour", GasType.Colour)
+            }, new Return(new Circle(
+                new Identifier("centre"),
+                new Identifier("radius"),
+                new Identifier("stroke"),
+                new Identifier("colour"),
+                new Identifier("strokeColour")
+            )), this));
         }
     }
 

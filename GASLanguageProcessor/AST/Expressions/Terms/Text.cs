@@ -2,15 +2,15 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Text: Expression
+public class Text: Term
 {
-    public AstNode Value { get; protected set; }
-    public AstNode Position { get; protected set; }
-    public AstNode Font { get; protected set; }
-    public AstNode FontSize { get; protected set; }
-    public AstNode? Colour { get; protected set; }
+    public Expression Value { get; protected set; }
+    public Expression Position { get; protected set; }
+    public Expression Font { get; protected set; }
+    public Expression FontSize { get; protected set; }
+    public Expression? Colour { get; protected set; }
 
-    public Text(AstNode value, AstNode position, AstNode font, AstNode fontSize, AstNode? colour)
+    public Text(Expression value, Expression position, Expression font, Expression fontSize, Expression? colour)
     {
         Value = value;
         Position = position;
