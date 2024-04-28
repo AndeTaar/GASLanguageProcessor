@@ -96,14 +96,12 @@ public class Scope
                 new Variable("start", GasType.Point),
                 new Variable("end", GasType.Point),
                 new Variable("stroke", GasType.Number),
-                new Variable("colour", GasType.Colour),
-                new Variable("strokeColour", GasType.Colour)
+                new Variable("colour", GasType.Colour)
             }, new Return(new Line(
                 new Identifier("start"),
                 new Identifier("end"),
                 new Identifier("stroke"),
-                new Identifier("colour"),
-                new Identifier("strokeColour")
+                new Identifier("colour")
             )), new Scope(this, null)));
 
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
@@ -123,13 +121,13 @@ public class Scope
 
             fTable.Bind("Circle", new Function(GasType.Circle, new List<Variable>()
             {
-                new Variable("centre", GasType.Point),
+                new Variable("center", GasType.Point),
                 new Variable("radius", GasType.Number),
                 new Variable("stroke", GasType.Number),
                 new Variable("colour", GasType.Colour),
                 new Variable("strokeColour", GasType.Colour)
             }, new Return(new Circle(
-                new Identifier("centre"),
+                new Identifier("center"),
                 new Identifier("radius"),
                 new Identifier("stroke"),
                 new Identifier("colour"),

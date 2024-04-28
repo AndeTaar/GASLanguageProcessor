@@ -11,16 +11,12 @@ public class Line : Term
     public Expression Stroke { get; protected set; }
 
     public Expression? Colour { get; protected set; }
-
-    public Expression? StrokeColour { get; protected set; }
-
-    public Line(Expression start, Expression end, Expression stroke, Expression? colour, Expression? strokeColour)
+    public Line(Expression start, Expression end, Expression stroke, Expression? colour)
     {
         Start = start;
         End = end;
         Stroke = stroke;
         Colour = colour;
-        StrokeColour = strokeColour;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)

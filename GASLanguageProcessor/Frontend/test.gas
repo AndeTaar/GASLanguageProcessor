@@ -1,7 +1,6 @@
 ﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
 number x = 0;
 
-
 circle CircleCreator(point Center, number Width, number Stroke, colour Fill, colour StrokeColour)
 {
     return Circle(Center, Width, Stroke, Fill, StrokeColour);
@@ -20,7 +19,7 @@ text txt = Text("Its even worse for mouses!", Point(0,0), "Arial", 14, black);
 
 for(number i = 0; x < 10; x = x + 1;)
 {
-    square firkant2 = Square(Point(10,10 + x * 50), 180, 10, green, black);
+    square firkant2 = Square(Point(10, 10 + x * 50), 180, 10, green, black);
     text txt2 = Text("Its even worse for mouses!", Point(0,0 + x * 50), "Arial", 14, black);
 }
 
@@ -47,8 +46,8 @@ group mouse = Group(Point(100, 50),
 
 colour red = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
-line aline = Line(xy, Point(200 * 10, 200), 10, red, black);
-line line1 = Line(Point(200, 0), Point(0, 200), 10, red, black);
+line aline = Line(xy, Point(200 * 10, 200), 10, red);
+line line1 = Line(Point(200, 0), Point(0, 200), 10, red);
 rectangle rectangle1 = Rectangle(Point(10, 150), Point(150, 300), 10, black, red);
 
 number y = 9;

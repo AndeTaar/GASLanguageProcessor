@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Terms;
 
 namespace GASLanguageProcessor.TableType;
 

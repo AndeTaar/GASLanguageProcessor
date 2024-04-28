@@ -53,12 +53,11 @@ public class Interpreter
                 functionScope.vTable.Variables.Clear();
                 for (var i = 0; i < functionCall.Arguments.Count; i++)
                 {
-                    var val = EvaluateExpression(functionCall.Arguments[i], functionScope);
+                    var val = EvaluateExpression(functionCall.Arguments[i], scope);
                     var identifier = function.Parameters[i].Identifier;
                     functionScope.vTable.Bind(identifier, new Variable(identifier, GasType.Number, val));
                 }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
-                functionScope.vTable.Variables.Clear();
                 return functionCallRes;
 
             case BinaryOp binaryOp:
@@ -124,11 +123,26 @@ public class Interpreter
 
             case Circle circle:
                 var centre = EvaluateExpression(circle.Center, scope);
-                var radius = (float) EvaluateExpression(circle.Radius, scope);
-                var stroke = (float) EvaluateExpression(circle.Stroke, scope);
+                var radius =  EvaluateExpression(circle.Radius, scope);
+                var stroke = EvaluateExpression(circle.Stroke, scope);
                 var fillColour = EvaluateExpression(circle.Colour, scope);
                 var strokeColour = EvaluateExpression(circle.StrokeColour, scope);
                 return new { centre, radius, stroke, fillColour, strokeColour };
+
+            case Rectangle rectangle:
+                var rectTopLeft = EvaluateExpression(rectangle.TopLeft, scope);
+                var rectBottomRight = EvaluateExpression(rectangle.BottomRight, scope);
+                var rectStroke = (float) EvaluateExpression(rectangle.Stroke, scope);
+                var rectFillColour = EvaluateExpression(rectangle.Colour, scope);
+                var rectStrokeColour = EvaluateExpression(rectangle.StrokeColour, scope);
+                return new { rectTopLeft, rectBottomRight, rectStroke, rectFillColour, rectStrokeColour };
+
+            case Line line:
+                var lineStart = EvaluateExpression(line.Start, scope);
+                var lineEnd = EvaluateExpression(line.End, scope);
+                var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
+                var lineColour = EvaluateExpression(line.Colour, scope);
+                return new { lineStart, lineEnd, lineStroke, lineColour };
         }
 
         return null;
