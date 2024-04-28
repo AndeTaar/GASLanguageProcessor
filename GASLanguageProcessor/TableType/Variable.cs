@@ -7,12 +7,20 @@ public class Variable
 {
     public string Identifier { get; set; }
     public GasType Type { get; set; }
-    public Expression Expression { get; set; }
+    public Expression FormalValue { get; set; }
+    public object ActualValue { get; set; }
 
-    public Variable(string identifier, GasType type, Expression? expression = null)
+    public Variable(string identifier, GasType type, Expression? formalValue = null)
     {
         Identifier = identifier;
         Type = type;
-        Expression = expression;
+        FormalValue = formalValue;
+    }
+
+    public Variable(string identifier, GasType type, object actualValue)
+    {
+        Identifier = identifier;
+        Type = type;
+        ActualValue = actualValue;
     }
 }

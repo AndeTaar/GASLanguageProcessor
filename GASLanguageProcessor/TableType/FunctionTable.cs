@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GASLanguageProcessor.TableType;
+﻿namespace GASLanguageProcessor.TableType;
 
 public class FunctionTable
 {

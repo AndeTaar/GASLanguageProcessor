@@ -1,5 +1,4 @@
-﻿using System;
-using GASLanguageProcessor.AST.Expressions;
+﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
@@ -32,7 +31,7 @@ public class Interpreter
                     Console.WriteLine($"Variable {identifier} not found");
                     return null;
                 }
-                values[identifier] = (float)val;
+                values[identifier] = val;
                 return val;
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
@@ -56,9 +55,12 @@ public class Interpreter
                 {
                     var val = EvaluateExpression(functionCall.Arguments[i], functionScope);
                     var identifier = function.Parameters[i].Identifier;
-                    values[identifier] = val;
+                    functionScope.vTable.Bind(identifier, new Variable(identifier, GasType.Number, val));
                 }
-                return EvaluateStatement(function.Statements, functionScope);
+                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
+                functionScope.vTable.Variables.Clear();
+                return functionCallRes;
+
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, binaryOp.Scope ?? scope);
                 var right = EvaluateExpression(binaryOp.Right, binaryOp.Scope ?? scope);
@@ -78,7 +80,13 @@ public class Interpreter
                 };
 
             case Identifier identifier:
-                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.Expression, scope);
+                var variable = scope.vTable.LookUp(identifier.Name);
+
+                if (variable?.ActualValue != null)
+                {
+                    return variable.ActualValue;
+                }
+                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.FormalValue, scope);
 
             case Number number:
                 return float.Parse(number.Value);
@@ -89,7 +97,20 @@ public class Interpreter
                 var blue = (float)EvaluateExpression(colour.Blue, scope);
                 var alpha = (float)EvaluateExpression(colour.Alpha, scope);
                 return new {red, green, blue, alpha};
-        }
+
+            case Point point:
+                var x = (float)EvaluateExpression(point.X, scope);
+                var y = (float)EvaluateExpression(point.Y, scope);
+                return new {x, y};
+
+            case Square square:
+                var topLeft = EvaluateExpression(square.TopLeft, scope);
+                var bottomRight = EvaluateExpression(square.BottomRight, scope);
+                var stroke = (float) EvaluateExpression(square.Stroke, scope);
+                var fillColour = EvaluateExpression(square.Colour, scope);
+                var strokeColour = EvaluateExpression(square.StrokeColour, scope);
+                return new { topLeft, bottomRight, stroke, fillColour, strokeColour };
+            }
 
         return null;
     }

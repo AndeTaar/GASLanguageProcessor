@@ -2,22 +2,22 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Square: Expression
+public class Square: Term
 {
-    public AstNode TopLeft { get; protected set; }
-    public AstNode BottomRight { get; protected set; }
+    public Expression TopLeft { get; protected set; }
+    public Expression BottomRight { get; protected set; }
 
-    public AstNode StrokeWidth { get; protected set; }
+    public Expression Stroke { get; protected set; }
 
-    public AstNode Colour { get; protected set; }
+    public Expression Colour { get; protected set; }
 
-    public AstNode StrokeColour { get; protected set; }
+    public Expression StrokeColour { get; protected set; }
 
-    public Square(AstNode topLeft, AstNode bottomRight, AstNode strokeWidth, AstNode colour, AstNode strokeColour)
+    public Square(Expression topLeft, Expression bottomRight, Expression stroke, Expression colour, Expression strokeColour)
     {
         TopLeft = topLeft;
         BottomRight = bottomRight;
-        StrokeWidth = strokeWidth;
+        Stroke = stroke;
         Colour = colour;
         StrokeColour = strokeColour;
     }

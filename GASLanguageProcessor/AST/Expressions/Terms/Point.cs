@@ -2,12 +2,12 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Point : Expression
+public class Point : Term
 {
-    public AstNode X { get; protected set; }
-    public AstNode Y { get; protected set; }
+    public Expression X { get; protected set; }
+    public Expression Y { get; protected set; }
 
-    public Point(AstNode x, AstNode y)
+    public Point(Expression x, Expression y)
     {
         X = x;
         Y = y;
