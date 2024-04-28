@@ -2,7 +2,7 @@
 
 public class FunctionTable
 {
-    public Dictionary<string, FunctionType> Functions { get; protected set; } = new();
+    public Dictionary<string, Function> Functions { get; protected set; } = new();
 
     public Scope Scope { get; set; }
 
@@ -11,12 +11,12 @@ public class FunctionTable
         this.Scope = scope;
     }
 
-    public void Bind(string key, FunctionType value)
+    public void Bind(string key, Function value)
     {
         Functions.Add(key, value);
     }
 
-    public FunctionType? LookUp(string key)
+    public Function? LookUp(string key)
     {
         if (Functions.ContainsKey(key))
         {

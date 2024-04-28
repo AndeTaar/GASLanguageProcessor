@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Identifier : Expression
+public class Identifier : Term
 {
     public string Name { get; protected set; }
 

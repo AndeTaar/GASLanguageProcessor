@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Null: Expression
+public class Null: Term
 {
     public Null()
     {

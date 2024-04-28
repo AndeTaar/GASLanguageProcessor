@@ -14,11 +14,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 {
     public List<string> errors = new();
 
-    public GasType VisitText(Text node, Scope scope)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public GasType VisitBinaryOp(BinaryOp node, Scope scope)
     {
         var @operator = node.Op;
@@ -73,16 +68,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         }
     }
 
-    public GasType VisitCircle(Circle node, Scope scope)
-    {
-        return GasType.Circle;
-    }
-
-    public GasType VisitColour(Colour node, Scope scope)
-    {
-        return GasType.Colour;
-    }
-
     public GasType VisitGroup(Group node, Scope scope)
     {
         node.Terms.ForEach(no => no.Accept(this, scope));
@@ -92,26 +77,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitNumber(Number node, Scope scope)
     {
         return GasType.Number;
-    }
-
-    public GasType VisitPoint(Point node, Scope scope)
-    {
-        return GasType.Point;
-    }
-
-    public GasType VisitRectangle(Rectangle node, Scope scope)
-    {
-        return GasType.Rectangle;
-    }
-
-    public GasType VisitSquare(Square node, Scope scope)
-    {
-        return GasType.Square;
-    }
-
-    public GasType VisitLine(Line node, Scope scope)
-    {
-        return GasType.Line;
     }
 
     public GasType VisitIfStatement(If node, Scope scope)
@@ -184,7 +149,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         var identifier = node.Identifier.Name;
         var type = node.Type.Accept(this, scope);
-        var value = node.Value;
+        var value = node.Expression;
         var typeOfValue = value?.Accept(this, scope);
         if (type != typeOfValue && typeOfValue != null)
         {
@@ -198,7 +163,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        scope.vTable.Bind(identifier, new VariableType(type, value));
+        scope.vTable.Bind(identifier, new Variable(identifier, type, value));
 
         return type;
     }
@@ -238,7 +203,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var assignment = node.Assignment?.Accept(this, scopeFor);
         var declaration = node.Declaration?.Accept(this, scopeFor);
         var condition = node.Condition.Accept(this, scopeFor);
-        var increment = node.Increment.Accept(this, scopeFor);
         node.Body.Accept(this, scopeFor);
 
         if(assignment != GasType.Number && declaration != GasType.Number)
@@ -308,17 +272,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         var funcDeclScope = scope.EnterScope(functionDeclaration);
 
-        var parameterTypes = functionDeclaration.Declarations.Select(decl => decl.Accept(this, funcDeclScope)).ToList();
+        var parameters = functionDeclaration.Declarations.Select(decl => new Variable(decl.Identifier.Name,
+            decl.Accept(this, funcDeclScope), null)).ToList();
 
-        var returnStatement = functionDeclaration.ReturnStatements?.Accept(this, funcDeclScope);
-
-        if (returnType != returnStatement && returnType != GasType.Null && returnStatement != GasType.Null && returnType != GasType.Void)
-        {
-            errors.Add("Invalid return type for function: " + identifier.Name + " expected: " + returnType + " got: " + returnStatement);
-            return GasType.Error;
-        }
-
-        scope.fTable.Bind(identifier.Name, new FunctionType(returnType, parameterTypes));
+        var statements = functionDeclaration.Statements;
+        scope.fTable.Bind(identifier.Name, new Function(returnType, parameters, statements, funcDeclScope));
 
         return returnType;
     }
@@ -333,12 +291,47 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Null;
     }
 
+    public GasType VisitLine(Line line, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitText(Text text, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitCircle(Circle circle, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitRectangle(Rectangle rectangle, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitPoint(Point point, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitColour(Colour colour, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitSquare(Square square, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
     public GasType VisitFunctionCall(FunctionCall functionCall, Scope scope)
     {
         var identifier = functionCall.Identifier;
 
         var parameterTypes = new List<GasType>();
-        foreach (var parameter in functionCall.Parameters)
+        foreach (var parameter in functionCall.Arguments)
         {
             parameterTypes.Add(parameter.Accept(this, scope));
         }
@@ -350,13 +343,18 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
+        if (type.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + type.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
 
         bool error = false;
-        for (int i = 0; i < type.ParameterTypes.Count; i++)
+        for (int i = 0; i < type.Parameters.Count; i++)
         {
-            if (type.ParameterTypes[i] != parameterTypes[i])
+            if (type.Parameters[i].Type != parameterTypes[i])
             {
-                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.ParameterTypes[i] + " got: " + parameterTypes[i]);
+                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.Parameters[i].Type + " got: " + parameterTypes[i]);
                 error = true;
             }
         }
