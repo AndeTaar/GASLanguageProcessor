@@ -7,10 +7,13 @@ circle CircleCreator(point Center, number Width, number Stroke, colour Fill, col
 }
 
 colour green = Colour(0, 255, 0, 1);
-colour black = Colour(0, 0, 0, 1);
+colour black = Colour(255, 100, 100, 1);
 
-circle cirkel = CircleCreator(Point(250, 250), 100, 10, green, black);
-
+list<circle> circles = list<circle>();
+for(number i = 0; i < 10; i = i + 1;)
+{
+    circles.Add(CircleCreator(Point(10 + i * 50, 10), 40, 10, green, black))
+}
 
 colour white = Colour(255, 255, 255, 1);
 square firkant = Square(Point(10,10), 180, 10, green, black);

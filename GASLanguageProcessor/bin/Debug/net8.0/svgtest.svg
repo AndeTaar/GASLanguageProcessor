@@ -1,0 +1,8 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+<circle cx="300" cy="250" r="100" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="10" />
+<rect x="10" y="10" width="180" height="180" fill="rgb(0, 255, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="10" />
+<text x="0" y="0" fill="rgb(0, 0, 0)" font-family="Arial" font-size="14">"Its even worse for mouses!"</text>
+<line x1="0" y1="0" x2="2000" y2="200" stroke="rgb(255, 0, 0)" stroke-width="10" />
+<line x1="200" y1="0" x2="0" y2="200" stroke="rgb(255, 0, 0)" stroke-width="10" />
+<rect x="10" y="150" width="140" height="150" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(255, 0, 0)" stroke-width="10" />
+</svg>

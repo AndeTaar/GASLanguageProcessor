@@ -6,10 +6,10 @@ namespace GASLanguageProcessor;
 
 public class SvgGenerator
 {
-    // Add name or something 
-    public string FilePath = Path.Combine(Directory.GetCurrentDirectory().Split("Output/")[0], "svgtest.svg");
+    // Add name or something
+    public string FilePath = Path.Combine(Directory.GetCurrentDirectory().Split("Output\\")[0], "svgtest.svg");
     public ArrayList<string> SvgLines = new();
-    
+
     public void GenerateSvg(VariableTable vTable) //still only takes variables from global scope and it does not look as expected
     {
         SvgLines.Add("<svg width=\"500\" height=\"500\" xmlns=\"http://www.w3.org/2000/svg\">");
@@ -20,7 +20,7 @@ public class SvgGenerator
                 // Canvas is currently never added to any vTable making it invisible to this interpreter.
                 case FinalCanvas canvas: // Background color either as CSS style or as a rectangle that fills the canvas area. CSS for now.
                     SvgLines.Add($"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColour.ColourToString()}\">");
-                    break; 
+                    break;
                 case FinalCircle circle: // "stroke" in SVG is our StrokeColour
                     SvgLines.Add($"<circle cx=\"{circle.Center.X}\" cy=\"{circle.Center.Y}\" r=\"{circle.Radius}\" fill=\"{circle.FillColour.ColourToString()}\" fill-opacity=\"{circle.FillColour.Alpha}\" stroke=\"{circle.StrokeColour.ColourToString()}\" stroke-width=\"{circle.Stroke}\" />");
                     break;
@@ -38,7 +38,7 @@ public class SvgGenerator
                     break;
             }
         }
-        
+
         SvgLines.Add("</svg>");
         File.WriteAllLines(FilePath, SvgLines);
     }
