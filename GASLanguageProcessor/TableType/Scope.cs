@@ -35,21 +35,27 @@ public class Scope
 
         if (ParentScope == null)
         {
-            fTable.Bind("Colour",
-                 new Function(GasType.Colour,
-                    new List<Variable>
-                    {
-                        new Variable("red", GasType.Number),
-                        new Variable("green", GasType.Number),
-                        new Variable("blue", GasType.Number),
-                        new Variable("alpha", GasType.Number)
-                    },
-                    new Return(new Colour(
-                        new Identifier("red"),
-                        new Identifier("green"),
-                        new Identifier("blue"),
-                        new Identifier("alpha"))),
-                new Scope(this, null)));
+            var function = new Function(GasType.Colour,
+                new List<Variable>
+                {
+                    new Variable("red", GasType.Number),
+                    new Variable("green", GasType.Number),
+                    new Variable("blue", GasType.Number),
+                    new Variable("alpha", GasType.Number)
+                },
+                new Return(new Colour(
+                    new Identifier("red"),
+                    new Identifier("green"),
+                    new Identifier("blue"),
+                    new Identifier("alpha"))),
+                new Scope(this, null));
+
+            function.Scope.vTable.Bind("red", new Variable("red", GasType.Number));
+            function.Scope.vTable.Bind("green", new Variable("green", GasType.Number));
+            function.Scope.vTable.Bind("blue", new Variable("blue", GasType.Number));
+            function.Scope.vTable.Bind("alpha", new Variable("alpha", GasType.Number));
+
+            fTable.Bind("Colour", function);
 
             fTable.Bind("Point", new Function(GasType.Point, new List<Variable>()
                 {
@@ -75,7 +81,6 @@ public class Scope
                     new Identifier("colour"),
                     new Identifier("strokeColour"))),
                 new Scope(this, null)));
-
             fTable.Bind("Text", new Function(GasType.Text, new List<Variable>()
             {
                 new Variable("value", GasType.String),
@@ -90,7 +95,6 @@ public class Scope
                 new Identifier("fontSize"),
                 new Identifier("colour")
             )), new Scope(this, null)));
-
             fTable.Bind("Line", new Function(GasType.Line, new List<Variable>()
             {
                 new Variable("start", GasType.Point),

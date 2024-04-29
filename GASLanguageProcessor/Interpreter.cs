@@ -56,13 +56,6 @@ public class Interpreter
                     throw new Exception($"Function {functionCall.Identifier.Name} not found");
                 }
                 var functionScope = function.Scope;
-                functionScope.vTable.Variables.Clear();
-                for (var i = 0; i < functionCall.Arguments.Count; i++)
-                {
-                    var val = EvaluateExpression(functionCall.Arguments[i], scope);
-                    var identifier = function.Parameters[i].Identifier;
-                    functionScope.vTable.Bind(identifier, new Variable(identifier, GasType.Number, val));
-                }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
 
@@ -85,13 +78,23 @@ public class Interpreter
                 };
 
             case Identifier identifier:
+                if (scope == null || scope.vTable == null || identifier == null || identifier.Name == null)
+                {
+                    throw new Exception("Scope, VariableTable, Identifier or Identifier Name is null");
+                }
+
                 var variable = scope.vTable.LookUp(identifier.Name);
 
-                if (variable?.ActualValue != null)
+                if (variable == null)
+                {
+                    throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
+                }
+
+                if (variable.ActualValue != null)
                 {
                     return variable.ActualValue;
                 }
-                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.FormalValue, scope);
+                return EvaluateExpression(variable.FormalValue, scope);
 
             case Number number:
                 return float.Parse(number.Value);
@@ -100,10 +103,10 @@ public class Interpreter
                 return stringTerm.Value;
 
             case Colour colour:
-                var red = (float)EvaluateExpression(colour.Red, scope);
-                var green = (float)EvaluateExpression(colour.Green, scope);
-                var blue = (float)EvaluateExpression(colour.Blue, scope);
-                var alpha = (float)EvaluateExpression(colour.Alpha, scope);
+                var red = (float) EvaluateExpression(colour.Red, scope);
+                var green = (float) EvaluateExpression(colour.Green, scope);
+                var blue = (float) EvaluateExpression(colour.Blue, scope);
+                var alpha = (float) EvaluateExpression(colour.Alpha, scope);
                 return new FinalColour(red, green, blue, alpha);
 
             case Point point:

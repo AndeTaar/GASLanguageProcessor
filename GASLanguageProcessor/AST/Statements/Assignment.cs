@@ -7,12 +7,12 @@ namespace GASLanguageProcessor.AST.Statements;
 public class Assignment : Statement
 {
     public Identifier Identifier { get; protected set; }
-    public Expression Value { get; protected set; }
+    public Expression Expression { get; protected set; }
 
-    public Assignment(Identifier identifier, Expression value)
+    public Assignment(Identifier identifier, Expression expression)
     {
         Identifier = identifier;
-        Value = value;
+        Expression = expression;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)

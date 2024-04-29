@@ -70,7 +70,15 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitGroup(Group node, Scope scope)
     {
-        node.Terms.ForEach(no => no.Accept(this, scope));
+        node.Statements.Accept(this, scope);
+        var point = node.Point.Accept(this, scope);
+
+        if (point != GasType.Point)
+        {
+            errors.Add("Invalid type for point: expected: Point, got: " + point);
+            return GasType.Error;
+        }
+
         return GasType.Group;
     }
 
@@ -88,7 +96,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         if (condition != GasType.Boolean)
         {
-            errors.Add("Invalid type for if condition: expected: Boolean, got: " + condition);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for if condition: expected: Boolean, got: " + condition);
             return GasType.Error;
         }
 
@@ -109,7 +117,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         }
         catch (Exception e)
         {
-            errors.Add("Variable name: " + node.Name + " not found");
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
             return GasType.Error;
         }
         return type;
@@ -126,7 +134,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitAssignment(Assignment node, Scope scope)
     {
         var left = node.Identifier.Name;
-        var type = node.Value.Accept(this, scope);
+        var type = node.Expression.Accept(this, scope);
 
         var variable = scope.vTable.LookUp(left);
 
@@ -138,7 +146,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         if (variable.Type != type)
         {
-            errors.Add("Invalid type for variable: " + left + " expected: " + variable.Type + " got: " + type);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + left + " expected: " + variable.Type + " got: " + type);
             return GasType.Error;
         }
 
@@ -153,18 +161,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var typeOfValue = value?.Accept(this, scope);
         if (type != typeOfValue && typeOfValue != null)
         {
-            errors.Add("Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
             return GasType.Error;
         }
 
-        if (scope.vTable.LookUp(identifier) != null)
-        {
-            errors.Add("Variable name: " + identifier + " is already declared elsewhere");
-            return GasType.Error;
-        }
-
-        scope.vTable.Bind(identifier, new Variable(identifier, type, value));
-
+        scope.vTable.SetType(identifier, type);
         return type;
     }
 
@@ -172,34 +173,34 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         var width = node.Width.Accept(this, scope);
         var height = node.Height.Accept(this, scope);
-        
+
         if (width != GasType.Number)
         {
             errors.Add("Invalid width type");
             return GasType.Error;
         }
-        
+
         if (height != GasType.Number)
         {
             errors.Add("Invalid height type");
             return GasType.Error;
         }
-        
+
         var backgroundColourType = node.BackgroundColour.Accept(this, scope);
+
         if (backgroundColourType != GasType.Colour)
         {
             errors.Add("Invalid background colour type");
             return GasType.Error;
         }
-        
+
         return GasType.Canvas;
     }
 
     public GasType VisitWhile(While node, Scope scope)
     {
         var condition = node.Condition.Accept(this, scope);
-        var whileScope = scope.EnterScope(node);
-        node.Statements.Accept(this, whileScope);
+        node.Statements.Accept(this, node.Scope ?? scope);
 
         if (condition != GasType.Boolean)
         {
@@ -212,11 +213,10 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitFor(For node, Scope scope)
     {
-        var scopeFor = scope.EnterScope(node);
-        var assignment = node.Assignment?.Accept(this, scopeFor);
-        var declaration = node.Declaration?.Accept(this, scopeFor);
-        var condition = node.Condition.Accept(this, scopeFor);
-        node.Body.Accept(this, scopeFor);
+        var assignment = node.Assignment?.Accept(this, node.Scope ?? scope);
+        var declaration = node.Declaration?.Accept(this, node.Scope ?? scope);
+        var condition = node.Condition.Accept(this, node.Scope ?? scope);
+        node.Statements?.Accept(this, node.Scope ?? scope);
 
         if(assignment != GasType.Number && declaration != GasType.Number)
         {
@@ -280,17 +280,19 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration, Scope scope)
     {
         var returnType = functionDeclaration.ReturnType.Accept(this, scope);
+        var identifier = functionDeclaration.Identifier.Name;
+        var function = scope.fTable.LookUp(identifier);
 
-        var identifier = functionDeclaration.Identifier;
+        if (function == null)
+        {
+            errors.Add(" Function name: " + identifier + " cannot be found");
+            return GasType.Error;
+        }
 
-        var funcDeclScope = scope.EnterScope(functionDeclaration);
+        var parameters = functionDeclaration.Declarations.Select(decl => decl.Accept(this, function?.Scope ?? scope)).ToList();
 
-        var parameters = functionDeclaration.Declarations.Select(decl => new Variable(decl.Identifier.Name,
-            decl.Accept(this, funcDeclScope), null)).ToList();
-
-        var statements = functionDeclaration.Statements;
-        scope.fTable.Bind(identifier.Name, new Function(returnType, parameters, statements, funcDeclScope));
-
+        scope.fTable.SetReturnType(identifier, returnType);
+        scope.fTable.SetParameterTypes(identifier, parameters);
         return returnType;
     }
 
@@ -349,25 +351,25 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             parameterTypes.Add(parameter.Accept(this, scope));
         }
 
-        var type = scope.fTable.LookUp(identifier.Name);
+        var function = scope.fTable.LookUp(identifier.Name);
 
-        if(type == null){
+        if(function == null){
             errors.Add("Function name: " + functionCall.Identifier.Name + " not found");
             return GasType.Error;
         }
 
-        if (type.Parameters.Count != parameterTypes.Count)
+        if (function.Parameters.Count != parameterTypes.Count)
         {
-            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + type.Parameters.Count + " got: " + parameterTypes.Count);
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
             return GasType.Error;
         }
 
         bool error = false;
-        for (int i = 0; i < type.Parameters.Count; i++)
+        for (int i = 0; i < function.Parameters.Count; i++)
         {
-            if (type.Parameters[i].Type != parameterTypes[i])
+            if (function.Parameters[i].Type != parameterTypes[i])
             {
-                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.Parameters[i].Type + " got: " + parameterTypes[i]);
+                errors.Add("Line: " + functionCall.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
                 error = true;
             }
         }
@@ -377,6 +379,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        return type.ReturnType;
+        return function.ReturnType;
     }
 }

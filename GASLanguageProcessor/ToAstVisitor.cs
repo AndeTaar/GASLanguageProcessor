@@ -57,7 +57,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             throw new Exception("Else is not a compound or if statement");
         }
 
-        return new If(condition, ifBody, @if != null ? @if : elseBody);
+        return new If(condition, ifBody, @if != null ? @if : elseBody) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitElseStatement(GASParser.ElseStatementContext context)
@@ -126,13 +126,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
-        AstNode point = context.expression().Accept(this);
+        var point = context.expression().Accept(this) as Point;
 
-        var terms = context.statement()
+        var statements = ToCompound(context.statement()
             .Select(c => c.Accept(this))
-            .ToList();
+            .ToList());
 
-        return new Group(identifier, point, terms);
+        return new Group(identifier, point, statements);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -140,9 +140,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var type = context.type().Accept(this) as Type;
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        Expression value = context.expression().Accept(this) as Expression;
+        Expression value = context.expression()?.Accept(this) as Expression;
 
-        return new Declaration(type, identifier, value);
+        return new Declaration(type, identifier, value) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitType(GASParser.TypeContext context)
@@ -187,7 +187,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new FunctionCall(identifier, arguments);
+        return new FunctionCall(identifier, arguments) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
@@ -202,7 +202,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             var type = typeNode.Accept(this) as Type;
             var identif = new Identifier(identifierNode.GetText());
-            return new Declaration(type, identif, null);
+            return new Declaration(type, identif, null) {LineNumber = context.Start.Line};
         }).ToList();
 
         var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
@@ -242,11 +242,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         if (context.NUM() != null)
         {
-            return new Number(context.NUM().GetText());
+            return new Number(context.NUM().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.IDENTIFIER() != null)
         {
-            return new Identifier(context.IDENTIFIER().GetText());
+            return new Identifier(context.IDENTIFIER().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.functionCall() != null)
         {
@@ -254,7 +254,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
         else if (context.ALLSTRINGS() != null)
         {
-            return new String(context.ALLSTRINGS().GetText());
+            return new String(context.ALLSTRINGS().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.expression() != null)
         {
@@ -262,7 +262,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
         else if (context.GetText() == "true" || context.GetText() == "false")
         {
-            return new Boolean(context.GetText());
+            return new Boolean(context.GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.GetText() == "null")
         {

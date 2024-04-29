@@ -20,8 +20,19 @@ static void Main(string[] args)
     AstNode ast = parseTree.Accept(new ToAstVisitor());
     var typeCheckingVisitor = new TypeCheckingAstVisitor();
     var globalScope = new Scope(null, null);
+    var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
+    ast.Accept(scopeCheckingVisitor, globalScope);
+    scopeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(scopeCheckingVisitor.errors.Count > 0)
+    {
+        return;
+    }
     ast.Accept(typeCheckingVisitor, globalScope);
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(typeCheckingVisitor.errors.Count > 0)
+    {
+        return;
+    }
     Interpreter interpreter = new Interpreter();
     interpreter.EvaluateStatement(ast as Statement, globalScope);
     SvgGenerator svgGenerator = new SvgGenerator();

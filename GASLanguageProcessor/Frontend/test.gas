@@ -1,4 +1,5 @@
 ﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
+
 number x = 0;
 
 circle CircleCreator(point Center, number Width, number Stroke, colour Fill, colour StrokeColour)
@@ -10,6 +11,8 @@ colour green = Colour(0, 255, 0, 1);
 colour black = Colour(255, 100, 100, 1);
 
 list<circle> circles = list<circle>();
+number i;
+
 for(number i = 0; i < 10; i = i + 1;)
 {
     circles.Add(CircleCreator(Point(10 + i * 50, 10), 40, 10, green, black))
@@ -47,11 +50,11 @@ group mouse = Group(Point(100, 50),
     });
 });
 
-colour red = Colour(255, 0, 0, 1);
+colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
-line aline = Line(xy, Point(200 * 10, 200), 10, red);
-line line1 = Line(Point(200, 0), Point(0, 200), 10, red);
-rectangle rectangle1 = Rectangle(Point(10, 150), Point(150, 300), 10, black, red);
+line aline = Line(xy, Point(200 * 10, 200), 10, reds);
+line line1 = Line(Point(200, 0), Point(0, 200), 10, reds);
+rectangle rectangle1 = Rectangle(Point(10, 150), Point(150, 300), 10, black, reds);
 
 number y = 9;
 if (x > 4 || 2 < 9) {
