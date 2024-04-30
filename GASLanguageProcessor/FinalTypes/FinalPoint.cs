@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalPoint: FinalObject
+public class FinalPoint
 {
     public float X { get; set; }
     public float Y { get; set; }

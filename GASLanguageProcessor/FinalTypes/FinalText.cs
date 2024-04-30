@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalText: FinalObject
+public class FinalText
 {
 
     public string Text { get; set; }

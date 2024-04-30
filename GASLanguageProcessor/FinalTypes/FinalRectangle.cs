@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalRectangle: FinalObject
+public class FinalRectangle
 {
     public FinalPoint TopLeft { get; set; }
     public FinalPoint BottomRight { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalColour: FinalObject
+public class FinalColour
 {
     public float Red { get; set; }
     public float Green { get; set; }
