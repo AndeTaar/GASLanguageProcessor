@@ -292,6 +292,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Circle;
             case "bool":
                 return GasType.Boolean;
+            case "group":
+                return GasType.Group;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;

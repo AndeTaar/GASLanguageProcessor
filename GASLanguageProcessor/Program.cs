@@ -9,13 +9,17 @@ Main(new string[] {"Frontend/test.gas"});
 
 static void Main(string[] args)
 {
+    var outputDirectory = Path.Combine(Directory.GetCurrentDirectory().Split("bin")[0], "output");
+    Directory.CreateDirectory(outputDirectory); // Create directory if it doesn't exist
+    string FilePath = Path.Combine(outputDirectory, "output.svg");
+
     var fileContents = File.ReadAllText(args[0]);
 
     var inputStream = CharStreams.fromString(fileContents);
     var lexer = new GASLexer(inputStream);
-    
+
     ParserErrorListener errorListener = new ParserErrorListener();
-    
+
     var tokenStream = new CommonTokenStream(lexer);
     var parser = new GASParser(tokenStream);
     parser.RemoveErrorListeners();
@@ -40,6 +44,8 @@ static void Main(string[] args)
     Interpreter interpreter = new Interpreter();
     interpreter.EvaluateStatement(ast as Statement, scopeCheckingVisitor.scope);
     SvgGenerator svgGenerator = new SvgGenerator();
-    svgGenerator.GenerateSvg(scopeCheckingVisitor.scope.vTable);
+    var lines = svgGenerator.GenerateSvg(scopeCheckingVisitor.scope.vTable);
+    lines.Add("</svg>");
+    File.WriteAllLines(FilePath, lines);
     Console.WriteLine(ast);
 }

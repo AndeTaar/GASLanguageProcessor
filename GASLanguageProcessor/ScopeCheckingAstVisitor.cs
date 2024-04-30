@@ -27,6 +27,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     {
         node.Scope = scope;
         scope = scope.EnterScope(node);
+        node.Point.Accept(this);
         node.Statements.Accept(this);
         scope = scope.ExitScope();
         return true;

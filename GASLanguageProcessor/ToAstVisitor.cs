@@ -119,16 +119,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
-    public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
+    public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var point = context.expression().Accept(this) as Point;
-
         var statements = ToCompound(context.statement()
             .Select(c => c.Accept(this))
             .ToList());
+        var expression = context.expression().Accept(this) as Expression;
 
-        return new Group(identifier, point, statements);
+        return new Group(expression, statements);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -263,12 +261,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         else if (context.GetText() == "null")
         {
             return new Null();
+        }else if(context.groupTerm() != null)
+        {
+            return VisitGroupTerm(context.groupTerm());
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
     }
+
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)
     {
