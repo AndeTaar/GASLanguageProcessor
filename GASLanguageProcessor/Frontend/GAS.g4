@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
-functionDeclaration | groupDeclaration | forStatement | returnStatement | classDeclaration | methodCall;
+functionDeclaration | forStatement | returnStatement | classDeclaration | methodCall;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
@@ -38,12 +38,12 @@ listAccessExpression : term ('[' expression ']')?;
 
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | methodCall;
+ functionCall | ALLSTRINGS | methodCall | groupTerm;
 
 methodCall : IDENTIFIER '.' IDENTIFIER ('(' (expression (',' expression)*)? ')')?;
 
 listTerm : '{' (expression (',' expression)*)? '}';
-groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')' ';';
+groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')';
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 

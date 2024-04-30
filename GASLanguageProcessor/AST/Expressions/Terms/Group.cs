@@ -6,15 +6,13 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Group: Term
 {
-    public Identifier Identifier { get; protected set; }
-    public Statement Statements { get; protected set; }
     public Expression Point { get; protected set; }
+    public Statement Statements { get; protected set; }
 
-    public Group(Identifier identifier, Expression point, Statement statements)
+    public Group(Expression point, Statement statements)
     {
-        Identifier = identifier;
-        Statements = statements;
         Point = point;
+        Statements = statements;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor)

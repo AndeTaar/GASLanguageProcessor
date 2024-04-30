@@ -193,6 +193,11 @@ public class Interpreter
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
                 var lineColour = (FinalColour) EvaluateExpression(line.Colour, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColour);
+
+            case Group group:
+                var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
+                EvaluateStatement(group.Statements, group.Scope ?? scope);
+                return new FinalGroup(finalPoint, group.Scope ?? scope);
         }
 
         return null;
