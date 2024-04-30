@@ -1,27 +1,27 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using System.Collections.Generic;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.TableType;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class FunctionDeclaration: AstNode
+public class FunctionDeclaration: Statement
 {
-    public AstNode ReturnType { get; protected set; }
+    public Type ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }
     public List<Declaration> Declarations { get; protected set; }
-    public AstNode? ReturnStatement { get; protected set; }
-    public AstNode Statements { get; protected set; }
+    public Statement? Statements { get; protected set; }
 
-    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, AstNode statements, AstNode? returnStatement, AstNode returnType)
+    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, Statement? statements, Type returnType)
     {
         Identifier = identifier;
         Declarations = declarations;
         Statements = statements;
-        ReturnStatement = returnStatement;
         ReturnType = returnType;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitFunctionDeclaration(this, scope);
+        return visitor.VisitFunctionDeclaration(this);
     }
 }

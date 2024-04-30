@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
@@ -6,16 +7,16 @@ namespace GASLanguageProcessor.AST.Statements;
 public class Assignment : Statement
 {
     public Identifier Identifier { get; protected set; }
-    public AstNode Value { get; protected set; }
+    public Expression Expression { get; protected set; }
 
-    public Assignment(Identifier identifier, AstNode value)
+    public Assignment(Identifier identifier, Expression expression)
     {
         Identifier = identifier;
-        Value = value;
+        Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitAssignment(this, scope);
+        return visitor.VisitAssignment(this);
     }
 }

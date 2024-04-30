@@ -1,18 +1,19 @@
-﻿using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class Return: AstNode
+public class Return: Statement
 {
-    public AstNode Expression { get; protected set; }
+    public Expression Expression { get; protected set; }
 
-    public Return(AstNode expression)
+    public Return(Expression expression)
     {
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitReturn(this, scope);
+        return visitor.VisitReturn(this);
     }
 }

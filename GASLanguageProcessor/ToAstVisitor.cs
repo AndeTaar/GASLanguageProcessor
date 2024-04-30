@@ -1,9 +1,13 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
-using Boolean = GASLanguageProcessor.AST.Expressions.Boolean;
-using String = GASLanguageProcessor.AST.Terms.String;
-using Type = GASLanguageProcessor.AST.Terms.Type;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using String = GASLanguageProcessor.AST.Expressions.Terms.String;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor;
 
@@ -18,11 +22,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitCanvas(GASParser.CanvasContext context)
     {
-        AstNode width = context.expression()[0].Accept(this);
+        var width = context.expression()[0].Accept(this) as Expression;
 
-        AstNode height = context.expression()[1].Accept(this);
+        var height = context.expression()[1].Accept(this) as Expression;
 
-        AstNode backgroundColour = context.expression()[2]?.Accept(this)!;
+        var backgroundColour = context.expression()[2]?.Accept(this)! as Expression;
 
         if(backgroundColour == null)
         {
@@ -34,18 +38,26 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
-        var condition = context.expression().Accept(this);
+        Expression condition = context.expression().Accept(this) as Expression;
 
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
 
-        AstNode ifBody = ToCompound(statements);
+        Compound ifBody = ToCompound(statements) as Compound;
 
+        var @else = context.elseStatement().Accept(this);
 
-        AstNode elseBody = context.elseStatement().Accept(this);
+        Compound? elseBody = @else as Compound;
 
-        return new If(condition, ifBody, elseBody);
+        If? @if = @else as If;
+
+        if(@else != null && (elseBody == null && @if == null))
+        {
+            throw new Exception("Else is not a compound or if statement");
+        }
+
+        return new If(condition, ifBody, @if != null ? @if : elseBody) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitElseStatement(GASParser.ElseStatementContext context)
@@ -56,84 +68,80 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         AstNode elseBody = ToCompound(statements);
 
-        var condition = context.ifStatement()?.Accept(this) as If;
+        var elseIf = context.ifStatement()?.Accept(this) as If;
 
-        return new Else(elseBody, condition);
+        return elseIf ?? elseBody;
     }
 
     public override AstNode VisitWhileStatement(GASParser.WhileStatementContext context)
     {
-        var condition = context.expression().Accept(this);
-        
+        Expression condition = context.expression().Accept(this) as Expression;
+
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
-        
-        AstNode whileBody = ToCompound(statements);
-        
+
+        Compound whileBody = ToCompound(statements) as Compound;
+
         return new While(condition, whileBody);
     }
-    
+
     public override AstNode VisitForStatement(GASParser.ForStatementContext context)
     {
-        // Bad, but we don't know if it's an assignment or declaration.
-        var initializer = context.GetChild(2).Accept(this);
-        var condition = context.expression().Accept(this);
-        // Can't just accept assignment, since the initializer could be an assignment
-        var increment = context.GetChild(5).Accept(this);
-        
-        var statements = context.statement()
-            .Select(s => s.Accept(this))
-            .ToList();
-        
-        AstNode forBody = ToCompound(statements);
-        
-        return new For(initializer, condition, increment, forBody);
+        var declaration = context.declaration()?.Accept(this) as Declaration;
+        var assignment = context.assignment()[0].Accept(this) as Assignment;
+
+        Assignment assignment2 = null;
+
+        if (declaration == null)
+        {
+            assignment2 = context.assignment()[1].Accept(this) as Assignment;
+        }
+
+        var condition = context.expression().Accept(this) as Expression;
+
+        var statements = ToCompound(context.statement().Select(s => s.Accept(this)).ToList());
+
+        if (declaration != null)
+        {
+            return new For(declaration, condition, assignment, statements);
+        }
+
+        return new For(assignment, condition, assignment2, statements){ LineNumber = context.Start.Line };
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        if (identifier == null)
-        {
-            throw new Exception("Assignment context is null");
-        }
+        Expression value = context.expression().Accept(this) as Expression;
 
-        var value = context.GetChild(2).Accept(this);
-
-        if (value == null)
-        {
-            throw new Exception("Expression is null");
-        }
-        return new Assignment(identifier, value);
+        return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
-    public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
+    public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        AstNode point = context.expression().Accept(this);
-
-        var terms = context.statement()
+        var statements = ToCompound(context.statement()
             .Select(c => c.Accept(this))
-            .ToList();
+            .ToList());
+        var expression = context.expression().Accept(this) as Expression;
 
-        return new Group(identifier, point, terms);
+        return new Group(expression, statements);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
-        var type = context.type().Accept(this);
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var type = context.type().Accept(this) as Type;
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
-        var value = context.expression().Accept(this);
+        Expression value = context.expression()?.Accept(this) as Expression;
 
-        return new Declaration(type, identifier, value);
+        return new Declaration(type, identifier, value) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitType(GASParser.TypeContext context)
     {
-        return new Type(context.GetText());
+        return new Type(context.GetText()){LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
@@ -143,8 +151,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitExpression(context);
         }
 
-        var left = context.equalityExpression()[0].Accept(this);
-        var right = context.equalityExpression()[0].Accept(this);
+        var left = context.equalityExpression()[0].Accept(this) as Expression;
+        var right = context.equalityExpression()[0].Accept(this) as Expression;
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
@@ -156,29 +164,29 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitEqualityExpression(context);
         }
 
-        var left = context.GetChild(0).Accept(this);
+        var left = context.GetChild(0).Accept(this) as Expression;
 
-        var right = context.GetChild(2).Accept(this);
+        var right = context.GetChild(2).Accept(this) as Expression;
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
     public override AstNode VisitReturnStatement(GASParser.ReturnStatementContext context)
     {
-        var expression = context?.expression().Accept(this);
+        Expression expression = context?.expression().Accept(this) as Expression;
         return new Return(expression);
     }
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var parameters = context.expression().ToList().Select(expr => expr.Accept(this)).ToList();
-        return new FunctionCall(identifier, parameters);
+        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new FunctionCall(identifier, arguments) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        var returnType = context.type()[0].Accept(this);
+        var returnType = context.type()[0].Accept(this) as Type;
         var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
 
         var types = context.type().Skip(1).ToList();
@@ -186,14 +194,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
-            var type = typeNode.Accept(this);
+            var type = typeNode.Accept(this) as Type;
             var identif = new Identifier(identifierNode.GetText());
-            return new Declaration(type, identif, null);
+            return new Declaration(type, identif, null) {LineNumber = context.Start.Line};
         }).ToList();
 
-        var returnStatement = context.returnStatement()?.Accept(this);
-        var statements = ToCompound(context.statement().Select(stmt => stmt.Accept(this)).ToList());
-        return new FunctionDeclaration(identifier, parameters, statements,  returnStatement, returnType);
+        var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
+        var body = ToCompound(statements);
+        return new FunctionDeclaration(identifier, parameters, body, returnType) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
@@ -203,11 +211,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitRelationExpression(context);
         }
 
-        var left = context.binaryExpression()[0].Accept(this);
+        var left = context.binaryExpression()[0].Accept(this) as Expression;
 
-        var right = context.binaryExpression()[1].Accept(this);
+        var right = context.binaryExpression()[1].Accept(this) as Expression;
 
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitBinaryExpression(GASParser.BinaryExpressionContext context)
@@ -217,22 +225,22 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitBinaryExpression(context);
         }
 
-        var left = context.multExpression()[0].Accept(this);
+        var left = context.multExpression()[0].Accept(this) as Expression;
 
-        var right = context.multExpression()[1].Accept(this);
+        var right = context.multExpression()[1].Accept(this) as Expression;
 
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitTerm(GASParser.TermContext context)
     {
         if (context.NUM() != null)
         {
-            return new Number(context.NUM().GetText());
+            return new Number(context.NUM().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.IDENTIFIER() != null)
         {
-            return new Identifier(context.IDENTIFIER().GetText());
+            return new Identifier(context.IDENTIFIER().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.functionCall() != null)
         {
@@ -240,7 +248,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
         else if (context.ALLSTRINGS() != null)
         {
-            return new String(context.ALLSTRINGS().GetText());
+            return new String(context.ALLSTRINGS().GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.expression() != null)
         {
@@ -248,17 +256,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
         else if (context.GetText() == "true" || context.GetText() == "false")
         {
-            return new Boolean(context.GetText());
+            return new Boolean(context.GetText()) {LineNumber = context.Start.Line};
         }
         else if (context.GetText() == "null")
         {
             return new Null();
+        }else if(context.groupTerm() != null)
+        {
+            return VisitGroupTerm(context.groupTerm());
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
     }
+
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)
     {
@@ -267,9 +279,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitMultExpression(context);
         }
 
-        var left = context.notExpression()[0].Accept(this);
+        var left = context.notExpression()[0].Accept(this) as Expression;
 
-        var right = context.notExpression()[1].Accept(this);
+        var right = context.notExpression()[1].Accept(this) as Expression;
 
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
@@ -286,7 +298,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new UnaryOp(context.GetChild(0).GetText(), expression);
     }
 
-    private static AstNode ToCompound(List<AstNode> lines)
+    private static Statement ToCompound(List<AstNode> lines)
     {
         if (lines.Count == 0)
         {
@@ -295,7 +307,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         if(lines.Count == 1)
         {
-            return lines[0];
+            return lines[0] as Statement;
         }
 
         if (lines[0] is Compound compound)
@@ -304,6 +316,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
                 new Compound(compound.Statement2, ToCompound(lines.Skip(1).ToList())));
         }
 
-        return new Compound(lines[0], ToCompound(lines.Skip(1).ToList()));
+        return new Compound(lines[0] as Statement, ToCompound(lines.Skip(1).ToList()));
         }
 }

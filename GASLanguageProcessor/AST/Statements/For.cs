@@ -1,24 +1,34 @@
-﻿using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
-public class For : AstNode
+public class For : Statement
 {
-    public AstNode Initializer { get; protected set; }
-    public AstNode Condition { get; protected set; }
-    public AstNode Increment { get; protected set; }
-    public AstNode Body { get; protected set; }
+    public Declaration? Declaration { get; protected set; }
+    public Assignment? Assignment { get; protected set; }
+    public Expression Condition { get; protected set; }
+    public Assignment Increment { get; protected set; }
+    public Statement Statements { get; protected set; }
 
-    public For(AstNode initializer, AstNode condition, AstNode increment, AstNode body)
+    public For(Assignment assignment, Expression condition, Assignment increment, Statement statements)
     {
-        Initializer = initializer;
+        Assignment = assignment;
         Condition = condition;
         Increment = increment;
-        Body = body;
+        Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public For(Declaration declaration, Expression condition, Assignment increment, Statement statements)
     {
-        return visitor.VisitFor(this, scope);
+        Declaration = declaration;
+        Condition = condition;
+        Increment = increment;
+        Statements = statements;
+    }
+
+    public override T Accept<T>(IAstVisitor<T> visitor)
+    {
+        return visitor.VisitFor(this);
     }
 }
