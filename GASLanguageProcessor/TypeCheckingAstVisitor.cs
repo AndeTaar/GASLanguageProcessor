@@ -12,6 +12,7 @@ namespace GASLanguageProcessor;
 public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 {
     public List<string> errors = new();
+    private IAstVisitor<GasType> _astVisitorImplementation;
 
     public GasType VisitBinaryOp(BinaryOp node)
     {
@@ -23,31 +24,46 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         {
             case "+":
                 if (left == GasType.String && right == GasType.String)
+                {
+                    node.Type = GasType.String;
                     return GasType.String;
+                }
 
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Number;
                     return GasType.Number;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "-" or "*" or "/":
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Number;
                     return GasType.Number;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "<" or ">" or "<=" or ">=":
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "&&" or "||":
                 if (left == GasType.Boolean && right == GasType.Boolean)
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
@@ -55,7 +71,10 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             case "==" or "!=":
                 if ((left == GasType.Boolean && right == GasType.Boolean) ||
                     (left == GasType.Number && right == GasType.Number))
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;

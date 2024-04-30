@@ -100,18 +100,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var condition = context.expression().Accept(this) as Expression;
 
-        var statements = context.statement()
-            .Select(s => s.Accept(this))
-            .ToList();
-
-        Compound forBody = ToCompound(statements) as Compound;
+        var statements = ToCompound(context.statement().Select(s => s.Accept(this)).ToList());
 
         if (declaration != null)
         {
-            return new For(declaration, condition, assignment, forBody);
+            return new For(declaration, condition, assignment, statements);
         }
 
-        return new For(assignment, condition, assignment2, forBody){ LineNumber = context.Start.Line };
+        return new For(assignment, condition, assignment2, statements){ LineNumber = context.Start.Line };
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)

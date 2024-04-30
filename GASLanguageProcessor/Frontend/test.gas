@@ -1,4 +1,4 @@
-﻿canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));
+﻿canvas (250*10, 10*50, Colour(255, 255, 255, 1));
 
 number x = 0;
 
@@ -15,7 +15,7 @@ number i;
 
 for(number i = 0; i < 10; i = i + 1;)
 {
-    circles.Add(CircleCreator(Point(10 + i * 50, 10), 40, 10, green, black))
+   circles.add(CircleCreator(Point(50, 10), 40+i, 10, green, black))
 }
 
 colour white = Colour(255, 255, 255, 1);
