@@ -17,8 +17,8 @@ public class Group: Term
         Point = point;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitGroup(this, scope);
+        return visitor.VisitGroup(this);
     }
 }

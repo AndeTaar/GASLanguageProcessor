@@ -20,7 +20,11 @@ public class Interpreter
                 var width = (float) EvaluateExpression(canvas.Width, scope);
                 var height = (float) EvaluateExpression(canvas.Height, scope);
                 var backgroundColour = (FinalColour) EvaluateExpression(canvas.BackgroundColour, scope);
-                return new FinalCanvas(width, height, backgroundColour);
+                var finalCanvas = new FinalCanvas(width, height, backgroundColour);
+                var canvasVariable = scope.vTable.LookUp("canvas");
+                canvasVariable.ActualValue = finalCanvas;
+                return finalCanvas;
+
             case Compound compound:
                 EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
@@ -56,6 +60,13 @@ public class Interpreter
                     throw new Exception($"Function {functionCall.Identifier.Name} not found");
                 }
                 var functionScope = function.Scope;
+                functionScope.vTable.Variables.Clear();
+                for (int i = 0; i < function.Parameters.Count; i++)
+                {
+                    var parameter = function.Parameters[i];
+                    var val = EvaluateExpression(functionCall.Arguments[i], scope);
+                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, val));
+                }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
 

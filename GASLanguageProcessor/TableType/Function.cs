@@ -20,7 +20,7 @@ public class Function
     {
         Parameters = parameters;
         Statements = statements;
-        Scope = scope;
         ReturnType = gasType;
+        Scope = scope;
     }
 }

@@ -15,8 +15,8 @@ public class Assignment : Statement
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitAssignment(this, scope);
+        return visitor.VisitAssignment(this);
     }
 }

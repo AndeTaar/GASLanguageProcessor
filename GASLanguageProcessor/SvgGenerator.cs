@@ -17,7 +17,7 @@ public class SvgGenerator
             switch (variable.ActualValue)
             {
                 case FinalCanvas canvas: // Background color either as CSS style or as a rectangle that fills the canvas area. CSS for now.
-                    SvgLines.Add($"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColour.ColourToString()}\">");
+                    SvgLines.Add($"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColour.ColourToString()}\" xmlns=\"http://www.w3.org/2000/svg\">");
                     break;
                 case FinalCircle circle: // "stroke" in SVG is our StrokeColour
                     SvgLines.Add($"<circle cx=\"{circle.Center.X}\" cy=\"{circle.Center.Y}\" r=\"{circle.Radius}\" fill=\"{circle.FillColour.ColourToString()}\" fill-opacity=\"{circle.FillColour.Alpha}\" stroke=\"{circle.StrokeColour.ColourToString()}\" stroke-width=\"{circle.Stroke}\" />");

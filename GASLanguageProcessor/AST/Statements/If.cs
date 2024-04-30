@@ -16,8 +16,8 @@ public class If : Statement
         Else = @else;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitIfStatement(this, scope);
+        return visitor.VisitIfStatement(this);
     }
 }

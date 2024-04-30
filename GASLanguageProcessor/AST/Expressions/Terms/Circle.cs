@@ -24,8 +24,8 @@ public class Circle : Term
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitCircle(this, scope);
+        return visitor.VisitCircle(this);
     }
 }

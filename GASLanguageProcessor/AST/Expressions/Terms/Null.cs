@@ -8,8 +8,8 @@ public class Null: Term
     {
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitNull(this, scope);
+        return visitor.VisitNull(this);
     }
 }

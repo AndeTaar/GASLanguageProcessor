@@ -24,6 +24,7 @@ public class FunctionTable
         {
             Functions[key].ReturnType = type;
         }
+        Scope.ParentScope?.fTable.SetReturnType(key, type);
     }
 
     public void SetParameterTypes(string key, List<GasType> parameters)
@@ -35,6 +36,7 @@ public class FunctionTable
                 Functions[key].Parameters[i].Type = parameters[i];
             }
         }
+        Scope.ParentScope?.fTable.SetParameterTypes(key, parameters);
     }
 
     public Function? LookUp(string key)

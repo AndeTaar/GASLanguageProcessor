@@ -111,7 +111,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return new For(declaration, condition, assignment, forBody);
         }
 
-        return new For(assignment, condition, assignment2, forBody);
+        return new For(assignment, condition, assignment2, forBody){ LineNumber = context.Start.Line };
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
@@ -120,7 +120,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         Expression value = context.expression().Accept(this) as Expression;
 
-        return new Assignment(identifier, value);
+        return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
@@ -147,7 +147,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitType(GASParser.TypeContext context)
     {
-        return new Type(context.GetText());
+        return new Type(context.GetText()){LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
@@ -192,7 +192,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        Type returnType = context.type()[0].Accept(this) as Type;
+        var returnType = context.type()[0].Accept(this) as Type;
         var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
 
         var types = context.type().Skip(1).ToList();
@@ -207,7 +207,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
         var body = ToCompound(statements);
-        return new FunctionDeclaration(identifier, parameters, body, returnType);
+        return new FunctionDeclaration(identifier, parameters, body, returnType) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)

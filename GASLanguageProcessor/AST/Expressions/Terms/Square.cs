@@ -22,8 +22,8 @@ public class Square: Term
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitSquare(this, scope);
+        return visitor.VisitSquare(this);
     }
 }
