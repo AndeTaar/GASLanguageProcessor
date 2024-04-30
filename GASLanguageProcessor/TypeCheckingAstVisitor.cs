@@ -100,6 +100,23 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Group;
     }
 
+    public GasType VisitListDeclaration(List node)
+    {
+        var listType = node.Type;
+        var expressions = node.Expressions.Select(expr => expr.Accept(this)).ToList();
+
+        foreach (var type in expressions)
+        {
+            if (type != listType)
+            {
+                errors.Add("Invalid type for list: expected: " + listType + " got: " + type);
+                return GasType.Error;
+            }
+        }
+
+        return GasType.List;
+    }
+
     public GasType VisitNumber(Number node)
     {
         return GasType.Number;

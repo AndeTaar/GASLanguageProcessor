@@ -128,7 +128,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             .Select(c => c.Accept(this))
             .ToList());
 
-        return new Group(identifier, point, statements);
+        return new Group(identifier, statements, point);
+    }
+    
+    public override AstNode VisitListDeclaration(GASParser.ListDeclarationContext context)
+    {
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new List(identifier, expressions);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -178,7 +185,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         Expression expression = context?.expression().Accept(this) as Expression;
         return new Return(expression);
     }
-
+    
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());

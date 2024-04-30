@@ -4,13 +4,13 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Group: Term
+public class Group : Term
 {
     public Identifier Identifier { get; protected set; }
     public Statement Statements { get; protected set; }
     public Expression Point { get; protected set; }
 
-    public Group(Identifier identifier, Expression point, Statement statements)
+    public Group(Identifier identifier, Statement statements, Expression point)
     {
         Identifier = identifier;
         Statements = statements;

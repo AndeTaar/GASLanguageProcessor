@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -48,7 +48,7 @@ public partial class GASParser : Parser {
 		RULE_program = 0, RULE_canvas = 1, RULE_statement = 2, RULE_declaration = 3, 
 		RULE_assignment = 4, RULE_ifStatement = 5, RULE_elseStatement = 6, RULE_whileStatement = 7, 
 		RULE_forStatement = 8, RULE_returnStatement = 9, RULE_classDeclaration = 10, 
-		RULE_functionDeclaration = 11, RULE_collectionDeclaration = 12, RULE_type = 13, 
+		RULE_functionDeclaration = 11, RULE_listDeclaration = 12, RULE_type = 13, 
 		RULE_expression = 14, RULE_equalityExpression = 15, RULE_relationExpression = 16, 
 		RULE_binaryExpression = 17, RULE_multExpression = 18, RULE_notExpression = 19, 
 		RULE_listAccessExpression = 20, RULE_term = 21, RULE_methodCall = 22, 
@@ -56,7 +56,7 @@ public partial class GASParser : Parser {
 	public static readonly string[] ruleNames = {
 		"program", "canvas", "statement", "declaration", "assignment", "ifStatement", 
 		"elseStatement", "whileStatement", "forStatement", "returnStatement", 
-		"classDeclaration", "functionDeclaration", "collectionDeclaration", "type", 
+		"classDeclaration", "functionDeclaration", "listDeclaration", "type", 
 		"expression", "equalityExpression", "relationExpression", "binaryExpression", 
 		"multExpression", "notExpression", "listAccessExpression", "term", "methodCall", 
 		"listTerm", "groupDeclaration", "functionCall"
@@ -250,8 +250,8 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public WhileStatementContext whileStatement() {
 			return GetRuleContext<WhileStatementContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionDeclarationContext collectionDeclaration() {
-			return GetRuleContext<CollectionDeclarationContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ListDeclarationContext listDeclaration() {
+			return GetRuleContext<ListDeclarationContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
 			return GetRuleContext<FunctionCallContext>(0);
@@ -327,7 +327,7 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 5);
 				{
 				State = 75;
-				collectionDeclaration();
+				listDeclaration();
 				}
 				break;
 			case 6:
@@ -1064,7 +1064,7 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class CollectionDeclarationContext : ParserRuleContext {
+	public partial class ListDeclarationContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public TypeContext[] type() {
 			return GetRuleContexts<TypeContext>();
 		}
@@ -1078,23 +1078,23 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		public CollectionDeclarationContext(ParserRuleContext parent, int invokingState)
+		public ListDeclarationContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_collectionDeclaration; } }
+		public override int RuleIndex { get { return RULE_listDeclaration; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitCollectionDeclaration(this);
+			if (typedVisitor != null) return typedVisitor.VisitListDeclaration(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CollectionDeclarationContext collectionDeclaration() {
-		CollectionDeclarationContext _localctx = new CollectionDeclarationContext(Context, State);
-		EnterRule(_localctx, 24, RULE_collectionDeclaration);
+	public ListDeclarationContext listDeclaration() {
+		ListDeclarationContext _localctx = new ListDeclarationContext(Context, State);
+		EnterRule(_localctx, 24, RULE_listDeclaration);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);

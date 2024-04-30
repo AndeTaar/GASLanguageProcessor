@@ -12,6 +12,7 @@ public enum GasType
     Circle,
     Rectangle,
     Group,
+    List,
     Square,
     Point,
     Line,

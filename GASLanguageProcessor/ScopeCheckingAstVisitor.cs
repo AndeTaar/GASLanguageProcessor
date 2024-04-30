@@ -25,13 +25,20 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitGroup(Group node)
     {
-        node.Scope = scope;
-        scope = scope.EnterScope(node);
+        node.Scope = scope.EnterScope(node);
         node.Statements.Accept(this);
-        scope = scope.ExitScope();
+        node.Scope.ExitScope();
         return true;
     }
 
+    public bool VisitListDeclaration(List node) 
+    {
+        node.Scope = scope.EnterScope(node);
+        var expressions = node.Expressions.Select(expr => expr.Accept(this)).ToList();
+        node.Scope.ExitScope();
+        return expressions.All(e => e);
+    }
+    
     public bool VisitNumber(Number node)
     {
         node.Scope = scope;

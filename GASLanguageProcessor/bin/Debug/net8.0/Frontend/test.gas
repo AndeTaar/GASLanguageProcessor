@@ -10,7 +10,7 @@ circle CircleCreator(point Center, number Width, number Stroke, colour Fill, col
 colour green = Colour(0, 255, 0, 1);
 colour black = Colour(255, 100, 100, 1);
 
-list<circle> circles = list<circle>();
+list<circle> circles = {CircleCreator(Point(50, 10), 40, 10, green, black), CircleCreator(Point(50, 10), 50, 10, green, black), CircleCreator(Point(50, 10), 60, 10, green, black)};
 number i;
 
 for(number i = 0; i < 10; i = i + 1;)

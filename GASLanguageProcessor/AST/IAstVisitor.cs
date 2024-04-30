@@ -13,6 +13,8 @@ public interface IAstVisitor<T>
     T VisitBinaryOp(BinaryOp node);
 
     T VisitGroup(Group node);
+    
+    T VisitListDeclaration(List node);
 
     T VisitNumber(Number node);
 
@@ -63,4 +65,5 @@ public interface IAstVisitor<T>
     T VisitColour(Colour colour);
 
     T VisitSquare(Square square);
+    
 }
