@@ -35,20 +35,18 @@ public class Scope
 
         if (ParentScope == null)
         {
-            fTable.Bind("Colour",
-                 new Function(GasType.Colour,
-                    new List<Variable>
-                    {
-                        new Variable("red", GasType.Number),
-                        new Variable("green", GasType.Number),
-                        new Variable("blue", GasType.Number),
-                        new Variable("alpha", GasType.Number)
-                    },
-                    new Return(new Colour(
-                        new Identifier("red"),
-                        new Identifier("green"),
-                        new Identifier("blue"),
-                        new Identifier("alpha"))),
+            fTable.Bind("Colour", new Function(GasType.Colour, new List<Variable>()
+                {
+                    new Variable("red", GasType.Number),
+                    new Variable("green", GasType.Number),
+                    new Variable("blue", GasType.Number),
+                    new Variable("alpha", GasType.Number)
+                },
+                new Return(new Colour(
+                    new Identifier("red"),
+                    new Identifier("green"),
+                    new Identifier("blue"),
+                    new Identifier("alpha"))),
                 new Scope(this, null)));
 
             fTable.Bind("Point", new Function(GasType.Point, new List<Variable>()
@@ -60,6 +58,7 @@ public class Scope
                     new Identifier("x"),
                     new Identifier("y"))),
                 new Scope(this, null)));
+
             fTable.Bind("Rectangle", new Function(GasType.Rectangle, new List<Variable>()
                 {
                     new Variable("topLeft", GasType.Point),
@@ -107,13 +106,13 @@ public class Scope
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
             {
                 new Variable("topLeft", GasType.Point),
-                new Variable("size", GasType.Number),
+                new Variable("length", GasType.Number),
                 new Variable("stroke", GasType.Number),
                 new Variable("colour", GasType.Colour),
                 new Variable("strokeColour", GasType.Colour)
             }, new Return(new Square(
                 new Identifier("topLeft"),
-                new Identifier("size"),
+                new Identifier("length"),
                 new Identifier("stroke"),
                 new Identifier("colour"),
                 new Identifier("strokeColour")

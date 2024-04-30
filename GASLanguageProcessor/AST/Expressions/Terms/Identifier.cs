@@ -11,8 +11,8 @@ public class Identifier : Term
         Name = name;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitIdentifier(this, scope);
+        return visitor.VisitIdentifier(this);
     }
 }

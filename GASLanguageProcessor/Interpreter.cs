@@ -2,6 +2,7 @@
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
@@ -15,23 +16,53 @@ public class Interpreter
     {
         switch (statement)
         {
+            case Canvas canvas:
+                var width = (float) EvaluateExpression(canvas.Width, scope);
+                var height = (float) EvaluateExpression(canvas.Height, scope);
+                var backgroundColour = (FinalColour) EvaluateExpression(canvas.BackgroundColour, scope);
+                var finalCanvas = new FinalCanvas(width, height, backgroundColour);
+                var canvasVariable = scope.vTable.LookUp("canvas");
+                canvasVariable.ActualValue = finalCanvas;
+                return finalCanvas;
             case Compound compound:
                 EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
+                return null;
+            case For @for:
+                EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
+                var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
+                while ((bool) condition)
+                {
+                    EvaluateStatement(@for.Statements, @for.Scope ?? scope);
+                    EvaluateStatement(@for.Increment, @for.Scope ?? scope);
+                    condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
+                }
                 return null;
             case FunctionDeclaration functionDeclaration:
                 return null;
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, declaration.Scope ?? scope);
-                var identifier = declaration.Identifier.Name;
-                var variable = scope.vTable.LookUp(identifier);
+                var declIdentifier = declaration.Identifier.Name;
+                var variable = scope.vTable.LookUp(declIdentifier);
                 if (variable == null)
                 {
-                    Console.WriteLine($"Variable {identifier} not found");
+                    Console.WriteLine($"Variable {declIdentifier} not found");
                     return null;
                 }
                 variable.ActualValue = val;
                 return val;
+            case Assignment assignment:
+                var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
+                var assignIdentifier = assignment.Identifier.Name;
+                var assignVariable = scope.vTable.LookUp(assignIdentifier);
+                if (assignVariable == null)
+                {
+                    Console.WriteLine($"Variable {assignIdentifier} not found");
+                    return null;
+                }
+                assignVariable.ActualValue = assignExpression;
+                return assignExpression;
+
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
         }
@@ -49,20 +80,22 @@ public class Interpreter
                 {
                     throw new Exception($"Function {functionCall.Identifier.Name} not found");
                 }
+
+                var functionCallScope = functionCall.Scope ?? scope;
                 var functionScope = function.Scope;
                 functionScope.vTable.Variables.Clear();
-                for (var i = 0; i < functionCall.Arguments.Count; i++)
+                for (int i = 0; i < function.Parameters.Count; i++)
                 {
-                    var val = EvaluateExpression(functionCall.Arguments[i], scope);
-                    var identifier = function.Parameters[i].Identifier;
-                    functionScope.vTable.Bind(identifier, new Variable(identifier, GasType.Number, val));
+                    var parameter = function.Parameters[i];
+                    var val = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
+                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, val));
                 }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
 
             case BinaryOp binaryOp:
-                var left = EvaluateExpression(binaryOp.Left, binaryOp.Scope ?? scope);
-                var right = EvaluateExpression(binaryOp.Right, binaryOp.Scope ?? scope);
+                var left = EvaluateExpression(binaryOp.Left, scope);
+                var right = EvaluateExpression(binaryOp.Right, scope);
 
                 return binaryOp.Op switch
                 {
@@ -70,22 +103,39 @@ public class Interpreter
                     {
                         GasType.Number => (float)left + (float)right,
                         GasType.String => (string)left + (string)right,
-                        _ => throw new NotImplementedException()
+                        _ => (float) left + (float) right
                     },
                     "-" => (float)left - (float)right,
                     "*" => (float)left * (float)right,
                     "/" => (float)left / (float)right,
+                    "<" => (float)left < (float)right,
+                    ">" => (float)left > (float)right,
                     _ => throw new NotImplementedException()
                 };
 
             case Identifier identifier:
+                if (scope == null || scope.vTable == null || identifier == null || identifier.Name == null)
+                {
+                    throw new Exception("Scope, VariableTable, Identifier or Identifier Name is null");
+                }
+
                 var variable = scope.vTable.LookUp(identifier.Name);
 
-                if (variable?.ActualValue != null)
+                if (variable == null)
+                {
+                    throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
+                }
+
+                if(variable.FormalValue == null && variable.ActualValue == null)
+                {
+                    throw new Exception($"Variable {identifier.Name} has no value");
+                }
+
+                if (variable.ActualValue != null)
                 {
                     return variable.ActualValue;
                 }
-                return EvaluateExpression(scope.vTable.LookUp(identifier.Name)?.FormalValue, scope);
+                return EvaluateExpression(variable.FormalValue, scope);
 
             case Number number:
                 return float.Parse(number.Value);
@@ -94,55 +144,55 @@ public class Interpreter
                 return stringTerm.Value;
 
             case Colour colour:
-                var red = (float)EvaluateExpression(colour.Red, scope);
-                var green = (float)EvaluateExpression(colour.Green, scope);
-                var blue = (float)EvaluateExpression(colour.Blue, scope);
-                var alpha = (float)EvaluateExpression(colour.Alpha, scope);
-                return new {red, green, blue, alpha};
+                var red = (float) EvaluateExpression(colour.Red, scope);
+                var green = (float) EvaluateExpression(colour.Green, scope);
+                var blue = (float) EvaluateExpression(colour.Blue, scope);
+                var alpha = (float) EvaluateExpression(colour.Alpha, scope);
+                return new FinalColour(red, green, blue, alpha);
 
             case Point point:
                 var x = (float)EvaluateExpression(point.X, scope);
                 var y = (float)EvaluateExpression(point.Y, scope);
-                return new {x, y};
+                return new FinalPoint(x, y);
 
             case Square square:
-                var topLeft = EvaluateExpression(square.TopLeft, scope);
-                var bottomRight = EvaluateExpression(square.BottomRight, scope);
+                var topLeft = (FinalPoint) EvaluateExpression(square.TopLeft, scope);
+                var length = (float) EvaluateExpression(square.Length, scope);
                 var strokeSize = (float) EvaluateExpression(square.Stroke, scope);
-                var squareFillColour = EvaluateExpression(square.Colour, scope);
-                var squareStrokeColour = EvaluateExpression(square.StrokeColour, scope);
-                return new { topLeft, bottomRight, strokeSize, squareFillColour, squareStrokeColour };
+                var squareFillColour = (FinalColour) EvaluateExpression(square.Colour, scope);
+                var squareStrokeColour =(FinalColour) EvaluateExpression(square.StrokeColour, scope);
+                return new FinalSquare(topLeft, length, strokeSize, squareFillColour, squareStrokeColour);
 
             case Text text:
                 var value = (string) EvaluateExpression(text.Value, scope);
-                var position = EvaluateExpression(text.Position, scope);
+                var position = (FinalPoint) EvaluateExpression(text.Position, scope);
                 var font = (string) EvaluateExpression(text.Font, scope);
                 var fontSize = (float) EvaluateExpression(text.FontSize, scope);
-                var textColour = EvaluateExpression(text.Colour, scope);
-                return new { value, position, font, fontSize, textColour };
+                var textColour = (FinalColour) EvaluateExpression(text.Colour, scope);
+                return new FinalText(value, position, font, fontSize, textColour);
 
             case Circle circle:
-                var centre = EvaluateExpression(circle.Center, scope);
-                var radius =  EvaluateExpression(circle.Radius, scope);
-                var stroke = EvaluateExpression(circle.Stroke, scope);
-                var fillColour = EvaluateExpression(circle.Colour, scope);
-                var strokeColour = EvaluateExpression(circle.StrokeColour, scope);
-                return new { centre, radius, stroke, fillColour, strokeColour };
+                var centre = (FinalPoint) EvaluateExpression(circle.Center, scope);
+                var radius = (float) EvaluateExpression(circle.Radius, scope);
+                var stroke = (float) EvaluateExpression(circle.Stroke, scope);
+                var fillColour = (FinalColour) EvaluateExpression(circle.Colour, scope);
+                var strokeColour = (FinalColour) EvaluateExpression(circle.StrokeColour, scope);
+                return new FinalCircle(centre, radius, stroke, fillColour, strokeColour);
 
             case Rectangle rectangle:
-                var rectTopLeft = EvaluateExpression(rectangle.TopLeft, scope);
-                var rectBottomRight = EvaluateExpression(rectangle.BottomRight, scope);
+                var rectTopLeft = (FinalPoint) EvaluateExpression(rectangle.TopLeft, scope);
+                var rectBottomRight = (FinalPoint) EvaluateExpression(rectangle.BottomRight, scope);
                 var rectStroke = (float) EvaluateExpression(rectangle.Stroke, scope);
-                var rectFillColour = EvaluateExpression(rectangle.Colour, scope);
-                var rectStrokeColour = EvaluateExpression(rectangle.StrokeColour, scope);
-                return new { rectTopLeft, rectBottomRight, rectStroke, rectFillColour, rectStrokeColour };
+                var rectFillColour = (FinalColour) EvaluateExpression(rectangle.Colour, scope);
+                var rectStrokeColour = (FinalColour) EvaluateExpression(rectangle.StrokeColour, scope);
+                return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColour, rectStrokeColour);
 
             case Line line:
-                var lineStart = EvaluateExpression(line.Start, scope);
-                var lineEnd = EvaluateExpression(line.End, scope);
+                var lineStart = (FinalPoint) EvaluateExpression(line.Start, scope);
+                var lineEnd = (FinalPoint) EvaluateExpression(line.End, scope);
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
-                var lineColour = EvaluateExpression(line.Colour, scope);
-                return new { lineStart, lineEnd, lineStroke, lineColour };
+                var lineColour = (FinalColour) EvaluateExpression(line.Colour, scope);
+                return new FinalLine(lineStart, lineEnd, lineStroke, lineColour);
         }
 
         return null;

@@ -13,8 +13,8 @@ public class Point : Term
         Y = y;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitPoint(this, scope);
+        return visitor.VisitPoint(this);
     }
 }

@@ -20,8 +20,8 @@ public class FunctionDeclaration: Statement
         ReturnType = returnType;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitFunctionDeclaration(this, scope);
+        return visitor.VisitFunctionDeclaration(this);
     }
 }

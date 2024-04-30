@@ -10,17 +10,21 @@ public class Variable
     public Expression FormalValue { get; set; }
     public object ActualValue { get; set; }
 
-    public Variable(string identifier, GasType type, Expression? formalValue = null)
+    public Variable(string identifier, Expression? formalValue = null)
     {
         Identifier = identifier;
-        Type = type;
         FormalValue = formalValue;
     }
 
-    public Variable(string identifier, GasType type, object actualValue)
+    public Variable(string identifier, object actualValue)
+    {
+        Identifier = identifier;
+        ActualValue = actualValue;
+    }
+
+    public Variable(string identifier, GasType type)
     {
         Identifier = identifier;
         Type = type;
-        ActualValue = actualValue;
     }
 }

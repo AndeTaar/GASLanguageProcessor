@@ -7,18 +7,18 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 public class Group: Term
 {
     public Identifier Identifier { get; protected set; }
-    public List<AstNode> Terms { get; protected set; }
-    public AstNode Point { get; protected set; }
+    public Statement Statements { get; protected set; }
+    public Expression Point { get; protected set; }
 
-    public Group(Identifier identifier, AstNode point, List<AstNode> terms)
+    public Group(Identifier identifier, Expression point, Statement statements)
     {
         Identifier = identifier;
-        Terms = terms;
+        Statements = statements;
         Point = point;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitGroup(this, scope);
+        return visitor.VisitGroup(this);
     }
 }

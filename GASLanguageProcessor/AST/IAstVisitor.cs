@@ -10,57 +10,57 @@ namespace GASLanguageProcessor.AST;
 
 public interface IAstVisitor<T>
 {
-    T VisitBinaryOp(BinaryOp node, Scope scope);
+    T VisitBinaryOp(BinaryOp node);
 
-    T VisitGroup(Group node, Scope scope);
+    T VisitGroup(Group node);
 
-    T VisitNumber(Number node, Scope scope);
+    T VisitNumber(Number node);
 
-    T VisitIfStatement(If node, Scope scope);
+    T VisitIfStatement(If node);
 
-    T VisitBoolean(Boolean node, Scope scope);
+    T VisitBoolean(Boolean node);
 
-    T VisitIdentifier(Identifier node, Scope scope);
+    T VisitIdentifier(Identifier node);
 
-    T VisitCompound(Compound node, Scope scope);
+    T VisitCompound(Compound node);
 
-    T VisitAssignment(Assignment node, Scope scope);
+    T VisitAssignment(Assignment node);
 
-    T VisitDeclaration(Declaration node, Scope scope);
+    T VisitDeclaration(Declaration node);
 
-    T VisitCanvas(Canvas node, Scope scope);
+    T VisitCanvas(Canvas node);
 
-    T VisitWhile(While node, Scope scope);
+    T VisitWhile(While node);
 
-    T VisitFor(For node, Scope scope);
+    T VisitFor(For node);
 
-    T VisitSkip(Skip node, Scope scope);
+    T VisitSkip(Skip node);
 
-    T VisitUnaryOp(UnaryOp node, Scope scope);
+    T VisitUnaryOp(UnaryOp node);
 
-    T VisitString(String s, Scope scope);
+    T VisitString(String s);
 
-    T VisitType(Type type, Scope scope);
+    T VisitType(Type type);
 
-    T VisitFunctionDeclaration(FunctionDeclaration functionDeclaration, Scope scope);
+    T VisitFunctionDeclaration(FunctionDeclaration functionDeclaration);
 
-    T VisitFunctionCall(FunctionCall functionCall, Scope scope);
+    T VisitFunctionCall(FunctionCall functionCall);
 
-    T VisitReturn(Return @return, Scope scope);
+    T VisitReturn(Return @return);
 
-    T VisitNull(Null @null, Scope scope);
+    T VisitNull(Null @null);
 
-    T VisitLine(Line line, Scope scope);
+    T VisitLine(Line line);
 
-    T VisitText(Text text, Scope scope);
+    T VisitText(Text text);
 
-    T VisitCircle(Circle circle, Scope scope);
+    T VisitCircle(Circle circle);
 
-    T VisitRectangle(Rectangle rectangle, Scope scope);
+    T VisitRectangle(Rectangle rectangle);
 
-    T VisitPoint(Point point, Scope scope);
+    T VisitPoint(Point point);
 
-    T VisitColour(Colour colour, Scope scope);
+    T VisitColour(Colour colour);
 
-    T VisitSquare(Square square, Scope scope);
+    T VisitSquare(Square square);
 }

@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Terms;
+
+namespace GASLanguageProcessor.TableType;
 
 public class VariableTable
 {
@@ -14,6 +16,11 @@ public class VariableTable
     public void Bind(string key, Variable value)
     {
         Variables.Add(key, value);
+    }
+
+    public void SetType(string key, GasType type)
+    {
+        Variables[key].Type = type;
     }
 
     public Variable? LookUp(string key)

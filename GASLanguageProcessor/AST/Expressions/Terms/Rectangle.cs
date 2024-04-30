@@ -23,8 +23,8 @@ public class Rectangle: Term
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitRectangle(this, scope);
+        return visitor.VisitRectangle(this);
     }
 }

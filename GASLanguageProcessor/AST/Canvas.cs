@@ -1,26 +1,27 @@
 ﻿using GASLanguageProcessor.AST;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor;
 
-public class Canvas : AstNode
+public class Canvas : Statement
 {
-    public AstNode Width { get; protected set; }
+    public Expression Width { get; protected set; }
 
-    public AstNode Height { get; protected set; }
+    public Expression Height { get; protected set; }
 
-    public AstNode BackgroundColour { get; protected set; }
+    public Expression BackgroundColour { get; protected set; }
 
-    public Canvas(AstNode width, AstNode height, AstNode backgroundColour)
+    public Canvas(Expression width, Expression height, Expression backgroundColour)
     {
         Width = width;
         Height = height;
         BackgroundColour = backgroundColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitCanvas(this, scope);
+        return visitor.VisitCanvas(this);
     }
 }

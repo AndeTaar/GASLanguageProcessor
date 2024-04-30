@@ -3,7 +3,6 @@ using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
-using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -13,42 +12,58 @@ namespace GASLanguageProcessor;
 public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 {
     public List<string> errors = new();
+    private IAstVisitor<GasType> _astVisitorImplementation;
 
-    public GasType VisitBinaryOp(BinaryOp node, Scope scope)
+    public GasType VisitBinaryOp(BinaryOp node)
     {
         var @operator = node.Op;
-        var left = node.Left.Accept(this, scope);
-        var right = node.Right.Accept(this, scope);
+        var left = node.Left.Accept(this);
+        var right = node.Right.Accept(this);
 
         switch (@operator)
         {
             case "+":
                 if (left == GasType.String && right == GasType.String)
+                {
+                    node.Type = GasType.String;
                     return GasType.String;
+                }
 
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Number;
                     return GasType.Number;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "-" or "*" or "/":
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Number;
                     return GasType.Number;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "<" or ">" or "<=" or ">=":
                 if (left == GasType.Number && right == GasType.Number)
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "&&" or "||":
                 if (left == GasType.Boolean && right == GasType.Boolean)
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
@@ -56,7 +71,10 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             case "==" or "!=":
                 if ((left == GasType.Boolean && right == GasType.Boolean) ||
                     (left == GasType.Number && right == GasType.Number))
+                {
+                    node.Type = GasType.Boolean;
                     return GasType.Boolean;
+                }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
@@ -68,40 +86,48 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         }
     }
 
-    public GasType VisitGroup(Group node, Scope scope)
+    public GasType VisitGroup(Group node)
     {
-        node.Terms.ForEach(no => no.Accept(this, scope));
+        node.Statements.Accept(this);
+        var point = node.Point.Accept(this);
+
+        if (point != GasType.Point)
+        {
+            errors.Add("Invalid type for point: expected: Point, got: " + point);
+            return GasType.Error;
+        }
+
         return GasType.Group;
     }
 
-    public GasType VisitNumber(Number node, Scope scope)
+    public GasType VisitNumber(Number node)
     {
         return GasType.Number;
     }
 
-    public GasType VisitIfStatement(If node, Scope scope)
+    public GasType VisitIfStatement(If node)
     {
-        var condition = node.Condition.Accept(this, scope);
-        var ifScope = scope.EnterScope(node);
-        node.Statements?.Accept(this, ifScope);
-        node.Else?.Accept(this, scope);
+        var condition = node.Condition.Accept(this);
+        node.Statements?.Accept(this);
+        node.Else?.Accept(this);
 
         if (condition != GasType.Boolean)
         {
-            errors.Add("Invalid type for if condition: expected: Boolean, got: " + condition);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for if condition: expected: Boolean, got: " + condition);
             return GasType.Error;
         }
 
         return GasType.Error;
     }
 
-    public GasType VisitBoolean(Boolean node, Scope scope)
+    public GasType VisitBoolean(Boolean node)
     {
         return GasType.Boolean;
     }
 
-    public GasType VisitIdentifier(Identifier node, Scope scope)
+    public GasType VisitIdentifier(Identifier node)
     {
+        var scope = node.Scope;
         GasType type;
         try
         {
@@ -109,24 +135,25 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         }
         catch (Exception e)
         {
-            errors.Add("Variable name: " + node.Name + " not found");
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
             return GasType.Error;
         }
         return type;
     }
 
-    public GasType VisitCompound(Compound node, Scope scope)
+    public GasType VisitCompound(Compound node)
     {
-        var left = node.Statement1?.Accept(this, scope);
-        var right = node.Statement2?.Accept(this, scope);
+        var left = node.Statement1?.Accept(this);
+        var right = node.Statement2?.Accept(this);
 
         return GasType.Error;
     }
 
-    public GasType VisitAssignment(Assignment node, Scope scope)
+    public GasType VisitAssignment(Assignment node)
     {
+        var scope = node.Scope;
         var left = node.Identifier.Name;
-        var type = node.Value.Accept(this, scope);
+        var type = node.Expression.Accept(this);
 
         var variable = scope.vTable.LookUp(left);
 
@@ -138,41 +165,49 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
         if (variable.Type != type)
         {
-            errors.Add("Invalid type for variable: " + left + " expected: " + variable.Type + " got: " + type);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + left + " expected: " + variable.Type + " got: " + type);
             return GasType.Error;
         }
 
         return type;
     }
 
-    public GasType VisitDeclaration(Declaration node, Scope scope)
+    public GasType VisitDeclaration(Declaration node)
     {
+        var scope = node.Scope;
         var identifier = node.Identifier.Name;
-        var type = node.Type.Accept(this, scope);
+        var type = node.Type.Accept(this);
         var value = node.Expression;
-        var typeOfValue = value?.Accept(this, scope);
+        var typeOfValue = value?.Accept(this);
         if (type != typeOfValue && typeOfValue != null)
         {
-            errors.Add("Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
             return GasType.Error;
         }
 
-        if (scope.vTable.LookUp(identifier) != null)
-        {
-            errors.Add("Variable name: " + identifier + " is already declared elsewhere");
-            return GasType.Error;
-        }
-
-        scope.vTable.Bind(identifier, new Variable(identifier, type, value));
-
+        scope.vTable.SetType(identifier, type);
         return type;
     }
 
-    public GasType VisitCanvas(Canvas node, Scope scope)
+    public GasType VisitCanvas(Canvas node)
     {
-        var width = node.Width;
-        var height = node.Height;
-        var backgroundColourType = node.BackgroundColour.Accept(this, scope);
+        var width = node.Width.Accept(this);
+        var height = node.Height.Accept(this);
+
+        if (width != GasType.Number)
+        {
+            errors.Add("Invalid width type");
+            return GasType.Error;
+        }
+
+        if (height != GasType.Number)
+        {
+            errors.Add("Invalid height type");
+            return GasType.Error;
+        }
+
+        var backgroundColourType = node.BackgroundColour.Accept(this);
+
         if (backgroundColourType != GasType.Colour)
         {
             errors.Add("Invalid background colour type");
@@ -182,11 +217,10 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Canvas;
     }
 
-    public GasType VisitWhile(While node, Scope scope)
+    public GasType VisitWhile(While node)
     {
-        var condition = node.Condition.Accept(this, scope);
-        var whileScope = scope.EnterScope(node);
-        node.Statements.Accept(this, whileScope);
+        var condition = node.Condition.Accept(this);
+        node.Statements.Accept(this);
 
         if (condition != GasType.Boolean)
         {
@@ -197,13 +231,12 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Error;
     }
 
-    public GasType VisitFor(For node, Scope scope)
+    public GasType VisitFor(For node)
     {
-        var scopeFor = scope.EnterScope(node);
-        var assignment = node.Assignment?.Accept(this, scopeFor);
-        var declaration = node.Declaration?.Accept(this, scopeFor);
-        var condition = node.Condition.Accept(this, scopeFor);
-        node.Body.Accept(this, scopeFor);
+        var assignment = node.Assignment?.Accept(this);
+        var declaration = node.Declaration?.Accept(this);
+        var condition = node.Condition.Accept(this);
+        node.Statements?.Accept(this);
 
         if(assignment != GasType.Number && declaration != GasType.Number)
         {
@@ -220,22 +253,22 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Error;
     }
 
-    public GasType VisitSkip(Skip node, Scope scope)
+    public GasType VisitSkip(Skip node)
     {
         throw new System.NotImplementedException();
     }
 
-    public GasType VisitUnaryOp(UnaryOp node, Scope scope)
+    public GasType VisitUnaryOp(UnaryOp node)
     {
         throw new System.NotImplementedException();
     }
 
-    public GasType VisitString(String s, Scope scope)
+    public GasType VisitString(String s)
     {
         return GasType.String;
     }
 
-    public GasType VisitType(Type type, Scope scope)
+    public GasType VisitType(Type type)
     {
         switch (type.Value)
         {
@@ -264,106 +297,98 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Error;
     }
 
-    public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration, Scope scope)
+    public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration)
     {
-        var returnType = functionDeclaration.ReturnType.Accept(this, scope);
+        var scope = functionDeclaration.Scope;
+        var returnType = functionDeclaration.ReturnType.Accept(this);
+        var identifier = functionDeclaration.Identifier.Name;
+        var function = scope.fTable.LookUp(identifier);
 
-        var identifier = functionDeclaration.Identifier;
+        if (function == null)
+        {
+            errors.Add(" Function name: " + identifier + " cannot be found");
+            return GasType.Error;
+        }
 
-        var funcDeclScope = scope.EnterScope(functionDeclaration);
+        var parameters = functionDeclaration.Declarations.Select(decl => decl.Accept(this)).ToList();
 
-        var parameters = functionDeclaration.Declarations.Select(decl => new Variable(decl.Identifier.Name,
-            decl.Accept(this, funcDeclScope), null)).ToList();
-
-        var statements = functionDeclaration.Statements;
-        scope.fTable.Bind(identifier.Name, new Function(returnType, parameters, statements, funcDeclScope));
-
+        scope.fTable.SetReturnType(identifier, returnType);
+        scope.fTable.SetParameterTypes(identifier, parameters);
         return returnType;
     }
 
-    public GasType VisitReturn(Return @return, Scope scope)
+    public GasType VisitReturn(Return @return)
     {
-        return @return.Expression.Accept(this, scope);
+        return @return.Expression.Accept(this);
     }
 
-    public GasType VisitNull(Null @null, Scope scope)
+    public GasType VisitNull(Null @null)
     {
         return GasType.Null;
     }
 
-    public GasType VisitLine(Line line, Scope scope)
+    public GasType VisitLine(Line line)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitText(Text text, Scope scope)
+    public GasType VisitText(Text text)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitCircle(Circle circle, Scope scope)
+    public GasType VisitCircle(Circle circle)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitRectangle(Rectangle rectangle, Scope scope)
+    public GasType VisitRectangle(Rectangle rectangle)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitPoint(Point point, Scope scope)
+    public GasType VisitPoint(Point point)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitColour(Colour colour, Scope scope)
+    public GasType VisitColour(Colour colour)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitSquare(Square square, Scope scope)
+    public GasType VisitSquare(Square square)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitFunctionCall(FunctionCall functionCall, Scope scope)
+    public GasType VisitFunctionCall(FunctionCall functionCall)
     {
         var identifier = functionCall.Identifier;
+        var scope = functionCall.Scope;
 
         var parameterTypes = new List<GasType>();
         foreach (var parameter in functionCall.Arguments)
         {
-            parameterTypes.Add(parameter.Accept(this, scope));
+            parameterTypes.Add(parameter.Accept(this));
         }
 
-        var type = scope.fTable.LookUp(identifier.Name);
+        var function = scope.fTable.LookUp(identifier.Name);
 
-        if(type == null){
-            errors.Add("Function name: " + functionCall.Identifier.Name + " not found");
+        if (function.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
             return GasType.Error;
         }
 
-        if (type.Parameters.Count != parameterTypes.Count)
+        for (int i = 0; i < function.Parameters.Count; i++)
         {
-            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + type.Parameters.Count + " got: " + parameterTypes.Count);
-            return GasType.Error;
-        }
-
-        bool error = false;
-        for (int i = 0; i < type.Parameters.Count; i++)
-        {
-            if (type.Parameters[i].Type != parameterTypes[i])
+            if (function.Parameters[i].Type != parameterTypes[i])
             {
-                errors.Add("Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + type.Parameters[i].Type + " got: " + parameterTypes[i]);
-                error = true;
+                errors.Add("Line: " + functionCall.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
             }
         }
 
-        if (error)
-        {
-            return GasType.Error;
-        }
-
-        return type.ReturnType;
+        return function.ReturnType;
     }
 }
