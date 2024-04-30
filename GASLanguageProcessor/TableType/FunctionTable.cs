@@ -1,8 +1,10 @@
-﻿namespace GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Terms;
+
+namespace GASLanguageProcessor.TableType;
 
 public class FunctionTable
 {
-    public Dictionary<string, FunctionType> Functions { get; protected set; } = new();
+    public Dictionary<string, Function> Functions { get; protected set; } = new();
 
     public Scope Scope { get; set; }
 
@@ -11,12 +13,33 @@ public class FunctionTable
         this.Scope = scope;
     }
 
-    public void Bind(string key, FunctionType value)
+    public void Bind(string key, Function value)
     {
         Functions.Add(key, value);
     }
 
-    public FunctionType? LookUp(string key)
+    public void SetReturnType(string key, GasType type)
+    {
+        if (Functions.ContainsKey(key))
+        {
+            Functions[key].ReturnType = type;
+        }
+        Scope.ParentScope?.fTable.SetReturnType(key, type);
+    }
+
+    public void SetParameterTypes(string key, List<GasType> parameters)
+    {
+        if (Functions.ContainsKey(key))
+        {
+            for (int i = 0; i < Functions[key].Parameters.Count; i++)
+            {
+                Functions[key].Parameters[i].Type = parameters[i];
+            }
+        }
+        Scope.ParentScope?.fTable.SetParameterTypes(key, parameters);
+    }
+
+    public Function? LookUp(string key)
     {
         if (Functions.ContainsKey(key))
         {

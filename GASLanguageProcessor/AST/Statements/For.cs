@@ -5,30 +5,30 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class For : Statement
 {
-    public Declaration Declaration { get; protected set; }
-    public Assignment Assignment { get; protected set; }
+    public Declaration? Declaration { get; protected set; }
+    public Assignment? Assignment { get; protected set; }
     public Expression Condition { get; protected set; }
     public Assignment Increment { get; protected set; }
-    public Compound Body { get; protected set; }
+    public Statement Statements { get; protected set; }
 
-    public For(Assignment assignment, Expression condition, Assignment increment, Compound body)
+    public For(Assignment assignment, Expression condition, Assignment increment, Statement statements)
     {
         Assignment = assignment;
         Condition = condition;
         Increment = increment;
-        Body = body;
+        Statements = statements;
     }
 
-    public For(Declaration declaration, Expression condition, Assignment increment, Compound body)
+    public For(Declaration declaration, Expression condition, Assignment increment, Statement statements)
     {
         Declaration = declaration;
         Condition = condition;
         Increment = increment;
-        Body = body;
+        Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitFor(this, scope);
+        return visitor.VisitFor(this);
     }
 }

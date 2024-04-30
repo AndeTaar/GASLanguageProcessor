@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Boolean : Expression
+public class Boolean : Term
 {
     public string Value { get; protected set; }
 
@@ -11,8 +11,8 @@ public class Boolean : Expression
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitBoolean(this, scope);
+        return visitor.VisitBoolean(this);
     }
 }

@@ -24,8 +24,22 @@ static void Main(string[] args)
     errorListener.StopIfErrors();
     AstNode ast = parseTree.Accept(new ToAstVisitor());
     var typeCheckingVisitor = new TypeCheckingAstVisitor();
-    var globalScope = new Scope(null, null);
-    ast.Accept(typeCheckingVisitor, globalScope);
+    var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
+    ast.Accept(scopeCheckingVisitor);
+    scopeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(scopeCheckingVisitor.errors.Count > 0)
+    {
+        return;
+    }
+    ast.Accept(typeCheckingVisitor);
     typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(typeCheckingVisitor.errors.Count > 0)
+    {
+        return;
+    }
+    Interpreter interpreter = new Interpreter();
+    interpreter.EvaluateStatement(ast as Statement, scopeCheckingVisitor.scope);
+    SvgGenerator svgGenerator = new SvgGenerator();
+    svgGenerator.GenerateSvg(scopeCheckingVisitor.scope.vTable);
     Console.WriteLine(ast);
 }

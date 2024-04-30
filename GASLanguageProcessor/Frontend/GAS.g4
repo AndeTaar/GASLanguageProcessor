@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
-functionDeclaration | groupDeclaration | forStatement;
+functionDeclaration | groupDeclaration | forStatement | returnStatement | classDeclaration | methodCall;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?';';
@@ -17,10 +17,10 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) expression  ';' assignment ')' '{' (statement)* '}';
 returnStatement : 'return' expression ';';
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
-functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* returnStatement? '}';
+functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
 //Collection types
-collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' '{' (expression (',' expression)*)? '}' ';';
+collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' ( 'list' '<' type '>' '(' ')')? ('{' (expression (',' expression)*)? '}')? ';';
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
@@ -38,8 +38,9 @@ listAccessExpression : term ('[' expression ']')?;
 
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS;
-parameterAccess : IDENTIFIER '.' IDENTIFIER;
+ functionCall | ALLSTRINGS | methodCall;
+
+methodCall : IDENTIFIER '.' IDENTIFIER ('(' (expression (',' expression)*)? ')')?;
 
 listTerm : '{' (expression (',' expression)*)? '}';
 groupDeclaration : 'group' IDENTIFIER '=' 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')' ';';

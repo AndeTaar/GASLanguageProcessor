@@ -1,8 +1,10 @@
-﻿namespace GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.AST.Terms;
+
+namespace GASLanguageProcessor.TableType;
 
 public class VariableTable
 {
-    public Dictionary<string, VariableType> Variables { get; protected set; } = new();
+    public Dictionary<string, Variable> Variables { get; protected set; } = new();
 
     public Scope Scope { get; set; }
 
@@ -11,12 +13,17 @@ public class VariableTable
         this.Scope = scope;
     }
 
-    public void Bind(string key, VariableType value)
+    public void Bind(string key, Variable value)
     {
         Variables.Add(key, value);
     }
 
-    public VariableType? LookUp(string key)
+    public void SetType(string key, GasType type)
+    {
+        Variables[key].Type = type;
+    }
+
+    public Variable? LookUp(string key)
     {
         if (Variables.ContainsKey(key))
         {

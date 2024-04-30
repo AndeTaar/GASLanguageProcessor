@@ -3,28 +3,29 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Circle : Expression
+public class Circle : Term
 {
-    public AstNode Center { get; protected set; }
-    public AstNode Radius { get; protected set; }
+    public Expression Center { get; protected set; }
 
-    public AstNode StrokeWidth { get; protected set; }
+    public Expression Radius { get; protected set; }
 
-    public AstNode Colour { get; protected set; }
+    public Expression Stroke { get; protected set; }
 
-    public AstNode StrokeColour { get; protected set; }
+    public Expression Colour { get; protected set; }
 
-    public Circle(AstNode center, AstNode radius, AstNode strokeWidth, AstNode colour, AstNode strokeColour)
+    public Expression StrokeColour { get; protected set; }
+
+    public Circle(Expression center, Expression radius, Expression stroke, Expression colour, Expression strokeColour)
     {
         Center = center;
         Radius = radius;
-        StrokeWidth = strokeWidth;
+        Stroke = stroke;
         Colour = colour;
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitCircle(this, scope);
+        return visitor.VisitCircle(this);
     }
 }

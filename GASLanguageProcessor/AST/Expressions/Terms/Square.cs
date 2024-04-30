@@ -2,28 +2,28 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Square: Expression
+public class Square: Term
 {
-    public AstNode TopLeft { get; protected set; }
-    public AstNode BottomRight { get; protected set; }
+    public Expression TopLeft { get; protected set; }
+    public Expression Length { get; protected set; }
 
-    public AstNode StrokeWidth { get; protected set; }
+    public Expression Stroke { get; protected set; }
 
-    public AstNode Colour { get; protected set; }
+    public Expression Colour { get; protected set; }
 
-    public AstNode StrokeColour { get; protected set; }
+    public Expression StrokeColour { get; protected set; }
 
-    public Square(AstNode topLeft, AstNode bottomRight, AstNode strokeWidth, AstNode colour, AstNode strokeColour)
+    public Square(Expression topLeft, Expression length, Expression stroke, Expression colour, Expression strokeColour)
     {
         TopLeft = topLeft;
-        BottomRight = bottomRight;
-        StrokeWidth = strokeWidth;
+        Length = length;
+        Stroke = stroke;
         Colour = colour;
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitSquare(this, scope);
+        return visitor.VisitSquare(this);
     }
 }

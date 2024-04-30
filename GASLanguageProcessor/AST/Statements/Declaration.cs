@@ -10,17 +10,17 @@ public class Declaration : Statement
 {
     public Type Type { get; protected set; }
     public Identifier Identifier { get; protected set; }
-    public Expression? Value { get; protected set; }
+    public Expression? Expression { get; protected set; }
 
-    public Declaration(Type type, Identifier identifier, Expression? value)
+    public Declaration(Type type, Identifier identifier, Expression? expression)
     {
         Type = type;
         Identifier = identifier;
-        Value = value;
+        Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitDeclaration(this, scope);
+        return visitor.VisitDeclaration(this);
     }
 }

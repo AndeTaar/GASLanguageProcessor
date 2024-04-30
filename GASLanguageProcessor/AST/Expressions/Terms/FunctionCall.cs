@@ -1,21 +1,20 @@
-﻿using GASLanguageProcessor.AST.Expressions;
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class FunctionCall: Expression
+public class FunctionCall: Term
 {
     public Identifier Identifier { get; protected set; }
-    public List<AstNode> Parameters { get; protected set; }
+    public List<Expression> Arguments { get; protected set; }
 
-    public FunctionCall(Identifier identifier, List<AstNode> parameters)
+    public FunctionCall(Identifier identifier, List<Expression> arguments)
     {
         Identifier = identifier;
-        Parameters = parameters;
+        Arguments = arguments;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitFunctionCall(this, scope);
+        return visitor.VisitFunctionCall(this);
     }
 }

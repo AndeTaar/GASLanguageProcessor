@@ -2,19 +2,19 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Rectangle: Expression
+public class Rectangle: Term
 {
-    public AstNode TopLeft { get; protected set; }
+    public Expression TopLeft { get; protected set; }
 
-    public AstNode BottomRight { get; protected set; }
+    public Expression BottomRight { get; protected set; }
 
-    public AstNode Stroke { get; protected set; }
+    public Expression Stroke { get; protected set; }
 
-    public AstNode? Colour { get; protected set; }
+    public Expression? Colour { get; protected set; }
 
-    public AstNode? StrokeColour { get; protected set; }
+    public Expression? StrokeColour { get; protected set; }
 
-    public Rectangle(AstNode topLeft, AstNode bottomRight, AstNode stroke, AstNode? colour, AstNode? strokeColour)
+    public Rectangle(Expression topLeft, Expression bottomRight, Expression stroke, Expression? colour, Expression? strokeColour)
     {
         TopLeft = topLeft;
         BottomRight = bottomRight;
@@ -23,8 +23,8 @@ public class Rectangle: Expression
         StrokeColour = strokeColour;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitRectangle(this, scope);
+        return visitor.VisitRectangle(this);
     }
 }
