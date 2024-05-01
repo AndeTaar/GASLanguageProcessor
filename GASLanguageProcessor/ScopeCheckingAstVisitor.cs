@@ -107,9 +107,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         node.Scope = scope;
         var width = node.Width.Accept(this);
         var height = node.Height.Accept(this);
-        var backgroundColour = node.BackgroundColour.Accept(this);
+        var backgroundColour = node.BackgroundColour?.Accept(this);
         scope.vTable.Bind("canvas", new Variable("canvas", node));
-        return width && height && backgroundColour;
+        return width && height && (backgroundColour ?? true);
     }
 
     public bool VisitWhile(While node)

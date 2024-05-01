@@ -31,7 +31,7 @@ expression : equalityExpression (('||' | '&&') equalityExpression)* ;
 equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
 binaryExpression : multExpression (('+' | '-') multExpression)* ;
-multExpression : notExpression (('*' | '/') notExpression)* ;
+multExpression : notExpression (('*' | '/' | '%' ) notExpression)* ;
 notExpression : ('!' | '-')* listAccessExpression ;
 listAccessExpression : term ('[' expression ']')?;
 
@@ -47,7 +47,8 @@ groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')'
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
+COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
-NUM : '0' | [-]?[1-9][0-9]* ;
+NUM : '0' | '-'? [0-9]* '.' [0-9]+ | '-'? [0-9]+ ;
 ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';
 WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace

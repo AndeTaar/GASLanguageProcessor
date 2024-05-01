@@ -7,7 +7,7 @@ namespace Tests.Frontend.ToAstVisitorTests;
 public class VisitGroupDeclaration
 {
     [Fact]
-    public void PassVisitGroupDeclaration()
+    public void PassVisitGroupTerm()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
@@ -15,8 +15,8 @@ public class VisitGroupDeclaration
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
-        var context = parser.groupDeclaration();
-        var result = visitor.VisitGroupDeclaration(context);
+        var context = parser.groupTerm();
+        var result = visitor.VisitGroupTerm(context);
         
         Assert.NotNull(result);
         Assert.IsType<Group>(result);
