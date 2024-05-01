@@ -8,7 +8,7 @@ namespace Tests.Frontend.ToAstVisitorTests;
 public class VisitCanvas
 {
     [Fact]
-    public void PassVisitCanvas()
+    public void PassVisitCanvasWithColour()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
@@ -24,7 +24,7 @@ public class VisitCanvas
     }
     
     [Fact]
-    public void FailVisitCanvas()
+    public void PassVisitCanvasWithoutColour()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
@@ -33,8 +33,9 @@ public class VisitCanvas
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
         var context = parser.canvas();
+        var result = visitor.VisitCanvas(context);
         
-        var exception = Assert.Throws<Exception>(() => visitor.VisitCanvas(context));
-        Assert.Equal("Background colour is null", exception.Message);
+        Assert.NotNull(result);
+        Assert.IsType<Canvas>(result);
     }
 }

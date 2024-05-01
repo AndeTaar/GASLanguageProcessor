@@ -11,9 +11,9 @@ public class Canvas : Statement
 
     public Expression Height { get; protected set; }
 
-    public Expression BackgroundColour { get; protected set; }
+    public Expression? BackgroundColour { get; protected set; }
 
-    public Canvas(Expression width, Expression height, Expression backgroundColour)
+    public Canvas(Expression width, Expression height, Expression? backgroundColour = null)
     {
         Width = width;
         Height = height;

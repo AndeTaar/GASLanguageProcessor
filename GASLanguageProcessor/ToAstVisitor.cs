@@ -26,14 +26,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var height = context.expression()[1].Accept(this) as Expression;
 
-        var backgroundColour = context.expression()[2]?.Accept(this)! as Expression;
+        if (context.expression().Length > 2) {
+            var backgroundColour = context.expression()[2].Accept(this)! as Expression;
 
-        if(backgroundColour == null)
-        {
-            throw new Exception("Background colour is null");
+            if(backgroundColour == null)
+            {
+                throw new Exception("Background colour is null");
+            }
+            return new Canvas(width, height, backgroundColour);
         }
-
-        return new Canvas(width, height, backgroundColour);
+        return new Canvas(width, height);
     }
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
@@ -46,7 +48,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         Compound ifBody = ToCompound(statements) as Compound;
 
-        var @else = context.elseStatement().Accept(this);
+        var @else = context.elseStatement()?.Accept(this);
 
         Compound? elseBody = @else as Compound;
 

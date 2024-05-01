@@ -38,7 +38,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Number, got: " + left + " and " + right);
                 return GasType.Error;
 
-            case "-" or "*" or "/":
+            case "-" or "*" or "/" or "%":
                 if (left == GasType.Number && right == GasType.Number)
                 {
                     node.Type = GasType.Number;
@@ -206,9 +206,9 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var backgroundColourType = node.BackgroundColour.Accept(this);
+        var backgroundColourType = node.BackgroundColour?.Accept(this);
 
-        if (backgroundColourType != GasType.Colour)
+        if (backgroundColourType != GasType.Colour && backgroundColourType != null)
         {
             errors.Add("Invalid background colour type");
             return GasType.Error;
