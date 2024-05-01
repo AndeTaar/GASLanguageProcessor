@@ -11,7 +11,7 @@ public class VisitGroupDeclaration
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "group test = Group (number x = 1;)");
+            "Group (number x = 1;)");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);

@@ -33,4 +33,9 @@ public static class SharedTesting
         if(firstCompound.Statement1.GetType() == type) return firstCompound.Statement1;
         return FindFirstNodeType(firstCompound.Statement2, type); 
     }
+    
+    public static String AddCanvas(string statement)
+    {
+        return "canvas(200,200,Colour(255,255,255,1));" + statement;
+    }
 }
