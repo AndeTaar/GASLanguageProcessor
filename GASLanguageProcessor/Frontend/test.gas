@@ -1,4 +1,4 @@
-﻿canvas (500, 250, diller);
+﻿canvas (500, 250, Colour(255,255,255,1));
 
 colour yellow = Colour(255,255,0,1);
 colour black = Colour(0,0,0,1);
@@ -43,7 +43,7 @@ group bee = Group(start,
         circle bodyYellowThree = CircleCreator(Point(40, 0), 30, 10, yellow, yellow);
     });,
     
-    group antlers = Group(Point(40, 0),
+    group antlers = Group(Point(45, 0.9),
     {
        line antlerOne = Line(Point(10,-30), Point(25, -40), 2, black);,
        line antlerTwo = Line(Point(-10,-30), Point(-25, -40), 2, black);,

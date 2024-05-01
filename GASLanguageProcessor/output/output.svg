@@ -24,7 +24,7 @@
 <circle id="bodyBlackTwo" cx="30" cy="0" r="30" fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="10" />
 <circle id="bodyYellowThree" cx="40" cy="0" r="30" fill="rgba(255, 255, 0, 1)" fill-opacity="1" stroke="rgba(255, 255, 0, 1)" stroke-width="10" />
 </g>
-<g id="antlers" transform="translate(40, 0)">
+<g id="antlers" transform="translate(45, 0.9)">
 <line id="antlerOne" x1="10" y1="-30" x2="25" y2="-40" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
 <line id="antlerTwo" x1="-10" y1="-30" x2="-25" y2="-40" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
 <circle id="antlerOneCircle" cx="25" cy="-40" r="2" fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
