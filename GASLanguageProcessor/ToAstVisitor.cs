@@ -41,11 +41,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
         Expression condition = context.expression().Accept(this) as Expression;
-        
+
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
-        
+
         var ifBody = ToCompound(statements);
 
         var @else = context.elseStatement()?.Accept(this) as Statement;
@@ -138,7 +138,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
     {
-        return context.GetChild(0).Accept(this);
+        return context.declaration()?.Accept(this)       ??
+        context.assignment()?.Accept(this)               ??
+        context.functionCall()?.Accept(this)             ??
+        context.returnStatement()?.Accept(this)          ??
+        context.methodCall().Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
