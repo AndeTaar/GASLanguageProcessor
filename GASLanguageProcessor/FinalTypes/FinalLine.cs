@@ -6,8 +6,8 @@ public class FinalLine
     public FinalPoint End { get; set; }
     public float Stroke { get; set; }
     public FinalColour StrokeColour { get; set; }
-    
-    
+
+
     public FinalLine(FinalPoint start, FinalPoint end, float stroke, FinalColour strokeColour)
     {
         Start = start;

@@ -26,14 +26,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var height = context.expression()[1].Accept(this) as Expression;
 
-        var backgroundColour = context.expression()[2]?.Accept(this)! as Expression;
+        if (context.expression().Length > 2) {
+            var backgroundColour = context.expression()[2].Accept(this)! as Expression;
 
-        if(backgroundColour == null)
-        {
-            throw new Exception("Background colour is null");
+            if(backgroundColour == null)
+            {
+                throw new Exception("Background colour is null");
+            }
+            return new Canvas(width, height, backgroundColour);
         }
-
-        return new Canvas(width, height, backgroundColour);
+        return new Canvas(width, height);
     }
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
@@ -46,7 +48,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         Compound ifBody = ToCompound(statements) as Compound;
 
-        var @else = context.elseStatement().Accept(this);
+        var @else = context.elseStatement()?.Accept(this);
 
         Compound? elseBody = @else as Compound;
 
@@ -119,23 +121,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
-    public override AstNode VisitGroupDeclaration(GASParser.GroupDeclarationContext context)
+    public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var point = context.expression().Accept(this) as Point;
-
-        var statements = ToCompound(context.statement()
-            .Select(c => c.Accept(this))
-            .ToList());
-
-        return new Group(identifier, statements, point);
-    }
-    
-    public override AstNode VisitListDeclaration(GASParser.ListDeclarationContext context)
-    {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new List(identifier, expressions);
+        var expression = context.expression().Accept(this) as Expression;
+        
+        Statement? statements =ToCompound(context.statement()?.Select(c => c.Accept(this)).ToList());
+        
+        return new Group(expression, statements);
     }
 
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
@@ -185,7 +177,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         Expression expression = context?.expression().Accept(this) as Expression;
         return new Return(expression);
     }
-    
+
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
@@ -270,12 +262,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         else if (context.GetText() == "null")
         {
             return new Null();
+        }else if(context.groupTerm() != null)
+        {
+            return VisitGroupTerm(context.groupTerm());
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
     }
+
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)
     {

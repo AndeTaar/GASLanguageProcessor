@@ -7,8 +7,8 @@ public class FinalSquare
     public float Stroke { get; set; }
     public FinalColour FillColour { get; set; }
     public FinalColour StrokeColour { get; set; }
-    
-    
+
+
     public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColour fillColour, FinalColour strokeColour)
     {
         TopLeft = topLeft;

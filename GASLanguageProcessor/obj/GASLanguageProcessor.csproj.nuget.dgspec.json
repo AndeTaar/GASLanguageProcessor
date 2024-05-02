@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {}
+    "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {}
   },
   "projects": {
-    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
+    "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "projectUniqueName": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
-        "packagesPath": "/Users/viktorjohnsen/.nuget/packages/",
-        "outputPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/",
+        "projectPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "packagesPath": "/home/chris/.nuget/packages/",
+        "outputPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/viktorjohnsen/.nuget/NuGet/NuGet.Config"
+          "/home/chris/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -33,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -60,12 +54,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.3, 8.0.3]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -25,20 +25,14 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitGroup(Group node)
     {
-        node.Scope = scope.EnterScope(node);
+        node.Scope = scope;
+        scope = scope.EnterScope(node);
+        node.Point.Accept(this);
         node.Statements.Accept(this);
-        node.Scope.ExitScope();
+        scope = scope.ExitScope();
         return true;
     }
 
-    public bool VisitListDeclaration(List node) 
-    {
-        node.Scope = scope.EnterScope(node);
-        var expressions = node.Expressions.Select(expr => expr.Accept(this)).ToList();
-        node.Scope.ExitScope();
-        return expressions.All(e => e);
-    }
-    
     public bool VisitNumber(Number node)
     {
         node.Scope = scope;
@@ -113,9 +107,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         node.Scope = scope;
         var width = node.Width.Accept(this);
         var height = node.Height.Accept(this);
-        var backgroundColour = node.BackgroundColour.Accept(this);
+        var backgroundColour = node.BackgroundColour?.Accept(this);
         scope.vTable.Bind("canvas", new Variable("canvas", node));
-        return width && height && backgroundColour;
+        return width && height && (backgroundColour ?? true);
     }
 
     public bool VisitWhile(While node)

@@ -19,7 +19,7 @@ public class Interpreter
             case Canvas canvas:
                 var width = (float) EvaluateExpression(canvas.Width, scope);
                 var height = (float) EvaluateExpression(canvas.Height, scope);
-                var backgroundColour = (FinalColour) EvaluateExpression(canvas.BackgroundColour, scope);
+                var backgroundColour = canvas.BackgroundColour == null ? new FinalColour(255,255,255,1) : (FinalColour) EvaluateExpression(canvas.BackgroundColour, scope);
                 var finalCanvas = new FinalCanvas(width, height, backgroundColour);
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
@@ -108,6 +108,7 @@ public class Interpreter
                     "-" => (float)left - (float)right,
                     "*" => (float)left * (float)right,
                     "/" => (float)left / (float)right,
+                    "%" => (float)left % (float)right,
                     "<" => (float)left < (float)right,
                     ">" => (float)left > (float)right,
                     _ => throw new NotImplementedException()
@@ -193,6 +194,11 @@ public class Interpreter
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
                 var lineColour = (FinalColour) EvaluateExpression(line.Colour, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColour);
+
+            case Group group:
+                var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
+                EvaluateStatement(group.Statements, group.Scope ?? scope);
+                return new FinalGroup(finalPoint, group.Scope ?? scope);
         }
 
         return null;
