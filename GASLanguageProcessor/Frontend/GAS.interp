@@ -141,7 +141,7 @@ multExpression
 notExpression
 listAccessExpression
 term
-methodCall
+attributeAccess
 attributeAssignment
 listTerm
 groupTerm

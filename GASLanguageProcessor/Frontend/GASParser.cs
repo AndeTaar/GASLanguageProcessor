@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from GAS.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Daniel/RiderProjects/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -52,7 +52,7 @@ public partial class GASParser : Parser {
 		RULE_functionDeclaration = 13, RULE_type = 14, RULE_collectionType = 15, 
 		RULE_expression = 16, RULE_equalityExpression = 17, RULE_relationExpression = 18, 
 		RULE_binaryExpression = 19, RULE_multExpression = 20, RULE_notExpression = 21, 
-		RULE_listAccessExpression = 22, RULE_term = 23, RULE_methodCall = 24, 
+		RULE_listAccessExpression = 22, RULE_term = 23, RULE_attributeAccess = 24, 
 		RULE_attributeAssignment = 25, RULE_listTerm = 26, RULE_groupTerm = 27, 
 		RULE_functionCall = 28;
 	public static readonly string[] ruleNames = {
@@ -61,7 +61,7 @@ public partial class GASParser : Parser {
 		"forStatement", "returnStatement", "classDeclaration", "functionDeclaration", 
 		"type", "collectionType", "expression", "equalityExpression", "relationExpression", 
 		"binaryExpression", "multExpression", "notExpression", "listAccessExpression", 
-		"term", "methodCall", "attributeAssignment", "listTerm", "groupTerm", 
+		"term", "attributeAccess", "attributeAssignment", "listTerm", "groupTerm", 
 		"functionCall"
 	};
 
@@ -312,8 +312,8 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ReturnStatementContext returnStatement() {
 			return GetRuleContext<ReturnStatementContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MethodCallContext methodCall() {
-			return GetRuleContext<MethodCallContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public AttributeAccessContext attributeAccess() {
+			return GetRuleContext<AttributeAccessContext>(0);
 		}
 		public SimpleStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -371,7 +371,7 @@ public partial class GASParser : Parser {
 			case 6:
 				{
 				State = 86;
-				methodCall();
+				attributeAccess();
 				}
 				break;
 			}
@@ -1738,8 +1738,8 @@ public partial class GASParser : Parser {
 			return GetRuleContext<FunctionCallContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ALLSTRINGS() { return GetToken(GASParser.ALLSTRINGS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public MethodCallContext methodCall() {
-			return GetRuleContext<MethodCallContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public AttributeAccessContext attributeAccess() {
+			return GetRuleContext<AttributeAccessContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public GroupTermContext groupTerm() {
 			return GetRuleContext<GroupTermContext>(0);
@@ -1836,7 +1836,7 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 10);
 				{
 				State = 283;
-				methodCall();
+				attributeAccess();
 				}
 				break;
 			case 11:
@@ -1859,7 +1859,7 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class MethodCallContext : ParserRuleContext {
+	public partial class AttributeAccessContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] IDENTIFIER() { return GetTokens(GASParser.IDENTIFIER); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER(int i) {
 			return GetToken(GASParser.IDENTIFIER, i);
@@ -1870,23 +1870,23 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		public MethodCallContext(ParserRuleContext parent, int invokingState)
+		public AttributeAccessContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_methodCall; } }
+		public override int RuleIndex { get { return RULE_attributeAccess; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMethodCall(this);
+			if (typedVisitor != null) return typedVisitor.VisitAttributeAccess(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MethodCallContext methodCall() {
-		MethodCallContext _localctx = new MethodCallContext(Context, State);
-		EnterRule(_localctx, 48, RULE_methodCall);
+	public AttributeAccessContext attributeAccess() {
+		AttributeAccessContext _localctx = new AttributeAccessContext(Context, State);
+		EnterRule(_localctx, 48, RULE_attributeAccess);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
