@@ -84,12 +84,6 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         node.Scope = scope;
         var identifier = node.Identifier.Name;
         var expression = node.Expression.Accept(this);
-
-        if (scope.vTable.LookUp(identifier) == null)
-        {
-            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " not found");
-        }
-
         return expression;
     }
 
@@ -97,6 +91,12 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     {
         node.Scope = scope;
         var identifier = node.Identifier.Name;
+        bool identifierIsInScope = scope.vTable.LookUp(identifier) != null;
+        if(identifierIsInScope)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " Can not redeclare variable");
+            return false;
+        }
         var expression = node.Expression?.Accept(this);
         scope.vTable.Bind(identifier, new Variable(identifier, node.Expression));
         return expression ?? true;
