@@ -14,7 +14,6 @@ colour pink = Colour(255, 100, 100, 1);
 colour black = Colour(0, 0, 0, 1);
 
 list<circle> circles = list<circle>();
-number i;
 
 for(number i = 0; i < 10; i = i + 1;)
 {
