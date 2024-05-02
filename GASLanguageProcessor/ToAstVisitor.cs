@@ -41,25 +41,18 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
         Expression condition = context.expression().Accept(this) as Expression;
-
+        
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
+        
+        var ifBody = ToCompound(statements);
 
-        Compound ifBody = ToCompound(statements) as Compound;
-
-        var @else = context.elseStatement()?.Accept(this);
-
-        Compound? elseBody = @else as Compound;
+        var @else = context.elseStatement()?.Accept(this) as Statement;
 
         If? @if = @else as If;
 
-        if(@else != null && (elseBody == null && @if == null))
-        {
-            throw new Exception("Else is not a compound or if statement");
-        }
-
-        return new If(condition, ifBody, @if != null ? @if : elseBody) {LineNumber = context.Start.Line};
+        return new If(condition, ifBody, @else) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitElseStatement(GASParser.ElseStatementContext context)
@@ -68,7 +61,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             .Select(s => s.Accept(this))
             .ToList();
 
-        AstNode elseBody = ToCompound(statements);
+        var elseBody = ToCompound(statements);
 
         var elseIf = context.ifStatement()?.Accept(this) as If;
 
