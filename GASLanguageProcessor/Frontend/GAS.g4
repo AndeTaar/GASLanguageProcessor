@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | attributeAssignment | functionCall | returnStatement | methodCall) ';';
+simpleStatement : (declaration | assignment | attributeAssignment | functionCall | returnStatement | attributeAccess) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
@@ -36,9 +36,9 @@ listAccessExpression : term ('[' expression ']')?;
 
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | methodCall | groupTerm;
+ functionCall | ALLSTRINGS | attributeAccess | groupTerm;
 
-methodCall : IDENTIFIER ('.' IDENTIFIER)+ ('(' (expression (',' expression)*)? ')')?;
+attributeAccess : IDENTIFIER ('.' IDENTIFIER)+ ('(' (expression (',' expression)*)? ')')?;
 attributeAssignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
