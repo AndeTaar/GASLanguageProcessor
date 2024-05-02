@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
+using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -117,12 +118,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return base.VisitAttributeAssignment(context);
     }
 
-    public override AstNode VisitMethodCall(GASParser.MethodCallContext context)
+    public override AstNode VisitAttributeAccess(GASParser.AttributeAccessContext context)
     {
         var identifier = context.IDENTIFIER()[0].Accept(this) as Identifier;
-        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new MethodCall(identifier, arguments) {LineNumber = context.Start.Line};
+        var element = context.IDENTIFIER()[1].Accept(this) as Identifier;
+
+        return new Attribute(identifier, element) {LineNumber = context.Start.Line};
     }
+
 
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
@@ -160,7 +163,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         context.assignment()?.Accept(this)               ??
         context.functionCall()?.Accept(this)             ??
         context.returnStatement()?.Accept(this)          ??
-        context.methodCall().Accept(this);
+        context.attributeAccess().Accept(this); // huh
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)

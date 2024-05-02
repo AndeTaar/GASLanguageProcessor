@@ -3,6 +3,7 @@ using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
+using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -131,6 +132,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         }
 
         return GasType.List;
+    }
+
+    public GasType VisitAttributeAccess(Attribute attribute)
+    {
+        throw new NotImplementedException();
     }
 
     public GasType VisitNumber(Number node)

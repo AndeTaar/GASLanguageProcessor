@@ -4,6 +4,7 @@ using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
+using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -49,6 +50,11 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         var elements = node.Expressions.Select(e => e.Accept(this)).ToList();
         scope = scope.ExitScope();
         return type && elements.All(e => e);
+    }
+
+    public bool VisitAttributeAccess(Attribute attribute)
+    {
+        throw new NotImplementedException();
     }
 
     public bool VisitNumber(Number node)
