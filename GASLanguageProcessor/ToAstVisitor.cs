@@ -125,7 +125,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         var expression = context.expression().Accept(this) as Expression;
         
-        Statement? statements = ToCompound(context.statement().Select(c => c.Accept(this)).ToList()) ?? null;
+        Statement? statements = context.statement() == null ? ToCompound(context.statement().Select(c => c.Accept(this)).ToList()) : null;
         
         return new Group(expression, statements);
     }
