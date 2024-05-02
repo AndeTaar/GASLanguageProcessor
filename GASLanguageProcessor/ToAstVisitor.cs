@@ -50,8 +50,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var @else = context.elseStatement()?.Accept(this) as Statement;
 
-        If? @if = @else as If;
-
         return new If(condition, ifBody, @else) {LineNumber = context.Start.Line};
     }
 
