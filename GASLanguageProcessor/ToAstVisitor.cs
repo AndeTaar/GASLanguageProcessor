@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -129,7 +130,15 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         
         return new Group(expression, statements);
     }
-
+    
+    public override AstNode VisitListDeclaration(GASParser.ListDeclarationContext context)
+    {
+        var type = context.type()?.Accept(this) as Type;
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new ListDeclaration(type, identifier, expressions);
+    }
+    
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var type = context.type().Accept(this) as Type;

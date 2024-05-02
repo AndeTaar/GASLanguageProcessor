@@ -2,6 +2,7 @@
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -31,6 +32,21 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         node.Statements.Accept(this);
         scope = scope.ExitScope();
         return true;
+    }
+
+    public bool VisitList(List node)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitListDeclaration(ListDeclaration node)
+    {
+        node.Scope = scope;
+        var type = node.Type is GasType;
+        scope = scope.EnterScope(node);
+        var elements = node.Expressions.Select(e => e.Accept(this)).ToList();
+        scope = scope.ExitScope();
+        return type && elements.All(e => e);
     }
 
     public bool VisitNumber(Number node)

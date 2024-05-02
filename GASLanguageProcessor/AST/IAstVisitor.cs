@@ -14,7 +14,7 @@ public interface IAstVisitor<T>
 
     T VisitGroup(Group node);
     
-    T VisitListDeclaration(List node);
+    T VisitList(List node);
 
     T VisitNumber(Number node);
 
@@ -65,5 +65,6 @@ public interface IAstVisitor<T>
     T VisitColour(Colour colour);
 
     T VisitSquare(Square square);
-    
+
+    T VisitListDeclaration(ListDeclaration listDeclaration);
 }

@@ -14,9 +14,9 @@ public class List : Term
         Type = type;
         Expressions = expressions;
     }
-
+    
     public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitListDeclaration(this);
+        return visitor.VisitList(this);
     }
 }

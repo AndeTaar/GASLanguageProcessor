@@ -37,6 +37,9 @@ public class SvgGenerator
                     GenerateSvg(group.Scope.vTable);
                     SvgLines.Add("</g>");
                     break;
+                case FinalList list:
+                    GenerateSvg(list.Scope.vTable);
+                    break;
             }
         }
 

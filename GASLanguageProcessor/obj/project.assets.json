@@ -40,24 +40,25 @@
     ]
   },
   "packageFolders": {
-    "/home/chris/.nuget/packages/": {}
+    "/Users/viktorjohnsen/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+      "projectUniqueName": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
       "projectName": "GASLanguageProcessor",
-      "projectPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
-      "packagesPath": "/home/chris/.nuget/packages/",
-      "outputPath": "/home/chris/desktop/coding/p4/GASLanguageProcessor/GASLanguageProcessor/obj/",
+      "projectPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+      "packagesPath": "/Users/viktorjohnsen/.nuget/packages/",
+      "outputPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/chris/.nuget/NuGet/NuGet.Config"
+        "/Users/viktorjohnsen/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -70,6 +71,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -92,18 +98,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.3, 8.0.3]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

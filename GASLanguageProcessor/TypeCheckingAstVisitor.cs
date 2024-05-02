@@ -100,9 +100,14 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Group;
     }
 
-    public GasType VisitListDeclaration(List node)
+    public GasType VisitList(List node)
     {
-        var listType = node.Type;
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitListDeclaration(ListDeclaration node)
+    {
+        var listType = node.Type.Accept(this);
         var expressions = node.Expressions.Select(expr => expr.Accept(this)).ToList();
 
         foreach (var type in expressions)

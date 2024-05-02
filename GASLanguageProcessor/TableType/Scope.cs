@@ -20,13 +20,12 @@ public class Scope
     public VariableTable vTable { get; set; }
     
     public CollectionTable cTable { get; set; }
-
+    
     public Scope(Scope? parentScope, AstNode? node)
     {
         fTable = new FunctionTable(this);
         vTable = new VariableTable(this);
-        cTable = new CollectionTable(this);
-
+        
         ParentScope = parentScope;
 
         ScopeNode = node;

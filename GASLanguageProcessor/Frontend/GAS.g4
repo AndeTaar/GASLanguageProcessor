@@ -5,7 +5,7 @@ program : canvas (statement)* ;
 canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
-statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
+statement : declaration | assignment | ifStatement | whileStatement | listDeclaration | functionCall |
 functionDeclaration | forStatement | returnStatement | classDeclaration | methodCall;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
@@ -20,7 +20,7 @@ classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
 functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
 //Collection types
-collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' ( 'list' '<' type '>' '(' ')')? ('{' (expression (',' expression)*)? '}')? ';';
+listDeclaration : 'list' '<' type '>' IDENTIFIER ('='  '{' (expression (',' expression)*)? '}')? ';';
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |

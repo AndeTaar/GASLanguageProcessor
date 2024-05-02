@@ -1,4 +1,6 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using System.Collections;
+using System.Runtime.InteropServices;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
@@ -199,6 +201,11 @@ public class Interpreter
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
                 EvaluateStatement(group.Statements, group.Scope ?? scope);
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
+            
+            case List list:
+                var id = list.Identifier.Name;
+                var values= list.Expressions.Select(expression =>(EvaluateExpression(expression, list.Scope ?? scope))).ToList();
+                return new FinalList(id, values, list.Scope ?? scope);
         }
 
         return null;
