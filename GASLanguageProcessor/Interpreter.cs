@@ -142,7 +142,7 @@ public class Interpreter
                 return float.Parse(number.Value);
 
             case String stringTerm:
-                return stringTerm.Value;
+                return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
 
             case Colour colour:
                 var red = (float) EvaluateExpression(colour.Red, scope);

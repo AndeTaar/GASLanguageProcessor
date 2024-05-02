@@ -27,7 +27,7 @@ public class SvgGenerator
                     SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColour.ColourToString()}\" fill-opacity=\"{rectangle.FillColour.Alpha}\" stroke=\"{rectangle.StrokeColour.ColourToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
                     break; //notice: our "stroke" is the stroke width in SVG and our "StrokeColour" is the stroke in SVG
                 case FinalText text:
-                    SvgLines.Add($"<text id=\"{variable.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColour.ColourToString()}\" font-family={text.Font} font-size=\"{text.FontSize}\">{text.Text}</text>");
+                    SvgLines.Add($"<text id=\"{variable.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColour.ColourToString()}\" font-family=\"{text.Font}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
                     break;
                 case FinalSquare square:
                     SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColour.ColourToString()}\" fill-opacity=\"{square.FillColour.Alpha}\" stroke=\"{square.StrokeColour.ColourToString()}\" stroke-width=\"{square.Stroke}\" />");
