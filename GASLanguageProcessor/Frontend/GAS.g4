@@ -5,17 +5,18 @@ program : canvas (statement)* ;
 canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
-statement : declaration | assignment | ifStatement | whileStatement | collectionDeclaration | functionCall |
-functionDeclaration | forStatement | returnStatement | classDeclaration | methodCall;
+statement : simpleStatement | complexStatement;
+simpleStatement : (declaration | assignment | functionCall | returnStatement | methodCall) ';';
+complexStatement:  whileStatement | collectionDeclaration | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : type IDENTIFIER ('=' expression)?';';
-assignment : IDENTIFIER '=' expression ';';
+declaration : type IDENTIFIER ('=' expression)?;
+assignment : IDENTIFIER '=' expression ;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
-forStatement : 'for' '(' (declaration | assignment) expression  ';' assignment ')' '{' (statement)* '}';
-returnStatement : 'return' expression ';';
+forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' assignment ')' '{' (statement)* '}';
+returnStatement : 'return' expression;
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
 functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 

@@ -124,9 +124,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
         var expression = context.expression().Accept(this) as Expression;
-        
+
         Statement? statements =ToCompound(context.statement()?.Select(c => c.Accept(this)).ToList());
-        
+
         return new Group(expression, statements);
     }
 
@@ -143,6 +143,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitType(GASParser.TypeContext context)
     {
         return new Type(context.GetText()){LineNumber = context.Start.Line};
+    }
+
+    public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
+    {
+        return context.GetChild(0).Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
