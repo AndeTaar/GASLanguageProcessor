@@ -6,12 +6,12 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | methodCall) ';';
+simpleStatement : (declaration | assignment | attributeAssignment | functionCall | returnStatement | methodCall) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER '=' expression ;
+assignment : IDENTIFIER '=' expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -38,7 +38,8 @@ listAccessExpression : term ('[' expression ']')?;
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | methodCall | groupTerm;
 
-methodCall : IDENTIFIER '.' IDENTIFIER ('(' (expression (',' expression)*)? ')')?;
+methodCall : IDENTIFIER ('.' IDENTIFIER)+ ('(' (expression (',' expression)*)? ')')?;
+attributeAssignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')';

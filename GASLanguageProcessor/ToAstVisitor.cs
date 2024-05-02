@@ -112,6 +112,18 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
+    public override AstNode VisitAttributeAssignment(GASParser.AttributeAssignmentContext context)
+    {
+        return base.VisitAttributeAssignment(context);
+    }
+
+    public override AstNode VisitMethodCall(GASParser.MethodCallContext context)
+    {
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new MethodCall(identifier, arguments) {LineNumber = context.Start.Line};
+    }
+
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
         var expression = context.expression().Accept(this) as Expression;

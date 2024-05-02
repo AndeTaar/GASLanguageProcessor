@@ -55,6 +55,8 @@ group mouse = Group(Point(125, 80),
     });
 });
 
+mouse.mousEars.leftEar.Fill = pink;
+
 colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
 
