@@ -42,11 +42,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
         Expression condition = context.expression().Accept(this) as Expression;
-        
+
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
-        
+
         var ifBody = ToCompound(statements);
 
         var @else = context.elseStatement()?.Accept(this) as Statement;
@@ -116,9 +116,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
         var expression = context.expression().Accept(this) as Expression;
-        
+
         Statement? statements =ToCompound(context.statement()?.Select(c => c.Accept(this)).ToList());
-        
+
         return new Group(expression, statements);
     }
     
@@ -143,6 +143,15 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitType(GASParser.TypeContext context)
     {
         return new Type(context.GetText()){LineNumber = context.Start.Line};
+    }
+
+    public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
+    {
+        return context.declaration()?.Accept(this)       ??
+        context.assignment()?.Accept(this)               ??
+        context.functionCall()?.Accept(this)             ??
+        context.returnStatement()?.Accept(this)          ??
+        context.methodCall().Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
