@@ -8,7 +8,7 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class Declaration : Statement
 {
-    public Type Type { get; protected set; }
+    public Type Type { get; set; }
     public Identifier Identifier { get; protected set; }
     public Expression? Expression { get; protected set; }
 

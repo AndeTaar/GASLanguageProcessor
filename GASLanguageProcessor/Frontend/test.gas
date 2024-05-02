@@ -7,13 +7,15 @@ circle CircleCreator(point Center, number Width, number Stroke, colour Fill, col
     return Circle(Center, Width, Stroke, Fill, StrokeColour);
 }
 
+colour black = Colour(0, 0, 0, 1);
+colour red = Colour(255, 0, 0, 1);
+
+list circles = List<circle>{CircleCreator(Point(50, 10), 40, 10, red, black)};
+
 colour white = Colour(255, 255, 255, 1);
 colour green = Colour(0, 255, 0, 1);
-colour red = Colour(255, 0, 0, 1);
 colour pink = Colour(255, 100, 100, 1);
-colour black = Colour(0, 0, 0, 1);
 
-list<circle> circles = list<circle>();
 
 for(number i = 0; i < 10; i = i + 1)
 {

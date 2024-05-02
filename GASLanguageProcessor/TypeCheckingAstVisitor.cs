@@ -102,7 +102,18 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitList(List node)
     {
-        throw new NotImplementedException();
+        var type = node.Type.Accept(this);
+        var typeOfElements = node.Expressions.Select(expr => expr.Accept(this)).ToList();
+
+        foreach (var t in typeOfElements)
+        {
+            if (t != type)
+            {
+                errors.Add("Invalid type for list: expected: " + type + " got: " + t);
+            }
+        }
+
+        return GasType.List;
     }
 
     public GasType VisitListDeclaration(ListDeclaration node)
@@ -316,6 +327,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Boolean;
             case "group":
                 return GasType.Group;
+            case "list":
+                return GasType.List;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;

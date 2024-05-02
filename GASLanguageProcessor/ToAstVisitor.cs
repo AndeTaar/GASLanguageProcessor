@@ -5,7 +5,6 @@ using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -121,26 +120,24 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         return new Group(expression, statements);
     }
-    
-    public override AstNode VisitListDeclaration(GASParser.ListDeclarationContext context)
-    {
-        var type = context.type()?.Accept(this) as Type;
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new ListDeclaration(type, identifier, expressions);
-    }
-    
+
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
-        var type = context.type().Accept(this) as Type;
+        var type = context.type()?.Accept(this) as Type;
+        var collectionType = context.collectionType()?.Accept(this) as Type;
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
         Expression value = context.expression()?.Accept(this) as Expression;
 
-        return new Declaration(type, identifier, value) {LineNumber = context.Start.Line};
+        return new Declaration(type ?? collectionType, identifier, value) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitType(GASParser.TypeContext context)
+    {
+        return new Type(context.GetText()){LineNumber = context.Start.Line};
+    }
+
+    public override AstNode VisitCollectionType(GASParser.CollectionTypeContext context)
     {
         return new Type(context.GetText()){LineNumber = context.Start.Line};
     }
@@ -274,11 +271,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }else if(context.groupTerm() != null)
         {
             return VisitGroupTerm(context.groupTerm());
+        }else if(context.listTerm() != null)
+        {
+            return VisitListTerm(context.listTerm());
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
+    }
+
+    public override AstNode VisitListTerm(GASParser.ListTermContext context)
+    {
+        var type = context.type().Accept(this) as Type;
+        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new List(expressions, type) {LineNumber = context.Start.Line};
     }
 
 

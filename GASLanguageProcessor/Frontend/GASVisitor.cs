@@ -116,17 +116,17 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFunctionDeclaration([NotNull] GASParser.FunctionDeclarationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.collectionDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitCollectionDeclaration([NotNull] GASParser.CollectionDeclarationContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.type"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitType([NotNull] GASParser.TypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.collectionType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCollectionType([NotNull] GASParser.CollectionTypeContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.expression"/>.
 	/// </summary>

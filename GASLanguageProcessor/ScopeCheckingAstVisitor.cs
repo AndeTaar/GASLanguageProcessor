@@ -36,7 +36,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitList(List node)
     {
-        throw new NotImplementedException();
+        node.Scope = scope;
+        var inScope = node.Expressions.Select(expr => expr.Accept(this));
+        return inScope.All(e => e);
     }
 
     public bool VisitListDeclaration(ListDeclaration node)
@@ -75,13 +77,8 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitIdentifier(Identifier node)
     {
         node.Scope = scope;
-        bool identifierIsInScope = false;
-        try
-        {
-            identifierIsInScope = scope.vTable.LookUp(node.Name) != null;
-        }
-        catch (Exception e)
-        {
+        bool identifierIsInScope  = scope.vTable.LookUp(node.Name) != null;
+        if(identifierIsInScope == false){
             errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
         }
         return identifierIsInScope;

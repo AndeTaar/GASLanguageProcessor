@@ -7,10 +7,10 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 //Statements
 statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | methodCall) ';';
-complexStatement:  whileStatement | collectionDeclaration | functionDeclaration | forStatement | classDeclaration | ifStatement;
+complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : type IDENTIFIER ('=' expression)?;
+declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER '=' expression ;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
@@ -20,12 +20,9 @@ returnStatement : 'return' expression;
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
 functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
-//Collection types
-collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' ( 'list' '<' type '>' '(' ')')? ('{' (expression (',' expression)*)? '}')? ';';
-
 //Standard data types
-type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
-'list' | 'group' | 'string' | 'line' | 'group' | 'T' | 'void';
+type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' | 'string' | 'line' | 'T' | 'void';
+collectionType : 'list' | 'group';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;
@@ -43,7 +40,7 @@ term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | list
 
 methodCall : IDENTIFIER '.' IDENTIFIER ('(' (expression (',' expression)*)? ')')?;
 
-listTerm : '{' (expression (',' expression)*)? '}';
+listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')';
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
