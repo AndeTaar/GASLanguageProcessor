@@ -6,12 +6,12 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | attributeAssignment | functionCall | returnStatement | attributeAccess) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER '=' expression;
+assignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -22,7 +22,7 @@ functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' | 'string' | 'line' | 'T' | 'void';
-collectionType : 'list' | 'group';
+collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;
@@ -35,16 +35,13 @@ listAccessExpression : term ('[' expression ']')?;
 
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | attributeAccess | groupTerm;
+term : IDENTIFIER ('.' IDENTIFIER)* | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+ functionCall | ALLSTRINGS | groupTerm;
 
-attributeAccess : IDENTIFIER ('.' IDENTIFIER)+ ('(' (expression (',' expression)*)? ')')?;
-attributeAssignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
+listTerm : 'List' '{' (expression (',' expression)*)? '}';
+groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
-groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')';
-
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCall : IDENTIFIER ( '.' IDENTIFIER  )* '(' (expression (',' expression)*)? ')';
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

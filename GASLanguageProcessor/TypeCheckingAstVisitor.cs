@@ -3,7 +3,6 @@ using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
-using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -103,18 +102,18 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitList(List node)
     {
-        var type = node.Type.Accept(this);
         var typeOfElements = node.Expressions.Select(expr => expr.Accept(this)).ToList();
 
+        var type = typeOfElements[0];
         foreach (var t in typeOfElements)
         {
             if (t != type)
             {
-                errors.Add("Invalid type for list: expected: " + type + " got: " + t);
+                errors.Add( "Line: " + node.LineNumber + " Not all elements in list are of same type");
             }
         }
 
-        return GasType.List;
+        return type;
     }
 
     public GasType VisitListDeclaration(ListDeclaration node)
@@ -131,7 +130,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             }
         }
 
-        return GasType.List;
+        return listType;
     }
 
     public GasType VisitAttributeAccess(Attribute attribute)
@@ -191,20 +190,20 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitAssignment(Assignment node)
     {
         var scope = node.Scope;
-        var left = node.Identifier.Name;
+        var identifier = node.Identifier.Name;
         var type = node.Expression.Accept(this);
 
-        var variable = scope.vTable.LookUp(left);
+        var variable = scope.vTable.LookUp(identifier);
 
         if (variable == null)
         {
-            errors.Add("Variable name: " + left + " not found");
+            errors.Add("Variable name: " + identifier + " not found");
             return GasType.Error;
         }
 
         if (variable.Type != type)
         {
-            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + left + " expected: " + variable.Type + " got: " + type);
+            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier + " expected: " + variable.Type + " got: " + type);
             return GasType.Error;
         }
 
@@ -309,6 +308,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitType(Type type)
     {
+        type.Value = type.Value.Replace("list<", "").Replace(">", "");
         switch (type.Value)
         {
             case "number":
@@ -333,8 +333,6 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Boolean;
             case "group":
                 return GasType.Group;
-            case "list":
-                return GasType.List;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;
@@ -358,6 +356,66 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         scope.fTable.SetReturnType(identifier, returnType);
         scope.fTable.SetParameterTypes(identifier, parameters);
         return returnType;
+    }
+
+    public GasType VisitFunctionCallStatement(FunctionCallStatement functionCallStatement)
+    {
+        var identifier = functionCallStatement.Identifier;
+        var scope = functionCallStatement.Scope;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionCallStatement.Arguments)
+        {
+            parameterTypes.Add(parameter.Accept(this));
+        }
+
+        var function = scope.fTable.LookUp(identifier.Name);
+
+        if (function.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
+
+        for (int i = 0; i < function.Parameters.Count; i++)
+        {
+            if (function.Parameters[i].Type != parameterTypes[i])
+            {
+                errors.Add("Line: " + functionCallStatement.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
+            }
+        }
+
+        return function.ReturnType;
+    }
+
+    public GasType VisitFunctionCallTerm(FunctionCallTerm functionCallTerm)
+    {
+        var identifier = functionCallTerm.Identifier;
+        var scope = functionCallTerm.Scope;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionCallTerm.Arguments)
+        {
+            parameterTypes.Add(parameter.Accept(this));
+        }
+
+        var function = scope.fTable.LookUp(identifier.Name);
+
+        if (function.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
+
+        for (int i = 0; i < function.Parameters.Count; i++)
+        {
+            if (function.Parameters[i].Type != parameterTypes[i])
+            {
+                errors.Add("Line: " + functionCallTerm.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
+            }
+        }
+
+        return function.ReturnType;
     }
 
     public GasType VisitReturn(Return @return)
@@ -403,35 +461,5 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitSquare(Square square)
     {
         throw new NotImplementedException();
-    }
-
-    public GasType VisitFunctionCall(FunctionCall functionCall)
-    {
-        var identifier = functionCall.Identifier;
-        var scope = functionCall.Scope;
-
-        var parameterTypes = new List<GasType>();
-        foreach (var parameter in functionCall.Arguments)
-        {
-            parameterTypes.Add(parameter.Accept(this));
-        }
-
-        var function = scope.fTable.LookUp(identifier.Name);
-
-        if (function.Parameters.Count != parameterTypes.Count)
-        {
-            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
-            return GasType.Error;
-        }
-
-        for (int i = 0; i < function.Parameters.Count; i++)
-        {
-            if (function.Parameters[i].Type != parameterTypes[i])
-            {
-                errors.Add("Line: " + functionCall.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
-            }
-        }
-
-        return function.ReturnType;
     }
 }

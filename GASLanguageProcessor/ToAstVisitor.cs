@@ -5,7 +5,6 @@ using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
-using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -94,7 +93,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var condition = context.expression().Accept(this) as Expression;
 
-        var statements = ToCompound(context.statement().Select(s => s.Accept(this)).ToList());
+        var allStatements = context.statement().Select(s => s.Accept(this)).ToList();
+        var statements = ToCompound(allStatements);
 
         if (declaration != null)
         {
@@ -106,32 +106,19 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
+        var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNumber = context.Start.Line}).ToList();
+        Identifier identifier = ToCompoundIdentifier(allIdentifiers);
 
         Expression value = context.expression().Accept(this) as Expression;
 
         return new Assignment(identifier, value) {LineNumber = context.Start.Line};
     }
 
-    public override AstNode VisitAttributeAssignment(GASParser.AttributeAssignmentContext context)
-    {
-        return base.VisitAttributeAssignment(context);
-    }
-
-    public override AstNode VisitAttributeAccess(GASParser.AttributeAccessContext context)
-    {
-        var identifier = context.IDENTIFIER()[0].Accept(this) as Identifier;
-        var element = context.IDENTIFIER()[1].Accept(this) as Identifier;
-
-        return new Attribute(identifier, element) {LineNumber = context.Start.Line};
-    }
-
-
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
     {
         var expression = context.expression().Accept(this) as Expression;
 
-        Statement? statements =ToCompound(context.statement()?.Select(c => c.Accept(this)).ToList());
+        Statement? statements = ToCompound(context.statement()?.Select(c => c.Accept(this)).ToList());
 
         return new Group(expression, statements);
     }
@@ -159,11 +146,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
     {
-        return context.declaration()?.Accept(this)       ??
-        context.assignment()?.Accept(this)               ??
-        context.functionCall()?.Accept(this)             ??
-        context.returnStatement()?.Accept(this)          ??
-        context.attributeAccess().Accept(this); // huh
+        return context.GetChild(0).Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
@@ -201,9 +184,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNumber = context.Start.Line}).ToList();
+        var identifier = ToCompoundIdentifier(allIdentifiers);
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new FunctionCall(identifier, arguments) {LineNumber = context.Start.Line};
+        if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
+        {
+            return new FunctionCallTerm(identifier, arguments) { LineNumber = context.Start.Line };
+        }
+        return new FunctionCallStatement(identifier, arguments);
     }
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
@@ -260,10 +248,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return new Number(context.NUM().GetText()) {LineNumber = context.Start.Line};
         }
-        else if (context.IDENTIFIER() != null)
-        {
-            return new Identifier(context.IDENTIFIER().GetText()) {LineNumber = context.Start.Line};
-        }
         else if (context.functionCall() != null)
         {
             return VisitFunctionCall(context.functionCall());
@@ -290,6 +274,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return VisitListTerm(context.listTerm());
         }
+        else if (context.IDENTIFIER() != null)
+        {
+            var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNumber = context.Start.Line}).ToList();
+            return ToCompoundIdentifier(allIdentifiers);
+        }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
@@ -298,11 +287,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)
     {
-        var type = context.type().Accept(this) as Type;
-        var expressions = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
-        return new List(expressions, type) {LineNumber = context.Start.Line};
+        var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
+        return new List(expressions) {LineNumber = context.Start.Line};
     }
-
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)
     {
@@ -328,6 +315,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var expression = context.GetChild(0).Accept(this);
 
         return new UnaryOp(context.GetChild(0).GetText(), expression);
+    }
+
+    private static Identifier ToCompoundIdentifier(List<Identifier> identifiers)
+    {
+        if (identifiers.Count == 0)
+        {
+            return null!;
+        }
+
+        if (identifiers.Count == 1)
+        {
+            return identifiers[0];
+        }
+
+        return new Identifier(identifiers[0].Name, ToCompoundIdentifier(identifiers.Skip(1).ToList())) {LineNumber = identifiers[0].LineNumber};
     }
 
     private static Statement ToCompound(List<AstNode> lines)

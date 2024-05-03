@@ -40,6 +40,8 @@ public class Interpreter
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 }
                 return null;
+            case FunctionCallStatement functionCallStatement:
+                return null;
             case FunctionDeclaration functionDeclaration:
                 return null;
             case Declaration declaration:
@@ -76,7 +78,7 @@ public class Interpreter
     {
         switch (expression)
         {
-            case FunctionCall functionCall:
+            case FunctionCallTerm functionCall:
                 Function function = scope.fTable.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {

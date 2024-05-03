@@ -1,7 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.AST.Terms;
-using GASLanguageProcessor.TableType;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Statements;

@@ -1,8 +1,6 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.TableType;
-using Attribute = GASLanguageProcessor.AST.Statements.Attribute;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -14,7 +12,7 @@ public interface IAstVisitor<T>
     T VisitBinaryOp(BinaryOp node);
 
     T VisitGroup(Group node);
-    
+
     T VisitList(List node);
 
     T VisitNumber(Number node);
@@ -47,7 +45,9 @@ public interface IAstVisitor<T>
 
     T VisitFunctionDeclaration(FunctionDeclaration functionDeclaration);
 
-    T VisitFunctionCall(FunctionCall functionCall);
+    T VisitFunctionCallStatement(FunctionCallStatement functionCallStatement);
+
+    T VisitFunctionCallTerm(FunctionCallTerm functionCallTerm);
 
     T VisitReturn(Return @return);
 
@@ -68,7 +68,4 @@ public interface IAstVisitor<T>
     T VisitSquare(Square square);
 
     T VisitListDeclaration(ListDeclaration listDeclaration);
-    
-    T VisitAttributeAccess(Attribute attribute);
-    
 }

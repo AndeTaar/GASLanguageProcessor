@@ -10,12 +10,9 @@ circle CircleCreator(point Center, number Width, number Stroke, colour Fill, col
 colour black = Colour(0, 0, 0, 1);
 colour red = Colour(255, 0, 0, 1);
 
-list circles = List<circle>{CircleCreator(Point(50, 10), 40, 10, red, black)};
-
 colour white = Colour(255, 255, 255, 1);
 colour green = Colour(0, 255, 0, 1);
 colour pink = Colour(255, 100, 100, 1);
-
 
 for(number i = 0; i < 10; i = i + 1)
 {
@@ -39,27 +36,26 @@ group mouse = Group(Point(125, 80),
 {
     group mousEars = Group(Point(0, 0),
     {
-        circle leftEar = CircleCreator(Point(-30, 0), 30, 10, white, pink);,
+        circle leftEar = CircleCreator(Point(-30, 0), 30, 10, white, pink);
         circle rightEar = CircleCreator(Point(30, 0), 30, 10, white, pink);
-    });,
+    });
 
     group mouseFace = Group(Point(0, 0),
     {
-        circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);,
-        circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);,
-        circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);,
-        circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);,
-        circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);,
+        circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);
+        circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);
+        circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);
+        circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);
+        circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);
 
         line mouth = Line(Point(-20, 50), Point(20, 40), 3, black);
     });
 });
 
-mouse.mousEars.leftEar.Fill = pink;
+mouse.mousEars.leftEar = CircleCreator(Point(-30, 0), 30, 50, white, pink);
 
 colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
-
 number start = 180;
 rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
 text txt = Text("Its even worse for mouses!", Point(29,200), "Arial", 16, black);
