@@ -90,4 +90,83 @@ public class EvaluateExpressionBinaryOp
         Assert.Equal((float) 15, result);
     }
     
+    [Fact]
+    public void PassEvaluateExpressionBinaryOpDivision()
+    {
+        var visitor = new ToAstVisitor();
+        var interpreter = new Interpreter();
+        var inputStream = new AntlrInputStream(
+            "3/6");
+        var lexer = new GASLexer(inputStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new GASParser(tokenStream);
+        var expression = visitor.VisitExpression(parser.expression()) as Expression;
+        var scope = new Scope(null, null);
+        var result = interpreter.EvaluateExpression(expression, scope);
+
+
+        Assert.NotNull(result);
+        Assert.IsType<float>(result);
+        Assert.Equal((float) 0.5, result);
+    }
+    
+    [Fact]
+    public void PassEvaluateExpressionBinaryOpModulus()
+    {
+        var visitor = new ToAstVisitor();
+        var interpreter = new Interpreter();
+        var inputStream = new AntlrInputStream(
+            "8%3");
+        var lexer = new GASLexer(inputStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new GASParser(tokenStream);
+        var expression = visitor.VisitExpression(parser.expression()) as Expression;
+        var scope = new Scope(null, null);
+        var result = interpreter.EvaluateExpression(expression, scope);
+
+
+        Assert.NotNull(result);
+        Assert.IsType<float>(result);
+        Assert.Equal((float) 2, result);
+    }
+    
+    [Fact]
+    public void PassEvaluateExpressionBinaryOpLessThan()
+    {
+        var visitor = new ToAstVisitor();
+        var interpreter = new Interpreter();
+        var inputStream = new AntlrInputStream(
+            "3<6");
+        var lexer = new GASLexer(inputStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new GASParser(tokenStream);
+        var expression = visitor.VisitExpression(parser.expression()) as Expression;
+        var scope = new Scope(null, null);
+        var result = interpreter.EvaluateExpression(expression, scope);
+
+
+        Assert.NotNull(result);
+        Assert.IsType<bool>(result);
+        Assert.Equal(true, result);
+    }
+    
+    [Fact]
+    public void PassEvaluateExpressionBinaryOpGreaterThan()
+    {
+        var visitor = new ToAstVisitor();
+        var interpreter = new Interpreter();
+        var inputStream = new AntlrInputStream(
+            "3>6");
+        var lexer = new GASLexer(inputStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new GASParser(tokenStream);
+        var expression = visitor.VisitExpression(parser.expression()) as Expression;
+        var scope = new Scope(null, null);
+        var result = interpreter.EvaluateExpression(expression, scope);
+
+
+        Assert.NotNull(result);
+        Assert.IsType<bool>(result);
+        Assert.Equal(false, result);
+    }
 }

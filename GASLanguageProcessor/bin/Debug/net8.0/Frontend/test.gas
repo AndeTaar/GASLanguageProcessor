@@ -2,6 +2,7 @@
 
 number x = 0;
 
+
 circle CircleCreator(point Center, number Width, number Stroke, colour Fill, colour StrokeColour)
 {
     return Circle(Center, Width, Stroke, Fill, StrokeColour);
@@ -34,7 +35,7 @@ bool GetBool()
     return true;
 }
 
-group mouse = Group(Point(125, 80),
+group mouse = Group(Point(145-20, 80),
 {
     group mousEars = Group(Point(0, 0),
     {
@@ -57,6 +58,6 @@ group mouse = Group(Point(125, 80),
 colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
 
-number start = 180-40;
+number start = 180;
 rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
 text txt = Text("Its even worse for mouses!", Point(23,200), "Arial", 16, black);
