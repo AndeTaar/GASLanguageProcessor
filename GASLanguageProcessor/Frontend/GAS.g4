@@ -1,7 +1,7 @@
 grammar GAS;
 
 //Program
-program : canvas (statement)* ;
+program : (statement)* canvas (statement)* ;
 canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements

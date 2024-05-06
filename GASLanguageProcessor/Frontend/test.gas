@@ -1,4 +1,7 @@
-﻿canvas (250, 250, Colour(255, 255, 255, 1));
+﻿number canvasWidth = 250;
+number canvasHeight = 250;
+
+canvas (canvasWidth, canvasHeight, Colour(255, 255, 255, 1));
 
 number x = 20;
 
@@ -32,7 +35,7 @@ bool GetBool()
     return true;
 }
 
-group mouse = Group(Point(125, 80),
+group mouse = Group(Point(canvasWidth/2, canvasHeight/2),
 {
     group mousEars = Group(Point(0, 0),
     {
