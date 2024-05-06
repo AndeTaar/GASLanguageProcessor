@@ -169,7 +169,16 @@ public class Interpreter
                 var squareFillColour = (FinalColour) EvaluateExpression(square.Colour, scope);
                 var squareStrokeColour =(FinalColour) EvaluateExpression(square.StrokeColour, scope);
                 return new FinalSquare(topLeft, length, strokeSize, squareFillColour, squareStrokeColour);
-
+            
+            case Ellipse ellipse:
+                var ellipseCentre = (FinalPoint) EvaluateExpression(ellipse.Center, scope);
+                var ellipseRadiusX = (float) EvaluateExpression(ellipse.RadiusX, scope);
+                var ellipseRadiusY = (float) EvaluateExpression(ellipse.RadiusY, scope);
+                var ellipseFillColour = (FinalColour) EvaluateExpression(ellipse.Colour, scope);
+                var ellipseBorderColor = (FinalColour) EvaluateExpression(ellipse.BorderColor, scope);
+                var ellipseBorderWidth = (float) EvaluateExpression(ellipse.BorderWidth, scope);
+                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseFillColour, ellipseBorderColor, ellipseBorderWidth);
+            
             case Text text:
                 var value = (string) EvaluateExpression(text.Value, scope);
                 var position = (FinalPoint) EvaluateExpression(text.Position, scope);

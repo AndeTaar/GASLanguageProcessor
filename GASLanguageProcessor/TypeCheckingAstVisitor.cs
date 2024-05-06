@@ -296,6 +296,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Boolean;
             case "group":
                 return GasType.Group;
+            case "ellipse":
+                return GasType.Ellipse;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;
@@ -362,6 +364,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     }
 
     public GasType VisitSquare(Square square)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public GasType VisitEllipse(Ellipse ellipse)
     {
         throw new NotImplementedException();
     }

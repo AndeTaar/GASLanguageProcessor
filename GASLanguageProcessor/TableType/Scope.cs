@@ -74,7 +74,7 @@ public class Scope
                     new Identifier("colour"),
                     new Identifier("strokeColour"))),
                 new Scope(this, null)));
-
+            
             fTable.Bind("Text", new Function(GasType.Text, new List<Variable>()
             {
                 new Variable("value", GasType.String),
@@ -144,6 +144,23 @@ public class Scope
                 new Identifier("stroke"),
                 new Identifier("colour"),
                 new Identifier("strokeColour")
+            )), new Scope(this, null)));
+            
+            fTable.Bind("Ellipse", new Function(GasType.Ellipse, new List<Variable>()
+            {
+                new Variable("center", GasType.Point),
+                new Variable("xRadius", GasType.Number),
+                new Variable("yRadius", GasType.Number),
+                new Variable("colour", GasType.Colour),
+                new Variable("borderColor", GasType.Colour),
+                new Variable("borderWidth", GasType.Number)
+            }, new Return(new Ellipse(
+                new Identifier("center"),
+                new Identifier("xRadius"),
+                new Identifier("yRadius"),
+                new Identifier("colour"),
+                new Identifier("borderColor"),
+                new Identifier("borderWidth")
             )), new Scope(this, null)));
         }
     }

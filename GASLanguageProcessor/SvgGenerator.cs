@@ -26,6 +26,9 @@ public class SvgGenerator
                 case FinalSegLine segLine:
                     SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColour.ColourToString()}\" stroke-width=\"{segLine.Stroke}\" />");
                     break;
+                case FinalEllipse ellipse:
+                    SvgLines.Add($"<ellipse id=\"{variable.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Colour.ColourToString()}\" stroke=\"{ellipse.BorderColor.ColourToString()}\" stroke-width=\"{ellipse.BorderWidth}\" />");
+                    break;
                 case FinalRectangle rectangle:
                     SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColour.ColourToString()}\" fill-opacity=\"{rectangle.FillColour.Alpha}\" stroke=\"{rectangle.StrokeColour.ColourToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
                     break; //notice: our "stroke" is the stroke width in SVG and our "StrokeColour" is the stroke in SVG

@@ -62,6 +62,8 @@ public interface IAstVisitor<T>
 
     T VisitSquare(Square square);
     
+    T VisitEllipse(Ellipse ellipse);
+    
     T VisitSegLine(SegLine segLine);
 
     T VisitLine(Line line);

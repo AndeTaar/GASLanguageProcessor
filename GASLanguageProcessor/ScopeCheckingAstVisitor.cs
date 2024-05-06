@@ -242,6 +242,11 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         throw new NotImplementedException();
     }
 
+    public bool VisitEllipse(Ellipse ellipse)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool VisitSegLine(SegLine segLine)
     {
         throw new NotImplementedException();

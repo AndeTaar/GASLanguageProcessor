@@ -4,7 +4,7 @@ number x = 20;
 
 circle CircleCreator(point Center, number Width, number Stroke, colour Fill, colour StrokeColour)
 {
-   return Circle(Center, Width, Stroke, Fill, StrokeColour);
+   return Ellipse(Center, Width, Width + 20, Fill, StrokeColour, Stroke);
 }
 
 colour white = Colour(255, 255, 255, 1);
