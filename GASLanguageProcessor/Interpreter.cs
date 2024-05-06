@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.AST.Expressions;
+﻿using System.Globalization;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
@@ -12,6 +13,9 @@ namespace GASLanguageProcessor;
 
 public class Interpreter
 {
+    public float canvasWidth;
+    public float canvasHeight;
+    
     public object EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
@@ -19,6 +23,8 @@ public class Interpreter
             case Canvas canvas:
                 var width = (float) EvaluateExpression(canvas.Width, scope);
                 var height = (float) EvaluateExpression(canvas.Height, scope);
+                canvasHeight = height;
+                canvasWidth = width;
                 var backgroundColour = canvas.BackgroundColour == null ? new FinalColour(255,255,255,1) : (FinalColour) EvaluateExpression(canvas.BackgroundColour, scope);
                 var finalCanvas = new FinalCanvas(width, height, backgroundColour);
                 var canvasVariable = scope.vTable.LookUp("canvas");
@@ -138,8 +144,8 @@ public class Interpreter
                 }
                 return EvaluateExpression(variable.FormalValue, scope);
 
-            case Number number:
-                return float.Parse(number.Value);
+            case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
+                return float.Parse(number.Value, CultureInfo.InvariantCulture);
 
             case String stringTerm:
                 return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
@@ -188,12 +194,26 @@ public class Interpreter
                 var rectStrokeColour = (FinalColour) EvaluateExpression(rectangle.StrokeColour, scope);
                 return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColour, rectStrokeColour);
 
-            case Line line:
-                var lineStart = (FinalPoint) EvaluateExpression(line.Start, scope);
-                var lineEnd = (FinalPoint) EvaluateExpression(line.End, scope);
+            case Line line: 
+                var lineIntercept = (float) EvaluateExpression(line.Intercept, scope);
+                var lineStart = new FinalPoint(0, lineIntercept);
+                var lineGradient = (float) EvaluateExpression(line.Gradient, scope);
+                
+                float lineEndX = lineGradient < 0 ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
+                    : Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1;
+                float lineEndY = lineGradient * lineEndX + lineIntercept;
+                var lineEnd = new FinalPoint(lineEndX,lineEndY);
+                
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
                 var lineColour = (FinalColour) EvaluateExpression(line.Colour, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColour);
+            
+            case SegLine segLine:
+                var segLineStart = (FinalPoint) EvaluateExpression(segLine.Start, scope);
+                var segLineEnd = (FinalPoint) EvaluateExpression(segLine.End, scope);
+                var segLineStroke = (float) EvaluateExpression(segLine.Stroke, scope);
+                var segLineColour = (FinalColour) EvaluateExpression(segLine.Colour, scope);
+                return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColour);
 
             case Group group:
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);

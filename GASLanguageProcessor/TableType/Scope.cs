@@ -92,11 +92,24 @@ public class Scope
 
             fTable.Bind("Line", new Function(GasType.Line, new List<Variable>()
             {
+                new Variable("intercept", GasType.Number),
+                new Variable("gradient", GasType.Number),
+                new Variable("stroke", GasType.Number),
+                new Variable("colour", GasType.Colour)
+            }, new Return(new Line(
+                new Identifier("intercept"),
+                new Identifier("gradient"),
+                new Identifier("stroke"),
+                new Identifier("colour")
+            )), new Scope(this, null)));
+            
+            fTable.Bind("SegLine", new Function(GasType.SegLine, new List<Variable>()
+            {
                 new Variable("start", GasType.Point),
                 new Variable("end", GasType.Point),
                 new Variable("stroke", GasType.Number),
                 new Variable("colour", GasType.Colour)
-            }, new Return(new Line(
+            }, new Return(new SegLine(
                 new Identifier("start"),
                 new Identifier("end"),
                 new Identifier("stroke"),

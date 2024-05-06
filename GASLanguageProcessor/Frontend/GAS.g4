@@ -25,7 +25,7 @@ collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' ( 'list' '<' type '>'
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' |
-'list' | 'group' | 'string' | 'line' | 'group' | 'T' | 'void';
+'list' | 'group' | 'string' | 'line' | 'segLine' | 'group' | 'T' | 'void';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;

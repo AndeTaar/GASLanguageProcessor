@@ -50,8 +50,6 @@ public interface IAstVisitor<T>
 
     T VisitNull(Null @null);
 
-    T VisitLine(Line line);
-
     T VisitText(Text text);
 
     T VisitCircle(Circle circle);
@@ -63,4 +61,9 @@ public interface IAstVisitor<T>
     T VisitColour(Colour colour);
 
     T VisitSquare(Square square);
+    
+    T VisitSegLine(SegLine segLine);
+
+    T VisitLine(Line line);
+
 }
