@@ -116,21 +116,9 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return type;
     }
 
-    public GasType VisitListDeclaration(ListDeclaration node)
+    public GasType VisitAddToList(AddToList addToList)
     {
-        var listType = node.Type.Accept(this);
-        var expressions = node.Expressions.Select(expr => expr.Accept(this)).ToList();
-
-        foreach (var type in expressions)
-        {
-            if (type != listType)
-            {
-                errors.Add("Invalid type for list: expected: " + listType + " got: " + type);
-                return GasType.Error;
-            }
-        }
-
-        return listType;
+        throw new NotImplementedException();
     }
 
     public GasType VisitAttributeAccess(Attribute attribute)

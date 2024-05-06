@@ -67,5 +67,5 @@ public interface IAstVisitor<T>
 
     T VisitSquare(Square square);
 
-    T VisitListDeclaration(ListDeclaration listDeclaration);
+    T VisitAddToList(AddToList addToList);
 }

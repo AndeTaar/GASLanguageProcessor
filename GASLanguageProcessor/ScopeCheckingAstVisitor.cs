@@ -41,14 +41,11 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         return inScope.All(e => e);
     }
 
-    public bool VisitListDeclaration(ListDeclaration node)
+    public bool VisitAddToList(AddToList addToList)
     {
-        node.Scope = scope;
-        var type = node.Type is GasType;
-        scope = scope.EnterScope(node);
-        var elements = node.Expressions.Select(e => e.Accept(this)).ToList();
-        scope = scope.ExitScope();
-        return type && elements.All(e => e);
+        addToList.Scope = scope;
+        var list = addToList.List.Accept(this);
+        return list;
     }
 
     public bool VisitNumber(Number node)
@@ -107,7 +104,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             return false;
         }
         var expression = node.Expression?.Accept(this);
-        scope.vTable.Bind(identifier, new Variable(identifier, node.Expression));
+        scope.vTable.Bind(identifier, new Variable(identifier, node.Scope, node.Expression));
         return expression ?? true;
     }
 
@@ -174,7 +171,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             {
                 errors.Add("Line: " + decl.LineNumber + " Variable name: " + decl.Identifier.Name + " not found");
             }
-            return new Variable(decl.Identifier.Name, decl.Expression);
+            return new Variable(decl.Identifier.Name, scope, decl.Expression);
         }).ToList();
         var statements = functionDeclaration.Statements;
         scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
@@ -185,18 +182,20 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitFunctionCallStatement(FunctionCallStatement functionCallStatement)
     {
         functionCallStatement.Scope = scope;
-        var function = LookupMethod(functionCallStatement.Identifier, scope);
+        var identifierAndFunction = LookupMethod(functionCallStatement.Identifier, scope);
+        var function = identifierAndFunction.Item2;
+        var identifier = identifierAndFunction.Item1;
 
         if (function == null)
         {
-            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + functionCallStatement.Identifier.Name + " not found");
+            return false;
         }
 
         scope = function?.Scope;
         var parameters = functionCallStatement.Arguments.Select(expression => expression.Accept(this)).ToList();
         if (parameters.Count != function?.Parameters.Count)
         {
-            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + functionCallStatement.Identifier.Name + " has wrong number of arguments");
+            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + identifier.Name + " has wrong number of arguments");
         }
 
         scope = functionCallStatement.Scope;
@@ -272,26 +271,26 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         throw new NotImplementedException();
     }
 
-    public Function LookupMethod(Identifier identifier, Scope scope)
+    public (Identifier, Function) LookupMethod(Identifier identifier, Scope lscope)
     {
         if (identifier.ChildAttribute == null)
         {
-            var function = scope?.fTable.LookUp(identifier.Name);
+            var function = lscope?.fTable.LookUp(identifier.Name);
             if (function == null)
             {
-                errors.Add("Line: " + identifier.LineNumber + " Function name: " + identifier.Name + " not found");
-                return null;
+                errors.Add("Line: " + identifier.LineNumber + " Method name: " + identifier.Name + " not found");
+                return (identifier, null);
             }
-            return function;
+            return (identifier, function);
         }
         var variable = scope.vTable.LookUp(identifier.Name);
         if (variable == null)
         {
-            errors.Add("Line: " + identifier.LineNumber + " Function name: " + identifier.Name + " not found");
-            return null;
+            errors.Add("Line: " + identifier.LineNumber + " Attribute name: " + identifier.Name + " not found");
+            return (identifier, null);
         }
 
-        return LookupMethod(identifier.ChildAttribute, identifier.ChildAttribute.Scope);
+        return LookupMethod(identifier.ChildAttribute, variable.Scope ?? scope);
     }
 
     public bool LookupAttribute(Identifier identifier, Scope scope)

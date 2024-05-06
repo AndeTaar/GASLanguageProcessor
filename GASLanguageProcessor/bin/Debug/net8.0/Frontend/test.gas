@@ -16,6 +16,7 @@ colour red = Colour(255, 0, 0, 1);
 colour white = Colour(255, 255, 255, 1);
 colour green = Colour(0, 255, 0, 1);
 colour pink = Colour(255, 100, 100, 1);
+list<circle> circles;
 
 for(number i = 0; i < 10; i = i + 1)
 {

@@ -17,5 +17,6 @@ public enum GasType
     Point,
     Line,
     Colour,
-    Error
+    Error,
+    Any
 }
