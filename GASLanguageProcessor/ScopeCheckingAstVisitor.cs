@@ -207,7 +207,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         return true;
     }
 
-    public bool VisitLine(Line line)
+    public bool VisitLine(SegLine segLine)
     {
         throw new NotImplementedException();
     }
@@ -238,6 +238,16 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     }
 
     public bool VisitSquare(Square square)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitSegLine(SegLine segLine)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitLine(Line line)
     {
         throw new NotImplementedException();
     }

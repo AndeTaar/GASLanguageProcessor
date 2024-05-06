@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
+    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-        "packagesPath": "C:\\Users\\coolf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "projectPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "packagesPath": "/Users/viktorjohnsen/.nuget/packages/",
+        "outputPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\coolf\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/viktorjohnsen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +33,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -61,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

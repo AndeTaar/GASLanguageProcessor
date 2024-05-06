@@ -288,6 +288,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Point;
             case "line":
                 return GasType.Line;
+            case "segLine":
+                return GasType.SegLine;
             case "circle":
                 return GasType.Circle;
             case "bool":
@@ -329,7 +331,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Null;
     }
 
-    public GasType VisitLine(Line line)
+    public GasType VisitLine(SegLine segLine)
     {
         throw new NotImplementedException();
     }
@@ -360,6 +362,16 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     }
 
     public GasType VisitSquare(Square square)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitSegLine(SegLine segLine)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitLine(Line line)
     {
         throw new NotImplementedException();
     }

@@ -23,6 +23,9 @@ public class SvgGenerator
                 case FinalLine line:
                     SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{line.Start.X}\" y1=\"{line.Start.Y}\" x2=\"{line.End.X}\" y2=\"{line.End.Y}\" stroke=\"{line.StrokeColour.ColourToString()}\" stroke-width=\"{line.Stroke}\" />");
                     break;
+                case FinalSegLine segLine:
+                    SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColour.ColourToString()}\" stroke-width=\"{segLine.Stroke}\" />");
+                    break;
                 case FinalRectangle rectangle:
                     SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColour.ColourToString()}\" fill-opacity=\"{rectangle.FillColour.Alpha}\" stroke=\"{rectangle.StrokeColour.ColourToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
                     break; //notice: our "stroke" is the stroke width in SVG and our "StrokeColour" is the stroke in SVG
