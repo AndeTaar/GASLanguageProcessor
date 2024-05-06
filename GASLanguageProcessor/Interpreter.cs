@@ -196,18 +196,14 @@ public class Interpreter
 
             case Line line: 
                 var lineIntercept = (float) EvaluateExpression(line.Intercept, scope);
-
                 var lineStart = new FinalPoint(0, lineIntercept);
                 var lineGradient = (float) EvaluateExpression(line.Gradient, scope);
-
-                float lineEndY = 0, lineEndX = 0;
-                while (lineEndX <= canvasWidth && lineEndY <= canvasHeight)
-                {
-                    lineEndY = lineGradient * lineEndX + lineIntercept;
-                    ++lineEndX;
-                }
                 
+                float lineEndX = lineGradient < 0 ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
+                    : Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1;
+                float lineEndY = lineGradient * lineEndX + lineIntercept;
                 var lineEnd = new FinalPoint(lineEndX,lineEndY);
+                
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
                 var lineColour = (FinalColour) EvaluateExpression(line.Colour, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColour);

@@ -50,8 +50,6 @@ public interface IAstVisitor<T>
 
     T VisitNull(Null @null);
 
-    T VisitLine(SegLine segLine);
-
     T VisitText(Text text);
 
     T VisitCircle(Circle circle);
