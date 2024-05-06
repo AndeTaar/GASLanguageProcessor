@@ -4,10 +4,10 @@ namespace GASLanguageProcessor.AST.Expressions;
 
 public class UnaryOp :  Expression
 {
-    public AstNode Expression { get; protected set; }
+    public Expression Expression { get; protected set; }
     public string Op { get; protected set; }
 
-    public UnaryOp(string op, AstNode expression)
+    public UnaryOp(string op, Expression expression)
     {
         Op = op;
         Expression = expression;

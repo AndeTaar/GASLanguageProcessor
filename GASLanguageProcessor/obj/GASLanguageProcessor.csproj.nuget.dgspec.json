@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
+    "C:\\Users\\Andreas Buje\\Desktop\\Uni\\4.Semester\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "C:\\Users\\Andreas Buje\\Desktop\\Uni\\4.Semester\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "C:\\Users\\Andreas Buje\\Desktop\\Uni\\4.Semester\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-        "packagesPath": "C:\\Users\\Bujee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "projectPath": "C:\\Users\\Andreas Buje\\Desktop\\Uni\\4.Semester\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "packagesPath": "C:\\Users\\Andreas Buje\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andreas Buje\\Desktop\\Uni\\4.Semester\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Bujee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Andreas Buje\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -64,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

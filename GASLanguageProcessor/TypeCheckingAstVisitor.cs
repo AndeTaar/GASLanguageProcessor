@@ -260,7 +260,21 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitUnaryOp(UnaryOp node)
     {
-        throw new System.NotImplementedException();
+        var expression = node.Expression?.Accept(this);
+        var op = node.Op;
+
+        if (op == "!" && expression == GasType.Boolean)
+        {
+            return GasType.Boolean;
+        }
+
+        if (op == "-" && expression == GasType.Number)
+        {
+            return GasType.Number;
+        }
+
+        errors.Add("Invalid type for unary operation: " + op + " expected: Boolean or Number, got: " + expression);
+        return GasType.Error;
     }
 
     public GasType VisitString(String s)

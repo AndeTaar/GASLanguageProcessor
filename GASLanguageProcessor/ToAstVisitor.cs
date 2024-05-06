@@ -294,7 +294,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitNotExpression(context);
         }
 
-        var expression = context.GetChild(0).Accept(this);
+        var expression = context.GetChild(1).Accept(this) as Expression;
 
         return new UnaryOp(context.GetChild(0).GetText(), expression);
     }
