@@ -1,4 +1,4 @@
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
@@ -10,14 +10,14 @@ public class Line : Term
     
     public Expression Stroke { get; protected set; }
 
-    public Expression? Colour { get; protected set; }
+    public Expression? Color { get; protected set; }
 
-    public Line(Expression intercept, Expression gradient, Expression stroke, Expression? colour)
+    public Line(Expression intercept, Expression gradient, Expression stroke, Expression? color)
     {
         Intercept = intercept;
         Gradient = gradient;
         Stroke = stroke;
-        Colour = colour;
+        Color = color;
     }
     
     public override T Accept<T>(IAstVisitor<T> visitor)

@@ -206,11 +206,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var backgroundColourType = node.BackgroundColour?.Accept(this);
+        var backgroundColorType = node.BackgroundColor?.Accept(this);
 
-        if (backgroundColourType != GasType.Colour && backgroundColourType != null)
+        if (backgroundColorType != GasType.Color && backgroundColorType != null)
         {
-            errors.Add("Invalid background colour type");
+            errors.Add("Invalid background color type");
             return GasType.Error;
         }
 
@@ -276,8 +276,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Number;
             case "text":
                 return GasType.Text;
-            case "colour":
-                return GasType.Colour;
+            case "color":
+                return GasType.Color;
             case "boolean":
                 return GasType.Boolean;
             case "square":
@@ -358,7 +358,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
-    public GasType VisitColour(Colour colour)
+    public GasType VisitColor(Color color)
     {
         throw new NotImplementedException();
     }

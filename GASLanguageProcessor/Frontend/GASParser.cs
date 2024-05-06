@@ -67,7 +67,7 @@ public partial class GASParser : Parser {
 		null, "'canvas'", "'('", "','", "')'", "';'", "'='", "'if'", "'{'", "'}'", 
 		"'else'", "'while'", "'for'", "'return'", "'class'", "'list'", "'<'", 
 		"'>'", "'number'", "'bool'", "'point'", "'rectangle'", "'square'", "'circle'", 
-		"'polygon'", "'text'", "'colour'", "'group'", "'string'", "'line'", "'segLine'", 
+		"'polygon'", "'text'", "'color'", "'group'", "'string'", "'line'", "'segLine'", 
 		"'T'", "'void'", "'ellipse'", "'||'", "'&&'", "'=='", "'!='", "'<='", 
 		"'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'['", "']'", "'true'", 
 		"'false'", "'null'", "'.'", "'Group'"

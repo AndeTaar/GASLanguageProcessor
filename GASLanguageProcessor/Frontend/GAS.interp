@@ -25,7 +25,7 @@ null
 'circle'
 'polygon'
 'text'
-'colour'
+'color'
 'group'
 'string'
 'line'
