@@ -68,4 +68,6 @@ public interface IAstVisitor<T>
     T VisitSquare(Square square);
 
     T VisitAddToList(AddToList addToList);
+
+    T VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration);
 }

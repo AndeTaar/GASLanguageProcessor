@@ -121,6 +121,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
+    public GasType VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration)
+    {
+        throw new NotImplementedException();
+    }
+
     public GasType VisitAttributeAccess(Attribute attribute)
     {
         throw new NotImplementedException();

@@ -48,6 +48,24 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         return list;
     }
 
+    public bool VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration)
+    {
+        scope = scope.EnterScope(collectionDeclaration);
+        scope.AddListMethods();
+        collectionDeclaration.Scope = scope;
+        var identifier = collectionDeclaration.Identifier.Name;
+        bool identifierIsInScope = scope.vTable.LookUp(identifier) != null;
+        if(identifierIsInScope)
+        {
+            errors.Add("Line: " + collectionDeclaration.LineNumber + " Variable name: " + identifier + " Can not redeclare variable");
+            return false;
+        }
+        var expression = collectionDeclaration.Expression?.Accept(this);
+        scope.ParentScope?.vTable.Bind(identifier, new Variable(identifier, scope, collectionDeclaration.Expression));
+        scope = scope.ExitScope();
+        return expression ?? true;
+    }
+
     public bool VisitNumber(Number node)
     {
         node.Scope = scope;

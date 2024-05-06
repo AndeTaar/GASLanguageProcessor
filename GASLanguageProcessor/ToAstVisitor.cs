@@ -126,12 +126,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var type = context.type()?.Accept(this) as Type;
-        var collectionType = context.collectionType()?.Accept(this) as Type;
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
 
         Expression value = context.expression()?.Accept(this) as Expression;
 
-        return new Declaration(type ?? collectionType, identifier, value) {LineNumber = context.Start.Line};
+        return new Declaration(type, identifier, value) {LineNumber = context.Start.Line};
+    }
+
+    public override AstNode VisitCollectionDeclaration(GASParser.CollectionDeclarationContext context)
+    {
+        var collectionType = context.collectionType()?.Accept(this) as Type;
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
+
+        var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
+
+        return new CollectionDeclaration(type ?? collectionType, identifier, expressions) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitType(GASParser.TypeContext context)

@@ -6,11 +6,12 @@ canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
-declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
+declaration : type IDENTIFIER ('=' expression)?;
+collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
