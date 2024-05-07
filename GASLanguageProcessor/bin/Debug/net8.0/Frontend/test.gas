@@ -1,6 +1,7 @@
-﻿canvas (1+2+3, 250, Color(255, 255, 255, 1));
+﻿﻿canvas (250, 250, Color(255, 255, 255, 1));
 
 number x = 20;
+
 circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)
 {
    return Circle(Center, Width, Stroke, Fill, StrokeColor);
@@ -13,27 +14,11 @@ color pink = Color(255, 100, 100, 1);
 color black = Color(0, 0, 0, 1);
 
 list<circle> circles = list<circle>();
-number hej = 0;
 
 for(number i = 0; i < 10; i = i + 1)
 {
-  hej = hej + 1;
-  oooo = hej + 2;
-
+  circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
-
-while(hej < 190) {
-    hej = hej + 1;
-    number bruh;
-}
-
-for(number i = 0; i < 10; i = i + 1)
-{
-  number pppp = 10 + i * 50;
-  circles.add(CircleCreator(Point(50, pppp), 40, 10, red, black));
-}
-
-circle cirkellll = CircleCreator(Point(50, hej), 40, 10, red, black);
 
 square firkant = Square(Point(10,10), 230, 10, red, black);
 
@@ -73,9 +58,7 @@ point xy = Point(0, 0);
 
 number start = 180;
 rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
-string s1 = "It's even worse";
-string s2 = " for mouses!";
-text txt = Text(s1+s2+s2, Point(29,200), "Arial", 16, black);
+text txt = Text("Its even worse for mouses!", Point(29,200), "Arial", 16, black);
 
 line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
 line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
