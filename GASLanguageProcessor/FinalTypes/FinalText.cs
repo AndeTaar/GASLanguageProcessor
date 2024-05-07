@@ -8,14 +8,14 @@ public class FinalText
     public string Font { get; set; }
     public float FontSize { get; set; }
 
-    public FinalColour TextColour { get; set; }
+    public FinalColor TextColor { get; set; }
 
-    public FinalText(string text, FinalPoint position, string font, float fontSize, FinalColour textColour)
+    public FinalText(string text, FinalPoint position, string font, float fontSize, FinalColor textColor)
     {
         Text = text;
         Position = position;
         Font = font;
         FontSize = fontSize;
-        TextColour = textColour;
+        TextColor = textColor;
     }
 }

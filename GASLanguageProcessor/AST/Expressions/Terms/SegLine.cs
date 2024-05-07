@@ -2,26 +2,25 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Line : Term
+public class SegLine : Term
 {
-    public Expression Intercept { get; protected set; }
+    public Expression Start { get; protected set; }
 
-    public Expression Gradient { get; protected set; }
+    public Expression End { get; protected set; }
     
     public Expression Stroke { get; protected set; }
 
     public Expression? Color { get; protected set; }
-
-    public Line(Expression intercept, Expression gradient, Expression stroke, Expression? color)
+    public SegLine(Expression start, Expression end, Expression stroke, Expression? color)
     {
-        Intercept = intercept;
-        Gradient = gradient;
+        Start = start;
+        End = end;
         Stroke = stroke;
         Color = color;
     }
     
     public override T Accept<T>(IAstVisitor<T> visitor)
     {
-        return visitor.VisitLine(this);
+        return visitor.VisitSegLine(this);
     }
 }
