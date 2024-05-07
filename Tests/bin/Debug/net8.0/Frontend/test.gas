@@ -1,23 +1,23 @@
-﻿canvas (250, 250, Colour(255, 255, 255, 1));
+﻿canvas (250, 250, Color(255, 255, 255, 1));
 
 number x = 0;
 
-circle CircleCreator(point Center, number Width, number Stroke, colour Fill, colour StrokeColour)
+circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)
 {
-    return Circle(Center, Width, Stroke, Fill, StrokeColour);
+    return Circle(Center, Width, Stroke, Fill, StrokeColor);
 }
 
-colour white = Colour(255, 255, 255, 1);
-colour green = Colour(0, 255, 0, 1);
-colour red = Colour(255, 0, 0, 1);
-colour pink = Colour(255, 100, 100, 1);
-colour black = Colour(0, 0, 0, 1);
+color white = Color(255, 255, 255, 1);
+color green = Color(0, 255, 0, 1);
+color red = Color(255, 0, 0, 1);
+color pink = Color(255, 100, 100, 1);
+color black = Color(0, 0, 0, 1);
 
 list<circle> circles = list<circle>();
 
 for(number i = 0; i < 10; i = i + 1)
 {
-   circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
+    circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
 
 for(number i = 0; x < 10; x = x + 1)
@@ -34,7 +34,7 @@ bool GetBool()
     return true;
 }
 
-group mouse = Group(Point(125, 80),
+group mouse = Group(Point(145-20, 80),
 {
     group mousEars = Group(Point(0, 0),
     {
@@ -50,13 +50,13 @@ group mouse = Group(Point(125, 80),
         circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);,
         circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);,
 
-        line mouth = Line(Point(-20, 50), Point(20, 40), 3, black);
+        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
     });
 });
 
-colour reds = Colour(255, 0, 0, 1);
+color reds = Color(255, 0, 0, 1);
 point xy = Point(0, 0);
 
 number start = 180-40;
-rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
+rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);
 text txt = Text("Its even worse for mouses!", Point(23,200), "Arial", 16, black);

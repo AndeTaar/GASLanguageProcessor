@@ -4,7 +4,7 @@ number x = 0;
 
 circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)
 {
-   return Circle(Center, Width, Stroke, Fill, StrokeColor);
+    return Circle(Center, Width, Stroke, Fill, StrokeColor);
 }
 
 color white = Color(255, 255, 255, 1);
@@ -17,7 +17,7 @@ list<circle> circles = list<circle>();
 
 for(number i = 0; i < 10; i = i + 1)
 {
-   circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
+    circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
 
 for(number i = 0; x < 10; x = x + 1)

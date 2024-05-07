@@ -263,18 +263,26 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         var expression = node.Expression?.Accept(this);
         var op = node.Op;
 
-        if (op == "!" && expression == GasType.Boolean)
+        switch (op)
         {
-            return GasType.Boolean;
+            case "!":
+                if (expression == GasType.Boolean)
+                {
+                    return GasType.Boolean;
+                }
+                errors.Add("Invalid type for unary operation: " + op + " expected: Boolean, got: " + expression);
+                return GasType.Error;
+            case "-":
+                if (expression == GasType.Number)
+                {
+                    return GasType.Number;
+                }
+                errors.Add("Invalid type for unary operation: " + op + " expected: Number, got: " + expression);
+                return GasType.Error;
+            default:
+                errors.Add("Invalid operator: " + op);
+                return GasType.Error;
         }
-
-        if (op == "-" && expression == GasType.Number)
-        {
-            return GasType.Number;
-        }
-
-        errors.Add("Invalid type for unary operation: " + op + " expected: Boolean or Number, got: " + expression);
-        return GasType.Error;
     }
 
     public GasType VisitString(String s)
