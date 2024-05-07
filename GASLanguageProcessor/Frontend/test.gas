@@ -1,4 +1,4 @@
-﻿﻿canvas (250, 250, Color(255, 255, 255, 1));
+﻿canvas (250, 250, Color(255, 255, 255, 1));
 
 number x = 20;
 
@@ -62,3 +62,7 @@ text txt = Text("Its even worse for mouses!", Point(29,200), "Arial", 16, black)
 
 line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
 line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
+
+string j = "a" + "b" + "c";
+bool k = true == false != true;
+bool l = 5<3 || 5>3 && 5<=5;

@@ -276,6 +276,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Number;
             case "text":
                 return GasType.Text;
+            case "string":
+                return GasType.String;
             case "color":
                 return GasType.Color;
             case "boolean":

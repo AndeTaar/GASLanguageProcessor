@@ -129,6 +129,12 @@ public class Interpreter
                     "%" => (float)left % (float)right,
                     "<" => (float)left < (float)right,
                     ">" => (float)left > (float)right,
+                    "<=" => (float)left <= (float)right,
+                    ">=" => (float)left >= (float)right,
+                    "!=" => left != right,
+                    "==" => left == right,
+                    "&&" => (bool)left && (bool)right,
+                    "||" => (bool)left || (bool)right,
                     _ => throw new NotImplementedException()
                 };
 

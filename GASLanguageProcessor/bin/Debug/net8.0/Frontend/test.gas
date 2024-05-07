@@ -14,27 +14,11 @@ color pink = Color(255, 100, 100, 1);
 color black = Color(0, 0, 0, 1);
 
 list<circle> circles = list<circle>();
-number hej = 0;
 
 for(number i = 0; i < 10; i = i + 1)
 {
-  hej = hej + 1;
-  oooo = hej + 2;
-
+  circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
-
-while(hej < 190) {
-    hej = hej + 1;
-    number bruh;
-}
-
-for(number i = 0; i < 10; i = i + 1)
-{
-  number pppp = 10 + i * 50;
-  circles.add(CircleCreator(Point(50, pppp), 40, 10, red, black));
-}
-
-circle cirkellll = CircleCreator(Point(50, hej), 40, 10, red, black);
 
 square firkant = Square(Point(10,10), 230, 10, red, black);
 
@@ -78,3 +62,7 @@ text txt = Text("Its even worse for mouses!", Point(29,200), "Arial", 16, black)
 
 line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
 line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
+
+string j = "a" + "b" + "c";
+bool k = true == false != true;
+bool l = 5<3 || 5>3 && 5<=5;
