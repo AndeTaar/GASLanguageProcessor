@@ -15,7 +15,7 @@ public class Interpreter
 {
     public float canvasWidth;
     public float canvasHeight;
-    
+
     public object EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
@@ -57,6 +57,26 @@ public class Interpreter
                 }
                 variable.ActualValue = val;
                 return val;
+
+            case FunctionCallStatement functionCallStatement:
+                Function function = scope.fTable.LookUp(functionCallStatement.Identifier.Name);
+                if (function == null)
+                {
+                    throw new Exception($"Function {functionCallStatement.Identifier.Name} not found");
+                }
+
+                var functionCallScope = functionCallStatement.Scope ?? scope;
+                var functionScope = function.Scope;
+                functionScope.vTable.Variables.Clear();
+                for (int i = 0; i < function.Parameters.Count; i++)
+                {
+                    var parameter = function.Parameters[i];
+                    var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
+                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, functionCallVal));
+                }
+                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
+                return functionCallRes;
+
             case Assignment assignment:
                 var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
                 var assignIdentifier = assignment.Identifier.Name;
@@ -80,7 +100,7 @@ public class Interpreter
     {
         switch (expression)
         {
-            case FunctionCall functionCall:
+            case FunctionCallTerm functionCall:
                 Function function = scope.fTable.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {
@@ -169,7 +189,7 @@ public class Interpreter
                 var squareFillColor = (FinalColor) EvaluateExpression(square.Color, scope);
                 var squareStrokeColor =(FinalColor) EvaluateExpression(square.StrokeColor, scope);
                 return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor);
-            
+
             case Ellipse ellipse:
                 var ellipseCentre = (FinalPoint) EvaluateExpression(ellipse.Center, scope);
                 var ellipseRadiusX = (float) EvaluateExpression(ellipse.RadiusX, scope);
@@ -178,7 +198,7 @@ public class Interpreter
                 var ellipseBorderColor = (FinalColor) EvaluateExpression(ellipse.BorderColor, scope);
                 var ellipseBorderWidth = (float) EvaluateExpression(ellipse.BorderWidth, scope);
                 return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseFillColor, ellipseBorderColor, ellipseBorderWidth);
-            
+
             case Text text:
                 var value = (string) EvaluateExpression(text.Value, scope);
                 var position = (FinalPoint) EvaluateExpression(text.Position, scope);
@@ -203,20 +223,20 @@ public class Interpreter
                 var rectStrokeColor = (FinalColor) EvaluateExpression(rectangle.StrokeColor, scope);
                 return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor);
 
-            case Line line: 
+            case Line line:
                 var lineIntercept = (float) EvaluateExpression(line.Intercept, scope);
                 var lineStart = new FinalPoint(0, lineIntercept);
                 var lineGradient = (float) EvaluateExpression(line.Gradient, scope);
-                
+
                 float lineEndX = lineGradient < 0 ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
                     : Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1;
                 float lineEndY = lineGradient * lineEndX + lineIntercept;
                 var lineEnd = new FinalPoint(lineEndX,lineEndY);
-                
+
                 var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
                 var lineColor = (FinalColor) EvaluateExpression(line.Color, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColor);
-            
+
             case SegLine segLine:
                 var segLineStart = (FinalPoint) EvaluateExpression(segLine.Start, scope);
                 var segLineEnd = (FinalPoint) EvaluateExpression(segLine.End, scope);

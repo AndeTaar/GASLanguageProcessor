@@ -57,7 +57,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         bool identifierIsInScope = scope.vTable.LookUp(identifier) != null;
         if(identifierIsInScope)
         {
-            errors.Add("Line: " + collectionDeclaration.LineNumber + " Variable name: " + identifier + " Can not redeclare variable");
+            errors.Add("Line: " + collectionDeclaration.LineNumber + " variable name: " + identifier + " Can not redeclare variable");
             return false;
         }
         var expression = collectionDeclaration.Expression?.Accept(this);
@@ -106,7 +106,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitAssignment(Assignment node)
     {
         node.Scope = scope;
-        var identifier = LookupAttribute(node.Identifier, scope);
+        var identifier = scope.LookupAttribute(node.Identifier, scope, scope, errors);
         var expression = node.Expression.Accept(this);
         return identifier && expression;
     }
@@ -200,13 +200,13 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitFunctionCallStatement(FunctionCallStatement functionCallStatement)
     {
         functionCallStatement.Scope = scope;
-        var identifierAndFunction = LookupMethod(functionCallStatement.Identifier, scope);
-        var function = identifierAndFunction.Item2;
-        var identifier = identifierAndFunction.Item1;
+        var functionAndIdentifier = scope.LookupMethod(functionCallStatement.Identifier, scope, scope, errors);
+        var identifier = functionAndIdentifier.Item1;
+        var function = functionAndIdentifier.Item2;
 
         if (function == null)
         {
-            return false;
+            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + identifier + " not found");
         }
 
         scope = function?.Scope;
@@ -223,8 +223,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitFunctionCallTerm(FunctionCallTerm functionCallTerm)
     {
         functionCallTerm.Scope = scope;
-        var identifier = LookupMethod(functionCallTerm.Identifier, scope);
-        var function = scope?.fTable.LookUp(functionCallTerm.Identifier.Name);
+        var functionAndIdentifier = scope.LookupMethod(functionCallTerm.Identifier, scope, scope, errors);
+        var identifier = functionAndIdentifier.Item1;
+        var function = functionAndIdentifier.Item2;
 
         if (function == null)
         {
@@ -302,49 +303,5 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitLine(Line line)
     {
         throw new NotImplementedException();
-    }
-
-    public (Identifier, Function) LookupMethod(Identifier identifier, Scope lscope)
-    {
-        if (identifier.ChildAttribute == null)
-        {
-            var function = lscope?.fTable.LookUp(identifier.Name);
-            if (function == null)
-            {
-                errors.Add("Line: " + identifier.LineNumber + " Method name: " + identifier.Name + " not found");
-                return (identifier, null);
-            }
-            return (identifier, function);
-        }
-        var variable = scope.vTable.LookUp(identifier.Name);
-        if (variable == null)
-        {
-            errors.Add("Line: " + identifier.LineNumber + " Attribute name: " + identifier.Name + " not found");
-            return (identifier, null);
-        }
-
-        return LookupMethod(identifier.ChildAttribute, variable.Scope ?? scope);
-    }
-
-    public bool LookupAttribute(Identifier identifier, Scope scope)
-    {
-        if (identifier.ChildAttribute == null)
-        {
-            var ident = scope.vTable.LookUp(identifier.Name);
-            if (ident == null)
-            {
-                errors.Add("Line: " + identifier.LineNumber + " Variable name: " + identifier.Name + " not found");
-                return false;
-            }
-            return true;
-        }
-        var variable = scope?.vTable.LookUp(identifier.Name);
-        if (variable == null)
-        {
-            errors.Add("Line: " + identifier.LineNumber + " Variable name: " + identifier.Name + " not found");
-            return false;
-        }
-
-        return LookupAttribute(identifier.ChildAttribute, variable.FormalValue.Scope ?? scope);
     }
 }

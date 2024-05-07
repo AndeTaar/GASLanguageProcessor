@@ -181,11 +181,53 @@ public class Scope
 
     public void AddListMethods()
     {
-        this.fTable.Bind("Add", new Function(GasType.Void, new List<Variable>()
+        this.fTable.Bind("add", new Function(GasType.Void, new List<Variable>()
         {
             new Variable("value", this, GasType.Any)
         }, new Return(new AddToList(new Identifier("value"))), new Scope(this, null)));
     }
 
+    public bool LookupAttribute(Identifier identifier, Scope scope, Scope globalScope, List<string> errors)
+    {
+        if (identifier.ChildAttribute == null)
+        {
+            var ident = scope.vTable.LookUp(identifier.Name);
+            if (ident == null)
+            {
+                errors.Add("Line: " + identifier.LineNumber + " Variable name: " + identifier.Name + " not found");
+                return false;
+            }
+            return true;
+        }
+        var variable = scope?.vTable.LookUp(identifier.Name);
+        if (variable == null)
+        {
+            errors.Add("Line: " + identifier.LineNumber + " variable name: " + identifier.Name + " not found");
+            return false;
+        }
 
+        return LookupAttribute(identifier.ChildAttribute, variable.FormalValue.Scope ?? globalScope, globalScope, errors);
+    }
+
+    public (Identifier, Function) LookupMethod(Identifier identifier, Scope localScope, Scope globalScope, List<string> errors)
+    {
+        if (identifier.ChildAttribute == null)
+        {
+            var function = localScope?.fTable.LookUp(identifier.Name);
+            if (function == null)
+            {
+                errors.Add("Line: " + identifier.LineNumber + " Method name: " + identifier.Name + " not found");
+                return (identifier, null);
+            }
+            return (identifier, function);
+        }
+        var variable = globalScope.vTable.LookUp(identifier.Name);
+        if (variable == null)
+        {
+            errors.Add("Line: " + identifier.LineNumber + " Attribute name: " + identifier.Name + " not found");
+            return (identifier, null);
+        }
+
+        return LookupMethod(identifier.ChildAttribute, variable.Scope ?? globalScope, globalScope, errors);
+    }
 }
