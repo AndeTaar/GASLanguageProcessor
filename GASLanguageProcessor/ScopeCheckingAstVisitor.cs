@@ -107,9 +107,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         node.Scope = scope;
         var width = node.Width.Accept(this);
         var height = node.Height.Accept(this);
-        var backgroundColour = node.BackgroundColour?.Accept(this);
+        var backgroundColor = node.BackgroundColor?.Accept(this);
         scope.vTable.Bind("canvas", new Variable("canvas", node));
-        return width && height && (backgroundColour ?? true);
+        return width && height && (backgroundColor ?? true);
     }
 
     public bool VisitWhile(While node)
@@ -210,7 +210,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         return true;
     }
 
-    public bool VisitLine(Line line)
+    public bool VisitLine(SegLine segLine)
     {
         throw new NotImplementedException();
     }
@@ -235,12 +235,27 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         throw new NotImplementedException();
     }
 
-    public bool VisitColour(Colour colour)
+    public bool VisitColor(Color color)
     {
         throw new NotImplementedException();
     }
 
     public bool VisitSquare(Square square)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitEllipse(Ellipse ellipse)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitSegLine(SegLine segLine)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool VisitLine(Line line)
     {
         throw new NotImplementedException();
     }
