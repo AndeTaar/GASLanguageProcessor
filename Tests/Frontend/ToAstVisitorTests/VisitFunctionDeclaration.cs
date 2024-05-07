@@ -17,9 +17,7 @@ public class VisitorTests
         var parser = new GASParser(tokenStream);
         var context = parser.functionDeclaration();
         var result = visitor.VisitFunctionDeclaration(context);
-      
-        
-        
+
         Assert.NotNull(result);
         Assert.IsType<FunctionDeclaration>(result);
     }

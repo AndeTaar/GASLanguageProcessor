@@ -59,16 +59,12 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitIdentifier(Identifier node)
     {
         node.Scope = scope;
-        bool identifierIsInScope = false;
-        try
-        {
-            identifierIsInScope = scope.vTable.LookUp(node.Name) != null;
-        }
-        catch (Exception e)
-        {
+        var var = scope.vTable.LookUp(node.Name);
+        if(var == null){
             errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
+            return false;
         }
-        return identifierIsInScope;
+        return true;
     }
 
     public bool VisitCompound(Compound node)
@@ -83,6 +79,12 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     {
         node.Scope = scope;
         var identifier = node.Identifier.Name;
+        var var = scope.vTable.LookUp(identifier);
+        if (var == null)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " not found");
+            return false;
+        }
         var expression = node.Expression.Accept(this);
         return expression;
     }
@@ -168,7 +170,15 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             return new Variable(decl.Identifier.Name, decl.Expression);
         }).ToList();
         var statements = functionDeclaration.Statements;
-        scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        try
+        {
+            scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        }
+        catch (Exception e)
+        {
+            errors.Add("Line: " + functionDeclaration.LineNumber + " Function name: " + identifier + " already exists");
+            return false;
+        }
         scope = scope.ExitScope();
         return true;
     }

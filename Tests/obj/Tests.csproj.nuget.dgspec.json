@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\Tests\\Tests.csproj": {}
+    "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "packagesPath": "/Users/thomas/.nuget/packages/",
+        "outputPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thomas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -66,36 +64,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\Tests\\Tests.csproj": {
+    "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\Tests\\Tests.csproj",
+        "projectUniqueName": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\Tests\\Tests.csproj",
-        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\Tests\\obj\\",
+        "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
+        "packagesPath": "/Users/thomas/.nuget/packages/",
+        "outputPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thomas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
-                "projectPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj"
+              "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
+                "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj"
               }
             }
           }
@@ -148,7 +144,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

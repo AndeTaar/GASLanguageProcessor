@@ -138,11 +138,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
     {
-        return context.declaration()?.Accept(this)       ??
-        context.assignment()?.Accept(this)               ??
-        context.functionCall()?.Accept(this)             ??
-        context.returnStatement()?.Accept(this)          ??
-        context.methodCall().Accept(this);
+        return context.GetChild(0)?.Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)
