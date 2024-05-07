@@ -58,5 +58,5 @@ colour reds = Colour(255, 0, 0, 1);
 point xy = Point(0, 0);
 
 number start = 180-40;
-rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
+rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);
 text txt = Text("Its even worse for mouses!", Point(23,200), "Arial", 16, black);
