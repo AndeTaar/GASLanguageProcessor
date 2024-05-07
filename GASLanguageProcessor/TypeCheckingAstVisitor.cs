@@ -260,7 +260,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     public GasType VisitWhile(While node)
     {
         var condition = node.Condition.Accept(this);
-        node.Statements.Accept(this);
+        node.Statements?.Accept(this);
 
         if (condition != GasType.Boolean)
         {
@@ -315,6 +315,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
         {
             case "number":
                 return GasType.Number;
+            case "string":
+                return GasType.String;
             case "text":
                 return GasType.Text;
             case "color":

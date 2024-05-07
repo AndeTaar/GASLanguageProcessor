@@ -26,14 +26,13 @@ type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon
 collectionType : 'list' '<' type '>' | 'segLine' | 'group' | 'T' | 'void' | 'ellipse';
 
 // Expressions
-expression : equalityExpression (('||' | '&&') equalityExpression)* ;
-equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
-relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
-binaryExpression : multExpression (('+' | '-') multExpression)* ;
-multExpression : notExpression (('*' | '/' | '%' ) notExpression)* ;
+expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
+equalityExpression : relationExpression (('==' | '!=') (relationExpression | equalityExpression))? ;
+relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
+binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
+multExpression : notExpression (('*' | '/' | '%' ) (notExpression | multExpression))? ;
 notExpression : ('!' | '-')* listAccessExpression ;
 listAccessExpression : term ('[' expression ']')?;
-
 
 //Terms
 term : IDENTIFIER ('.' IDENTIFIER)* | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
