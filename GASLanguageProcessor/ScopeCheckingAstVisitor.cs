@@ -44,7 +44,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitAddToList(AddToList addToList)
     {
         addToList.Scope = scope;
-        var list = addToList.List.Accept(this);
+        var list = addToList.Expression.Accept(this);
         return list;
     }
 

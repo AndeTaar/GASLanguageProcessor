@@ -63,11 +63,11 @@ public class Scope
 
             fTable.Bind("Rectangle", new Function(GasType.Rectangle, new List<Variable>()
                 {
-                    new Variable("topLeft", GasType.Point),
-                    new Variable("bottomRight", GasType.Point),
-                    new Variable("stroke", GasType.Number),
-                    new Variable("color", GasType.Color),
-                    new Variable("strokeColor", GasType.Color)
+                    new Variable("topLeft", this, GasType.Point),
+                    new Variable("bottomRight", this, GasType.Point),
+                    new Variable("stroke", this, GasType.Number),
+                    new Variable("color", this, GasType.Color),
+                    new Variable("strokeColor", this, GasType.Color)
                 },
                 new Return(new Rectangle(
                     new Identifier("topLeft"),
@@ -79,11 +79,11 @@ public class Scope
 
             fTable.Bind("Text", new Function(GasType.Text, new List<Variable>()
             {
-                new Variable("value", GasType.String),
-                new Variable("position", GasType.Point),
-                new Variable("font", GasType.String),
-                new Variable("fontSize", GasType.Number),
-                new Variable("color", GasType.Color)
+                new Variable("value", this, GasType.String),
+                new Variable("position", this, GasType.Point),
+                new Variable("font", this, GasType.String),
+                new Variable("fontSize", this, GasType.Number),
+                new Variable("color", this, GasType.Color)
             }, new Return(new Text(
                 new Identifier("value"),
                 new Identifier("position"),
@@ -94,10 +94,10 @@ public class Scope
 
             fTable.Bind("Line", new Function(GasType.Line, new List<Variable>()
             {
-                new Variable("intercept", GasType.Number),
-                new Variable("gradient", GasType.Number),
-                new Variable("stroke", GasType.Number),
-                new Variable("color", GasType.Color)
+                new Variable("intercept", this, GasType.Number),
+                new Variable("gradient", this, GasType.Number),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color)
             }, new Return(new Line(
                 new Identifier("intercept"),
                 new Identifier("gradient"),
@@ -107,10 +107,10 @@ public class Scope
 
             fTable.Bind("SegLine", new Function(GasType.SegLine, new List<Variable>()
             {
-                new Variable("start", GasType.Point),
-                new Variable("end", GasType.Point),
-                new Variable("stroke", GasType.Number),
-                new Variable("color", GasType.Color)
+                new Variable("start", this, GasType.Point),
+                new Variable("end", this, GasType.Point),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color)
             }, new Return(new SegLine(
                 new Identifier("start"),
                 new Identifier("end"),
@@ -120,11 +120,11 @@ public class Scope
 
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
             {
-                new Variable("topLeft", GasType.Point),
-                new Variable("length", GasType.Number),
-                new Variable("stroke", GasType.Number),
-                new Variable("color", GasType.Color),
-                new Variable("strokeColor", GasType.Color)
+                new Variable("topLeft", this, GasType.Point),
+                new Variable("length", this, GasType.Number),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color),
+                new Variable("strokeColor", this, GasType.Color)
             }, new Return(new Square(
                 new Identifier("topLeft"),
                 new Identifier("length"),
@@ -135,11 +135,11 @@ public class Scope
 
             fTable.Bind("Circle", new Function(GasType.Circle, new List<Variable>()
             {
-                new Variable("center", GasType.Point),
-                new Variable("radius", GasType.Number),
-                new Variable("stroke", GasType.Number),
-                new Variable("color", GasType.Color),
-                new Variable("strokeColor", GasType.Color)
+                new Variable("center", this, GasType.Point),
+                new Variable("radius", this, GasType.Number),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color),
+                new Variable("strokeColor", this, GasType.Color)
             }, new Return(new Circle(
                 new Identifier("center"),
                 new Identifier("radius"),
@@ -150,12 +150,12 @@ public class Scope
 
             fTable.Bind("Ellipse", new Function(GasType.Ellipse, new List<Variable>()
             {
-                new Variable("center", GasType.Point),
-                new Variable("xRadius", GasType.Number),
-                new Variable("yRadius", GasType.Number),
-                new Variable("color", GasType.Color),
-                new Variable("borderColor", GasType.Color),
-                new Variable("borderWidth", GasType.Number)
+                new Variable("center", this, GasType.Point),
+                new Variable("xRadius", this, GasType.Number),
+                new Variable("yRadius", this, GasType.Number),
+                new Variable("color", this, GasType.Color),
+                new Variable("borderColor", this, GasType.Color),
+                new Variable("borderWidth", this, GasType.Number)
             }, new Return(new Ellipse(
                 new Identifier("center"),
                 new Identifier("xRadius"),

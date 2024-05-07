@@ -1,12 +1,13 @@
+
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class AddToList: Term
 {
-    public Term List { get; protected set; }
+    public Expression Expression { get; protected set; }
 
-    public AddToList(Term list)
+    public AddToList(Expression expression)
     {
-        List = list;
+        Expression = expression;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor)

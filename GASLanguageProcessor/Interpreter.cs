@@ -21,11 +21,13 @@ public class Interpreter
         switch (statement)
         {
             case Canvas canvas:
-                var width = (float) EvaluateExpression(canvas.Width, scope);
-                var height = (float) EvaluateExpression(canvas.Height, scope);
+                var width = (float)EvaluateExpression(canvas.Width, scope);
+                var height = (float)EvaluateExpression(canvas.Height, scope);
                 canvasHeight = height;
                 canvasWidth = width;
-                var backgroundColor = canvas.BackgroundColor == null ? new FinalColor(255,255,255,1) : (FinalColor) EvaluateExpression(canvas.BackgroundColor, scope);
+                var backgroundColor = canvas.BackgroundColor == null
+                    ? new FinalColor(255, 255, 255, 1)
+                    : (FinalColor)EvaluateExpression(canvas.BackgroundColor, scope);
                 var finalCanvas = new FinalCanvas(width, height, backgroundColor);
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
@@ -37,12 +39,13 @@ public class Interpreter
             case For @for:
                 EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
                 var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
-                while ((bool) condition)
+                while ((bool)condition)
                 {
                     EvaluateStatement(@for.Statements, @for.Scope ?? scope);
                     EvaluateStatement(@for.Increment, @for.Scope ?? scope);
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 }
+
                 return null;
             case FunctionDeclaration functionDeclaration:
                 return null;
@@ -55,14 +58,18 @@ public class Interpreter
                     Console.WriteLine($"Variable {declIdentifier} not found");
                     return null;
                 }
+
                 variable.ActualValue = val;
                 return val;
 
             case FunctionCallStatement functionCallStatement:
-                Function function = scope.fTable.LookUp(functionCallStatement.Identifier.Name);
+                var identifierAndFunction =
+                    scope.LookupMethod(functionCallStatement.Identifier, scope, scope, new List<string>());
+                string identifier = identifierAndFunction.Item1.Name;
+                Function function = identifierAndFunction.Item2;
                 if (function == null)
                 {
-                    throw new Exception($"Function {functionCallStatement.Identifier.Name} not found");
+                    throw new Exception($"Function {identifier} not found");
                 }
 
                 var functionCallScope = functionCallStatement.Scope ?? scope;
@@ -72,8 +79,10 @@ public class Interpreter
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
-                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, functionCallVal));
+                    functionScope.vTable.Bind(parameter.Identifier,
+                        new Variable(parameter.Identifier, functionCallVal));
                 }
+
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
 
@@ -86,13 +95,13 @@ public class Interpreter
                     Console.WriteLine($"Variable {assignIdentifier} not found");
                     return null;
                 }
+
                 assignVariable.ActualValue = assignExpression;
                 return assignExpression;
 
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
         }
-
         return null;
     }
 
@@ -118,6 +127,16 @@ public class Interpreter
                 }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
+
+            case AddToList addToList:
+                var listVariable = scope.vTable.LookUp("list");
+                if (listVariable == null)
+                {
+                    throw new Exception("List variable not found");
+                }
+                var list = (List<object>) listVariable.ActualValue;
+                list.Add(EvaluateExpression(addToList.Expression, scope));
+                return null;
 
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, scope);
