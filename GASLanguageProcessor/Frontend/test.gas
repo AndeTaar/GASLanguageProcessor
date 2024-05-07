@@ -64,3 +64,7 @@ text txt = Text(s1+s2+s2, Point(29,200), "Arial", 16, black);
 
 line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
 line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
+
+string j = "a" + "b" + "c";
+bool k = true == false != true;
+bool l = 5<3 || 5>3 && 5<=5;
