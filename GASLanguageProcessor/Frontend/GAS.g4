@@ -23,7 +23,7 @@ functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'colour' | 'string' | 'line' | 'T' | 'void';
-collectionType : 'list' '<' type '>' | 'group';
+collectionType : 'list' '<' type '>' | 'segLine' | 'group' | 'T' | 'void' | 'ellipse';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;

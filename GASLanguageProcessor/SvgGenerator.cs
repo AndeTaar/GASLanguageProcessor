@@ -34,6 +34,12 @@ public class SvgGenerator
         case FinalRectangle rectangle:
             SvgLines.Add($"<rect id=\"{variable?.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColour.ColourToString()}\" fill-opacity=\"{rectangle.FillColour.Alpha}\" stroke=\"{rectangle.StrokeColour.ColourToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
             break;
+        case FinalSegLine segLine:
+            SvgLines.Add($"<line id=\"{variable?.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColor.ColorToString()}\" stroke-width=\"{segLine.Stroke}\" />");
+            break;
+        case FinalEllipse ellipse:
+            SvgLines.Add($"<ellipse id=\"{variable?.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.BorderColor.ColorToString()}\" stroke-width=\"{ellipse.BorderWidth}\" />");
+            break;
         case FinalText text:
             SvgLines.Add($"<text id=\"{variable?.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColour.ColourToString()}\" font-family=\"{text.Font}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
             break;

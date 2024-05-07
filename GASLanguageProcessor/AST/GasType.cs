@@ -16,7 +16,9 @@ public enum GasType
     Square,
     Point,
     Line,
-    Colour,
+    SegLine,
+    Color,
     Error,
+    Ellipse,
     Any
 }

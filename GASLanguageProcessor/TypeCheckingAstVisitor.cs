@@ -237,11 +237,11 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var backgroundColourType = node.BackgroundColour?.Accept(this);
+        var backgroundColorType = node.BackgroundColor?.Accept(this);
 
-        if (backgroundColourType != GasType.Colour && backgroundColourType != null)
+        if (backgroundColorType != GasType.Color && backgroundColorType != null)
         {
-            errors.Add("Invalid background colour type");
+            errors.Add("Invalid background color type");
             return GasType.Error;
         }
 
@@ -308,8 +308,8 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Number;
             case "text":
                 return GasType.Text;
-            case "colour":
-                return GasType.Colour;
+            case "color":
+                return GasType.Color;
             case "boolean":
                 return GasType.Boolean;
             case "square":
@@ -320,12 +320,16 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
                 return GasType.Point;
             case "line":
                 return GasType.Line;
+            case "segLine":
+                return GasType.SegLine;
             case "circle":
                 return GasType.Circle;
             case "bool":
                 return GasType.Boolean;
             case "group":
                 return GasType.Group;
+            case "ellipse":
+                return GasType.Ellipse;
         }
         errors.Add(type.Value + " Not implemented");
         return GasType.Error;
@@ -421,7 +425,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         return GasType.Null;
     }
 
-    public GasType VisitLine(Line line)
+    public GasType VisitLine(SegLine segLine)
     {
         throw new NotImplementedException();
     }
@@ -446,7 +450,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
-    public GasType VisitColour(Colour colour)
+    public GasType VisitColor(Color color)
     {
         throw new NotImplementedException();
     }
@@ -454,5 +458,50 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitSquare(Square square)
     {
         throw new NotImplementedException();
+    }
+    
+    public GasType VisitEllipse(Ellipse ellipse)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitSegLine(SegLine segLine)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitLine(Line line)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitFunctionCall(FunctionCall functionCall)
+    {
+        var identifier = functionCall.Identifier;
+        var scope = functionCall.Scope;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionCall.Arguments)
+        {
+            parameterTypes.Add(parameter.Accept(this));
+        }
+
+        var function = scope.fTable.LookUp(identifier.Name);
+
+        if (function.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
+
+        for (int i = 0; i < function.Parameters.Count; i++)
+        {
+            if (function.Parameters[i].Type != parameterTypes[i])
+            {
+                errors.Add("Line: " + functionCall.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
+            }
+        }
+
+        return function.ReturnType;
     }
 }

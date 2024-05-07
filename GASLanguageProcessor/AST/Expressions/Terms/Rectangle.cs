@@ -10,17 +10,17 @@ public class Rectangle: Term
 
     public Expression Stroke { get; protected set; }
 
-    public Expression? Colour { get; protected set; }
+    public Expression? Color { get; protected set; }
 
-    public Expression? StrokeColour { get; protected set; }
+    public Expression? StrokeColor { get; protected set; }
 
-    public Rectangle(Expression topLeft, Expression bottomRight, Expression stroke, Expression? colour, Expression? strokeColour)
+    public Rectangle(Expression topLeft, Expression bottomRight, Expression stroke, Expression? color, Expression? strokeColor)
     {
         TopLeft = topLeft;
         BottomRight = bottomRight;
         Stroke = stroke;
-        Colour = colour;
-        StrokeColour = strokeColour;
+        Color = color;
+        StrokeColor = strokeColor;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor)
