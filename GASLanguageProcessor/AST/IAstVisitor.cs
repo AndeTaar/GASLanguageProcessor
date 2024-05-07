@@ -58,9 +58,11 @@ public interface IAstVisitor<T>
 
     T VisitPoint(Point point);
 
-    T VisitColour(Colour colour);
+    T VisitColor(Color color);
 
     T VisitSquare(Square square);
+    
+    T VisitEllipse(Ellipse ellipse);
     
     T VisitSegLine(SegLine segLine);
 

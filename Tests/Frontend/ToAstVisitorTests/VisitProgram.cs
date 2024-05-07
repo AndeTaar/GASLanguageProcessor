@@ -11,7 +11,7 @@ public class VisitProgram
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50, Colour(255,255,255,1));" +
+            "canvas (250 * 2, 10 * 50, Color(255,255,255,1));" +
             "number x = 0;");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
