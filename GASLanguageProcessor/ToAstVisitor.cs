@@ -68,13 +68,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitWhileStatement(GASParser.WhileStatementContext context)
     {
-        Expression condition = context.expression().Accept(this) as Expression;
+        var condition = context.expression().Accept(this) as Expression;
 
         var statements = context.statement()
             .Select(s => s.Accept(this))
             .ToList();
 
-        Statement whileBody = ToCompound(statements) as Statement;
+        var whileBody = ToCompound(statements) as Statement;
 
         return new While(condition, whileBody);
     }
