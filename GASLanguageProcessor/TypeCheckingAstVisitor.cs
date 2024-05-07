@@ -220,7 +220,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     public GasType VisitWhile(While node)
     {
         var condition = node.Condition.Accept(this);
-        node.Statements.Accept(this);
+        node.Statements?.Accept(this);
 
         if (condition != GasType.Boolean)
         {
