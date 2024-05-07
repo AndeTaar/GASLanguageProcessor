@@ -15,25 +15,28 @@ public class SvgGenerator
             switch (variable.ActualValue)
             {
                 case FinalCanvas canvas: // Background color either as CSS style or as a rectangle that fills the canvas area. CSS for now.
-                    SvgLines.Add($"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColour.ColourToString()}\" xmlns=\"http://www.w3.org/2000/svg\">");
+                    SvgLines.Add($"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColor.ColorToString()}\" xmlns=\"http://www.w3.org/2000/svg\">");
                     break;
-                case FinalCircle circle: // "stroke" in SVG is our StrokeColour
-                    SvgLines.Add($"<circle id=\"{variable.Identifier}\" cx=\"{circle.Center.X}\" cy=\"{circle.Center.Y}\" r=\"{circle.Radius}\" fill=\"{circle.FillColour.ColourToString()}\" fill-opacity=\"{circle.FillColour.Alpha}\" stroke=\"{circle.StrokeColour.ColourToString()}\" stroke-width=\"{circle.Stroke}\" />");
+                case FinalCircle circle: // "stroke" in SVG is our StrokeColor
+                    SvgLines.Add($"<circle id=\"{variable.Identifier}\" cx=\"{circle.Center.X}\" cy=\"{circle.Center.Y}\" r=\"{circle.Radius}\" fill=\"{circle.FillColor.ColorToString()}\" fill-opacity=\"{circle.FillColor.Alpha}\" stroke=\"{circle.StrokeColor.ColorToString()}\" stroke-width=\"{circle.Stroke}\" />");
                     break;
                 case FinalLine line:
-                    SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{line.Start.X}\" y1=\"{line.Start.Y}\" x2=\"{line.End.X}\" y2=\"{line.End.Y}\" stroke=\"{line.StrokeColour.ColourToString()}\" stroke-width=\"{line.Stroke}\" />");
+                    SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{line.Start.X}\" y1=\"{line.Start.Y}\" x2=\"{line.End.X}\" y2=\"{line.End.Y}\" stroke=\"{line.StrokeColor.ColorToString()}\" stroke-width=\"{line.Stroke}\" />");
                     break;
                 case FinalSegLine segLine:
-                    SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColour.ColourToString()}\" stroke-width=\"{segLine.Stroke}\" />");
+                    SvgLines.Add($"<line id=\"{variable.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColor.ColorToString()}\" stroke-width=\"{segLine.Stroke}\" />");
+                    break;
+                case FinalEllipse ellipse:
+                    SvgLines.Add($"<ellipse id=\"{variable.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.BorderColor.ColorToString()}\" stroke-width=\"{ellipse.BorderWidth}\" />");
                     break;
                 case FinalRectangle rectangle:
-                    SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColour.ColourToString()}\" fill-opacity=\"{rectangle.FillColour.Alpha}\" stroke=\"{rectangle.StrokeColour.ColourToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
-                    break; //notice: our "stroke" is the stroke width in SVG and our "StrokeColour" is the stroke in SVG
+                    SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{rectangle.TopLeft.X}\" y=\"{rectangle.TopLeft.Y}\" width=\"{rectangle.Width}\" height=\"{rectangle.Height}\" fill=\"{rectangle.FillColor.ColorToString()}\" fill-opacity=\"{rectangle.FillColor.Alpha}\" stroke=\"{rectangle.StrokeColor.ColorToString()}\" stroke-width=\"{rectangle.Stroke}\" />");
+                    break; //notice: our "stroke" is the stroke width in SVG and our "StrokeColor" is the stroke in SVG
                 case FinalText text:
-                    SvgLines.Add($"<text id=\"{variable.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColour.ColourToString()}\" font-family=\"{text.Font}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
+                    SvgLines.Add($"<text id=\"{variable.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColor.ColorToString()}\" font-family=\"{text.Font}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
                     break;
                 case FinalSquare square:
-                    SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColour.ColourToString()}\" fill-opacity=\"{square.FillColour.Alpha}\" stroke=\"{square.StrokeColour.ColourToString()}\" stroke-width=\"{square.Stroke}\" />");
+                    SvgLines.Add($"<rect id=\"{variable.Identifier}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColor.ColorToString()}\" fill-opacity=\"{square.FillColor.Alpha}\" stroke=\"{square.StrokeColor.ColorToString()}\" stroke-width=\"{square.Stroke}\" />");
                     break;
                 case FinalGroup group:
                     SvgLines.Add($"<g id=\"{variable.Identifier}\" transform=\"translate({group.Point.X}, {group.Point.Y})\">");

@@ -27,13 +27,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var height = context.expression()[1].Accept(this) as Expression;
 
         if (context.expression().Length > 2) {
-            var backgroundColour = context.expression()[2].Accept(this)! as Expression;
+            var backgroundColor = context.expression()[2].Accept(this)! as Expression;
 
-            if(backgroundColour == null)
+            if(backgroundColor == null)
             {
-                throw new Exception("Background colour is null");
+                throw new Exception("Background color is null");
             }
-            return new Canvas(width, height, backgroundColour);
+            return new Canvas(width, height, backgroundColor);
         }
         return new Canvas(width, height);
     }

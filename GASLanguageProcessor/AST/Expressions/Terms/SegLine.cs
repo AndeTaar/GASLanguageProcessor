@@ -10,13 +10,13 @@ public class SegLine : Term
     
     public Expression Stroke { get; protected set; }
 
-    public Expression? Colour { get; protected set; }
-    public SegLine(Expression start, Expression end, Expression stroke, Expression? colour)
+    public Expression? Color { get; protected set; }
+    public SegLine(Expression start, Expression end, Expression stroke, Expression? color)
     {
         Start = start;
         End = end;
         Stroke = stroke;
-        Colour = colour;
+        Color = color;
     }
     
     public override T Accept<T>(IAstVisitor<T> visitor)

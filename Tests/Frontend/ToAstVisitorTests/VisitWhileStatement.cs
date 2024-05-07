@@ -24,7 +24,7 @@ public class VisitWhileStatement
     {
         var ast = SharedTesting.GenerateAst
         (
-            "canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "number x;" +
             "while(1+1 > 2) {" +
             "x = x + 1;" +

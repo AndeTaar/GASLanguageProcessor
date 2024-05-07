@@ -8,11 +8,11 @@ namespace Tests.Frontend.ToAstVisitorTests;
 public class VisitCanvas
 {
     [Fact]
-    public void PassVisitCanvasWithColour()
+    public void PassVisitCanvasWithColor()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));");
+            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));");
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
@@ -24,7 +24,7 @@ public class VisitCanvas
     }
     
     [Fact]
-    public void PassVisitCanvasWithoutColour()
+    public void PassVisitCanvasWithoutColor()
     {
         var visitor = new ToAstVisitor();
         var inputStream = new AntlrInputStream(

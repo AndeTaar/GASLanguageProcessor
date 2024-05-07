@@ -9,17 +9,17 @@ public class Square: Term
 
     public Expression Stroke { get; protected set; }
 
-    public Expression Colour { get; protected set; }
+    public Expression Color { get; protected set; }
 
-    public Expression StrokeColour { get; protected set; }
+    public Expression StrokeColor { get; protected set; }
 
-    public Square(Expression topLeft, Expression length, Expression stroke, Expression colour, Expression strokeColour)
+    public Square(Expression topLeft, Expression length, Expression stroke, Expression color, Expression strokeColor)
     {
         TopLeft = topLeft;
         Length = length;
         Stroke = stroke;
-        Colour = colour;
-        StrokeColour = strokeColour;
+        Color = color;
+        StrokeColor = strokeColor;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor)
