@@ -153,8 +153,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
 
         var left = context.equalityExpression()[0].Accept(this) as Expression;
-        var right = context.equalityExpression()[0].Accept(this) as Expression;
-
+        var right = context.equalityExpression()[1].Accept(this) as Expression;
+        
+        
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
