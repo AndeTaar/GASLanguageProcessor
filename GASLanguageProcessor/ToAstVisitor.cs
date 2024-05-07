@@ -74,7 +74,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             .Select(s => s.Accept(this))
             .ToList();
 
-        Compound whileBody = ToCompound(statements) as Compound;
+        Statement whileBody = ToCompound(statements) as Statement;
 
         return new While(condition, whileBody);
     }
@@ -93,7 +93,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var condition = context.expression().Accept(this) as Expression;
 
-        var statements = ToCompound(context.statement().Select(s => s.Accept(this)).ToList());
+        var statements = ToCompound(context.statement().Select(s => s.Accept(this)).ToList()) as Statement;
 
         if (declaration != null)
         {
