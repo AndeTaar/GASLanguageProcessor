@@ -26,16 +26,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var height = context.expression()[1].Accept(this) as Expression;
 
-        if (context.expression().Length > 2) {
-            var backgroundColor = context.expression()[2].Accept(this)! as Expression;
+        var backgroundColor = context.expression()[2].Accept(this) as Expression;
 
-            if(backgroundColor == null)
-            {
-                throw new Exception("Background color is null");
-            }
-            return new Canvas(width, height, backgroundColor);
-        }
-        return new Canvas(width, height);
+        return new Canvas(width, height, backgroundColor);
     }
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)

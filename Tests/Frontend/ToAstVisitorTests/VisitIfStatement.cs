@@ -9,48 +9,57 @@ public class VisitIfStatement
     [Fact]
     public void PassVisitIfStatement()
     {
-        var visitor = new ToAstVisitor();
-        var inputStream = new AntlrInputStream(
+        var ast = SharedTesting.GetAst(
+            "canvas(250, 250, Color(255, 255, 255, 1));" +
             "if (true) {}");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var context = parser.ifStatement();
-        var result = visitor.VisitIfStatement(context);
-        
-        Assert.NotNull(result);
-        Assert.IsType<If>(result);
+        Assert.NotNull(ast);
+        Assert.IsType<Compound>(ast);
+        var compound = (Compound) ast;
+        Assert.IsAssignableFrom<Statement>(compound.Statement1);
+        var canvas = (Canvas) compound.Statement1;
+        Assert.IsAssignableFrom<If>(compound.Statement2);
+        var ifStatement = (If) compound.Statement2;
+        Assert.NotNull(ifStatement);
+        Assert.NotNull(canvas);
     }
-    
+
     [Fact]
     public void PassVisitIfStatementWithElse()
     {
-        var visitor = new ToAstVisitor();
-        var inputStream = new AntlrInputStream(
+        var ast = SharedTesting.GetAst(
+            "canvas(250, 250, Color(255, 255, 255, 1));" +
             "if (true) {} else {}");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var context = parser.ifStatement();
-        var result = visitor.VisitIfStatement(context);
-        
-        Assert.NotNull(result);
-        Assert.IsType<If>(result);
+        Assert.NotNull(ast);
+        Assert.IsType<Compound>(ast);
+        var compound = (Compound) ast;
+        Assert.IsAssignableFrom<Statement>(compound.Statement1);
+        var canvas = (Canvas) compound.Statement1;
+        Assert.IsAssignableFrom<If>(compound.Statement2);
+        var ifStatement = (If) compound.Statement2;
+        Assert.NotNull(ifStatement);
+        Assert.NotNull(canvas);
     }
-    
+
     [Fact]
     public void PassVisitIfStatementWithElseIf()
     {
-        var visitor = new ToAstVisitor();
-        var inputStream = new AntlrInputStream(
+        var ast = SharedTesting.GetAst(
+            "canvas(250, 250, Color(255, 255, 255, 1));" +
             "if (true) {} else if (false) {}");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var context = parser.ifStatement();
-        var result = visitor.VisitIfStatement(context);
-        
-        Assert.NotNull(result);
-        Assert.IsType<If>(result);
+        Assert.NotNull(ast);
+        Assert.IsType<Compound>(ast);
+        var compound = (Compound) ast;
+        Assert.IsAssignableFrom<Statement>(compound.Statement1);
+        var canvas = (Canvas) compound.Statement1;
+        Assert.IsAssignableFrom<If>(compound.Statement2);
+        var ifStatement = (If) compound.Statement2;
+        Assert.NotNull(ifStatement);
+        Assert.NotNull(canvas);
+
+        Assert.IsAssignableFrom<If>(ifStatement.Else);
+        var elseIf = (If) ifStatement.Else;
+        Assert.NotNull(elseIf);
+
+        Assert.Null(elseIf.Else);
     }
 }

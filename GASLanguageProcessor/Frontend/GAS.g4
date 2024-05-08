@@ -2,7 +2,7 @@ grammar GAS;
 
 //Program
 program : (statement)* canvas (statement)* ;
-canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
+canvas : 'canvas' '(' expression ',' expression ',' expression ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
