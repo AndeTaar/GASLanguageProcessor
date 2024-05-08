@@ -11,13 +11,13 @@ public class Canvas : Statement
 
     public Expression Height { get; protected set; }
 
-    public Expression BackgroundColour { get; protected set; }
+    public Expression BackgroundColor { get; protected set; }
 
-    public Canvas(Expression width, Expression height, Expression backgroundColour)
+    public Canvas(Expression width, Expression height, Expression backgroundColor)
     {
         Width = width;
         Height = height;
-        BackgroundColour = backgroundColour;
+        BackgroundColor = backgroundColor;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor)

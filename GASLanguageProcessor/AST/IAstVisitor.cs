@@ -14,6 +14,8 @@ public interface IAstVisitor<T>
 
     T VisitGroup(Group node);
 
+    T VisitList(List node);
+
     T VisitNumber(Number node);
 
     T VisitIfStatement(If node);
@@ -44,13 +46,13 @@ public interface IAstVisitor<T>
 
     T VisitFunctionDeclaration(FunctionDeclaration functionDeclaration);
 
-    T VisitFunctionCall(FunctionCall functionCall);
+    T VisitFunctionCallStatement(FunctionCallStatement functionCallStatement);
+
+    T VisitFunctionCallTerm(FunctionCallTerm functionCallTerm);
 
     T VisitReturn(Return @return);
 
     T VisitNull(Null @null);
-
-    T VisitLine(Line line);
 
     T VisitText(Text text);
 
@@ -60,7 +62,17 @@ public interface IAstVisitor<T>
 
     T VisitPoint(Point point);
 
-    T VisitColour(Colour colour);
+    T VisitColor(Color color);
 
     T VisitSquare(Square square);
+
+    T VisitAddToList(AddToList addToList);
+
+    T VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration);
+
+    T VisitEllipse(Ellipse ellipse);
+
+    T VisitSegLine(SegLine segLine);
+
+    T VisitLine(Line line);
 }

@@ -1,5 +1,6 @@
 using Antlr4.Runtime;
 using GASLanguageProcessor;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using Xunit.Abstractions;
 
@@ -8,33 +9,19 @@ namespace Tests.Frontend.ToAstVisitorTests;
 public class VisitCanvas
 {
     [Fact]
-    public void PassVisitCanvas()
+    public void PassVisitCanvasWithColor()
     {
-        var visitor = new ToAstVisitor();
-        var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50, Colour(255, 255, 255, 1));");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var context = parser.canvas();
-        var result = visitor.VisitCanvas(context);
-        
-        Assert.NotNull(result);
-        Assert.IsType<Canvas>(result);
-    }
-    
-    [Fact]
-    public void FailVisitCanvas()
-    {
-        var visitor = new ToAstVisitor();
-        var inputStream = new AntlrInputStream(
-            "canvas (250 * 2, 10 * 50);");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var context = parser.canvas();
-        
-        var exception = Assert.Throws<Exception>(() => visitor.VisitCanvas(context));
-        Assert.Equal("Background colour is null", exception.Message);
+        var ast = SharedTesting.GetAst(
+            "canvas(250, 250, Color(255, 255, 255, 1));");
+        Assert.NotNull(ast);
+        Assert.IsType<Canvas>(ast);
+        var canvas = (Canvas) ast;
+        Assert.NotNull(canvas);
+        Assert.IsType<Number>(canvas.Width);
+        Assert.IsType<Number>(canvas.Height);
+        var width = (Number) canvas.Width;
+        var height = (Number) canvas.Height;
+        Assert.Equal("250", width.Value);
+        Assert.Equal("250", height.Value);
     }
 }

@@ -5,16 +5,16 @@ public class FinalSquare
     public FinalPoint TopLeft { get; set; }
     public float Length { get; set; }
     public float Stroke { get; set; }
-    public FinalColour FillColour { get; set; }
-    public FinalColour StrokeColour { get; set; }
+    public FinalColor FillColor { get; set; }
+    public FinalColor StrokeColor { get; set; }
 
 
-    public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColour fillColour, FinalColour strokeColour)
+    public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColor fillColor, FinalColor strokeColor)
     {
         TopLeft = topLeft;
         Length = length;
         Stroke = stroke;
-        FillColour = fillColour;
-        StrokeColour = strokeColour;
+        FillColor = fillColor;
+        StrokeColor = strokeColor;
     }
 }

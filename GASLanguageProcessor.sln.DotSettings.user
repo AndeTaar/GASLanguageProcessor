@@ -1,28 +1,22 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0296e460_002D9403_002D4d59_002Db7ef_002Da885baad0ebc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::VisitorTests.PassVisitFunctionDeclaration&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitCanvas.PassVisitCanvas&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitCanvas.FailVisitCanvas&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitProgram.PassVisitProgram&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitIfStatement.PassVisitIfStatement&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitElseStatement.PassVisitElseStatement&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitWhileStatement.PassVisitWhileStatement&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitForStatement.PassVisitForStatement&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitAssignment.PassVisitAssignment&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitAssignment.FailVisitAssignment&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitGroupDeclaration.PassVisitGroupDeclaration&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitDeclaration&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitType&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitExpression&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitEqualityExpression.PassVisitEqualityExpression&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitReturnStatement&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.Frontend.ToAstVisitorTests.VisitEqualityExpression&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-    &lt;And&gt;&#xD;
-      &lt;Project Location="\home\chris\desktop\coding\p4\GASLanguageProcessor\Tests" Presentation="&amp;lt;Tests&amp;gt;" /&gt;&#xD;
-      &lt;Namespace&gt;Tests.Frontend.ToAstVisitorTests&lt;/Namespace&gt;&#xD;
-    &lt;/And&gt;&#xD;
-  &lt;/Or&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0d6ba979_002Da29c_002D4b59_002D9087_002Da97bc37c6764/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=24af20c4_002D7519_002D4962_002Da31b_002D8d812a34658e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a26cb0e_002De457_002D4a34_002D969f_002D6a54e5c621b4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7e2cf818_002Dffbc_002D4394_002Dabb8_002D6e90ac684b61/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=88df0f69_002Db74f_002D43f9_002D9a35_002D81d45fd216cb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9eb6ae4_002D5b85_002D4bf2_002D9c3e_002Dbabf49d079fc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc66b53e_002D9484_002D4392_002D8fce_002Db50caf74003f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

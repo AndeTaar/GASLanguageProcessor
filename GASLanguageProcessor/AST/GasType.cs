@@ -12,9 +12,13 @@ public enum GasType
     Circle,
     Rectangle,
     Group,
+    List,
     Square,
     Point,
     Line,
-    Colour,
-    Error
+    SegLine,
+    Color,
+    Error,
+    Ellipse,
+    Any
 }
