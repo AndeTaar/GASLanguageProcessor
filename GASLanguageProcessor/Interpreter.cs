@@ -150,6 +150,16 @@ public class Interpreter
                 list.Add(EvaluateExpression(addToList.Expression, scope));
                 return null;
 
+           
+            case UnaryOp unaryOp:
+                var unaryOpExpression = EvaluateExpression(unaryOp.Expression, scope);
+                return unaryOp.Op switch
+                {
+                    "-" => -(float) unaryOpExpression,
+                    "!" => !(bool) unaryOpExpression,
+                    _ => throw new NotImplementedException()
+                };
+            
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, scope);
                 var right = EvaluateExpression(binaryOp.Right, scope);

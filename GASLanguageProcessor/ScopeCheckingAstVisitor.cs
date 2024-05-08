@@ -177,7 +177,10 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitUnaryOp(UnaryOp node)
     {
-        return true;
+        node.Scope = scope;
+        var expression = node.Expression?.Accept(this);
+        var op = node.Op;
+        return (expression != null) && (op == "!" || op == "-");
     }
 
     public bool VisitString(String s)
