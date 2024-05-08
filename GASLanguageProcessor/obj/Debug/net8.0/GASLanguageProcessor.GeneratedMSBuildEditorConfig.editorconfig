@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = GASLanguageProcessor
-build_property.ProjectDir = C:\Users\Bujee\Desktop\P4\GASLanguageProcessor\GASLanguageProcessor\
+build_property.ProjectDir = /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

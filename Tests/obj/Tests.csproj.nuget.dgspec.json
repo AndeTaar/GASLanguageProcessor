@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\Tests\\Tests.csproj": {}
+    "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-        "packagesPath": "C:\\Users\\Bujee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "packagesPath": "/Users/thomas/.nuget/packages/",
+        "outputPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Bujee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/thomas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -64,21 +59,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\Tests\\Tests.csproj": {
+    "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\Tests\\Tests.csproj",
+        "projectUniqueName": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\Tests\\Tests.csproj",
-        "packagesPath": "C:\\Users\\Bujee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\Tests\\obj\\",
+        "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
+        "packagesPath": "/Users/thomas/.nuget/packages/",
+        "outputPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Bujee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/thomas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -90,8 +85,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
-                "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj"
+              "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
+                "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj"
               }
             }
           }
@@ -100,11 +95,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -144,7 +134,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
