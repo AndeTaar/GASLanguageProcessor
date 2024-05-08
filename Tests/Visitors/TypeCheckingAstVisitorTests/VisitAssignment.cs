@@ -12,9 +12,12 @@ public class VisitAssignment
             "number x = 10;" +
             "x = 10;"
         );
-        var visitor = new TypeCheckingAstVisitor();
-        ast.Accept(visitor);
-        Assert.Empty(visitor.errors);
+        var scopeVisitor = new ScopeCheckingAstVisitor();
+        var typeVisitor = new TypeCheckingAstVisitor();
+        ast.Accept(scopeVisitor);
+        Assert.Empty(scopeVisitor.errors);
+        ast.Accept(typeVisitor);
+        Assert.Empty(typeVisitor.errors);
     }
 
     [Fact]
@@ -25,8 +28,11 @@ public class VisitAssignment
             "number x = 10;" +
             "x = true;"
         );
-        var visitor = new TypeCheckingAstVisitor();
-        ast.Accept(visitor);
-        Assert.NotEmpty(visitor.errors);
+        var scopeVisitor = new ScopeCheckingAstVisitor();
+        var typeVisitor = new TypeCheckingAstVisitor();
+        ast.Accept(scopeVisitor);
+        Assert.Empty(scopeVisitor.errors);
+        ast.Accept(typeVisitor);
+        Assert.NotEmpty(typeVisitor.errors);
     }
 }
