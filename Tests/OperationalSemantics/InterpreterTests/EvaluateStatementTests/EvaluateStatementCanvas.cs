@@ -12,11 +12,8 @@ public class EvaluateStatementCanvas
     [Fact]
     public void PassEvaluateStatementCanvasWithColour()
     {
-        var interpreter = new Interpreter();
-        var ast = SharedTesting.GenerateAst("canvas (125, 55, Color(255, 255, 255, 1))") as Statement;
-        var scope = new Scope(null, null);
-        scope.vTable.Bind("canvas", new Variable("canvas", GasType.Canvas));
-        var result = interpreter.EvaluateStatement(ast, scope) as FinalCanvas;
+        var scope = SharedTesting.GetInterpretedScope("canvas (125, 55, Color(255, 255, 255, 1))");
+        var result = scope.vTable.LookUp("canvas")?.ActualValue;
         
         Assert.NotNull(result);
         Assert.IsType<FinalCanvas>(result);
@@ -25,11 +22,8 @@ public class EvaluateStatementCanvas
     [Fact]
     public void PassEvaluateStatementCanvasWithoutColour()
     {
-        var interpreter = new Interpreter();
-        var ast = SharedTesting.GenerateAst("canvas (125, 55)") as Statement;
-        var scope = new Scope(null, null);
-        scope.vTable.Bind("canvas", new Variable("canvas", GasType.Canvas));
-        var result = interpreter.EvaluateStatement(ast, scope) as FinalCanvas;
+        var scope = SharedTesting.GetInterpretedScope("canvas (125, 55)");
+        var result = scope.vTable.LookUp("canvas")?.ActualValue;
         
         Assert.NotNull(result);
         Assert.IsType<FinalCanvas>(result);

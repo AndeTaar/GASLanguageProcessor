@@ -15,15 +15,12 @@ public class EvaluateExpressionFunctionCall
     [Fact]
     public void PassEvaluateExpressionFunctionCall()
     {
-        var typeCheckingVisitor = new TypeCheckingAstVisitor();
-        var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
-        var interpreter = new Interpreter();
-        var ast = SharedTesting.GenerateAst("canvas (125, 50, Color(255, 255, 255, 1)); " +
-                                            "number Cool(number x) {return x+20*5;}" +
-                                            "bool adfh = Cool(0);");
-        ast.Accept(scopeCheckingVisitor);
-        ast.Accept(typeCheckingVisitor);
-        var result = interpreter.EvaluateStatement(ast as Statement, ast.Scope);
+        var scope = SharedTesting.GetInterpretedScope("canvas (125, 50, Color(255, 255, 255, 1)); " +
+                                                      "number Func(number x) {return x+20*5;}" +
+                                                      "number funcCallVal = Func(0);");
+        var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
+        
         Assert.NotNull(result);
+        Assert.Equal(100f, result);
     }
 }

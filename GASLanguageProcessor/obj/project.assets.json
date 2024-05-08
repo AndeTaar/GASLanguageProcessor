@@ -40,19 +40,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bujee\\.nuget\\packages\\": {}
+    "C:\\Users\\v\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "projectUniqueName": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
       "projectName": "GASLanguageProcessor",
-      "projectPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-      "packagesPath": "C:\\Users\\Bujee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bujee\\Desktop\\P4\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+      "projectPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "packagesPath": "C:\\Users\\v\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bujee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\v\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
