@@ -148,10 +148,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitExpression(context);
         }
 
-        var left = context.equalityExpression()[0].Accept(this) as Expression;
-        var right = context.equalityExpression()[0].Accept(this) as Expression;
+        var equalExpression = context.equalityExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var expression = context.expression()?.Accept(this) as Expression;
 
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(equalExpression[0], context.GetChild(1).GetText(), expression ?? equalExpression[1]) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitEqualityExpression(GASParser.EqualityExpressionContext context)
@@ -222,11 +222,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitBinaryExpression(context);
         }
 
-        var left = context.multExpression()[0].Accept(this) as Expression;
+        var multExpressions = context.multExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var binaryExpression = context.binaryExpression()?.Accept(this) as Expression;
 
-        var right = context.multExpression()[1].Accept(this) as Expression;
-
-        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNumber = context.Start.Line};
+        return new BinaryOp(multExpressions[0], context.GetChild(1).GetText(), binaryExpression ?? multExpressions[1]) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitTerm(GASParser.TermContext context)
@@ -276,11 +275,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitMultExpression(context);
         }
 
-        var left = context.notExpression()[0].Accept(this) as Expression;
+        var notExpressions = context.notExpression().Select(ne => ne.Accept(this) as Expression).ToList();
+        var multExpression = context.multExpression()?.Accept(this) as Expression;
 
-        var right = context.notExpression()[1].Accept(this) as Expression;
-
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        return new BinaryOp(notExpressions[0], context.GetChild(1).GetText(), multExpression ?? notExpressions[1]) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitNotExpression(GASParser.NotExpressionContext context)
