@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -43,7 +43,8 @@ public partial class GASParser : Parser {
 		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, 
 		T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
 		T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, 
-		T__52=53, COMMENT=54, IDENTIFIER=55, NUM=56, ALLSTRINGS=57, WS=58;
+		T__52=53, T__53=54, T__54=55, T__55=56, T__56=57, T__57=58, COMMENT=59, 
+		IDENTIFIER=60, NUM=61, ALLSTRINGS=62, WS=63;
 	public const int
 		RULE_program = 0, RULE_canvas = 1, RULE_statement = 2, RULE_simpleStatement = 3, 
 		RULE_complexStatement = 4, RULE_declaration = 5, RULE_collectionDeclaration = 6, 
@@ -51,7 +52,7 @@ public partial class GASParser : Parser {
 		RULE_forStatement = 11, RULE_returnStatement = 12, RULE_classDeclaration = 13, 
 		RULE_functionDeclaration = 14, RULE_type = 15, RULE_collectionType = 16, 
 		RULE_expression = 17, RULE_equalityExpression = 18, RULE_relationExpression = 19, 
-		RULE_binaryExpression = 20, RULE_multExpression = 21, RULE_notExpression = 22, 
+		RULE_binaryExpression = 20, RULE_multExpression = 21, RULE_unaryExpression = 22, 
 		RULE_listAccessExpression = 23, RULE_term = 24, RULE_listTerm = 25, RULE_groupTerm = 26, 
 		RULE_functionCall = 27;
 	public static readonly string[] ruleNames = {
@@ -59,26 +60,27 @@ public partial class GASParser : Parser {
 		"declaration", "collectionDeclaration", "assignment", "ifStatement", "elseStatement", 
 		"whileStatement", "forStatement", "returnStatement", "classDeclaration", 
 		"functionDeclaration", "type", "collectionType", "expression", "equalityExpression", 
-		"relationExpression", "binaryExpression", "multExpression", "notExpression", 
+		"relationExpression", "binaryExpression", "multExpression", "unaryExpression", 
 		"listAccessExpression", "term", "listTerm", "groupTerm", "functionCall"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'canvas'", "'('", "','", "')'", "';'", "'='", "'.'", "'if'", "'{'", 
-		"'}'", "'else'", "'while'", "'for'", "'return'", "'class'", "'number'", 
-		"'bool'", "'point'", "'rectangle'", "'square'", "'circle'", "'polygon'", 
-		"'text'", "'color'", "'string'", "'line'", "'T'", "'void'", "'list'", 
-		"'<'", "'>'", "'segLine'", "'group'", "'ellipse'", "'||'", "'&&'", "'=='", 
-		"'!='", "'<='", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'['", 
-		"']'", "'true'", "'false'", "'null'", "'List'", "'Group'"
+		null, "'canvas'", "'('", "','", "')'", "';'", "'='", "'.'", "'+='", "'-='", 
+		"'*='", "'if'", "'{'", "'}'", "'else'", "'while'", "'for'", "'return'", 
+		"'class'", "'number'", "'bool'", "'point'", "'rectangle'", "'square'", 
+		"'circle'", "'polygon'", "'text'", "'color'", "'string'", "'line'", "'T'", 
+		"'void'", "'list'", "'<'", "'>'", "'segLine'", "'group'", "'ellipse'", 
+		"'||'", "'&&'", "'=='", "'!='", "'<='", "'>='", "'+'", "'-'", "'*'", "'/'", 
+		"'%'", "'!'", "'++'", "'--'", "'['", "']'", "'true'", "'false'", "'null'", 
+		"'List'", "'Group'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, "COMMENT", "IDENTIFIER", "NUM", "ALLSTRINGS", 
-		"WS"
+		null, null, null, null, null, null, null, null, null, null, null, "COMMENT", 
+		"IDENTIFIER", "NUM", "ALLSTRINGS", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -146,7 +148,7 @@ public partial class GASParser : Parser {
 			State = 59;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 56;
@@ -162,7 +164,7 @@ public partial class GASParser : Parser {
 			State = 66;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 63;
@@ -430,16 +432,13 @@ public partial class GASParser : Parser {
 			State = 99;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case T__11:
+			case T__14:
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 94;
 				whileStatement();
 				}
 				break;
-			case T__15:
-			case T__16:
-			case T__17:
 			case T__18:
 			case T__19:
 			case T__20:
@@ -450,27 +449,30 @@ public partial class GASParser : Parser {
 			case T__25:
 			case T__26:
 			case T__27:
+			case T__28:
+			case T__29:
+			case T__30:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 95;
 				functionDeclaration();
 				}
 				break;
-			case T__12:
+			case T__15:
 				EnterOuterAlt(_localctx, 3);
 				{
 				State = 96;
 				forStatement();
 				}
 				break;
-			case T__14:
+			case T__17:
 				EnterOuterAlt(_localctx, 4);
 				{
 				State = 97;
 				classDeclaration();
 				}
 				break;
-			case T__7:
+			case T__10:
 				EnterOuterAlt(_localctx, 5);
 				{
 				State = 98;
@@ -656,7 +658,14 @@ public partial class GASParser : Parser {
 				_la = TokenStream.LA(1);
 			}
 			State = 121;
-			Match(T__5);
+			_la = TokenStream.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1856L) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
 			State = 122;
 			expression();
 			}
@@ -707,7 +716,7 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 124;
-			Match(T__7);
+			Match(T__10);
 			State = 125;
 			Match(T__1);
 			State = 126;
@@ -715,11 +724,11 @@ public partial class GASParser : Parser {
 			State = 127;
 			Match(T__3);
 			State = 128;
-			Match(T__8);
+			Match(T__11);
 			State = 132;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 129;
@@ -731,11 +740,11 @@ public partial class GASParser : Parser {
 				_la = TokenStream.LA(1);
 			}
 			State = 135;
-			Match(T__9);
+			Match(T__12);
 			State = 137;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__10) {
+			if (_la==T__13) {
 				{
 				State = 136;
 				elseStatement();
@@ -791,14 +800,14 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 139;
-				Match(T__10);
+				Match(T__13);
 				{
 				State = 140;
-				Match(T__8);
+				Match(T__11);
 				State = 144;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 					{
 					{
 					State = 141;
@@ -810,7 +819,7 @@ public partial class GASParser : Parser {
 					_la = TokenStream.LA(1);
 				}
 				State = 147;
-				Match(T__9);
+				Match(T__12);
 				}
 				}
 				break;
@@ -818,7 +827,7 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 148;
-				Match(T__10);
+				Match(T__13);
 				State = 149;
 				ifStatement();
 				}
@@ -868,7 +877,7 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 152;
-			Match(T__11);
+			Match(T__14);
 			State = 153;
 			Match(T__1);
 			State = 154;
@@ -876,11 +885,11 @@ public partial class GASParser : Parser {
 			State = 155;
 			Match(T__3);
 			State = 156;
-			Match(T__8);
+			Match(T__11);
 			State = 160;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 157;
@@ -892,7 +901,7 @@ public partial class GASParser : Parser {
 				_la = TokenStream.LA(1);
 			}
 			State = 163;
-			Match(T__9);
+			Match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -947,15 +956,12 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 165;
-			Match(T__12);
+			Match(T__15);
 			State = 166;
 			Match(T__1);
 			State = 169;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case T__15:
-			case T__16:
-			case T__17:
 			case T__18:
 			case T__19:
 			case T__20:
@@ -966,6 +972,9 @@ public partial class GASParser : Parser {
 			case T__25:
 			case T__26:
 			case T__27:
+			case T__28:
+			case T__29:
+			case T__30:
 				{
 				State = 167;
 				declaration();
@@ -991,11 +1000,11 @@ public partial class GASParser : Parser {
 			State = 175;
 			Match(T__3);
 			State = 176;
-			Match(T__8);
+			Match(T__11);
 			State = 180;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 177;
@@ -1007,7 +1016,7 @@ public partial class GASParser : Parser {
 				_la = TokenStream.LA(1);
 			}
 			State = 183;
-			Match(T__9);
+			Match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1046,7 +1055,7 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 185;
-			Match(T__13);
+			Match(T__16);
 			State = 186;
 			expression();
 			}
@@ -1092,15 +1101,15 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 188;
-			Match(T__14);
+			Match(T__17);
 			State = 189;
 			Match(IDENTIFIER);
 			State = 190;
-			Match(T__8);
+			Match(T__11);
 			State = 194;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
 				State = 191;
@@ -1112,7 +1121,7 @@ public partial class GASParser : Parser {
 				_la = TokenStream.LA(1);
 			}
 			State = 197;
-			Match(T__9);
+			Match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1174,7 +1183,7 @@ public partial class GASParser : Parser {
 			State = 213;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 536805376L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4294443008L) != 0)) {
 				{
 				State = 202;
 				type();
@@ -1204,7 +1213,7 @@ public partial class GASParser : Parser {
 			State = 215;
 			Match(T__3);
 			State = 216;
-			Match(T__8);
+			Match(T__11);
 			State = 220;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
@@ -1222,7 +1231,7 @@ public partial class GASParser : Parser {
 				_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
 			}
 			State = 223;
-			Match(T__9);
+			Match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1260,7 +1269,7 @@ public partial class GASParser : Parser {
 			{
 			State = 225;
 			_la = TokenStream.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 536805376L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4294443008L) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1305,52 +1314,52 @@ public partial class GASParser : Parser {
 			State = 237;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case T__28:
+			case T__31:
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 227;
-				Match(T__28);
+				Match(T__31);
 				State = 228;
-				Match(T__29);
+				Match(T__32);
 				State = 229;
 				type();
 				State = 230;
-				Match(T__30);
+				Match(T__33);
 				}
 				break;
-			case T__31:
+			case T__34:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 232;
-				Match(T__31);
+				Match(T__34);
 				}
 				break;
-			case T__32:
+			case T__35:
 				EnterOuterAlt(_localctx, 3);
 				{
 				State = 233;
-				Match(T__32);
+				Match(T__35);
 				}
 				break;
-			case T__26:
+			case T__29:
 				EnterOuterAlt(_localctx, 4);
 				{
 				State = 234;
-				Match(T__26);
+				Match(T__29);
 				}
 				break;
-			case T__27:
+			case T__30:
 				EnterOuterAlt(_localctx, 5);
 				{
 				State = 235;
-				Match(T__27);
+				Match(T__30);
 				}
 				break;
-			case T__33:
+			case T__36:
 				EnterOuterAlt(_localctx, 6);
 				{
 				State = 236;
-				Match(T__33);
+				Match(T__36);
 				}
 				break;
 			default:
@@ -1404,11 +1413,11 @@ public partial class GASParser : Parser {
 			State = 245;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__34 || _la==T__35) {
+			if (_la==T__37 || _la==T__38) {
 				{
 				State = 240;
 				_la = TokenStream.LA(1);
-				if ( !(_la==T__34 || _la==T__35) ) {
+				if ( !(_la==T__37 || _la==T__38) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1483,11 +1492,11 @@ public partial class GASParser : Parser {
 			State = 253;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__36 || _la==T__37) {
+			if (_la==T__39 || _la==T__40) {
 				{
 				State = 248;
 				_la = TokenStream.LA(1);
-				if ( !(_la==T__36 || _la==T__37) ) {
+				if ( !(_la==T__39 || _la==T__40) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1562,11 +1571,11 @@ public partial class GASParser : Parser {
 			State = 261;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1652488667136L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 13219909337088L) != 0)) {
 				{
 				State = 256;
 				_la = TokenStream.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1652488667136L) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 13219909337088L) != 0)) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1641,11 +1650,11 @@ public partial class GASParser : Parser {
 			State = 269;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__40 || _la==T__41) {
+			if (_la==T__43 || _la==T__44) {
 				{
 				State = 264;
 				_la = TokenStream.LA(1);
-				if ( !(_la==T__40 || _la==T__41) ) {
+				if ( !(_la==T__43 || _la==T__44) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1685,11 +1694,11 @@ public partial class GASParser : Parser {
 	}
 
 	public partial class MultExpressionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext[] notExpression() {
-			return GetRuleContexts<NotExpressionContext>();
+		[System.Diagnostics.DebuggerNonUserCode] public UnaryExpressionContext[] unaryExpression() {
+			return GetRuleContexts<UnaryExpressionContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext notExpression(int i) {
-			return GetRuleContext<NotExpressionContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode] public UnaryExpressionContext unaryExpression(int i) {
+			return GetRuleContext<UnaryExpressionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public MultExpressionContext multExpression() {
 			return GetRuleContext<MultExpressionContext>(0);
@@ -1716,15 +1725,15 @@ public partial class GASParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 271;
-			notExpression();
+			unaryExpression();
 			State = 277;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 61572651155456L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 492581209243648L) != 0)) {
 				{
 				State = 272;
 				_la = TokenStream.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 61572651155456L) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 492581209243648L) != 0)) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1737,7 +1746,7 @@ public partial class GASParser : Parser {
 				case 1:
 					{
 					State = 273;
-					notExpression();
+					unaryExpression();
 					}
 					break;
 				case 2:
@@ -1763,27 +1772,27 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class NotExpressionContext : ParserRuleContext {
+	public partial class UnaryExpressionContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ListAccessExpressionContext listAccessExpression() {
 			return GetRuleContext<ListAccessExpressionContext>(0);
 		}
-		public NotExpressionContext(ParserRuleContext parent, int invokingState)
+		public UnaryExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_notExpression; } }
+		public override int RuleIndex { get { return RULE_unaryExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNotExpression(this);
+			if (typedVisitor != null) return typedVisitor.VisitUnaryExpression(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public NotExpressionContext notExpression() {
-		NotExpressionContext _localctx = new NotExpressionContext(Context, State);
-		EnterRule(_localctx, 44, RULE_notExpression);
+	public UnaryExpressionContext unaryExpression() {
+		UnaryExpressionContext _localctx = new UnaryExpressionContext(Context, State);
+		EnterRule(_localctx, 44, RULE_unaryExpression);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
@@ -1791,12 +1800,12 @@ public partial class GASParser : Parser {
 			State = 282;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while (_la==T__41 || _la==T__45) {
+			while (_la==T__44 || _la==T__48) {
 				{
 				{
 				State = 279;
 				_la = TokenStream.LA(1);
-				if ( !(_la==T__41 || _la==T__45) ) {
+				if ( !(_la==T__44 || _la==T__48) ) {
 				ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -1811,6 +1820,27 @@ public partial class GASParser : Parser {
 			}
 			State = 285;
 			listAccessExpression();
+			State = 289;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			while (_la==T__49 || _la==T__50) {
+				{
+				{
+				State = 286;
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__49 || _la==T__50) ) {
+				ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				}
+				}
+				State = 291;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1852,19 +1882,19 @@ public partial class GASParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 287;
-			term();
 			State = 292;
+			term();
+			State = 297;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__46) {
+			if (_la==T__51) {
 				{
-				State = 288;
-				Match(T__46);
-				State = 289;
+				State = 293;
+				Match(T__51);
+				State = 294;
 				expression();
-				State = 290;
-				Match(T__47);
+				State = 295;
+				Match(T__52);
 				}
 			}
 
@@ -1919,27 +1949,27 @@ public partial class GASParser : Parser {
 		EnterRule(_localctx, 48, RULE_term);
 		int _la;
 		try {
-			State = 314;
+			State = 319;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,34,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,35,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 294;
-				Match(IDENTIFIER);
 				State = 299;
+				Match(IDENTIFIER);
+				State = 304;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				while (_la==T__6) {
 					{
 					{
-					State = 295;
+					State = 300;
 					Match(T__6);
-					State = 296;
+					State = 301;
 					Match(IDENTIFIER);
 					}
 					}
-					State = 301;
+					State = 306;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.LA(1);
 				}
@@ -1948,67 +1978,67 @@ public partial class GASParser : Parser {
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 302;
+				State = 307;
 				Match(NUM);
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 303;
-				Match(T__48);
+				State = 308;
+				Match(T__53);
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 304;
-				Match(T__49);
+				State = 309;
+				Match(T__54);
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 305;
-				Match(T__50);
+				State = 310;
+				Match(T__55);
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 306;
+				State = 311;
 				Match(T__1);
-				State = 307;
+				State = 312;
 				expression();
-				State = 308;
+				State = 313;
 				Match(T__3);
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 310;
+				State = 315;
 				listTerm();
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 311;
+				State = 316;
 				functionCall();
 				}
 				break;
 			case 9:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 312;
+				State = 317;
 				Match(ALLSTRINGS);
 				}
 				break;
 			case 10:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 313;
+				State = 318;
 				groupTerm();
 				}
 				break;
@@ -2053,38 +2083,38 @@ public partial class GASParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 316;
-			Match(T__51);
-			State = 317;
-			Match(T__8);
-			State = 326;
+			State = 321;
+			Match(T__56);
+			State = 322;
+			Match(T__11);
+			State = 331;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269727794479497220L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8629495020367380484L) != 0)) {
 				{
-				State = 318;
-				expression();
 				State = 323;
+				expression();
+				State = 328;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					State = 319;
+					State = 324;
 					Match(T__2);
-					State = 320;
+					State = 325;
 					expression();
 					}
 					}
-					State = 325;
+					State = 330;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.LA(1);
 				}
 				}
 			}
 
-			State = 328;
-			Match(T__9);
+			State = 333;
+			Match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2129,33 +2159,33 @@ public partial class GASParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 330;
-			Match(T__52);
-			State = 331;
+			State = 335;
+			Match(T__57);
+			State = 336;
 			Match(T__1);
-			State = 332;
+			State = 337;
 			expression();
-			State = 333;
-			Match(T__2);
-			State = 334;
-			Match(T__8);
 			State = 338;
+			Match(T__2);
+			State = 339;
+			Match(T__11);
+			State = 343;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 36028828157473024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1152921753714919424L) != 0)) {
 				{
 				{
-				State = 335;
+				State = 340;
 				statement();
 				}
 				}
-				State = 340;
+				State = 345;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
-			State = 341;
-			Match(T__9);
-			State = 342;
+			State = 346;
+			Match(T__12);
+			State = 347;
 			Match(T__3);
 			}
 		}
@@ -2202,53 +2232,53 @@ public partial class GASParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 344;
-			Match(IDENTIFIER);
 			State = 349;
+			Match(IDENTIFIER);
+			State = 354;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			while (_la==T__6) {
 				{
 				{
-				State = 345;
+				State = 350;
 				Match(T__6);
-				State = 346;
+				State = 351;
 				Match(IDENTIFIER);
 				}
 				}
-				State = 351;
+				State = 356;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
-			State = 352;
+			State = 357;
 			Match(T__1);
-			State = 361;
+			State = 366;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269727794479497220L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8629495020367380484L) != 0)) {
 				{
-				State = 353;
-				expression();
 				State = 358;
+				expression();
+				State = 363;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					State = 354;
+					State = 359;
 					Match(T__2);
-					State = 355;
+					State = 360;
 					expression();
 					}
 					}
-					State = 360;
+					State = 365;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.LA(1);
 				}
 				}
 			}
 
-			State = 363;
+			State = 368;
 			Match(T__3);
 			}
 		}
@@ -2264,7 +2294,7 @@ public partial class GASParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,58,366,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		4,1,63,371,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
 		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
 		2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,
 		2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,1,0,5,0,58,
@@ -2285,107 +2315,109 @@ public partial class GASParser : Parser {
 		1,18,1,18,1,18,1,18,3,18,252,8,18,3,18,254,8,18,1,19,1,19,1,19,1,19,3,
 		19,260,8,19,3,19,262,8,19,1,20,1,20,1,20,1,20,3,20,268,8,20,3,20,270,8,
 		20,1,21,1,21,1,21,1,21,3,21,276,8,21,3,21,278,8,21,1,22,5,22,281,8,22,
-		10,22,12,22,284,9,22,1,22,1,22,1,23,1,23,1,23,1,23,1,23,3,23,293,8,23,
-		1,24,1,24,1,24,5,24,298,8,24,10,24,12,24,301,9,24,1,24,1,24,1,24,1,24,
-		1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,3,24,315,8,24,1,25,1,25,1,25,1,
-		25,1,25,5,25,322,8,25,10,25,12,25,325,9,25,3,25,327,8,25,1,25,1,25,1,26,
-		1,26,1,26,1,26,1,26,1,26,5,26,337,8,26,10,26,12,26,340,9,26,1,26,1,26,
-		1,26,1,27,1,27,1,27,5,27,348,8,27,10,27,12,27,351,9,27,1,27,1,27,1,27,
-		1,27,5,27,357,8,27,10,27,12,27,360,9,27,3,27,362,8,27,1,27,1,27,1,27,1,
-		220,0,28,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,
-		44,46,48,50,52,54,0,7,1,0,16,28,1,0,35,36,1,0,37,38,2,0,30,31,39,40,1,
-		0,41,42,1,0,43,45,2,0,42,42,46,46,396,0,59,1,0,0,0,2,69,1,0,0,0,4,83,1,
-		0,0,0,6,90,1,0,0,0,8,99,1,0,0,0,10,101,1,0,0,0,12,107,1,0,0,0,14,113,1,
-		0,0,0,16,124,1,0,0,0,18,150,1,0,0,0,20,152,1,0,0,0,22,165,1,0,0,0,24,185,
-		1,0,0,0,26,188,1,0,0,0,28,199,1,0,0,0,30,225,1,0,0,0,32,237,1,0,0,0,34,
-		239,1,0,0,0,36,247,1,0,0,0,38,255,1,0,0,0,40,263,1,0,0,0,42,271,1,0,0,
-		0,44,282,1,0,0,0,46,287,1,0,0,0,48,314,1,0,0,0,50,316,1,0,0,0,52,330,1,
-		0,0,0,54,344,1,0,0,0,56,58,3,4,2,0,57,56,1,0,0,0,58,61,1,0,0,0,59,57,1,
-		0,0,0,59,60,1,0,0,0,60,62,1,0,0,0,61,59,1,0,0,0,62,66,3,2,1,0,63,65,3,
-		4,2,0,64,63,1,0,0,0,65,68,1,0,0,0,66,64,1,0,0,0,66,67,1,0,0,0,67,1,1,0,
-		0,0,68,66,1,0,0,0,69,70,5,1,0,0,70,71,5,2,0,0,71,72,3,34,17,0,72,73,5,
-		3,0,0,73,76,3,34,17,0,74,75,5,3,0,0,75,77,3,34,17,0,76,74,1,0,0,0,76,77,
-		1,0,0,0,77,78,1,0,0,0,78,79,5,4,0,0,79,80,5,5,0,0,80,3,1,0,0,0,81,84,3,
-		6,3,0,82,84,3,8,4,0,83,81,1,0,0,0,83,82,1,0,0,0,84,5,1,0,0,0,85,91,3,10,
-		5,0,86,91,3,14,7,0,87,91,3,54,27,0,88,91,3,24,12,0,89,91,3,12,6,0,90,85,
-		1,0,0,0,90,86,1,0,0,0,90,87,1,0,0,0,90,88,1,0,0,0,90,89,1,0,0,0,91,92,
-		1,0,0,0,92,93,5,5,0,0,93,7,1,0,0,0,94,100,3,20,10,0,95,100,3,28,14,0,96,
-		100,3,22,11,0,97,100,3,26,13,0,98,100,3,16,8,0,99,94,1,0,0,0,99,95,1,0,
-		0,0,99,96,1,0,0,0,99,97,1,0,0,0,99,98,1,0,0,0,100,9,1,0,0,0,101,102,3,
-		30,15,0,102,105,5,55,0,0,103,104,5,6,0,0,104,106,3,34,17,0,105,103,1,0,
-		0,0,105,106,1,0,0,0,106,11,1,0,0,0,107,108,3,32,16,0,108,111,5,55,0,0,
-		109,110,5,6,0,0,110,112,3,34,17,0,111,109,1,0,0,0,111,112,1,0,0,0,112,
-		13,1,0,0,0,113,118,5,55,0,0,114,115,5,7,0,0,115,117,5,55,0,0,116,114,1,
-		0,0,0,117,120,1,0,0,0,118,116,1,0,0,0,118,119,1,0,0,0,119,121,1,0,0,0,
-		120,118,1,0,0,0,121,122,5,6,0,0,122,123,3,34,17,0,123,15,1,0,0,0,124,125,
-		5,8,0,0,125,126,5,2,0,0,126,127,3,34,17,0,127,128,5,4,0,0,128,132,5,9,
-		0,0,129,131,3,4,2,0,130,129,1,0,0,0,131,134,1,0,0,0,132,130,1,0,0,0,132,
-		133,1,0,0,0,133,135,1,0,0,0,134,132,1,0,0,0,135,137,5,10,0,0,136,138,3,
-		18,9,0,137,136,1,0,0,0,137,138,1,0,0,0,138,17,1,0,0,0,139,140,5,11,0,0,
-		140,144,5,9,0,0,141,143,3,4,2,0,142,141,1,0,0,0,143,146,1,0,0,0,144,142,
-		1,0,0,0,144,145,1,0,0,0,145,147,1,0,0,0,146,144,1,0,0,0,147,151,5,10,0,
-		0,148,149,5,11,0,0,149,151,3,16,8,0,150,139,1,0,0,0,150,148,1,0,0,0,151,
-		19,1,0,0,0,152,153,5,12,0,0,153,154,5,2,0,0,154,155,3,34,17,0,155,156,
-		5,4,0,0,156,160,5,9,0,0,157,159,3,4,2,0,158,157,1,0,0,0,159,162,1,0,0,
-		0,160,158,1,0,0,0,160,161,1,0,0,0,161,163,1,0,0,0,162,160,1,0,0,0,163,
-		164,5,10,0,0,164,21,1,0,0,0,165,166,5,13,0,0,166,169,5,2,0,0,167,170,3,
-		10,5,0,168,170,3,14,7,0,169,167,1,0,0,0,169,168,1,0,0,0,170,171,1,0,0,
-		0,171,172,5,5,0,0,172,173,3,34,17,0,173,174,5,5,0,0,174,175,3,14,7,0,175,
-		176,5,4,0,0,176,180,5,9,0,0,177,179,3,4,2,0,178,177,1,0,0,0,179,182,1,
-		0,0,0,180,178,1,0,0,0,180,181,1,0,0,0,181,183,1,0,0,0,182,180,1,0,0,0,
-		183,184,5,10,0,0,184,23,1,0,0,0,185,186,5,14,0,0,186,187,3,34,17,0,187,
-		25,1,0,0,0,188,189,5,15,0,0,189,190,5,55,0,0,190,194,5,9,0,0,191,193,3,
-		4,2,0,192,191,1,0,0,0,193,196,1,0,0,0,194,192,1,0,0,0,194,195,1,0,0,0,
-		195,197,1,0,0,0,196,194,1,0,0,0,197,198,5,10,0,0,198,27,1,0,0,0,199,200,
-		3,30,15,0,200,201,5,55,0,0,201,213,5,2,0,0,202,203,3,30,15,0,203,210,5,
-		55,0,0,204,205,5,3,0,0,205,206,3,30,15,0,206,207,5,55,0,0,207,209,1,0,
-		0,0,208,204,1,0,0,0,209,212,1,0,0,0,210,208,1,0,0,0,210,211,1,0,0,0,211,
-		214,1,0,0,0,212,210,1,0,0,0,213,202,1,0,0,0,213,214,1,0,0,0,214,215,1,
-		0,0,0,215,216,5,4,0,0,216,220,5,9,0,0,217,219,3,4,2,0,218,217,1,0,0,0,
-		219,222,1,0,0,0,220,221,1,0,0,0,220,218,1,0,0,0,221,223,1,0,0,0,222,220,
-		1,0,0,0,223,224,5,10,0,0,224,29,1,0,0,0,225,226,7,0,0,0,226,31,1,0,0,0,
-		227,228,5,29,0,0,228,229,5,30,0,0,229,230,3,30,15,0,230,231,5,31,0,0,231,
-		238,1,0,0,0,232,238,5,32,0,0,233,238,5,33,0,0,234,238,5,27,0,0,235,238,
-		5,28,0,0,236,238,5,34,0,0,237,227,1,0,0,0,237,232,1,0,0,0,237,233,1,0,
-		0,0,237,234,1,0,0,0,237,235,1,0,0,0,237,236,1,0,0,0,238,33,1,0,0,0,239,
-		245,3,36,18,0,240,243,7,1,0,0,241,244,3,36,18,0,242,244,3,34,17,0,243,
-		241,1,0,0,0,243,242,1,0,0,0,244,246,1,0,0,0,245,240,1,0,0,0,245,246,1,
-		0,0,0,246,35,1,0,0,0,247,253,3,38,19,0,248,251,7,2,0,0,249,252,3,38,19,
-		0,250,252,3,36,18,0,251,249,1,0,0,0,251,250,1,0,0,0,252,254,1,0,0,0,253,
-		248,1,0,0,0,253,254,1,0,0,0,254,37,1,0,0,0,255,261,3,40,20,0,256,259,7,
-		3,0,0,257,260,3,40,20,0,258,260,3,38,19,0,259,257,1,0,0,0,259,258,1,0,
-		0,0,260,262,1,0,0,0,261,256,1,0,0,0,261,262,1,0,0,0,262,39,1,0,0,0,263,
-		269,3,42,21,0,264,267,7,4,0,0,265,268,3,42,21,0,266,268,3,40,20,0,267,
-		265,1,0,0,0,267,266,1,0,0,0,268,270,1,0,0,0,269,264,1,0,0,0,269,270,1,
-		0,0,0,270,41,1,0,0,0,271,277,3,44,22,0,272,275,7,5,0,0,273,276,3,44,22,
-		0,274,276,3,42,21,0,275,273,1,0,0,0,275,274,1,0,0,0,276,278,1,0,0,0,277,
-		272,1,0,0,0,277,278,1,0,0,0,278,43,1,0,0,0,279,281,7,6,0,0,280,279,1,0,
-		0,0,281,284,1,0,0,0,282,280,1,0,0,0,282,283,1,0,0,0,283,285,1,0,0,0,284,
-		282,1,0,0,0,285,286,3,46,23,0,286,45,1,0,0,0,287,292,3,48,24,0,288,289,
-		5,47,0,0,289,290,3,34,17,0,290,291,5,48,0,0,291,293,1,0,0,0,292,288,1,
-		0,0,0,292,293,1,0,0,0,293,47,1,0,0,0,294,299,5,55,0,0,295,296,5,7,0,0,
-		296,298,5,55,0,0,297,295,1,0,0,0,298,301,1,0,0,0,299,297,1,0,0,0,299,300,
-		1,0,0,0,300,315,1,0,0,0,301,299,1,0,0,0,302,315,5,56,0,0,303,315,5,49,
-		0,0,304,315,5,50,0,0,305,315,5,51,0,0,306,307,5,2,0,0,307,308,3,34,17,
-		0,308,309,5,4,0,0,309,315,1,0,0,0,310,315,3,50,25,0,311,315,3,54,27,0,
-		312,315,5,57,0,0,313,315,3,52,26,0,314,294,1,0,0,0,314,302,1,0,0,0,314,
-		303,1,0,0,0,314,304,1,0,0,0,314,305,1,0,0,0,314,306,1,0,0,0,314,310,1,
-		0,0,0,314,311,1,0,0,0,314,312,1,0,0,0,314,313,1,0,0,0,315,49,1,0,0,0,316,
-		317,5,52,0,0,317,326,5,9,0,0,318,323,3,34,17,0,319,320,5,3,0,0,320,322,
-		3,34,17,0,321,319,1,0,0,0,322,325,1,0,0,0,323,321,1,0,0,0,323,324,1,0,
-		0,0,324,327,1,0,0,0,325,323,1,0,0,0,326,318,1,0,0,0,326,327,1,0,0,0,327,
-		328,1,0,0,0,328,329,5,10,0,0,329,51,1,0,0,0,330,331,5,53,0,0,331,332,5,
-		2,0,0,332,333,3,34,17,0,333,334,5,3,0,0,334,338,5,9,0,0,335,337,3,4,2,
-		0,336,335,1,0,0,0,337,340,1,0,0,0,338,336,1,0,0,0,338,339,1,0,0,0,339,
-		341,1,0,0,0,340,338,1,0,0,0,341,342,5,10,0,0,342,343,5,4,0,0,343,53,1,
-		0,0,0,344,349,5,55,0,0,345,346,5,7,0,0,346,348,5,55,0,0,347,345,1,0,0,
-		0,348,351,1,0,0,0,349,347,1,0,0,0,349,350,1,0,0,0,350,352,1,0,0,0,351,
-		349,1,0,0,0,352,361,5,2,0,0,353,358,3,34,17,0,354,355,5,3,0,0,355,357,
-		3,34,17,0,356,354,1,0,0,0,357,360,1,0,0,0,358,356,1,0,0,0,358,359,1,0,
-		0,0,359,362,1,0,0,0,360,358,1,0,0,0,361,353,1,0,0,0,361,362,1,0,0,0,362,
-		363,1,0,0,0,363,364,5,4,0,0,364,55,1,0,0,0,41,59,66,76,83,90,99,105,111,
+		10,22,12,22,284,9,22,1,22,1,22,5,22,288,8,22,10,22,12,22,291,9,22,1,23,
+		1,23,1,23,1,23,1,23,3,23,298,8,23,1,24,1,24,1,24,5,24,303,8,24,10,24,12,
+		24,306,9,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,
+		3,24,320,8,24,1,25,1,25,1,25,1,25,1,25,5,25,327,8,25,10,25,12,25,330,9,
+		25,3,25,332,8,25,1,25,1,25,1,26,1,26,1,26,1,26,1,26,1,26,5,26,342,8,26,
+		10,26,12,26,345,9,26,1,26,1,26,1,26,1,27,1,27,1,27,5,27,353,8,27,10,27,
+		12,27,356,9,27,1,27,1,27,1,27,1,27,5,27,362,8,27,10,27,12,27,365,9,27,
+		3,27,367,8,27,1,27,1,27,1,27,1,220,0,28,0,2,4,6,8,10,12,14,16,18,20,22,
+		24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,0,9,2,0,6,6,8,10,1,0,19,
+		31,1,0,38,39,1,0,40,41,2,0,33,34,42,43,1,0,44,45,1,0,46,48,2,0,45,45,49,
+		49,1,0,50,51,402,0,59,1,0,0,0,2,69,1,0,0,0,4,83,1,0,0,0,6,90,1,0,0,0,8,
+		99,1,0,0,0,10,101,1,0,0,0,12,107,1,0,0,0,14,113,1,0,0,0,16,124,1,0,0,0,
+		18,150,1,0,0,0,20,152,1,0,0,0,22,165,1,0,0,0,24,185,1,0,0,0,26,188,1,0,
+		0,0,28,199,1,0,0,0,30,225,1,0,0,0,32,237,1,0,0,0,34,239,1,0,0,0,36,247,
+		1,0,0,0,38,255,1,0,0,0,40,263,1,0,0,0,42,271,1,0,0,0,44,282,1,0,0,0,46,
+		292,1,0,0,0,48,319,1,0,0,0,50,321,1,0,0,0,52,335,1,0,0,0,54,349,1,0,0,
+		0,56,58,3,4,2,0,57,56,1,0,0,0,58,61,1,0,0,0,59,57,1,0,0,0,59,60,1,0,0,
+		0,60,62,1,0,0,0,61,59,1,0,0,0,62,66,3,2,1,0,63,65,3,4,2,0,64,63,1,0,0,
+		0,65,68,1,0,0,0,66,64,1,0,0,0,66,67,1,0,0,0,67,1,1,0,0,0,68,66,1,0,0,0,
+		69,70,5,1,0,0,70,71,5,2,0,0,71,72,3,34,17,0,72,73,5,3,0,0,73,76,3,34,17,
+		0,74,75,5,3,0,0,75,77,3,34,17,0,76,74,1,0,0,0,76,77,1,0,0,0,77,78,1,0,
+		0,0,78,79,5,4,0,0,79,80,5,5,0,0,80,3,1,0,0,0,81,84,3,6,3,0,82,84,3,8,4,
+		0,83,81,1,0,0,0,83,82,1,0,0,0,84,5,1,0,0,0,85,91,3,10,5,0,86,91,3,14,7,
+		0,87,91,3,54,27,0,88,91,3,24,12,0,89,91,3,12,6,0,90,85,1,0,0,0,90,86,1,
+		0,0,0,90,87,1,0,0,0,90,88,1,0,0,0,90,89,1,0,0,0,91,92,1,0,0,0,92,93,5,
+		5,0,0,93,7,1,0,0,0,94,100,3,20,10,0,95,100,3,28,14,0,96,100,3,22,11,0,
+		97,100,3,26,13,0,98,100,3,16,8,0,99,94,1,0,0,0,99,95,1,0,0,0,99,96,1,0,
+		0,0,99,97,1,0,0,0,99,98,1,0,0,0,100,9,1,0,0,0,101,102,3,30,15,0,102,105,
+		5,60,0,0,103,104,5,6,0,0,104,106,3,34,17,0,105,103,1,0,0,0,105,106,1,0,
+		0,0,106,11,1,0,0,0,107,108,3,32,16,0,108,111,5,60,0,0,109,110,5,6,0,0,
+		110,112,3,34,17,0,111,109,1,0,0,0,111,112,1,0,0,0,112,13,1,0,0,0,113,118,
+		5,60,0,0,114,115,5,7,0,0,115,117,5,60,0,0,116,114,1,0,0,0,117,120,1,0,
+		0,0,118,116,1,0,0,0,118,119,1,0,0,0,119,121,1,0,0,0,120,118,1,0,0,0,121,
+		122,7,0,0,0,122,123,3,34,17,0,123,15,1,0,0,0,124,125,5,11,0,0,125,126,
+		5,2,0,0,126,127,3,34,17,0,127,128,5,4,0,0,128,132,5,12,0,0,129,131,3,4,
+		2,0,130,129,1,0,0,0,131,134,1,0,0,0,132,130,1,0,0,0,132,133,1,0,0,0,133,
+		135,1,0,0,0,134,132,1,0,0,0,135,137,5,13,0,0,136,138,3,18,9,0,137,136,
+		1,0,0,0,137,138,1,0,0,0,138,17,1,0,0,0,139,140,5,14,0,0,140,144,5,12,0,
+		0,141,143,3,4,2,0,142,141,1,0,0,0,143,146,1,0,0,0,144,142,1,0,0,0,144,
+		145,1,0,0,0,145,147,1,0,0,0,146,144,1,0,0,0,147,151,5,13,0,0,148,149,5,
+		14,0,0,149,151,3,16,8,0,150,139,1,0,0,0,150,148,1,0,0,0,151,19,1,0,0,0,
+		152,153,5,15,0,0,153,154,5,2,0,0,154,155,3,34,17,0,155,156,5,4,0,0,156,
+		160,5,12,0,0,157,159,3,4,2,0,158,157,1,0,0,0,159,162,1,0,0,0,160,158,1,
+		0,0,0,160,161,1,0,0,0,161,163,1,0,0,0,162,160,1,0,0,0,163,164,5,13,0,0,
+		164,21,1,0,0,0,165,166,5,16,0,0,166,169,5,2,0,0,167,170,3,10,5,0,168,170,
+		3,14,7,0,169,167,1,0,0,0,169,168,1,0,0,0,170,171,1,0,0,0,171,172,5,5,0,
+		0,172,173,3,34,17,0,173,174,5,5,0,0,174,175,3,14,7,0,175,176,5,4,0,0,176,
+		180,5,12,0,0,177,179,3,4,2,0,178,177,1,0,0,0,179,182,1,0,0,0,180,178,1,
+		0,0,0,180,181,1,0,0,0,181,183,1,0,0,0,182,180,1,0,0,0,183,184,5,13,0,0,
+		184,23,1,0,0,0,185,186,5,17,0,0,186,187,3,34,17,0,187,25,1,0,0,0,188,189,
+		5,18,0,0,189,190,5,60,0,0,190,194,5,12,0,0,191,193,3,4,2,0,192,191,1,0,
+		0,0,193,196,1,0,0,0,194,192,1,0,0,0,194,195,1,0,0,0,195,197,1,0,0,0,196,
+		194,1,0,0,0,197,198,5,13,0,0,198,27,1,0,0,0,199,200,3,30,15,0,200,201,
+		5,60,0,0,201,213,5,2,0,0,202,203,3,30,15,0,203,210,5,60,0,0,204,205,5,
+		3,0,0,205,206,3,30,15,0,206,207,5,60,0,0,207,209,1,0,0,0,208,204,1,0,0,
+		0,209,212,1,0,0,0,210,208,1,0,0,0,210,211,1,0,0,0,211,214,1,0,0,0,212,
+		210,1,0,0,0,213,202,1,0,0,0,213,214,1,0,0,0,214,215,1,0,0,0,215,216,5,
+		4,0,0,216,220,5,12,0,0,217,219,3,4,2,0,218,217,1,0,0,0,219,222,1,0,0,0,
+		220,221,1,0,0,0,220,218,1,0,0,0,221,223,1,0,0,0,222,220,1,0,0,0,223,224,
+		5,13,0,0,224,29,1,0,0,0,225,226,7,1,0,0,226,31,1,0,0,0,227,228,5,32,0,
+		0,228,229,5,33,0,0,229,230,3,30,15,0,230,231,5,34,0,0,231,238,1,0,0,0,
+		232,238,5,35,0,0,233,238,5,36,0,0,234,238,5,30,0,0,235,238,5,31,0,0,236,
+		238,5,37,0,0,237,227,1,0,0,0,237,232,1,0,0,0,237,233,1,0,0,0,237,234,1,
+		0,0,0,237,235,1,0,0,0,237,236,1,0,0,0,238,33,1,0,0,0,239,245,3,36,18,0,
+		240,243,7,2,0,0,241,244,3,36,18,0,242,244,3,34,17,0,243,241,1,0,0,0,243,
+		242,1,0,0,0,244,246,1,0,0,0,245,240,1,0,0,0,245,246,1,0,0,0,246,35,1,0,
+		0,0,247,253,3,38,19,0,248,251,7,3,0,0,249,252,3,38,19,0,250,252,3,36,18,
+		0,251,249,1,0,0,0,251,250,1,0,0,0,252,254,1,0,0,0,253,248,1,0,0,0,253,
+		254,1,0,0,0,254,37,1,0,0,0,255,261,3,40,20,0,256,259,7,4,0,0,257,260,3,
+		40,20,0,258,260,3,38,19,0,259,257,1,0,0,0,259,258,1,0,0,0,260,262,1,0,
+		0,0,261,256,1,0,0,0,261,262,1,0,0,0,262,39,1,0,0,0,263,269,3,42,21,0,264,
+		267,7,5,0,0,265,268,3,42,21,0,266,268,3,40,20,0,267,265,1,0,0,0,267,266,
+		1,0,0,0,268,270,1,0,0,0,269,264,1,0,0,0,269,270,1,0,0,0,270,41,1,0,0,0,
+		271,277,3,44,22,0,272,275,7,6,0,0,273,276,3,44,22,0,274,276,3,42,21,0,
+		275,273,1,0,0,0,275,274,1,0,0,0,276,278,1,0,0,0,277,272,1,0,0,0,277,278,
+		1,0,0,0,278,43,1,0,0,0,279,281,7,7,0,0,280,279,1,0,0,0,281,284,1,0,0,0,
+		282,280,1,0,0,0,282,283,1,0,0,0,283,285,1,0,0,0,284,282,1,0,0,0,285,289,
+		3,46,23,0,286,288,7,8,0,0,287,286,1,0,0,0,288,291,1,0,0,0,289,287,1,0,
+		0,0,289,290,1,0,0,0,290,45,1,0,0,0,291,289,1,0,0,0,292,297,3,48,24,0,293,
+		294,5,52,0,0,294,295,3,34,17,0,295,296,5,53,0,0,296,298,1,0,0,0,297,293,
+		1,0,0,0,297,298,1,0,0,0,298,47,1,0,0,0,299,304,5,60,0,0,300,301,5,7,0,
+		0,301,303,5,60,0,0,302,300,1,0,0,0,303,306,1,0,0,0,304,302,1,0,0,0,304,
+		305,1,0,0,0,305,320,1,0,0,0,306,304,1,0,0,0,307,320,5,61,0,0,308,320,5,
+		54,0,0,309,320,5,55,0,0,310,320,5,56,0,0,311,312,5,2,0,0,312,313,3,34,
+		17,0,313,314,5,4,0,0,314,320,1,0,0,0,315,320,3,50,25,0,316,320,3,54,27,
+		0,317,320,5,62,0,0,318,320,3,52,26,0,319,299,1,0,0,0,319,307,1,0,0,0,319,
+		308,1,0,0,0,319,309,1,0,0,0,319,310,1,0,0,0,319,311,1,0,0,0,319,315,1,
+		0,0,0,319,316,1,0,0,0,319,317,1,0,0,0,319,318,1,0,0,0,320,49,1,0,0,0,321,
+		322,5,57,0,0,322,331,5,12,0,0,323,328,3,34,17,0,324,325,5,3,0,0,325,327,
+		3,34,17,0,326,324,1,0,0,0,327,330,1,0,0,0,328,326,1,0,0,0,328,329,1,0,
+		0,0,329,332,1,0,0,0,330,328,1,0,0,0,331,323,1,0,0,0,331,332,1,0,0,0,332,
+		333,1,0,0,0,333,334,5,13,0,0,334,51,1,0,0,0,335,336,5,58,0,0,336,337,5,
+		2,0,0,337,338,3,34,17,0,338,339,5,3,0,0,339,343,5,12,0,0,340,342,3,4,2,
+		0,341,340,1,0,0,0,342,345,1,0,0,0,343,341,1,0,0,0,343,344,1,0,0,0,344,
+		346,1,0,0,0,345,343,1,0,0,0,346,347,5,13,0,0,347,348,5,4,0,0,348,53,1,
+		0,0,0,349,354,5,60,0,0,350,351,5,7,0,0,351,353,5,60,0,0,352,350,1,0,0,
+		0,353,356,1,0,0,0,354,352,1,0,0,0,354,355,1,0,0,0,355,357,1,0,0,0,356,
+		354,1,0,0,0,357,366,5,2,0,0,358,363,3,34,17,0,359,360,5,3,0,0,360,362,
+		3,34,17,0,361,359,1,0,0,0,362,365,1,0,0,0,363,361,1,0,0,0,363,364,1,0,
+		0,0,364,367,1,0,0,0,365,363,1,0,0,0,366,358,1,0,0,0,366,367,1,0,0,0,367,
+		368,1,0,0,0,368,369,5,4,0,0,369,55,1,0,0,0,42,59,66,76,83,90,99,105,111,
 		118,132,137,144,150,160,169,180,194,210,213,220,237,243,245,251,253,259,
-		261,267,269,275,277,282,292,299,314,323,326,338,349,358,361
+		261,267,269,275,277,282,289,297,304,319,328,331,343,354,363,366
 	};
 
 	public static readonly ATN _ATN =

@@ -2,6 +2,7 @@
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.Frontend;
 
 namespace Tests;
 
@@ -17,8 +18,12 @@ public static class SharedTesting
 
     public static AstNode GetAst(string input)
     {
+        ParserErrorListener errorListener = new ParserErrorListener();
         var parser = GetParser(input);
+        parser.RemoveErrorListeners();
+        parser.AddErrorListener(errorListener);
         var context = parser.program();
+        Assert.Empty(errorListener.Errors);
         return context.Accept(new ToAstVisitor());
     }
 

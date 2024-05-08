@@ -12,7 +12,7 @@ complexStatement:  whileStatement | functionDeclaration | forStatement | classDe
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?;
 collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER ('.' IDENTIFIER)* '=' expression;
+assignment : IDENTIFIER ('.' IDENTIFIER)* ('=' | '+=' | '-=' | '*=') expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -30,8 +30,8 @@ expression : equalityExpression (('||' | '&&') (equalityExpression | expression)
 equalityExpression : relationExpression (('==' | '!=') (relationExpression | equalityExpression))? ;
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
 binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
-multExpression : notExpression (('*' | '/' | '%' ) (notExpression | multExpression))? ;
-notExpression : ('!' | '-')* listAccessExpression ;
+multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
+unaryExpression : ('!' | '-')* listAccessExpression ('++' | '--')*;
 listAccessExpression : term ('[' expression ']')?;
 
 //Terms

@@ -66,7 +66,7 @@ public class VisitFunctionDeclaration
             "number test() {}" +
             "for (number x = 0; x < test(); x += 1) {}" +
             "for (number x = 0; x < test(); x += 1) {}" +
-            "function number test() {}"
+            "number test() {}"
         );
         var visitor = new ScopeCheckingAstVisitor();
         ast.Accept(visitor);

@@ -15,9 +15,9 @@ public class VisitNotExpression
         var lexer = new GASLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
-        var context = parser.notExpression();
-        var result = visitor.VisitNotExpression(context);
-        
+        var context = parser.unaryExpression();
+        var result = visitor.VisitUnaryExpression(context);
+
         Assert.NotNull(result);
         Assert.IsType<UnaryOp>(result);
     }

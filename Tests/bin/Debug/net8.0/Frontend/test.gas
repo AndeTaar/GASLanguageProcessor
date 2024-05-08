@@ -7,20 +7,20 @@ circle CircleCreator(point Center, number Width, number Stroke, color Fill, colo
    return Circle(Center, Width, Stroke, Fill, StrokeColor);
 }
 
+square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1));
+
 color white = Color(255, 255, 255, 1);
 color green = Color(0, 255, 0, 1);
 color red = Color(255, 0, 0, 1);
 color pink = Color(255, 100, 100, 1);
 color black = Color(0, 0, 0, 1);
 
-list<circle> circles = list<circle>();
+list<circle> circles;
 
 for(number i = 0; i < 10; i = i + 1)
 {
-  circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
 
-square firkant = Square(Point(10,10), 230, 10, red, black);
 
 for(number i = 0; x < 10; x = x + 1)
 {
@@ -37,17 +37,17 @@ group mouse = Group(Point(125, 80),
 {
    group mousEars = Group(Point(0, 0),
    {
-       ellipse leftEar = Ellipse(Point(-30, 0), 30, 35, white, pink, 10);,
+       ellipse leftEar = Ellipse(Point(-30, 0), 30, 35, white, pink, 10);
        ellipse rightEar = Ellipse(Point(30, 0), 35, 30, white, pink, 10);
-   });,
+   });
 
    group mouseFace = Group(Point(0, 0),
    {
-       circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);,
-       circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);,
-       circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);,
-       circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);,
-       circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);,
+       circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);
+       circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);
+       circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);
+       circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);
+       circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);
 
        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
    });

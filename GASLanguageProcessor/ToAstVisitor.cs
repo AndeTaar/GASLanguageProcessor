@@ -306,17 +306,17 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitMultExpression(context);
         }
 
-        var notExpressions = context.notExpression().Select(ne => ne.Accept(this) as Expression).ToList();
+        var notExpressions = context.unaryExpression().Select(ne => ne.Accept(this) as Expression).ToList();
         var multExpression = context.multExpression()?.Accept(this) as Expression;
 
         return new BinaryOp(notExpressions[0], context.GetChild(1).GetText(), multExpression ?? notExpressions[1]) {LineNumber = context.Start.Line};
     }
 
-    public override AstNode VisitNotExpression(GASParser.NotExpressionContext context)
+    public override AstNode VisitUnaryExpression(GASParser.UnaryExpressionContext context)
     {
         if(context.children.Count == 1)
         {
-            return base.VisitNotExpression(context);
+            return base.VisitUnaryExpression(context);
         }
 
         var expression = context.GetChild(0).Accept(this);

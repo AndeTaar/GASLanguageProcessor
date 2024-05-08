@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -164,11 +164,11 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMultExpression([NotNull] GASParser.MultExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.notExpression"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.unaryExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNotExpression([NotNull] GASParser.NotExpressionContext context);
+	Result VisitUnaryExpression([NotNull] GASParser.UnaryExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.listAccessExpression"/>.
 	/// </summary>
