@@ -115,11 +115,11 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitWhile(While node)
     {
         node.Scope = scope;
-        var condition = node.Condition.Accept(this);
         scope = scope.EnterScope(node);
-        var body = node.Statements.Accept(this);
-        scope.ExitScope();
-        return condition && body;
+        var condition = node.Condition.Accept(this);
+        var body = node.Statements?.Accept(this);
+        scope = scope.ExitScope();
+        return condition;
     }
 
     public bool VisitFor(For node)

@@ -60,3 +60,15 @@ point xy = Point(0, 0);
 number start = 180-40;
 rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);
 text txt = Text("Its even worse for mouses!", Point(23,200), "Arial", 16, black);
+number start = 180;
+rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
+string s1 = "It's even worse";
+string s2 = " for mouses!";
+text txt = Text(s1+s2+s2, Point(29,200), "Arial", 16, black);
+
+line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
+line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
+
+string j = "a" + "b" + "c";
+bool k = true == false != true;
+bool l = 5<3 || 5>3 && 5<=5;

@@ -34,6 +34,8 @@ public class Interpreter
                 EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
                 return null;
+            
+            // Currently allows infinite loops.
             case For @for:
                 EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
                 var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
@@ -42,6 +44,16 @@ public class Interpreter
                     EvaluateStatement(@for.Statements, @for.Scope ?? scope);
                     EvaluateStatement(@for.Increment, @for.Scope ?? scope);
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
+                }
+                return null;
+            
+            // Currently allows infinite loops.
+            case While @while:
+                var whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
+                while ((bool) whileCondition)
+                {
+                    EvaluateStatement(@while.Statements, @while.Scope ?? scope);
+                    whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 }
                 return null;
             case FunctionDeclaration functionDeclaration:
@@ -126,6 +138,12 @@ public class Interpreter
                     "%" => (float)left % (float)right,
                     "<" => (float)left < (float)right,
                     ">" => (float)left > (float)right,
+                    "<=" => (float)left <= (float)right,
+                    ">=" => (float)left >= (float)right,
+                    "!=" => left != right,
+                    "==" => left == right,
+                    "&&" => (bool)left && (bool)right,
+                    "||" => (bool)left || (bool)right,
                     _ => throw new NotImplementedException()
                 };
 
