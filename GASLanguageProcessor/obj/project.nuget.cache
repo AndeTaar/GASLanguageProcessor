@@ -1,10 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "tkXaZ1tT9a+IDx+uJ7cth4ODveTVYMh8ob0bbf/fPgoKzUh6v3YV3SawJJXCNeeOty5lyfWfkgCHIPDzRJtUpQ==",
+  "dgSpecHash": "z0LeAkfhFrCCPtGu3WaKyf3hjGo2oXG7QSh3vn0cA5PmEb5wsXtAj1SBJVggWt0xmveXjRnAxaPbAXUNTYFAhw==",
   "success": true,
-  "projectFilePath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+  "projectFilePath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
   "expectedPackageFiles": [
-    "/Users/thomas/.nuget/packages/antlr4.runtime.standard/4.13.1/antlr4.runtime.standard.4.13.1.nupkg.sha512"
+    "C:\\Users\\coolf\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

@@ -49,6 +49,6 @@ functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
-NUM : '0' | '-'? [0-9]* '.' [0-9]+ | '-'? [0-9]+ ;
+NUM : '0' | [0-9]* '.' [0-9]+ | [0-9]+ ;
 ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';
 WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace

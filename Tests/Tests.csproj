@@ -22,7 +22,6 @@
 
     <ItemGroup>
       <Folder Include="Evaluator\" />
-      <Folder Include="Operational Semantics\" />
     </ItemGroup>
 
     <ItemGroup>
