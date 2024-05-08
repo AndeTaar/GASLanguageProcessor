@@ -428,19 +428,6 @@ C:/Users/Bujee/Desktop/P4/GASLanguageProcessor/Tests/obj/Debug/net8.0/ref/Tests.
 /Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll
 /Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/GASLanguageProcessor.dll
 /Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/GASLanguageProcessor.pdb
-<<<<<<< HEAD
 /Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.csproj.Up2Date
-=======
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.csproj.AssemblyReference.cache
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.GeneratedMSBuildEditorConfig.editorconfig
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.csproj.CoreCompileInputs.cache
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.sourcelink.json
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.csproj.Up2Date
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.dll
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/refint/Tests.dll
-/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.pdb
->>>>>>> develop
 /Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.genruntimeconfig.cache
 /Users/thomas/Documents/GASLanguageProcessor/Tests/obj/Debug/net8.0/ref/Tests.dll

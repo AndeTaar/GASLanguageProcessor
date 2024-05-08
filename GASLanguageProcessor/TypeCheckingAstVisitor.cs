@@ -369,7 +369,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
     {
         throw new NotImplementedException();
     }
-    
+
     public GasType VisitEllipse(Ellipse ellipse)
     {
         throw new NotImplementedException();
@@ -396,7 +396,7 @@ public class TypeCheckingAstVisitor : IAstVisitor<GasType>
             parameterTypes.Add(parameter.Accept(this));
         }
 
-        var function = scope.fTable.LookUp(identifier.Name);
+        var function = scope?.fTable.LookUp(identifier.Name);
 
         if (function.Parameters.Count != parameterTypes.Count)
         {

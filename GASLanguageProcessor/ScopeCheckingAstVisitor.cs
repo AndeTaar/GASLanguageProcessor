@@ -144,7 +144,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitUnaryOp(UnaryOp node)
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     public bool VisitString(String s)
