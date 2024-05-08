@@ -14,15 +14,15 @@ public class VisitWhileStatement
         var visitor = new ToAstVisitor();
         var context = parser.whileStatement();
         var result = visitor.VisitWhileStatement(context);
-        
+
         Assert.NotNull(result);
         Assert.IsType<While>(result);
     }
-    
+
    // [Fact]
     public void FailVisitWhileStatement()
     {
-        var ast = SharedTesting.GenerateAst
+        var ast = SharedTesting.GetAst
         (
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "number x;" +

@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "SUOjHq1F6eFvIXU+oFD3xX7PZZqkg446q3GEGKQlznz+kRzmGj5cELqxYyzE0XxVUPHxKREgvy75D5DFzmQRAw==",
+=======
   "dgSpecHash": "VkgqVf/ZTsPRjEDfpJAWd0S5nCZGr3MPwE+9hQ19Jx+KENvNf6tNkOS4n0olkb5JvX45MQMBWIsk/1OjHdYPKA==",
+>>>>>>> develop
   "success": true,
   "projectFilePath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
   "expectedPackageFiles": [

@@ -92,6 +92,11 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitIdentifier(Identifier node)
     {
         node.Scope = scope;
+        var var = scope.vTable.LookUp(node.Name);
+        if(var == null){
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
+            return false;
+        }
         return true;
     }
 
@@ -106,9 +111,15 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitAssignment(Assignment node)
     {
         node.Scope = scope;
-        var identifier = scope.LookupAttribute(node.Identifier, scope, scope, errors);
+        var identifier = node.Identifier.Name;
+        var var = scope.vTable.LookUp(identifier);
+        if (var == null)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " not found");
+            return false;
+        }
         var expression = node.Expression.Accept(this);
-        return identifier && expression;
+        return expression;
     }
 
     public bool VisitDeclaration(Declaration node)
@@ -166,7 +177,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitUnaryOp(UnaryOp node)
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     public bool VisitString(String s)
@@ -192,7 +203,15 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             return new Variable(decl.Identifier.Name, scope, decl.Expression);
         }).ToList();
         var statements = functionDeclaration.Statements;
-        scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        try
+        {
+            scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        }
+        catch (Exception e)
+        {
+            errors.Add("Line: " + functionDeclaration.LineNumber + " Function name: " + identifier + " already exists");
+            return false;
+        }
         scope = scope.ExitScope();
         return true;
     }

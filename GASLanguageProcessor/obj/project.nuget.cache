@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "B0EDgAIYU93NmQzdLxxiY100DBfNIPVUmv2Sb0lgtYQppycN9B8LnWsHz8uZgvIzz5SesW1iuzw2/kGnVikbFg==",
+=======
   "dgSpecHash": "tkXaZ1tT9a+IDx+uJ7cth4ODveTVYMh8ob0bbf/fPgoKzUh6v3YV3SawJJXCNeeOty5lyfWfkgCHIPDzRJtUpQ==",
+>>>>>>> develop
   "success": true,
   "projectFilePath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
   "expectedPackageFiles": [

@@ -155,7 +155,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitSimpleStatement(GASParser.SimpleStatementContext context)
     {
-        return context.GetChild(0).Accept(this);
+        return context.GetChild(0)?.Accept(this);
     }
 
     public override AstNode VisitExpression(GASParser.ExpressionContext context)

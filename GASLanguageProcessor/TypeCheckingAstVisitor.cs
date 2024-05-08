@@ -486,4 +486,34 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     {
         throw new NotImplementedException();
     }
+
+    public GasType VisitFunctionCall(FunctionCall functionCall)
+    {
+        var identifier = functionCall.Identifier;
+        var scope = functionCall.Scope;
+
+        var parameterTypes = new List<GasType>();
+        foreach (var parameter in functionCall.Arguments)
+        {
+            parameterTypes.Add(parameter.Accept(this));
+        }
+
+        var function = scope?.fTable.LookUp(identifier.Name);
+
+        if (function.Parameters.Count != parameterTypes.Count)
+        {
+            errors.Add("Invalid number of parameters for function: " + identifier.Name + " expected: " + function.Parameters.Count + " got: " + parameterTypes.Count);
+            return GasType.Error;
+        }
+
+        for (int i = 0; i < function.Parameters.Count; i++)
+        {
+            if (function.Parameters[i].Type != parameterTypes[i])
+            {
+                errors.Add("Line: " + functionCall.LineNumber + " Invalid parameter " + i + " for function: " + identifier.Name + " expected: " + function.Parameters[i].Type + " got: " + parameterTypes[i]);
+            }
+        }
+
+        return function.ReturnType;
+    }
 }
