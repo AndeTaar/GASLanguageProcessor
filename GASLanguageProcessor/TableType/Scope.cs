@@ -153,16 +153,16 @@ public class Scope
                 new Variable("center", this, GasType.Point),
                 new Variable("xRadius", this, GasType.Number),
                 new Variable("yRadius", this, GasType.Number),
+                new Variable("stroke", this, GasType.Number),
                 new Variable("color", this, GasType.Color),
-                new Variable("borderColor", this, GasType.Color),
-                new Variable("borderWidth", this, GasType.Number)
+                new Variable("borderColor", this, GasType.Color)
             }, new Return(new Ellipse(
                 new Identifier("center"),
                 new Identifier("xRadius"),
                 new Identifier("yRadius"),
+                new Identifier("stroke"),
                 new Identifier("color"),
-                new Identifier("borderColor"),
-                new Identifier("borderWidth")
+                new Identifier("borderColor")
             )), new Scope(this, null)));
         }
     }

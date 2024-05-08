@@ -74,6 +74,18 @@ public class Interpreter
                 variable.ActualValue = val;
                 return val;
 
+            case CollectionDeclaration collectionDeclaration:
+                var collectionDeclarationVal = EvaluateExpression(collectionDeclaration.Expression, collectionDeclaration.Scope ?? scope);
+                var collectionDeclIdentifier = collectionDeclaration.Identifier.Name;
+                var collectionVariable = scope.vTable.LookUp(collectionDeclIdentifier);
+                if (collectionVariable == null)
+                {
+                    Console.WriteLine($"Variable {collectionDeclIdentifier} not found");
+                    return null;
+                }
+                collectionVariable.ActualValue = collectionDeclarationVal;
+                return collectionDeclarationVal;
+
             case FunctionCallStatement functionCallStatement:
                 var identifierAndFunction =
                     scope.LookupMethod(functionCallStatement.Identifier, scope, scope, new List<string>());
@@ -232,8 +244,8 @@ public class Interpreter
                 var ellipseRadiusY = (float) EvaluateExpression(ellipse.RadiusY, scope);
                 var ellipseFillColor = (FinalColor) EvaluateExpression(ellipse.Color, scope);
                 var ellipseBorderColor = (FinalColor) EvaluateExpression(ellipse.BorderColor, scope);
-                var ellipseBorderWidth = (float) EvaluateExpression(ellipse.BorderWidth, scope);
-                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseFillColor, ellipseBorderColor, ellipseBorderWidth);
+                var ellipseStroke = (float) EvaluateExpression(ellipse.Stroke, scope);
+                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor, ellipseBorderColor);
 
             case Text text:
                 var value = (string) EvaluateExpression(text.Value, scope);

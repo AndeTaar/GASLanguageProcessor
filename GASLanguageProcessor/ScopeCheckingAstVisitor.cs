@@ -268,7 +268,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         var parameters = functionCallTerm.Arguments.Select(expression => expression.Accept(this)).ToList();
         if (parameters.Count != function?.Parameters.Count)
         {
-            errors.Add("Line: " + functionCallTerm.LineNumber + " Function name: " + identifier + " has wrong number of arguments");
+            errors.Add("Line: " + functionCallTerm.LineNumber + " Function name: " + identifier.Name + " has wrong number of arguments");
         }
 
         scope = functionCallTerm.Scope;

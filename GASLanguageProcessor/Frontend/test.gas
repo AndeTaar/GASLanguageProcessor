@@ -57,8 +57,8 @@ group mouse = Group(Point(145-20, 80),
         circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);
         circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);
         circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);
-        circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);
-        circle eyeball2 = Circle(Point(20, 21), 5, 3, black, black);
+        ellipse eyeball = Ellipse(Point(-20, 21), 5, 2, 2, black, black);
+        ellipse eyeball2 = Ellipse(Point(20, 21), 5, 9, 2, black, black);
 
         segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
     });
@@ -71,7 +71,7 @@ number start = 180-40;
 rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);
 string s1 = "It's even worse";
 string s2 = " for mouses!";
-text txt = Text(s1+s2+s2, Point(29,200), "Arial", 16, black);
+text txt = Text(s1+s2, Point(29,200), "Arial", 16, black);
 
 line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
 line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
