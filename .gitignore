@@ -1,4 +1,4 @@
-﻿./GASLanguageProcessor/obj/rider.project.restore.info
+./GASLanguageProcessor/obj/rider.project.restore.info
 ./GASLanguageProcessor/obj/project.nuget.cache
 ./GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs
 ./GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.sourcelink.json
@@ -23,3 +23,6 @@ Tests\obj\Debug\net8.0\Tests.csproj.FileListAbsolute.txt
 Tests\obj\Debug\net8.0\Tests.genruntimeconfig.cache
 Tests\obj\Debug\net8.0\Tests.sourcelink.json
 Tests/bin/Debug/net8.0/GASLanguageProcessor.pdb
+GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.dll
+GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.exe
+GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.pdb

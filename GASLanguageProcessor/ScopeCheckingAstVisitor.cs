@@ -2,6 +2,7 @@
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -33,6 +34,38 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
         return true;
     }
 
+    public bool VisitList(List node)
+    {
+        node.Scope = scope;
+        var inScope = node.Expressions.Select(expr => expr.Accept(this));
+        return inScope.All(e => e);
+    }
+
+    public bool VisitAddToList(AddToList addToList)
+    {
+        addToList.Scope = scope;
+        var list = addToList.Expression.Accept(this);
+        return list;
+    }
+
+    public bool VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration)
+    {
+        scope = scope.EnterScope(collectionDeclaration);
+        scope.AddListMethods();
+        collectionDeclaration.Scope = scope;
+        var identifier = collectionDeclaration.Identifier.Name;
+        bool identifierIsInScope = scope.vTable.LookUp(identifier) != null;
+        if(identifierIsInScope)
+        {
+            errors.Add("Line: " + collectionDeclaration.LineNumber + " variable name: " + identifier + " Can not redeclare variable");
+            return false;
+        }
+        var expression = collectionDeclaration.Expression?.Accept(this);
+        scope.ParentScope?.vTable.Bind(identifier, new Variable(identifier, scope, collectionDeclaration.Expression));
+        scope = scope.ExitScope();
+        return expression ?? true;
+    }
+
     public bool VisitNumber(Number node)
     {
         node.Scope = scope;
@@ -41,13 +74,23 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitIfStatement(If node)
     {
-        node.Scope = scope;
         var condition = node.Condition.Accept(this);
         scope = scope.EnterScope(node);
+        node.Scope = scope;
         var statements = node.Statements?.Accept(this);
-        var elseStatements = node.Else?.Accept(this);
         scope = scope.ExitScope();
-        return condition && (statements ?? true) && (elseStatements ?? true);
+        var @else = node.Else;
+        if (@else is If @if)
+        {
+            @if.Accept(this);
+        }
+        else if (@else != null)
+        {
+            scope = scope.EnterScope(@else);
+            @else?.Accept(this);
+            scope = scope.ExitScope();
+        }
+        return condition && (statements ?? true);
     }
 
     public bool VisitBoolean(Boolean node)
@@ -59,16 +102,12 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitIdentifier(Identifier node)
     {
         node.Scope = scope;
-        bool identifierIsInScope = false;
-        try
-        {
-            identifierIsInScope = scope.vTable.LookUp(node.Name) != null;
-        }
-        catch (Exception e)
-        {
+        var var = scope?.vTable.LookUp(node.Name);
+        if(var == null){
             errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
+            return false;
         }
-        return identifierIsInScope;
+        return true;
     }
 
     public bool VisitCompound(Compound node)
@@ -83,6 +122,12 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     {
         node.Scope = scope;
         var identifier = node.Identifier.Name;
+        var var = scope.vTable.LookUp(identifier);
+        if (var == null)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " not found");
+            return false;
+        }
         var expression = node.Expression.Accept(this);
         return expression;
     }
@@ -98,7 +143,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             return false;
         }
         var expression = node.Expression?.Accept(this);
-        scope.vTable.Bind(identifier, new Variable(identifier, node.Expression));
+        scope.vTable.Bind(identifier, new Variable(identifier, node.Scope, node.Expression));
         return expression ?? true;
     }
 
@@ -141,7 +186,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     }
 
     public bool VisitUnaryOp(UnaryOp node)
-    {   
+    {
         node.Scope = scope;
         var expression = node.Expression?.Accept(this);
         var op = node.Op;
@@ -168,33 +213,65 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
             {
                 errors.Add("Line: " + decl.LineNumber + " Variable name: " + decl.Identifier.Name + " not found");
             }
-            return new Variable(decl.Identifier.Name, decl.Expression);
+            return new Variable(decl.Identifier.Name, scope, decl.Expression);
         }).ToList();
         var statements = functionDeclaration.Statements;
-        scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        try
+        {
+            scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, statements, scope));
+        }
+        catch (Exception e)
+        {
+            errors.Add("Line: " + functionDeclaration.LineNumber + " Function name: " + identifier + " already exists");
+            return false;
+        }
         scope = scope.ExitScope();
         return true;
     }
 
-    public bool VisitFunctionCall(FunctionCall functionCall)
+    public bool VisitFunctionCallStatement(FunctionCallStatement functionCallStatement)
     {
-        functionCall.Scope = scope;
-        var identifier = functionCall.Identifier.Name;
-        var function = scope.fTable.LookUp(identifier);
+        functionCallStatement.Scope = scope;
+        var functionAndIdentifier = scope.LookupMethod(functionCallStatement.Identifier, scope, scope, errors);
+        var identifier = functionAndIdentifier.Item1;
+        var function = functionAndIdentifier.Item2;
 
         if (function == null)
         {
-            errors.Add("Line: " + functionCall.LineNumber + " Function name: " + identifier + " not found");
+            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + identifier + " not found");
         }
 
         scope = function?.Scope;
-        var parameters = functionCall.Arguments.Select(expression => expression.Accept(this)).ToList();
+        var parameters = functionCallStatement.Arguments.Select(expression => expression.Accept(this)).ToList();
         if (parameters.Count != function?.Parameters.Count)
         {
-            errors.Add("Line: " + functionCall.LineNumber + " Function name: " + identifier + " has wrong number of arguments");
+            errors.Add("Line: " + functionCallStatement.LineNumber + " Function name: " + identifier.Name + " has wrong number of arguments");
         }
 
-        scope = functionCall.Scope;
+        scope = functionCallStatement.Scope;
+        return parameters.All(p => p);
+    }
+
+    public bool VisitFunctionCallTerm(FunctionCallTerm functionCallTerm)
+    {
+        functionCallTerm.Scope = scope;
+        var functionAndIdentifier = scope?.LookupMethod(functionCallTerm.Identifier, scope, scope, errors);
+        var identifier = functionAndIdentifier?.Item1;
+        var function = functionAndIdentifier?.Item2;
+
+        if (function == null)
+        {
+            errors.Add("Line: " + functionCallTerm.LineNumber + " Function name: " + identifier + " not found");
+        }
+
+        scope = function?.Scope;
+        var parameters = functionCallTerm.Arguments.Select(expression => expression.Accept(this)).ToList();
+        if (parameters.Count != function?.Parameters.Count)
+        {
+            errors.Add("Line: " + functionCallTerm.LineNumber + " Function name: " + identifier.Name + " has wrong number of arguments");
+        }
+
+        scope = functionCallTerm.Scope;
         return parameters.All(p => p);
     }
 

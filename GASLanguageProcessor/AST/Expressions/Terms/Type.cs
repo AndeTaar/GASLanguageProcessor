@@ -4,7 +4,7 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Type: Term
 {
-    public string Value { get; protected set; }
+    public string Value { get; set; }
 
     public Type(string value)
     {

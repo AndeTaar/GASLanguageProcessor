@@ -1,14 +1,12 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.AST.Terms;
-using GASLanguageProcessor.TableType;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Statements;
 
 public class Declaration : Statement
 {
-    public Type Type { get; protected set; }
+    public Type Type { get; set; }
     public Identifier Identifier { get; protected set; }
     public Expression? Expression { get; protected set; }
 

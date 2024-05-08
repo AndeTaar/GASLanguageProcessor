@@ -1,17 +1,18 @@
 grammar GAS;
 
 //Program
-program : canvas (statement)* ;
-canvas : 'canvas' '(' expression ',' expression ( ',' expression )? ')' ';';
+program : (statement)* canvas (statement)* ;
+canvas : 'canvas' '(' expression ',' expression ',' expression ')' ';';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | methodCall) ';';
-complexStatement:  whileStatement | collectionDeclaration | functionDeclaration | forStatement | classDeclaration | ifStatement;
+simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration) ';';
+complexStatement:  whileStatement | functionDeclaration | forStatement | classDeclaration | ifStatement;
 
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER '=' expression ;
+collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
+assignment : IDENTIFIER ('.' IDENTIFIER)* ('=' | '+=' | '-=' | '*=') expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -20,32 +21,27 @@ returnStatement : 'return' expression;
 classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
 functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
-//Collection types
-collectionDeclaration : 'list' '<' type '>' IDENTIFIER '=' ( 'list' '<' type '>' '(' ')')? ('{' (expression (',' expression)*)? '}')? ';';
-
 //Standard data types
-type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' |
-'list' | 'group' | 'string' | 'line' | 'segLine' | 'group' | 'T' | 'void' | 'ellipse';
+type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' | 'T' | 'void';
+collectionType : 'list' '<' type '>' | 'segLine' | 'group' | 'T' | 'void' | 'ellipse';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
 equalityExpression : relationExpression (('==' | '!=') (relationExpression | equalityExpression))? ;
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
 binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
-multExpression : notExpression (('*' | '/' | '%' ) (notExpression | multExpression))? ;
-notExpression : ('!' | '-')* listAccessExpression ;
+multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
+unaryExpression : ('!' | '-')* listAccessExpression ('++' | '--')*;
 listAccessExpression : term ('[' expression ']')?;
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | methodCall | groupTerm;
+term : IDENTIFIER ('.' IDENTIFIER)* | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+ functionCall | ALLSTRINGS | groupTerm;
 
-methodCall : IDENTIFIER '.' IDENTIFIER ('(' (expression (',' expression)*)? ')')?;
+listTerm : 'List' '{' (expression (',' expression)*)? '}';
+groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-listTerm : '{' (expression (',' expression)*)? '}';
-groupTerm : 'Group' '(' expression ',' '{' (statement (',' statement)*)? '}' ')';
-
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCall : IDENTIFIER ( '.' IDENTIFIER  )* '(' (expression (',' expression)*)? ')';
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
