@@ -7,7 +7,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
 
-public class EvaluateStatementDecleration
+public class EvaluateStatementDeclerationAssignment
 {
     [Fact]
     public void PassEvaluateStatementDecleration()

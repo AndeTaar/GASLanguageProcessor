@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
@@ -12,18 +13,21 @@ public class EvaluateExpressionUnaryOp
     [Fact]
     public void PassEvaluateExpressionUnaryOpNegation()
     {
+        var typeCheckingVisitor = new TypeCheckingAstVisitor();
+        var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
         var interpreter = new Interpreter();
-        var ast = SharedTesting.GenerateAst("canvas (-125, -50, Color(255, 255, 255, 1))") as Statement;
+        var ast = SharedTesting.GenerateAst("canvas (-125, -50, Color(255, 255, 255, 1));number x = 20; number y = -x") as Compound;
         var scope = new Scope(null, null);
         scope.vTable.Bind("canvas", new Variable("canvas", GasType.Canvas));
-        var expected = new FinalCanvas(-125, -50, new FinalColor(255, 255, 255, 1));
-        var result = interpreter.EvaluateStatement(ast, scope) as FinalCanvas;
+        scope.vTable.Bind("x", new Variable("x", GasType.Number));
+        scope.vTable.Bind("y", new Variable("y", GasType.Number));
+        ast.Accept(scopeCheckingVisitor);
+        ast.Accept(typeCheckingVisitor);
+        var compound = ast.Statement2 as Compound;
+        var result = interpreter.EvaluateStatement(compound.Statement2, scope);
         
         Assert.NotNull(result);
-        Assert.IsType<FinalCanvas>(result);
-        Assert.IsType<FinalCanvas>(expected);
-        Assert.Equal(expected.Height, result.Height);
-        Assert.Equal(expected.Width, result.Width);
+        Assert.Equal((float)-20, result);
     }
     
     [Fact]

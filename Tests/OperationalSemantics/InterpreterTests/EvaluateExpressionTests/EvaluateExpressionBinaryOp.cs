@@ -31,20 +31,19 @@ public class EvaluateExpressionBinaryOp
     [Fact]
     public void PassEvaluateExpressionBinaryOpPlusString() //Unfinished test since string concatenation is not implemented correctly
     {
-        var visitor = new ToAstVisitor();
+        var typeCheckingVisitor = new TypeCheckingAstVisitor();
+        var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
         var interpreter = new Interpreter();
-        var inputStream = new AntlrInputStream(
-            "\"Hello\" + \"World\"");
-        var lexer = new GASLexer(inputStream);
-        var tokenStream = new CommonTokenStream(lexer);
-        var parser = new GASParser(tokenStream);
-        var expression = visitor.VisitExpression(parser.expression()) as Expression;
+        var ast = SharedTesting.GenerateAst("canvas (250,250,Color(255,255,255,1));string Hello = \"Hello\" + \" \" + \"World\";") as Compound;
         var scope = new Scope(null, null);
-        var result = interpreter.EvaluateExpression(expression, scope);
-
-
+        scope.vTable.Bind("canvas", new Variable("canvas", GasType.Canvas));
+        scope.vTable.Bind("Hello", new Variable("Hello", GasType.String));
+        ast.Accept(scopeCheckingVisitor);
+        ast.Accept(typeCheckingVisitor);
+        var result = interpreter.EvaluateStatement(ast.Statement2, scope);
+        
         Assert.NotNull(result);
-        Assert.IsType<String>(result);
+        Assert.IsType<string>(result);
         Assert.Equal("Hello World", result);
     }
     

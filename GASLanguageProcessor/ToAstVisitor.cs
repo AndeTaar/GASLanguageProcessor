@@ -181,7 +181,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
+        var arguments = context.expression().Select(expr => expr.Accept(this) as Expression).ToList();
         return new FunctionCall(identifier, arguments) {LineNumber = context.Start.Line};
     }
 

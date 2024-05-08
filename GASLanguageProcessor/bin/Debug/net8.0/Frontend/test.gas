@@ -30,7 +30,7 @@ for(number i = 0; x < 10; x = x + 1)
 
 bool GetBool()
 {
-   return true;
+   return !false;
 }
 
 group mouse = Group(Point(125, 80),
@@ -55,6 +55,8 @@ group mouse = Group(Point(125, 80),
 
 color reds = Color(255, 0, 0, 1);
 point xy = Point(0, 0);
+
+bool qtahf = GetBool();
 
 number start = 180;
 rectangle rectangle1 = Rectangle(Point(20, start), Point(230, start+30), 2, white, black);
