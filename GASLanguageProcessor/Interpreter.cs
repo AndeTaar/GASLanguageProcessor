@@ -36,7 +36,7 @@ public class Interpreter
                 EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
                 EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
                 return null;
-            
+
             // Currently allows infinite loops.
             case For @for:
                 EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
@@ -49,7 +49,7 @@ public class Interpreter
                 }
 
                 return null;
-            
+
             // Currently allows infinite loops.
             case While @while:
                 var whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
@@ -140,17 +140,6 @@ public class Interpreter
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
 
-            case AddToList addToList:
-                var listVariable = scope.vTable.LookUp("list");
-                if (listVariable == null)
-                {
-                    throw new Exception("List variable not found");
-                }
-                var list = (List<object>) listVariable.ActualValue;
-                list.Add(EvaluateExpression(addToList.Expression, scope));
-                return null;
-
-           
             case UnaryOp unaryOp:
                 var unaryOpExpression = EvaluateExpression(unaryOp.Expression, scope);
                 return unaryOp.Op switch
@@ -159,7 +148,7 @@ public class Interpreter
                     "!" => !(bool) unaryOpExpression,
                     _ => throw new NotImplementedException()
                 };
-            
+
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, scope);
                 var right = EvaluateExpression(binaryOp.Right, scope);

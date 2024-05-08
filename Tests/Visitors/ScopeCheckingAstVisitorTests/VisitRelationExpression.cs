@@ -9,10 +9,10 @@ public class VisitRelationExpression
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "if (x == 10) { " +
+            "if (10 == 10) { " +
             "   number x = 1; " +
             "}" +
-            "else if (x != 10) { " +
+            "else if (10 != 10) { " +
             "   number x = 1; " +
             "} else { " +
             "   number x = 1; " +

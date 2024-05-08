@@ -9,7 +9,6 @@ public class VisitNotExpression
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
             "if (!true) { " +
             "   number x = 1; " +
             "}" +

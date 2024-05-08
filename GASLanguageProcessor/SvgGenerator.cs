@@ -46,6 +46,7 @@ public class SvgGenerator
         case FinalSquare square:
             SvgLines.Add($"<rect id=\"{variable?.Identifier}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColor.ColorToString()}\" fill-opacity=\"{square.FillColor.Alpha}\" stroke=\"{square.StrokeColor.ColorToString()}\" stroke-width=\"{square.Stroke}\" />");
             break;
+
         case FinalGroup group:
             SvgLines.Add($"<g id=\"{variable?.Identifier}\" transform=\"translate({group.Point.X}, {group.Point.Y})\">");
             GenerateSvg(group.Scope.vTable);

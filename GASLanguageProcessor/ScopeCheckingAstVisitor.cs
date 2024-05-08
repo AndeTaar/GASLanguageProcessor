@@ -74,13 +74,23 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
 
     public bool VisitIfStatement(If node)
     {
-        node.Scope = scope;
         var condition = node.Condition.Accept(this);
         scope = scope.EnterScope(node);
+        node.Scope = scope;
         var statements = node.Statements?.Accept(this);
-        var elseStatements = node.Else?.Accept(this);
         scope = scope.ExitScope();
-        return condition && (statements ?? true) && (elseStatements ?? true);
+        var @else = node.Else;
+        if (@else is If @if)
+        {
+            @if.Accept(this);
+        }
+        else if (@else != null)
+        {
+            scope = scope.EnterScope(@else);
+            @else?.Accept(this);
+            scope = scope.ExitScope();
+        }
+        return condition && (statements ?? true);
     }
 
     public bool VisitBoolean(Boolean node)
@@ -92,7 +102,7 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitIdentifier(Identifier node)
     {
         node.Scope = scope;
-        var var = scope.vTable.LookUp(node.Name);
+        var var = scope?.vTable.LookUp(node.Name);
         if(var == null){
             errors.Add("Line: " + node.LineNumber + " Variable name: " + node.Name + " not found");
             return false;
@@ -245,9 +255,9 @@ public class ScopeCheckingAstVisitor: IAstVisitor<bool>
     public bool VisitFunctionCallTerm(FunctionCallTerm functionCallTerm)
     {
         functionCallTerm.Scope = scope;
-        var functionAndIdentifier = scope.LookupMethod(functionCallTerm.Identifier, scope, scope, errors);
-        var identifier = functionAndIdentifier.Item1;
-        var function = functionAndIdentifier.Item2;
+        var functionAndIdentifier = scope?.LookupMethod(functionCallTerm.Identifier, scope, scope, errors);
+        var identifier = functionAndIdentifier?.Item1;
+        var function = functionAndIdentifier?.Item2;
 
         if (function == null)
         {
