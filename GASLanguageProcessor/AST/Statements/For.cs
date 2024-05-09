@@ -27,8 +27,8 @@ public class For : Statement
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitFor(this);
+        return visitor.VisitFor(this, scope);
     }
 }

@@ -1,3 +1,5 @@
+using GASLanguageProcessor.TableType;
+
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Ellipse: Term
@@ -19,8 +21,8 @@ public class Ellipse: Term
         BorderColor = borderColor;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitEllipse(this);
+        return visitor.VisitEllipse(this, scope);
     }
 }

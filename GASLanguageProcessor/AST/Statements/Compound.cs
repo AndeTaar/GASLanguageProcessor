@@ -13,8 +13,8 @@ public class Compound : Statement
         Statement2 = statement2;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitCompound(this);
+        return visitor.VisitCompound(this, scope);
     }
 }

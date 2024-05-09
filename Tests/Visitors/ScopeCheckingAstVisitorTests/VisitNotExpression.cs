@@ -1,4 +1,5 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
 namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
 
@@ -18,8 +19,8 @@ public class VisitNotExpression
             "   number x = 1; " +
             "}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -32,8 +33,8 @@ public class VisitNotExpression
             "bool y = !true;" +
             "bool i = !!1;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 }

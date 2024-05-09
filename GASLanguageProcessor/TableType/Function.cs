@@ -9,11 +9,12 @@ public class Function
     public Statement Statements { get; protected set; }
     public Scope Scope { get; set; }
 
-    public Function(List<Variable> parameters, Statement statements, Scope scope)
+    public Function(List<Variable> parameters, GasType returnType, Statement statements, Scope scope)
     {
         Parameters = parameters;
         Statements = statements;
         Scope = scope;
+        ReturnType = returnType;
     }
 
     public Function(GasType gasType, List<Variable> parameters, Statement statements, Scope scope)

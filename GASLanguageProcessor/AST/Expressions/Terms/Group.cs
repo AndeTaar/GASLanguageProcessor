@@ -15,8 +15,8 @@ public class Group: Term
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitGroup(this);
+        return visitor.VisitGroup(this, scope);
     }
 }

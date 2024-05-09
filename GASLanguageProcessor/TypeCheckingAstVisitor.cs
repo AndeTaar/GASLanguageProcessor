@@ -8,7 +8,7 @@ using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor;
-
+/**
 public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 {
     public List<string> errors = new();
@@ -16,8 +16,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     public GasType VisitBinaryOp(BinaryOp node)
     {
         var @operator = node.Op;
-        var left = node.Left.Accept(this);
-        var right = node.Right.Accept(this);
+        var left = node.Left.Accept(this, scope);
+        var right = node.Right.Accept(this, scope);
 
         switch (@operator)
         {
@@ -87,8 +87,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitGroup(Group node)
     {
-        node.Statements.Accept(this);
-        var point = node.Point.Accept(this);
+        node.Statements.Accept(this, scope);
+        var point = node.Point.Accept(this, scope);
 
         if (point != GasType.Point)
         {
@@ -122,9 +122,9 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration)
     {
-        var type = collectionDeclaration.Type.Accept(this);
+        var type = collectionDeclaration.Type.Accept(this, scope);
         var identifier = collectionDeclaration.Identifier.Name;
-        var expression = collectionDeclaration.Expression?.Accept(this);
+        var expression = collectionDeclaration.Expression?.Accept(this, scope);
 
         if (type != expression && expression != null)
         {
@@ -147,9 +147,9 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitIfStatement(If node)
     {
-        var condition = node.Condition.Accept(this);
-        node.Statements?.Accept(this);
-        node.Else?.Accept(this);
+        var condition = node.Condition.Accept(this, scope);
+        node.Statements?.Accept(this, scope);
+        node.Else?.Accept(this, scope);
 
         if (condition != GasType.Boolean)
         {
@@ -183,8 +183,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitCompound(Compound node)
     {
-        var left = node.Statement1?.Accept(this);
-        var right = node.Statement2?.Accept(this);
+        var left = node.Statement1?.Accept(this, scope);
+        var right = node.Statement2?.Accept(this, scope);
 
         return GasType.Error;
     }
@@ -193,7 +193,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     {
         var scope = node.Scope;
         var identifier = node.Identifier.Name;
-        var type = node.Expression.Accept(this);
+        var type = node.Expression.Accept(this, scope);
 
         var variable = scope.vTable.LookUp(identifier);
 
@@ -216,9 +216,9 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     {
         var scope = node.Scope;
         var identifier = node.Identifier.Name;
-        var type = node.Type.Accept(this);
+        var type = node.Type.Accept(this, scope);
         var value = node.Expression;
-        var typeOfValue = value?.Accept(this);
+        var typeOfValue = value?.Accept(this, scope);
         if (type != typeOfValue && typeOfValue != null)
         {
             errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier + " expected: " + type + " got: " + typeOfValue);
@@ -231,8 +231,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitCanvas(Canvas node)
     {
-        var width = node.Width.Accept(this);
-        var height = node.Height.Accept(this);
+        var width = node.Width.Accept(this, scope);
+        var height = node.Height.Accept(this, scope);
 
         if (width != GasType.Number)
         {
@@ -246,7 +246,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var backgroundColorType = node.BackgroundColor?.Accept(this);
+        var backgroundColorType = node.BackgroundColor?.Accept(this, scope);
 
         if (backgroundColorType != GasType.Color && backgroundColorType != null)
         {
@@ -259,8 +259,8 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitWhile(While node)
     {
-        var condition = node.Condition.Accept(this);
-        node.Statements?.Accept(this);
+        var condition = node.Condition.Accept(this, scope);
+        node.Statements?.Accept(this, scope);
 
         if (condition != GasType.Boolean)
         {
@@ -273,10 +273,10 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitFor(For node)
     {
-        var assignment = node.Assignment?.Accept(this);
-        var declaration = node.Declaration?.Accept(this);
-        var condition = node.Condition.Accept(this);
-        node.Statements?.Accept(this);
+        var assignment = node.Assignment?.Accept(this, scope);
+        var declaration = node.Declaration?.Accept(this, scope);
+        var condition = node.Condition.Accept(this, scope);
+        node.Statements?.Accept(this, scope);
 
         if(assignment != GasType.Number && declaration != GasType.Number)
         {
@@ -300,7 +300,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitUnaryOp(UnaryOp node)
     {
-        var expression = node.Expression?.Accept(this);
+        var expression = node.Expression?.Accept(this, scope);
         var op = node.Op;
 
         switch (op)
@@ -371,7 +371,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
     public GasType VisitFunctionDeclaration(FunctionDeclaration functionDeclaration)
     {
         var scope = functionDeclaration.Scope;
-        var returnType = functionDeclaration.ReturnType.Accept(this);
+        var returnType = functionDeclaration.ReturnType.Accept(this, scope);
         var identifier = functionDeclaration.Identifier.Name;
         var function = scope.fTable.LookUp(identifier);
 
@@ -451,7 +451,7 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitReturn(Return @return)
     {
-        return @return.Expression.Accept(this);
+        return @return.Expression.Accept(this, scope);
     }
 
     public GasType VisitNull(Null @null)
@@ -509,3 +509,4 @@ public class TypeCheckingAstVisitor: IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 }
+*/

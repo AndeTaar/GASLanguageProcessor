@@ -29,7 +29,7 @@ list<circle> circles;
 
 for(number i = 0; i < 10; i = i + 1)
 {
-    circles.add(CircleCreator(Point(50, 10), 40, 10, red, black));
+    circles.add(CircleCreator(Point(50, 10), 40+i, 10, red, black));
 }
 
 for(number i = 0; x < 10; x = x + 1)

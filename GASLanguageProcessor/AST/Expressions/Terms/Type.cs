@@ -11,8 +11,8 @@ public class Type: Term
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitType(this);
+        return visitor.VisitType(this, scope);
     }
 }

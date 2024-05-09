@@ -1,4 +1,5 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
 namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
 
@@ -13,8 +14,8 @@ public class VisitForStatement
             "number x = i;" +
             "}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -27,8 +28,8 @@ public class VisitForStatement
             "number x = i;" +
             "}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -45,8 +46,8 @@ public class VisitForStatement
                 "circle circle1 = Circle(Point(50, 10), 40+i, 10, red, black);" +
                 "}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -57,8 +58,8 @@ public class VisitForStatement
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "for (i = 0; i < 10; i = i + 1) { number i = 1; }"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -69,8 +70,8 @@ public class VisitForStatement
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "for (number i = 0; x < 10; i = i + 1) { number x; }"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -81,8 +82,8 @@ public class VisitForStatement
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "for (number i = 0; i < 10; i = x + 1) { x = 1; }"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 }

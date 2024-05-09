@@ -1,4 +1,6 @@
 
+using GASLanguageProcessor.TableType;
+
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class AddToList: Term
@@ -10,8 +12,8 @@ public class AddToList: Term
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitAddToList(this);
+        return visitor.VisitAddToList(this, scope);
     }
 }

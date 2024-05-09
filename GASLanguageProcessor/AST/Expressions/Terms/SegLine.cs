@@ -19,8 +19,8 @@ public class SegLine : Term
         Color = color;
     }
     
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitSegLine(this);
+        return visitor.VisitSegLine(this, scope);
     }
 }

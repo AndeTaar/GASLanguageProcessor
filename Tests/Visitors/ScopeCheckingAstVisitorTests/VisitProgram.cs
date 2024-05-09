@@ -1,4 +1,5 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
 namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
 
@@ -32,8 +33,8 @@ public class VisitProgram
         "       });\n" +
             "});\n"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 }
