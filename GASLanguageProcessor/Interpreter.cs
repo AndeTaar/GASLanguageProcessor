@@ -301,6 +301,17 @@ public class Interpreter
                 EvaluateStatement(group.Statements, group.Scope ?? scope);
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
             
+            case AddToList addToList:
+                var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+                
+                if (listVariable == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
+                if (listVariable.ActualValue == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} has no value");
+                if (listVariable.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
+                
+                var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
+                destList.Values.Add(valueToAdd);
+                return new FinalList(destList.Values, destList.Scope ?? scope);
+            
             case List list:
                 var values = new List<object>();
                 foreach (var expr in list.Expressions)
