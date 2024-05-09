@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Evaluator\" />
+      <Folder Include="OperationalSemantics\" />
     </ItemGroup>
 
     <ItemGroup>

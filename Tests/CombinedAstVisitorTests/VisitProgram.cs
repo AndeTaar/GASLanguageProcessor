@@ -1,7 +1,7 @@
 using GASLanguageProcessor;
 using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitProgram
 {
@@ -12,7 +12,7 @@ public class VisitProgram
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));\n" +
             "number l1 = 10;\n" +
             "bool y1 = !true;\n" +
-            "bool i1 = !!1;\n" +
+            "bool i1 = !!false;\n" +
             "if (true) { \n" +
             "   number x = 1; \n" +
             "}\n" +

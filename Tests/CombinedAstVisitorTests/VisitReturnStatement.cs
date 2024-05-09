@@ -1,7 +1,7 @@
 using GASLanguageProcessor;
 using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitReturnStatement
 {

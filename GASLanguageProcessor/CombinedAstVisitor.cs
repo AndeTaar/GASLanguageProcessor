@@ -289,6 +289,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Group;
             case "ellipse":
                 return GasType.Ellipse;
+            case "void":
+                return GasType.Void;
         }
         errors.Add(node.Value + " Not implemented");
         return GasType.Error;
@@ -366,6 +368,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         if (parameters.Count != function?.Parameters.Count)
         {
             errors.Add("Line: " + node.LineNumber + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong number of arguments");
+            return GasType.Error;
         }
 
         for (int i = 0; i < function?.Parameters.Count; i++)

@@ -1,17 +1,19 @@
 using GASLanguageProcessor;
 using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
-public class VisitEqualityExpression
+public class VisitWhileStatement
 {
     [Fact]
-    public void VisitPassVisitEqualityExpression()
+    public void VisitPassVisitWhileStatement()
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 1;" +
-            "if (x == 1) {}"
+            "number x = 10;" +
+            "while (x < 10) { " +
+            "   x = x + 1; " +
+            "}"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
@@ -19,15 +21,17 @@ public class VisitEqualityExpression
     }
 
     [Fact]
-    public void VisitFailVisitEqualityExpression()
+    public void VisitFailVisitWhileStatement()
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "if (x == 1) {}"
+            "number x = 10;" +
+            "while (y < 10) { " +
+            "   x = x + 1; " +
+            "}"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
-
 }
