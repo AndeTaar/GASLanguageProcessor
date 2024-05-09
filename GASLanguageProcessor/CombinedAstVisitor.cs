@@ -39,21 +39,6 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitAddToList(AddToList addToList, Scope scope)
     {
-        /*addToList.Scope = scope;
-        var list = addToList.ListIdentifier.Accept(this, scope);
-        var value = addToList.Value.Accept(this, scope);
-        
-        if (list != GasType.List)
-        {
-            errors.Add("Invalid type for list: expected: List, got: " + list);
-            return GasType.Error;
-        }
-        
-        var destinationList = scope.LookupAttribute(addToList.ListIdentifier, scope, scope, errors);
-        var listValue = (List) destinationList.FormalValue;
-        listValue.Expressions.Add(addToList.Value);
-        
-        return list;*/
         throw new NotImplementedException();
     }
 
