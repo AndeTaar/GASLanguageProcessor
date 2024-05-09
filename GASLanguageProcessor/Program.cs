@@ -35,7 +35,6 @@ static void Main(string[] args)
     {
         return;
     }
-    ast.Accept(combinedAstVisitor, new Scope(null, null));
     combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
     if(combinedAstVisitor.errors.Count > 0)
     {

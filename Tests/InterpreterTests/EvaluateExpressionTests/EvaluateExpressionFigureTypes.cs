@@ -80,7 +80,7 @@ public class EvaluateExpressionFigureTypes
         Assert.Equal(expected.RadiusX, result.RadiusX);
         Assert.Equal(expected.RadiusY, result.RadiusY);
         Assert.IsType<FinalColor>(result.Color);
-        Assert.IsType<FinalColor>(result.BorderColor);
+        Assert.IsType<FinalColor>(result.StrokeColor);
         Assert.Equal(expected.Stroke, result.Stroke);
     }
 

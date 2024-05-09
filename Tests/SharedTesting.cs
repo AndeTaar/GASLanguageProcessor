@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Statements;
@@ -37,6 +38,15 @@ public static class SharedTesting
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, scope);
         return scope;
+    }
+    
+    public static ArrayList<string> GetSvgLines(string input)
+    {
+        var scope = GetInterpretedScope(input);
+        var svgGenerator = new SvgGenerator();
+        var lines = svgGenerator.GenerateSvg(scope.vTable);
+        lines.Add("</svg>");
+        return lines;
     }
 
     public static AstNode FindFirstNodeType(AstNode ast, Type type)
