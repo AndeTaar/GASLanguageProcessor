@@ -3,6 +3,7 @@ using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
+using GASLanguageProcessor.TableType;
 
 namespace Tests;
 
@@ -25,6 +26,17 @@ public static class SharedTesting
         var context = parser.program();
         Assert.Empty(errorListener.Errors);
         return context.Accept(new ToAstVisitor());
+    }
+
+    public static Scope GetInterpretedScope(string input)
+    {
+        var ast = GetAst(input);
+        var combinedAstVisitor = new CombinedAstVisitor();
+        var scope = new Scope(null, null);
+        ast.Accept(combinedAstVisitor, scope);
+        var interpreter = new Interpreter();
+        interpreter.EvaluateStatement(ast as Statement, scope);
+        return scope;
     }
 
     public static AstNode FindFirstNodeType(AstNode ast, Type type)

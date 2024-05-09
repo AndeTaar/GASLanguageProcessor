@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -214,6 +215,9 @@ public class Interpreter
 
             case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
                 return float.Parse(number.Value, CultureInfo.InvariantCulture);
+            
+            case Boolean boolean:
+                return bool.Parse(boolean.Value);
 
             case String stringTerm:
                 return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
