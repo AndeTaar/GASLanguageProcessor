@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -194,16 +195,11 @@ public class Interpreter
                     throw new Exception("Scope, VariableTable, Identifier or Identifier Name is null");
                 }
 
-                var variable = scope.vTable.LookUp(identifier.Name);
+                var variable = scope.LookupAttribute(identifier, scope, scope, new List<string>());
 
                 if (variable == null)
                 {
                     throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
-                }
-
-                if(variable.FormalValue == null && variable.ActualValue == null)
-                {
-                    throw new Exception($"Variable {identifier.Name} has no value");
                 }
 
                 if (variable.ActualValue != null)
@@ -214,6 +210,9 @@ public class Interpreter
 
             case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
                 return float.Parse(number.Value, CultureInfo.InvariantCulture);
+
+            case Boolean boolean:
+                return bool.Parse(boolean.Value);
 
             case String stringTerm:
                 return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
@@ -242,10 +241,10 @@ public class Interpreter
                 var ellipseCentre = (FinalPoint) EvaluateExpression(ellipse.Center, scope);
                 var ellipseRadiusX = (float) EvaluateExpression(ellipse.RadiusX, scope);
                 var ellipseRadiusY = (float) EvaluateExpression(ellipse.RadiusY, scope);
-                var ellipseFillColor = (FinalColor) EvaluateExpression(ellipse.Color, scope);
-                var ellipseBorderColor = (FinalColor) EvaluateExpression(ellipse.BorderColor, scope);
                 var ellipseStroke = (float) EvaluateExpression(ellipse.Stroke, scope);
-                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor, ellipseBorderColor);
+                var ellipseFillColor = (FinalColor) EvaluateExpression(ellipse.Color, scope);
+                var ellipseStrokeColor = (FinalColor) EvaluateExpression(ellipse.StrokeColor, scope);
+                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor, ellipseStrokeColor);
 
             case Text text:
                 var value = (string) EvaluateExpression(text.Value, scope);
@@ -296,6 +295,28 @@ public class Interpreter
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
                 EvaluateStatement(group.Statements, group.Scope ?? scope);
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
+
+            case AddToList addToList:
+                var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+
+                if (listVariable == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
+                if (listVariable.ActualValue == null)
+                {
+                    listVariable.ActualValue = new FinalList(new List<object>(), scope);
+                }
+                if (listVariable.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
+
+                var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
+                destList.Values.Add(valueToAdd);
+                return null;
+
+            case List list:
+                var values = new List<object>();
+                foreach (var expr in list.Expressions)
+                {
+                    values.Add(EvaluateExpression(expr, list.Scope ?? scope));
+                }
+                return new FinalList(values, list.Scope ?? scope);
         }
 
         return null;

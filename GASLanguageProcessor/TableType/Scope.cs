@@ -155,15 +155,24 @@ public class Scope
                 new Variable("yRadius", this, GasType.Number),
                 new Variable("stroke", this, GasType.Number),
                 new Variable("color", this, GasType.Color),
-                new Variable("borderColor", this, GasType.Color)
+                new Variable("strokeColor", this, GasType.Color)
             }, new Return(new Ellipse(
                 new Identifier("center"),
                 new Identifier("xRadius"),
                 new Identifier("yRadius"),
                 new Identifier("stroke"),
                 new Identifier("color"),
-                new Identifier("borderColor")
+                new Identifier("strokeColor")
             )), new Scope(this, null)));
+            
+            fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
+            {
+                new Variable("value", this, GasType.Any),
+                new Variable("list", this, GasType.Any)
+            }, new Return(new AddToList(
+                new Identifier("value"),
+                new Identifier("list")
+                )), new Scope(this, null)));
         }
     }
 
@@ -179,44 +188,34 @@ public class Scope
         return ParentScope ?? throw new Exception("Cannot exit global scope");;
     }
 
-    public void AddListMethods()
-    {
-        this.fTable.Bind("add", new Function(GasType.Void, new List<Variable>()
-        {
-            new Variable("value", this, GasType.Any)
-        }, new Return(new AddToList(new Identifier("value"))), new Scope(this, null)));
-    }
-
-    public bool LookupAttribute(Identifier identifier, Scope scope, Scope globalScope, List<string> errors)
+    public Variable? LookupAttribute(Identifier identifier, Scope scope, Scope globalScope, List<string> errors)
     {
         if (identifier.ChildAttribute == null)
         {
-            var ident = scope.vTable.LookUp(identifier.Name);
-            if (ident == null)
+            var var = scope.vTable.LookUp(identifier.Name);
+            if (var == null)
             {
-                errors.Add("Line: " + identifier.LineNumber + " Variable name: " + identifier.Name + " not found");
-                return false;
+                return null;
             }
-            return true;
+            return var;
         }
         var variable = scope?.vTable.LookUp(identifier.Name);
         if (variable == null)
         {
             errors.Add("Line: " + identifier.LineNumber + " variable name: " + identifier.Name + " not found");
-            return false;
+            return null;
         }
 
         return LookupAttribute(identifier.ChildAttribute, variable.FormalValue.Scope ?? globalScope, globalScope, errors);
     }
 
-    public (Identifier, Function) LookupMethod(Identifier identifier, Scope localScope, Scope globalScope, List<string> errors)
+    public (Identifier, Function?) LookupMethod(Identifier identifier, Scope localScope, Scope globalScope, List<string> errors)
     {
         if (identifier.ChildAttribute == null)
         {
             var function = localScope?.fTable.LookUp(identifier.Name);
             if (function == null)
             {
-                errors.Add("Line: " + identifier.LineNumber + " Method name: " + identifier.Name + " not found");
                 return (identifier, null);
             }
             return (identifier, function);
@@ -224,7 +223,6 @@ public class Scope
         var variable = globalScope.vTable.LookUp(identifier.Name);
         if (variable == null)
         {
-            errors.Add("Line: " + identifier.LineNumber + " Attribute name: " + identifier.Name + " not found");
             return (identifier, null);
         }
 

@@ -18,11 +18,6 @@ public class VariableTable
         Variables.Add(key, value);
     }
 
-    public void SetType(string key, GasType type)
-    {
-        Variables[key].Type = type;
-    }
-
     public Variable? LookUp(string key)
     {
         if (Variables.ContainsKey(key))

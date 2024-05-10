@@ -7,15 +7,15 @@ public class FinalEllipse
     public float RadiusY { get; set; }
     public float Stroke { get; set; }
     public FinalColor Color { get; set; }
-    public FinalColor? BorderColor { get; set; }
-
-    public FinalEllipse(FinalPoint center, float radiusX, float radiusY,  float stroke, FinalColor color, FinalColor? borderColor)
+    public FinalColor? StrokeColor { get; set; }
+    
+    public FinalEllipse(FinalPoint center, float radiusX, float radiusY, float stroke, FinalColor color, FinalColor? strokeColor)
     {
         Center = center;
         RadiusX = radiusX;
         RadiusY = radiusY;
         Stroke = stroke;
         Color = color;
-        BorderColor = borderColor;
+        StrokeColor = strokeColor;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.TableType;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Statements;
@@ -17,8 +18,8 @@ public class Declaration : Statement
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitDeclaration(this);
+        return visitor.VisitDeclaration(this, scope);
     }
 }

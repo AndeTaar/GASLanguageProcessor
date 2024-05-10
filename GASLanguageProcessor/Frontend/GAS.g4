@@ -22,8 +22,9 @@ classDeclaration : 'class' IDENTIFIER '{' (statement)* '}';
 functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
 //Standard data types
-type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' | 'T' | 'void';
-collectionType : 'list' '<' type '>' | 'segLine' | 'group' | 'T' | 'void' | 'ellipse';
+type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
+ 'T' | 'void' | 'segLine' | 'ellipse';
+collectionType : 'list' '<' type '>' | 'group' | 'T' | 'void';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;

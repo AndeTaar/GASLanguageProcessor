@@ -8,8 +8,8 @@ public class Skip : Statement
     {
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitSkip(this);
+        return visitor.VisitSkip(this, scope);
     }
 }

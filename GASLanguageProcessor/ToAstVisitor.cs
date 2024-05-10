@@ -119,7 +119,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var type = context.type()?.Accept(this) as Type;
-        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
+        Identifier identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNumber = context.Start.Line};
 
         Expression value = context.expression()?.Accept(this) as Expression;
 
@@ -207,7 +207,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
             var type = typeNode.Accept(this) as Type;
-            var identif = new Identifier(identifierNode.GetText());
+            var identif = new Identifier(identifierNode.GetText()) {LineNumber = context.Start.Line};
             return new Declaration(type, identif, null) {LineNumber = context.Start.Line};
         }).ToList();
 

@@ -38,7 +38,7 @@ public class SvgGenerator
             SvgLines.Add($"<line id=\"{variable?.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColor.ColorToString()}\" stroke-width=\"{segLine.Stroke}\" />");
             break;
         case FinalEllipse ellipse:
-            SvgLines.Add($"<ellipse id=\"{variable?.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.BorderColor.ColorToString()}\" stroke-width=\"{ellipse.Stroke}\" />");
+            SvgLines.Add($"<ellipse id=\"{variable?.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.StrokeColor.ColorToString()}\" stroke-width=\"{ellipse.Stroke}\" />");
             break;
         case FinalText text:
             SvgLines.Add($"<text id=\"{variable?.Identifier}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColor.ColorToString()}\" font-family=\"{text.Font}\" font-size=\"{text.FontSize}\">{text.Text}</text>");

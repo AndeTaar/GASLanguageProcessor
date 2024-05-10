@@ -1,6 +1,7 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitTerm
 {
@@ -12,8 +13,8 @@ public class VisitTerm
             "number x = 10;" +
             "number y = x * 10;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -25,8 +26,8 @@ public class VisitTerm
             "number x = 10;" +
             "number y = x / 10;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 }

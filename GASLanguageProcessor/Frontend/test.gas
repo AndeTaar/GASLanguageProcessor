@@ -25,11 +25,17 @@ color red = Color(255, 0, 0, 1);
 color pink = Color(255, 100, 100, 1);
 color black = Color(0, 0, 0, 1);
 
-list<circle> circles;
+list<circle> circles = List {
+    Circle(Point(0, 0), 1, 1, red, black)
+};
+
+AddToList(CircleCreator(Point(50, 10), 33, 10, red, black), circles);
+AddToList(CircleCreator(Point(100, 10), 36, 10, pink, white), circles);
+AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circles);
 
 for(number i = 0; i < 10; i = i + 1)
 {
-    circles.add(CircleCreator(Point(50, 10), 40, 10, red, black));
+    AddToList(CircleCreator(Point(50+i*10, 10), 40, 10, red, black), circles);
 }
 
 for(number i = 0; x < 10; x = x + 1)
@@ -79,3 +85,8 @@ line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
 string j = "a" + "b" + "c";
 bool k = true == false != true;
 bool l = 5<3 || 5>3 && 5<=5;
+
+list<circle> circles2 = List {
+    CircleCreator(Point(50, 10), 40, 10, red, black), 
+    CircleCreator(Point(220, 120), 40, 10, red, black)
+};

@@ -18,27 +18,6 @@ public class FunctionTable
         Functions.Add(key, value);
     }
 
-    public void SetReturnType(string key, GasType type)
-    {
-        if (Functions.ContainsKey(key))
-        {
-            Functions[key].ReturnType = type;
-        }
-        Scope.ParentScope?.fTable.SetReturnType(key, type);
-    }
-
-    public void SetParameterTypes(string key, List<GasType> parameters)
-    {
-        if (Functions.ContainsKey(key))
-        {
-            for (int i = 0; i < Functions[key].Parameters.Count; i++)
-            {
-                Functions[key].Parameters[i].Type = parameters[i];
-            }
-        }
-        Scope.ParentScope?.fTable.SetParameterTypes(key, parameters);
-    }
-
     public Function? LookUp(string key)
     {
         if (Functions.ContainsKey(key))

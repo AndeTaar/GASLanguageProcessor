@@ -27,24 +27,23 @@ static void Main(string[] args)
     var parseTree = parser.program();
     errorListener.StopIfErrors();
     AstNode ast = parseTree.Accept(new ToAstVisitor());
-    var typeCheckingVisitor = new TypeCheckingAstVisitor();
-    var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
-    ast.Accept(scopeCheckingVisitor);
-    scopeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
-    if(scopeCheckingVisitor.errors.Count > 0)
+    var combinedAstVisitor = new CombinedAstVisitor();
+    var scope = new Scope(null, null);
+    ast.Accept(combinedAstVisitor, scope);
+    combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(combinedAstVisitor.errors.Count > 0)
     {
         return;
     }
-    ast.Accept(typeCheckingVisitor);
-    typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
-    if(typeCheckingVisitor.errors.Count > 0)
+    combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(combinedAstVisitor.errors.Count > 0)
     {
         return;
     }
     Interpreter interpreter = new Interpreter();
-    interpreter.EvaluateStatement(ast as Statement, scopeCheckingVisitor.scope);
+    interpreter.EvaluateStatement(ast as Statement, scope);
     SvgGenerator svgGenerator = new SvgGenerator();
-    var lines = svgGenerator.GenerateSvg(scopeCheckingVisitor.scope.vTable);
+    var lines = svgGenerator.GenerateSvg(scope.vTable);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);
     Console.WriteLine("SVG file generated at: " + FilePath);

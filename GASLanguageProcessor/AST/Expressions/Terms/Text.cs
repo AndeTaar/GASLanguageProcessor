@@ -19,8 +19,8 @@ public class Text: Term
         Color = color;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitText(this);
+        return visitor.VisitText(this, scope);
     }
 }

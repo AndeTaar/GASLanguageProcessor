@@ -1,0 +1,193 @@
+﻿using Antlr4.Runtime;
+using GASLanguageProcessor;
+using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Statements;
+using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.FinalTypes;
+using GASLanguageProcessor.TableType;
+
+namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
+
+public class EvaluateExpressionFigureTypes
+{
+    [Fact]
+    public void PassEvaluateExpressionColor() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "color notYellow = Color(184,62,17,0.65);");
+
+        var result = scope.vTable.LookUp("notYellow")?.ActualValue as FinalColor;
+        var expected = new FinalColor(184, 62, 17, 0.65f);
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalColor>(result);
+        Assert.Equal(expected.Red, result.Red);
+        Assert.Equal(expected.Green, result.Green);
+        Assert.Equal(expected.Blue, result.Blue);
+        Assert.Equal(expected.Alpha, result.Alpha);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionPoint() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "point one = Point(30,50);");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalPoint;
+        var expected = new FinalPoint(30, 50);
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalPoint>(result);
+        Assert.Equal(expected.X, result.X);
+        Assert.Equal(expected.Y, result.Y);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionSqaure() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "square one = Square(Point(10,2), 40, 4, Color(255,0,255,1), Color(255,255,0,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalSquare;
+        var expected = new FinalSquare(new FinalPoint(10, 2), 40, 4,
+                    new FinalColor(255, 0, 255, 1),
+                    new FinalColor(255, 255, 0, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalSquare>(result);
+        Assert.IsType<FinalPoint>(result.TopLeft);
+        Assert.Equal(expected.Length, result.Length);
+        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.IsType<FinalColor>(result.FillColor);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionEllipse() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "ellipse one = Ellipse(Point(10,2), 5, 10, 4, Color(255,0,255,1), Color(255,255,0,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalEllipse;
+        var expected = new FinalEllipse(new FinalPoint(10, 2), 5, 10, 4,
+                    new FinalColor(255, 0, 255, 1),
+                    new FinalColor(255, 255, 0, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalEllipse>(result);
+        Assert.IsType<FinalPoint>(result.Center);
+        Assert.Equal(expected.RadiusX, result.RadiusX);
+        Assert.Equal(expected.RadiusY, result.RadiusY);
+        Assert.IsType<FinalColor>(result.Color);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+        Assert.Equal(expected.Stroke, result.Stroke);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionText() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "text one = Text(\"Hello World\", Point(67,37), \"Arial\", 24, Color(0,255,255,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalText;
+        var expected = new FinalText("Hello World", new FinalPoint(67, 37), "Arial", 24, new FinalColor(0, 255, 255, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalText>(result);
+        Assert.Equal(expected.Text, result.Text);
+        Assert.IsType<FinalPoint>(result.Position);
+        Assert.Equal(expected.Font, result.Font);
+        Assert.Equal(expected.FontSize, result.FontSize);
+        Assert.IsType<FinalColor>(result.TextColor);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionCircle() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "circle one = Circle(Point(10,2), 5, 7, Color(255,255,0,1), Color(175,6,135,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalCircle;
+        var expected = new FinalCircle(new FinalPoint(10, 2), 5, 7,
+                    new FinalColor(255, 255, 0, 1),
+                    new FinalColor(175, 6, 135, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalCircle>(result);
+        Assert.IsType<FinalPoint>(result.Center);
+        Assert.Equal(expected.Radius, result.Radius);
+        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.IsType<FinalColor>(result.FillColor);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionRectangle() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "rectangle one = Rectangle(Point(5,2), Point(10,4), 9, Color(255,255,0,1), Color(175,6,135,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalRectangle;
+        var expected = new FinalRectangle(new FinalPoint(5, 2), new FinalPoint(10, 4), 9,
+                    new FinalColor(255, 255, 0, 1),
+                    new FinalColor(175, 6, 135, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalRectangle>(result);
+        Assert.IsType<FinalPoint>(result.TopLeft);
+        Assert.IsType<FinalPoint>(result.BottomRight);
+        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.IsType<FinalColor>(result.FillColor);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionLine() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "line one = Line(42, 7, 4, Color(64,29,11,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalLine;
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalLine>(result);
+        Assert.IsType<FinalPoint>(result.Start);
+        Assert.IsType<FinalPoint>(result.End);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+        Assert.Equal(4, result.Stroke);
+        // Consider adding asserts for the actual values of the points
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionSegLine() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "segLine one = SegLine(Point(17, 6), Point(61, 82), 4, Color(175,6,135,1));");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalSegLine;
+        var expected = new FinalSegLine(new FinalPoint(17, 6), new FinalPoint(61, 82), 4, new FinalColor(175, 6, 135, 1));
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalSegLine>(result);
+        Assert.IsType<FinalPoint>(result.Start);
+        Assert.IsType<FinalPoint>(result.End);
+        Assert.IsType<FinalColor>(result.StrokeColor);
+        Assert.Equal(expected.Stroke, result.Stroke);
+    }
+
+    [Fact]
+    public void PassEvaluateExpressionGroup() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
+    {
+        var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
+                                        "group one = Group(Point(17, 6), {" +
+                                        "   circle c = Circle(Point(10,2), 5, 7, Color(255,255,0,1), Color(175,6,135,1));" +
+                                        "});");
+
+        var result = scope.vTable.LookUp("one")?.ActualValue as FinalGroup;
+
+        Assert.NotNull(result);
+        Assert.IsType<FinalGroup>(result);
+        Assert.IsType<FinalPoint>(result.Point);
+    }
+}

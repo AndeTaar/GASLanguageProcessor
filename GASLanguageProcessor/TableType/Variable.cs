@@ -8,13 +8,14 @@ public class Variable
     public string Identifier { get; set; }
     public GasType Type { get; set; }
     public Expression FormalValue { get; set; }
-    public object ActualValue { get; set; }
+    public object? ActualValue { get; set; }
     public Scope Scope { get; set; }
 
-    public Variable(string identifier, Scope scope, Expression? formalValue = null)
+    public Variable(string identifier, Scope scope, GasType type, Expression? formalValue = null)
     {
         Identifier = identifier;
         FormalValue = formalValue;
+        Type = type;
         Scope = scope;
     }
 

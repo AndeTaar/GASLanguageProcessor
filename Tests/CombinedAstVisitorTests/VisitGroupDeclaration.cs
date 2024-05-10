@@ -1,6 +1,7 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitGroupDeclaration
 {
@@ -19,8 +20,8 @@ public class VisitGroupDeclaration
             "});" +
             "});"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -48,8 +49,8 @@ public class VisitGroupDeclaration
             "   });" +
             "});"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 }

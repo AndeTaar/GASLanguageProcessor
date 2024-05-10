@@ -13,8 +13,8 @@ public class FunctionCallTerm: Term
         Arguments = arguments;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitFunctionCallTerm(this);
+        return visitor.VisitFunctionCallTerm(this, scope);
     }
 }

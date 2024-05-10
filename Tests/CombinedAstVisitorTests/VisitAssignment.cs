@@ -1,6 +1,7 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitAssignment
 {
@@ -12,8 +13,8 @@ public class VisitAssignment
             "number x;" +
             "x = 1;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -24,8 +25,8 @@ public class VisitAssignment
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "x = 1;"
             );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -37,8 +38,8 @@ public class VisitAssignment
             "number x;" +
             "x = y;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -51,8 +52,8 @@ public class VisitAssignment
             "}" +
             "x = 1;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 }

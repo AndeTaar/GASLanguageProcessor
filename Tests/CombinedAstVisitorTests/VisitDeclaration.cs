@@ -1,6 +1,7 @@
 using GASLanguageProcessor;
+using GASLanguageProcessor.TableType;
 
-namespace Tests.Visitors.ScopeCheckingAstVisitorTests;
+namespace Tests.CombinedAstVisitorTests;
 
 public class VisitDeclaration
 {
@@ -11,8 +12,8 @@ public class VisitDeclaration
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "number x;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -24,8 +25,8 @@ public class VisitDeclaration
             "number x;" +
             "number x;"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -37,8 +38,8 @@ public class VisitDeclaration
             "number x;" +
             "for (x = 0; x < 10; x += 1) {}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -50,8 +51,8 @@ public class VisitDeclaration
             "for (number x = 0; x < 10; x += 1) {}" +
             "for (number x = 0; x < 10; x += 1) {}"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.Empty(visitor.errors);
     }
 
@@ -63,8 +64,8 @@ public class VisitDeclaration
             "number x;" +
             "if (true) { number x; }"
         );
-        var visitor = new ScopeCheckingAstVisitor();
-        ast.Accept(visitor);
+        var visitor = new CombinedAstVisitor();
+        ast.Accept(visitor, new Scope(null, null));
         Assert.NotEmpty(visitor.errors);
     }
 
