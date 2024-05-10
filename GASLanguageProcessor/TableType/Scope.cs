@@ -164,6 +164,15 @@ public class Scope
                 new Identifier("color"),
                 new Identifier("strokeColor")
             )), new Scope(this, null)));
+            
+            fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
+            {
+                new Variable("value", this, GasType.Any),
+                new Variable("list", this, GasType.Any)
+            }, new Return(new AddToList(
+                new Identifier("value"),
+                new Identifier("list")
+                )), new Scope(this, null)));
         }
     }
 
@@ -177,14 +186,6 @@ public class Scope
     public Scope ExitScope()
     {
         return ParentScope ?? throw new Exception("Cannot exit global scope");;
-    }
-
-    public void AddListMethods()
-    {
-        this.fTable.Bind("add", new Function(GasType.Void, new List<Variable>()
-        {
-            new Variable("value", this, GasType.Any)
-        }, new Return(new AddToList(new Identifier("value"))), new Scope(this, null)));
     }
 
     public Variable? LookupAttribute(Identifier identifier, Scope scope, Scope globalScope, List<string> errors)

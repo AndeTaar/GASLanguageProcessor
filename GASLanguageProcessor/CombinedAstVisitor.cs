@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using Expression = System.Linq.Expressions.Expression;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
@@ -38,14 +39,12 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
     public GasType VisitAddToList(AddToList addToList, Scope scope)
     {
-        addToList.Scope = scope;
-        var list = addToList.Expression.Accept(this, scope);
-        return list;
+        throw new NotImplementedException();
     }
 
     public GasType VisitCollectionDeclaration(CollectionDeclaration node, Scope scope)
     {
-        scope = scope.EnterScope(node);
+        node.Scope = scope;
         var identifier = node.Identifier;
         var variable = scope.LookupAttribute(identifier, scope, scope, errors);
         if(variable != null)
@@ -64,8 +63,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         try
         {
-            scope.ParentScope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
-            node.Scope.AddListMethods();
+            scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
         }
         catch (Exception e)
         {

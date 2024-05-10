@@ -42,7 +42,7 @@ public class VisitForStatement
             "color red = Color(255, 0, 0, 1);" +
             "color black = Color(0, 0, 0, 1);" +
             "for(number i = 0; i < 10; i = i + 1){" +
-                "circles.add(Circle(Point(50, 10), 40+i, 10, red, black));" +
+                "AddToList(Circle(Point(50, 10), 40+i, 10, red, black), circles);" +
                 "circle circle1 = Circle(Point(50, 10), 40+i, 10, red, black);" +
                 "}"
         );

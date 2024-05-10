@@ -5,11 +5,13 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class AddToList: Term
 {
-    public Expression Expression { get; protected set; }
+    public Expression Value { get; protected set; }
+    public Identifier ListIdentifier { get; protected set; }
 
-    public AddToList(Expression expression)
+    public AddToList(Expression value, Identifier listIdentifier)
     {
-        Expression = expression;
+        Value = value;
+        ListIdentifier = listIdentifier;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
