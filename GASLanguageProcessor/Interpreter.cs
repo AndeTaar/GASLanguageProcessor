@@ -202,11 +202,6 @@ public class Interpreter
                     throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
                 }
 
-                if(variable.FormalValue == null && variable.ActualValue == null)
-                {
-                    throw new Exception($"Variable {identifier.Name} has no value");
-                }
-
                 if (variable.ActualValue != null)
                 {
                     return variable.ActualValue;
@@ -215,7 +210,7 @@ public class Interpreter
 
             case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
                 return float.Parse(number.Value, CultureInfo.InvariantCulture);
-            
+
             case Boolean boolean:
                 return bool.Parse(boolean.Value);
 
@@ -300,18 +295,21 @@ public class Interpreter
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
                 EvaluateStatement(group.Statements, group.Scope ?? scope);
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
-            
+
             case AddToList addToList:
                 var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
-                
+
                 if (listVariable == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
-                if (listVariable.ActualValue == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} has no value");
+                if (listVariable.ActualValue == null)
+                {
+                    listVariable.ActualValue = new FinalList(new List<object>(), scope);
+                }
                 if (listVariable.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
-                
+
                 var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
                 destList.Values.Add(valueToAdd);
-                return new FinalList(destList.Values, destList.Scope ?? scope);
-            
+                return null;
+
             case List list:
                 var values = new List<object>();
                 foreach (var expr in list.Expressions)
