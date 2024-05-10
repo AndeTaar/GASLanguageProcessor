@@ -24,9 +24,21 @@ public class FinalPolygonTest
 
         Assert.NotNull(result);
         Assert.IsType<FinalPolygon>(result);
-        Assert.Equal(expected.Points, result.Points);
+        for (int i = 0; i < expected.Points.Values.Count; i++)
+        {
+            var expectedPoint = expected.Points.Values[i] as FinalPoint;
+            var resultPoint = result.Points.Values[i] as FinalPoint;
+            Assert.Equal(expectedPoint?.X, resultPoint?.X);
+            Assert.Equal(expectedPoint?.Y, resultPoint?.Y);
+        }
         Assert.Equal(expected.Stroke, result.Stroke);
-        Assert.Equal(expected.Color, result.Color);
-        Assert.Equal(expected.StrokeColor, result.StrokeColor);
+        Assert.Equal(expected.Color.Alpha, result.Color.Alpha);
+        Assert.Equal(expected.Color.Red, result.Color.Red);
+        Assert.Equal(expected.Color.Green, result.Color.Green);
+        Assert.Equal(expected.Color.Blue, result.Color.Blue);
+        Assert.Equal(expected.StrokeColor.Alpha, result.StrokeColor.Alpha);
+        Assert.Equal(expected.StrokeColor.Red, result.StrokeColor.Red);
+        Assert.Equal(expected.StrokeColor.Green, result.StrokeColor.Green);
+        Assert.Equal(expected.StrokeColor.Blue, result.StrokeColor.Blue);
     }
 }
