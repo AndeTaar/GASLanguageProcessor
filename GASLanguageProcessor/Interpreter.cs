@@ -291,6 +291,13 @@ public class Interpreter
                 var segLineColor = (FinalColor) EvaluateExpression(segLine.Color, scope);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
 
+            case Polygon polygon:
+                var polygonPoints = (FinalList) EvaluateExpression(polygon.Points, scope);
+                var polygonColor = (FinalColor) EvaluateExpression(polygon.Color, scope);
+                var polygonStroke = (float) EvaluateExpression(polygon.Stroke, scope);
+                var polygonStrokeColor = (FinalColor) EvaluateExpression(polygon.StrokeColor, scope);
+                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor);
+
             case Group group:
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
                 EvaluateStatement(group.Statements, group.Scope ?? scope);

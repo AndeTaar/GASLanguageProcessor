@@ -58,6 +58,10 @@ public class SvgGenerator
                 GenerateLine(list.Values[i], variable);
             }
             return;
+        case FinalPolygon polygon:
+            SvgLines.Add($"<polygon id=\"{variable?.Identifier}\" points=\"{polygon.Points.ToString()}\" fill=\"{polygon.Color.ColorToString()}\" fill-opacity=\"{polygon.Color.Alpha}\" stroke=\"{polygon.StrokeColor.ColorToString()}\" stroke-width=\"{polygon.Stroke}\" />");
+            break;
+
     }
 }
 }

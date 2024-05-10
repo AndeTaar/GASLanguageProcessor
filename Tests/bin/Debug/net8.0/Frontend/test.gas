@@ -1,4 +1,27 @@
-﻿canvas (250, 250, Color(255, 255, 255, 1));
+﻿number Cos(number angle1) {
+    number result = 1;
+    number term = 1;
+    number factorial = 1;
+    for (number i = 1; i <= 10; i+=1) {
+        term *= -angle1 * angle1 / ((2 * i) * (2 * i - 1));
+        result += term;
+    }
+    return result;
+}
+
+number Sin(number angle) {
+    number result = angle;
+    number term = angle;
+    number factorial = 1;
+    for (number i = 1; i <= 10; i+=1) {
+        term *= -angle * angle / ((2 * i + 1) * (2 * i));
+        result += term;
+    }
+    return result;
+}
+
+
+canvas (250, 250, Color(255, 255, 255, 1));
 
 
 circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)
@@ -31,7 +54,7 @@ list<circle> circles = List {
 
 AddToList(CircleCreator(Point(50, 10), 33, 10, red, black), circles);
 AddToList(CircleCreator(Point(100, 10), 36, 10, pink, white), circles);
-AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circles);
+AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circales);
 
 for(number i = 0; i < 10; i = i + 1)
 {
@@ -87,6 +110,21 @@ bool k = true == false != true;
 bool l = 5<3 || 5>3 && 5<=5;
 
 list<circle> circles2 = List {
-    CircleCreator(Point(50, 10), 40, 10, red, black), 
+    CircleCreator(Point(50, 10), 40, 10, red, black),
     CircleCreator(Point(220, 120), 40, 10, red, black)
 };
+
+list<point> points = List {
+    Point(0, 0)
+};
+
+number radius = 50;
+point center = Point(100, 100);
+
+for (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)
+{
+    number x2 = 100 + radius * Cos(theta);
+    number y = 100 + radius * Sin(theta);
+    AddToList(Point(x2, y), points);
+}
+polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));

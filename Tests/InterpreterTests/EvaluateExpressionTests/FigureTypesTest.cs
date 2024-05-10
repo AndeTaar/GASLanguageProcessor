@@ -9,7 +9,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
-public class EvaluateExpressionFigureTypes
+public class FigureTypesTest
 {
     [Fact]
     public void PassEvaluateExpressionColor() //canvas is needed since GenerateAst uses parser.program() and program needs canvas

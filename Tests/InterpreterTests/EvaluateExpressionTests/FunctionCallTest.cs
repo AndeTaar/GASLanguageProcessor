@@ -10,7 +10,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
-public class EvaluateExpressionFunctionCall
+public class FunctionCallTest
 {
     [Fact]
     public void PassEvaluateExpressionFunctionCall()

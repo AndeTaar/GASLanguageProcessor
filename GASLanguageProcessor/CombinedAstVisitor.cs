@@ -49,7 +49,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var variable = scope.LookupAttribute(identifier, scope, scope, errors);
         if(variable != null)
         {
-            errors.Add("Line: " + node.LineNumber + " variable name: " + identifier + " Can not redeclare variable");
+            errors.Add("Line: " + node.LineNumber + " variable name: " + identifier.Name + " Can not redeclare variable");
             return GasType.Error;
         }
         var type = node.Type.Accept(this, scope);
@@ -158,7 +158,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var variable = scope.LookupAttribute(identifier, scope, scope, errors);
         if(variable != null)
         {
-            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier + " Can not redeclare variable");
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier.Name + " Can not redeclare variable");
             return GasType.Error;
         }
         var type = node.Type.Accept(this, scope);
@@ -289,6 +289,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Ellipse;
             case "void":
                 return GasType.Void;
+            case "polygon":
+                return GasType.Polygon;
         }
         errors.Add(node.Value + " Not implemented");
         return GasType.Error;
@@ -306,6 +308,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return variable;
         }).ToList();
         var statements = node.Statements;
+        var statementsInScope = node.Statements?.Accept(this, scope);
         var type = node.ReturnType.Accept(this, scope);
         try
         {
@@ -371,7 +374,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         for (int i = 0; i < function?.Parameters.Count; i++)
         {
-            if (function.Parameters[i].Type != parameters[i])
+            if (function.Parameters[i].Type != parameters[i] && function.Parameters[i].Type != GasType.Any)
             {
                 errors.Add("Line: " + node.LineNumber + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong type of arguments");
             }
@@ -438,6 +441,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     }
 
     public GasType VisitLine(Line node, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitPolygon(Polygon polygon, Scope scope)
     {
         throw new NotImplementedException();
     }

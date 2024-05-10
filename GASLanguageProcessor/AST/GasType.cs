@@ -20,5 +20,6 @@ public enum GasType
     Color,
     Error,
     Ellipse,
-    Any
+    Any,
+    Polygon
 }

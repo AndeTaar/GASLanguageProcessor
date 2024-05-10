@@ -164,7 +164,7 @@ public class Scope
                 new Identifier("color"),
                 new Identifier("strokeColor")
             )), new Scope(this, null)));
-            
+
             fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
             {
                 new Variable("value", this, GasType.Any),
@@ -173,6 +173,19 @@ public class Scope
                 new Identifier("value"),
                 new Identifier("list")
                 )), new Scope(this, null)));
+
+            fTable.Bind("Polygon", new Function(GasType.Polygon, new List<Variable>()
+            {
+                new Variable("points", this, GasType.Any),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color),
+                new Variable("strokeColor", this, GasType.Color)
+            }, new Return(new Polygon(
+                new Identifier("points"),
+                new Identifier("stroke"),
+                new Identifier("color"),
+                new Identifier("strokeColor")
+            )), new Scope(this, null)));
         }
     }
 

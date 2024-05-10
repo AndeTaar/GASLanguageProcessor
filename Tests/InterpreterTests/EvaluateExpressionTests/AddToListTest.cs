@@ -4,7 +4,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
-public class EvaluateExpressionAddToList
+public class AddToListTest
 {
     [Fact]
     public void EvaluateExpressionAddToListPass()
@@ -29,7 +29,7 @@ public class EvaluateExpressionAddToList
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "number x = 10;" +
-            "list<number> l = List{1};" +
+            "list<number> l;" +
             "AddToList(5, l);"
         );
         var result = scope.vTable.LookUp("l")?.ActualValue as FinalList;

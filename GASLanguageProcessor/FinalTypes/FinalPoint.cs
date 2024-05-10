@@ -10,4 +10,9 @@ public class FinalPoint
         X = x;
         Y = y;
     }
+
+    public override string ToString()
+    {
+        return $"{X},{Y}";
+    }
 }
