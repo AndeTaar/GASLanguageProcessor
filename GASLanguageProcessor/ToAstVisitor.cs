@@ -101,10 +101,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     {
         var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNumber = context.Start.Line}).ToList();
         Identifier identifier = ToCompoundIdentifier(allIdentifiers);
-
+        string op = context.GetChild(1).GetText();
         Expression value = context.expression().Accept(this) as Expression;
 
-        return new Assignment(identifier, value) {LineNumber = context.Start.Line};
+        return new Assignment(identifier, value, op) {LineNumber = context.Start.Line};
     }
 
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)

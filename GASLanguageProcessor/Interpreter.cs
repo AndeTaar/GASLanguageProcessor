@@ -18,13 +18,14 @@ public class Interpreter
     public float canvasHeight;
     public List<string> errors = new();
 
-    public object EvaluateStatement(Statement statement, Scope scope)
+    public object? EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
         {
             case Canvas canvas:
                 var width = (float)EvaluateExpression(canvas.Width, scope);
                 var height = (float)EvaluateExpression(canvas.Height, scope);
+                canvasHeight = height;
                 canvasHeight = height;
                 canvasWidth = width;
                 var backgroundColor = canvas.BackgroundColor == null
@@ -34,10 +35,11 @@ public class Interpreter
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
                 return finalCanvas;
+
             case Compound compound:
-                EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
-                EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
-                return null;
+                var eval1 = EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
+                var eval2 = EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
+                return eval1 ?? eval2;
 
             // Currently allows infinite loops.
             case For @for:
@@ -45,11 +47,11 @@ public class Interpreter
                 var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 while ((bool)condition)
                 {
-                    EvaluateStatement(@for.Statements, @for.Scope ?? scope);
+                    var eval = EvaluateStatement(@for.Statements, @for.Scope ?? scope);
+                    if(eval != null) return eval;
                     EvaluateStatement(@for.Increment, @for.Scope ?? scope);
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 }
-
                 return null;
 
             // Currently allows infinite loops.
@@ -57,7 +59,8 @@ public class Interpreter
                 var whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 while ((bool) whileCondition)
                 {
-                    EvaluateStatement(@while.Statements, @while.Scope ?? scope);
+                    var eval = EvaluateStatement(@while.Statements, @while.Scope ?? scope);
+                    if (eval != null) return eval;
                     whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 }
                 return null;
@@ -116,8 +119,8 @@ public class Interpreter
                     }
                 }
 
-                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
-                return functionCallRes;
+                EvaluateStatement(function.Statements, functionScope);
+                return null;
 
             case Assignment assignment:
                 var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
@@ -129,7 +132,25 @@ public class Interpreter
                     return null;
                 }
 
-                assignVariable.ActualValue = assignExpression;
+                switch (assignment.Operator)
+                {
+                    case "+=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! + (float) assignExpression;
+                        break;
+                    case "-=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! - (float) assignExpression;
+                        break;
+                    case "*=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! * (float) assignExpression;
+                        break;
+                    case "/=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! / (float) assignExpression;
+                        break;
+                    case "=":
+                        assignVariable.ActualValue = assignExpression;
+                        break;
+                }
+
                 return assignExpression;
 
             case Return returnStatement:
@@ -272,20 +293,12 @@ public class Interpreter
                 return new FinalText(value, position, font, fontSize, textColor);
 
             case Circle circle:
-                try
-                {
-                    var centre = (FinalPoint) EvaluateExpression(circle.Center, scope);
-                    var radius = (float) EvaluateExpression(circle.Radius, scope);
-                    var stroke = (float) EvaluateExpression(circle.Stroke, scope);
-                    var fillColor = (FinalColor) EvaluateExpression(circle.Color, scope);
-                    var strokeColor = (FinalColor) EvaluateExpression(circle.StrokeColor, scope);
-                    return new FinalCircle(centre, radius, stroke, fillColor, strokeColor);
-                }
-                catch (Exception e)
-                {
-                    errors.Add(e.Message);
-                    return null;
-                }
+                var centre = (FinalPoint) EvaluateExpression(circle.Center, scope);
+                var radius = (float) EvaluateExpression(circle.Radius, scope);
+                var stroke = (float) EvaluateExpression(circle.Stroke, scope);
+                var fillColor = (FinalColor) EvaluateExpression(circle.Color, scope);
+                var strokeColor = (FinalColor) EvaluateExpression(circle.StrokeColor, scope);
+                return new FinalCircle(centre, radius, stroke, fillColor, strokeColor);
 
             case Rectangle rectangle:
                 var rectTopLeft = (FinalPoint) EvaluateExpression(rectangle.TopLeft, scope);

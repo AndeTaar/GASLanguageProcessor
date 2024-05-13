@@ -6,6 +6,54 @@ namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
 public class VisitProgram
 {
+
+    [Fact]
+    public void VisitPassVisitProgramSemiLarge()
+    {
+        var ast = SharedTesting.GetInterpretedScope(
+            "number Cos(number angle1) {\n" +
+            "    number result = 1;\n" +
+            "    number term = 1;\n" +
+            "    number factorial = 1;\n" +
+            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "        term *= -angle1 * angle1 / ((2 * i) * (2 * i - 1));\n" +
+            "        result += term;\n" +
+            "    }\n" +
+            "    return result;\n" +
+            "}\n" +
+            "\n" +
+            "number Sin(number angle) {\n" +
+            "    number result = angle;\n" +
+            "    number term = angle;\n" +
+            "    number factorial = 1;\n" +
+            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "        term *= -angle * angle / ((2 * i + 1) * (2 * i));\n" +
+            "        result += term;\n" +
+            "    }\n" +
+            "    return result;\n" +
+            "}\n" +
+            "\n" +
+            "\n" +
+            "\nlist<point> points = List {\n" +
+            "    Point(0, 0)\n};\n" +
+            "\nnumber radius = 50;" +
+            "\npoint center = Point(100, 100);\n" +
+            "\nfor (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
+            "{\n" +
+            "    number x2 = 100 + radius * Cos(theta);\n" +
+            "    number y = 100 + radius * Sin(theta);\n" +
+            "    AddToList(Point(x2, y), points);\n" +
+            "}\n" +
+            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
+            "canvas (250, 250, Color(255, 255, 255, 1));\n");
+
+        var cosFunc = ast.fTable.LookUp("Cos");
+        var sinFunc = ast.fTable.LookUp("Sin");
+
+        Assert.NotNull(cosFunc);
+        Assert.NotNull(sinFunc);
+    }
+
     [Fact]
     public void VisitPassVisitProgramLargeProgram()
     {

@@ -9,8 +9,6 @@
     return result;
 }
 
-Cos();
-
 number Sin(number angle) {
     number result = angle;
     number term = angle;
@@ -56,7 +54,7 @@ list<circle> circles = List {
 
 AddToList(CircleCreator(Point(50, 10), 33, 10, red, black), circles);
 AddToList(CircleCreator(Point(100, 10), 36, 10, pink, white), circles);
-AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circales);
+AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circles);
 
 for(number i = 0; i < 10; i = i + 1)
 {

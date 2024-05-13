@@ -139,10 +139,47 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
         var expression = node.Expression.Accept(this, scope);
-        if (variable.Type != expression)
+
+        switch (node.Operator)
         {
-            errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
-            return GasType.Error;
+            case "+=":
+                if (variable.Type == expression && variable.Type == GasType.Number)
+                {
+                    return GasType.Number;
+                }
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
+                break;
+            case "-=":
+                if (variable.Type == expression && variable.Type == GasType.Number)
+                {
+                    return GasType.Number;
+                }
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
+                break;
+            case "*=":
+                if (variable.Type == expression && variable.Type == GasType.Number)
+                {
+                    return GasType.Number;
+                }
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
+                break;
+            case "/=":
+                if (variable.Type == expression && variable.Type == GasType.Number)
+                {
+                    return GasType.Number;
+                }
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
+                break;
+            case "=":
+                if (variable.Type == expression)
+                {
+                    return variable.Type;
+                }
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expression);
+                break;
+            default:
+                errors.Add("Invalid operator: " + node.Operator);
+                break;
         }
 
         return variable.Type;
