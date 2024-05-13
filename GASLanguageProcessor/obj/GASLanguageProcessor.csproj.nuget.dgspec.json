@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {}
+    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
+    "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+        "projectUniqueName": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
         "projectName": "GASLanguageProcessor",
-        "projectPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-        "packagesPath": "C:\\Users\\v\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+        "projectPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj",
+        "packagesPath": "/Users/viktorjohnsen/.nuget/packages/",
+        "outputPath": "/Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\v\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/viktorjohnsen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -64,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

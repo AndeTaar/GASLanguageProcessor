@@ -317,10 +317,24 @@ public class Interpreter
                 if (listToGetFrom.ActualValue == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} does not contain a value at index {getFromList.Index}");
                 if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
 
-                var indexOfValue = (int)EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope);
+                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
                 var valueToGet = sourceList.Values[indexOfValue];
-                return valueToGet; // This does not work, as GetFromList returns a value of "Any" type, see Scope,
-                                   // but in test.gas you want a specific type as output.
+                var typeOfList = listToGetFrom.Type;
+                return typeOfList switch
+                {
+                    GasType.Number => (float) valueToGet,
+                    GasType.String => (string) valueToGet,
+                    GasType.Boolean => (bool) valueToGet,
+                    GasType.Circle => (FinalCircle) valueToGet,
+                    GasType.Color => (FinalColor) valueToGet,
+                    GasType.Ellipse => (FinalEllipse) valueToGet,
+                    GasType.Line => (FinalLine) valueToGet,
+                    GasType.Rectangle => (FinalRectangle) valueToGet,
+                    GasType.Square => (FinalSquare) valueToGet,
+                    GasType.SegLine => (FinalSegLine) valueToGet,
+                    GasType.Text => (FinalText) valueToGet,
+                    _ => valueToGet
+                }; 
 
             case List list:
                 var values = new List<object>();
