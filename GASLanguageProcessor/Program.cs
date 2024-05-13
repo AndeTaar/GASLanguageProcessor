@@ -41,12 +41,12 @@ static void Main(string[] args)
         return;
     }
     Interpreter interpreter = new Interpreter();
+    interpreter.EvaluateStatement(ast as Statement, scope);
     interpreter.errors.ForEach(Console.Error.WriteLine);
     if(interpreter.errors.Count > 0)
     {
         return;
     }
-    interpreter.EvaluateStatement(ast as Statement, scope);
     SvgGenerator svgGenerator = new SvgGenerator();
     var lines = svgGenerator.GenerateSvg(scope.vTable);
     lines.Add("</svg>");
