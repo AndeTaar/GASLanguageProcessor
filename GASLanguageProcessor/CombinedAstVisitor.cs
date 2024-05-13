@@ -163,7 +163,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         }
         var type = node.Type.Accept(this, scope);
         var expression = node.Expression?.Accept(this, scope);
-        if (type != expression && expression != null)
+        if (expression != GasType.Any && type != expression && expression != null)
         {
             errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier.Name + " expected: " + type + " got: " + expression);
             return GasType.Error;

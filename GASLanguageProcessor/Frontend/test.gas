@@ -2,13 +2,10 @@
 
 
 list<circle> circles = List {
-    Circle(Point(0, 0), 1, 1, Color(255, 0, 0, 1), Color(0, 0, 0, 1))
+    Circle(Point(10, 10), 1, 1, Color(255, 0, 0, 1), Color(0, 0, 0, 1))
 };
 
-AddToList(4, circles);
-
-circle gottenCircle = GetFromList(1, circles);
-
+circle gottenCircle = GetFromList(0, circles);
 
 AddToList(Circle(Point(100, 400), 36, 10, Color(255, 100, 100, 1), Color(0, 0, 0, 1)), circles);
 AddToList(Circle(Point(400, 100), 39, 10, Color(0, 255, 0, 1), Color(0, 0, 0, 1)), circles);

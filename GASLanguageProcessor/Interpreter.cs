@@ -314,13 +314,16 @@ public class Interpreter
                 var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
                 
                 if (listToGetFrom == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} not found");
-                if (listToGetFrom.ActualValue == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} does not contain a value at index {getFromList.Index}");
+                //if (listToGetFrom.ActualValue == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} does not contain a value at index {getFromList.Index}");
                 if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
 
                 var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
+                if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count) throw new Exception($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
                 var valueToGet = sourceList.Values[indexOfValue];
                 var typeOfList = listToGetFrom.Type;
-                return typeOfList switch
+
+                return valueToGet;
+               /* return typeOfList switch
                 {
                     GasType.Number => (float) valueToGet,
                     GasType.String => (string) valueToGet,
@@ -334,7 +337,7 @@ public class Interpreter
                     GasType.SegLine => (FinalSegLine) valueToGet,
                     GasType.Text => (FinalText) valueToGet,
                     _ => valueToGet
-                }; 
+                };*/
 
             case List list:
                 var values = new List<object>();
