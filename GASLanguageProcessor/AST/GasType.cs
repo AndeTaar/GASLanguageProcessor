@@ -7,7 +7,7 @@ public enum GasType
     Null,
     Void,
     String,
-    Boolean,
+    Bool,
     Canvas,
     Circle,
     Rectangle,

@@ -61,12 +61,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        try
-        {
-            scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
-        }
-        catch (Exception e)
-        {
+        var bound = scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
+
+        if(!bound){
             errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier.Name + " already exists");
             return GasType.Error;
         }
@@ -97,7 +94,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             @else?.Accept(this, scope);
         }
 
-        if (condition != GasType.Boolean)
+        if (condition != GasType.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
             return GasType.Error;
@@ -109,7 +106,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     public GasType VisitBoolean(Boolean node, Scope scope)
     {
         node.Scope = scope;
-        return GasType.Boolean;
+        return GasType.Bool;
     }
 
     public GasType VisitIdentifier(Identifier node, Scope scope)
@@ -168,7 +165,13 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             errors.Add("Line: " + node.LineNumber + " Invalid type for variable: " + identifier.Name + " expected: " + type + " got: " + expression);
             return GasType.Error;
         }
-        scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
+        var bound = scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
+
+        if (!bound)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: " + identifier.Name + " already exists");
+            return GasType.Error;
+        }
         return type;
     }
 
@@ -178,7 +181,14 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var width = node.Width.Accept(this, scope);
         var height = node.Height.Accept(this, scope);
         var backgroundColor = node.BackgroundColor?.Accept(this, scope);
-        scope.vTable.Bind("canvas", new Variable("canvas", node));
+        var bound = scope.vTable.Bind("canvas", new Variable("canvas", node));
+
+        if (!bound)
+        {
+            errors.Add("Line: " + node.LineNumber + " Variable name: canvas already exists");
+            return GasType.Error;
+        }
+
         if(width != GasType.Number || height != GasType.Number || backgroundColor != GasType.Color)
         {
             errors.Add("Invalid types for canvas: expected: Number, Number, Color, got: " + width + ", " + height + ", " + backgroundColor);
@@ -191,7 +201,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         scope = scope.EnterScope(node);
         var condition = node.Condition.Accept(this, scope);
-        if(condition != GasType.Boolean)
+        if(condition != GasType.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
         }
@@ -207,7 +217,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var increment = node.Increment.Accept(this, scope);
         var condition = node.Condition.Accept(this, scope);
         var body = node.Statements?.Accept(this, scope);
-        if(condition != GasType.Boolean)
+        if(condition != GasType.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
         }
@@ -229,9 +239,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         switch (op)
         {
             case "!":
-                if (expression == GasType.Boolean)
+                if (expression == GasType.Bool)
                 {
-                    return GasType.Boolean;
+                    return GasType.Bool;
                 }
                 errors.Add("Invalid type for unary operation: " + op + " expected: Boolean, got: " + expression);
                 return GasType.Error;
@@ -268,7 +278,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             case "color":
                 return GasType.Color;
             case "boolean":
-                return GasType.Boolean;
+                return GasType.Bool;
             case "square":
                 return GasType.Square;
             case "rectangle":
@@ -282,7 +292,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             case "circle":
                 return GasType.Circle;
             case "bool":
-                return GasType.Boolean;
+                return GasType.Bool;
             case "group":
                 return GasType.Group;
             case "ellipse":
@@ -302,23 +312,20 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         scope = scope.EnterScope(node);
         var parameters = node.Declarations.Select(decl =>
         {
-            var variable = new Variable(decl.Identifier.Name, scope, decl.Accept(this, scope.ParentScope ?? scope),
+            var variable = new Variable(decl.Identifier.Name, scope, decl.Accept(this, scope),
                 decl.Expression);
-            scope.vTable.Bind(decl.Identifier.Name, variable);
             return variable;
         }).ToList();
         var statements = node.Statements;
         var statementsInScope = node.Statements?.Accept(this, scope);
         var type = node.ReturnType.Accept(this, scope);
-        try
-        {
-            scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, type, statements, scope));
-        }
-        catch (Exception e)
+        var bound = scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, type, statements, scope));
+        if (bound == null || bound == false)
         {
             errors.Add("Line: " + node.LineNumber + " Function name: " + identifier + " already exists");
             return GasType.Error;
         }
+
         return GasType.Error;
     }
 
@@ -339,6 +346,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         if (parameters.Count != function?.Parameters.Count)
         {
             errors.Add("Line: " + node.LineNumber + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong number of arguments");
+            return GasType.Error;
         }
 
         for (int i = 0; i < function?.Parameters.Count; i++)
@@ -488,29 +496,29 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             case "<" or ">" or "<=" or ">=":
                 if (left == GasType.Number && right == GasType.Number)
                 {
-                    node.Type = GasType.Boolean;
-                    return GasType.Boolean;
+                    node.Type = GasType.Bool;
+                    return GasType.Bool;
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Number, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "&&" or "||":
-                if (left == GasType.Boolean && right == GasType.Boolean)
+                if (left == GasType.Bool && right == GasType.Bool)
                 {
-                    node.Type = GasType.Boolean;
-                    return GasType.Boolean;
+                    node.Type = GasType.Bool;
+                    return GasType.Bool;
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);
                 return GasType.Error;
 
             case "==" or "!=":
-                if ((left == GasType.Boolean && right == GasType.Boolean) ||
+                if ((left == GasType.Bool && right == GasType.Bool) ||
                     (left == GasType.Number && right == GasType.Number))
                 {
-                    node.Type = GasType.Boolean;
-                    return GasType.Boolean;
+                    node.Type = GasType.Bool;
+                    return GasType.Bool;
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left + " and " + right);

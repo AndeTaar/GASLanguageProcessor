@@ -9,6 +9,8 @@
     return result;
 }
 
+Cos();
+
 number Sin(number angle) {
     number result = angle;
     number term = angle;

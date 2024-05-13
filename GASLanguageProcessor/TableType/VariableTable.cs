@@ -13,9 +13,14 @@ public class VariableTable
         this.Scope = scope;
     }
 
-    public void Bind(string key, Variable value)
+    public bool Bind(string key, Variable value)
     {
+        if (Variables.ContainsKey(key))
+        {
+            return false;
+        }
         Variables.Add(key, value);
+        return true;
     }
 
     public Variable? LookUp(string key)
