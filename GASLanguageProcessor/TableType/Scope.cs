@@ -174,12 +174,28 @@ public class Scope
                 new Identifier("list")
                 )), new Scope(this, null)));
             
+            fTable.Bind("RemoveFromList", new Function(GasType.Void, new List<Variable>()
+            {
+                new Variable("index", this, GasType.Any),
+                new Variable("list", this, GasType.Any)
+            }, new Return(new RemoveFromList(
+                new Identifier("index"),
+                new Identifier("list")
+            )), new Scope(this, null)));
+            
             fTable.Bind("GetFromList", new Function(GasType.Any, new List<Variable>()
             {
                 new Variable("index", this, GasType.Any),
                 new Variable("list", this, GasType.Any)
             }, new Return(new GetFromList(
                 new Identifier("index"),
+                new Identifier("list")
+            )), new Scope(this, null)));
+            
+            fTable.Bind("LengthOfList", new Function(GasType.Number, new List<Variable>()
+            {
+                new Variable("list", this, GasType.Any)
+            }, new Return(new LengthOfList(
                 new Identifier("list")
             )), new Scope(this, null)));
         }

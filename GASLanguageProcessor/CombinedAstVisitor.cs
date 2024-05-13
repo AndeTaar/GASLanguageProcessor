@@ -447,6 +447,16 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
+    public GasType VisitRemoveFromList(RemoveFromList node, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitLengthOfList(LengthOfList node, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
     public GasType VisitBinaryOp(BinaryOp node, Scope scope)
     {
         node.Scope = scope;
