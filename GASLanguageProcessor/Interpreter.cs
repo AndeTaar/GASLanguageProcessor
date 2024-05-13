@@ -297,18 +297,30 @@ public class Interpreter
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
 
             case AddToList addToList:
-                var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+                var listToAddTo = scope.vTable.LookUp(addToList.ListIdentifier.Name);
 
-                if (listVariable == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
-                if (listVariable.ActualValue == null)
+                if (listToAddTo == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
+                if (listToAddTo.ActualValue == null)
                 {
-                    listVariable.ActualValue = new FinalList(new List<object>(), scope);
+                    listToAddTo.ActualValue = new FinalList(new List<object>(), scope);
                 }
-                if (listVariable.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
+                if (listToAddTo.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
 
                 var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
                 destList.Values.Add(valueToAdd);
                 return null;
+            
+            case GetFromList getFromList:
+                var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
+                
+                if (listToGetFrom == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} not found");
+                if (listToGetFrom.ActualValue == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} does not contain a value at index {getFromList.Index}");
+                if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
+
+                var indexOfValue = (int)EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope);
+                var valueToGet = sourceList.Values[indexOfValue];
+                return valueToGet; // This does not work, as GetFromList returns a value of "Any" type, see Scope,
+                                   // but in test.gas you want a specific type as output.
 
             case List list:
                 var values = new List<object>();

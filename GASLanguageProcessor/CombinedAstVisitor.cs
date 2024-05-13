@@ -371,7 +371,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         for (int i = 0; i < function?.Parameters.Count; i++)
         {
-            if (function.Parameters[i].Type != parameters[i])
+            if (function.Parameters[i].Type != GasType.Any && function.Parameters[i].Type != parameters[i])
             {
                 errors.Add("Line: " + node.LineNumber + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong type of arguments");
             }
@@ -438,6 +438,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     }
 
     public GasType VisitLine(Line node, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
+    public GasType VisitGetFromList(GetFromList node, Scope scope)
     {
         throw new NotImplementedException();
     }

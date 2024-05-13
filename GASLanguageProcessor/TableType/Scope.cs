@@ -173,6 +173,15 @@ public class Scope
                 new Identifier("value"),
                 new Identifier("list")
                 )), new Scope(this, null)));
+            
+            fTable.Bind("GetFromList", new Function(GasType.Any, new List<Variable>()
+            {
+                new Variable("index", this, GasType.Any),
+                new Variable("list", this, GasType.Any)
+            }, new Return(new GetFromList(
+                new Identifier("index"),
+                new Identifier("list")
+            )), new Scope(this, null)));
         }
     }
 
