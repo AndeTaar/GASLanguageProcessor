@@ -77,7 +77,7 @@ public class Interpreter
                 }
 
                 variable.ActualValue = val;
-                return val;
+                return null;
 
             case CollectionDeclaration collectionDeclaration:
                 var collectionDeclarationVal = EvaluateExpression(collectionDeclaration.Expression, collectionDeclaration.Scope ?? scope);
@@ -89,7 +89,7 @@ public class Interpreter
                     return null;
                 }
                 collectionVariable.ActualValue = collectionDeclarationVal;
-                return collectionDeclarationVal;
+                return null;
 
             case FunctionCallStatement functionCallStatement:
                 var identifierAndFunction =
@@ -151,7 +151,7 @@ public class Interpreter
                         break;
                 }
 
-                return assignExpression;
+                return null;
 
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);

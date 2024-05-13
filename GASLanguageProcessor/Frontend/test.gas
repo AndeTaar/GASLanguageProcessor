@@ -21,9 +21,9 @@ number Sin(number angle) {
 }
 
 
-list<point> points = List {Point(0, 0)};
 number radius = 50;
-point center = Point(100, 100);
+point center = Point(100.300, 100 - 0.4);
+circle cirkel = Circle(center, radius, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));
 for (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)
 {
     number x2 = 100 + radius * Cos(theta);

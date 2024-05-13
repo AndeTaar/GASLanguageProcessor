@@ -28,17 +28,17 @@ public class FinalPolygonTest
         {
             var expectedPoint = expected.Points.Values[i] as FinalPoint;
             var resultPoint = result.Points.Values[i] as FinalPoint;
-            Assert.Equal(expectedPoint?.X, resultPoint?.X);
-            Assert.Equal(expectedPoint?.Y, resultPoint?.Y);
+            Assert.Equal(expectedPoint?.X.Value, resultPoint?.X.Value);
+            Assert.Equal(expectedPoint?.Y.Value, resultPoint?.Y.Value);
         }
-        Assert.Equal(expected.Stroke, result.Stroke);
-        Assert.Equal(expected.Color.Alpha, result.Color.Alpha);
-        Assert.Equal(expected.Color.Red, result.Color.Red);
-        Assert.Equal(expected.Color.Green, result.Color.Green);
-        Assert.Equal(expected.Color.Blue, result.Color.Blue);
-        Assert.Equal(expected.StrokeColor.Alpha, result.StrokeColor.Alpha);
-        Assert.Equal(expected.StrokeColor.Red, result.StrokeColor.Red);
-        Assert.Equal(expected.StrokeColor.Green, result.StrokeColor.Green);
-        Assert.Equal(expected.StrokeColor.Blue, result.StrokeColor.Blue);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
+        Assert.Equal(expected.Color.Alpha.Value, result.Color.Alpha.Value);
+        Assert.Equal(expected.Color.Red.Value, result.Color.Red.Value);
+        Assert.Equal(expected.Color.Green.Value, result.Color.Green.Value);
+        Assert.Equal(expected.Color.Blue.Value, result.Color.Blue.Value);
+        Assert.Equal(expected.StrokeColor.Alpha.Value, result.StrokeColor.Alpha.Value);
+        Assert.Equal(expected.StrokeColor.Red.Value, result.StrokeColor.Red.Value);
+        Assert.Equal(expected.StrokeColor.Green.Value, result.StrokeColor.Green.Value);
+        Assert.Equal(expected.StrokeColor.Blue.Value, result.StrokeColor.Blue.Value);
     }
 }

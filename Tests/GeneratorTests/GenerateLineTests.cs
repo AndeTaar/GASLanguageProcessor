@@ -1,4 +1,6 @@
-﻿namespace Tests.GeneratorTests;
+﻿using GASLanguageProcessor.FinalTypes;
+
+namespace Tests.GeneratorTests;
 
 public class GenerateLineTests
 {
@@ -64,8 +66,8 @@ public class GenerateLineTests
             $"line l = Line({lineIntercept}, {lineGradient}, 10, Color(255, 0, 0, 1));"
         );
 
-        float expectedLineEndX = (canvasHeight - lineIntercept) / lineGradient + 1;
-        float expectedLineEndY = lineGradient * expectedLineEndX + lineIntercept;
+        var expectedLineEndX = new FinalNumber((canvasHeight - lineIntercept) / lineGradient + 1);
+        var expectedLineEndY = new FinalNumber(lineGradient * expectedLineEndX.Value + lineIntercept);
 
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
