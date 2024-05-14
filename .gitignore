@@ -5,6 +5,8 @@
 # Ignore compiled binaries and executables
 /GASLanguageProcessor/bin/
 /Tests/bin/
+/GASLanguageProcessor/obj/Debug
+/Tests/obj/Debug
 
 # Ignore CoverletSourceRootsMapping file
 /Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests
