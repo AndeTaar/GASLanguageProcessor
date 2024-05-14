@@ -31,16 +31,17 @@ static void Main(string[] args)
     var combinedAstVisitor = new CombinedAstVisitor();
     var scope = new Scope(null, null);
     ast.Accept(combinedAstVisitor, scope);
+    if(scope.vTable.LookUp("canvas") == null)
+    {
+        combinedAstVisitor.errors.Add("Canvas not declared in the program.");
+    }
+
     combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
     if(combinedAstVisitor.errors.Count > 0)
     {
         return;
     }
-    combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
-    if(combinedAstVisitor.errors.Count > 0)
-    {
-        return;
-    }
+
     Interpreter interpreter = new Interpreter();
     interpreter.EvaluateStatement(ast as Statement, scope);
     interpreter.errors.ForEach(Console.Error.WriteLine);

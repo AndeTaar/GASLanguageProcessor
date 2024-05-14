@@ -28,7 +28,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         var backgroundColor = context.expression()[2].Accept(this) as Expression;
 
-        return new Canvas(width, height, backgroundColor);
+        return new Canvas(width, height, backgroundColor) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)

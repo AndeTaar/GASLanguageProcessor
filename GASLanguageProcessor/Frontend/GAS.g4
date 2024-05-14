@@ -1,12 +1,12 @@
 grammar GAS;
 
 //Program
-program : (statement)* canvas (statement)* ;
-canvas : 'canvas' '(' expression ',' expression ',' expression ')' ';';
+program : (statement)*;
+canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
 
 declaration : type IDENTIFIER ('=' expression)?;
