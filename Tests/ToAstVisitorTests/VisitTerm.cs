@@ -12,11 +12,11 @@ namespace Tests.Frontend.ToAstVisitorTests;
 public class VisitTerm
 {
     [Fact]
-    public void PassVisitTermNumber()
+    public void PassVisitTermNum()
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number x = 1;"
+            "num x = 1;"
             );
         float i = 10;
         float x = (i++);
@@ -33,7 +33,7 @@ public class VisitTerm
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
         var term = (Term) declaration.Expression;
-        Assert.IsType<Number>(term);
+        Assert.IsType<Num>(term);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class VisitTerm
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number x = y;"
+            "num x = y;"
         );
 
         Assert.NotNull(ast);
@@ -84,7 +84,7 @@ public class VisitTerm
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number x = test(10, 40);"
+            "num x = test(10, 40);"
         );
 
         Assert.NotNull(ast);
@@ -172,7 +172,7 @@ public class VisitTerm
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number x = null;"
+            "num x = null;"
         );
 
         Assert.NotNull(ast);

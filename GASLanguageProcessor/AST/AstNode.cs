@@ -6,5 +6,5 @@ public abstract class AstNode
 {
     public abstract T Accept<T>(IAstVisitor<T> visitor, Scope scope);
     public Scope? Scope { get; set; }
-    public int LineNumber { get; set; }
+    public int LineNum { get; set; }
 }

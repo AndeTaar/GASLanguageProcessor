@@ -17,8 +17,8 @@ public class FunctionCallTest
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
-            "number Func(number x) {return x+20*5;}" +
-            "number funcCallVal = Func(0);");
+            "num Func(num x) {return x+20*5;}" +
+            "num funcCallVal = Func(0);");
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
 
         Assert.NotNull(result);
@@ -30,8 +30,8 @@ public class FunctionCallTest
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
-            "number Func(number x, number y) {return x+y;}" +
-            "number funcCallVal = Func(10, 20);" +
+            "num Func(num x, num y) {return x+y;}" +
+            "num funcCallVal = Func(10, 20);" +
             "color white = Color(255, 255, 255, 1);" +
             "point p = Point(10, 20);" +
             "square s = Square(p, 10, 20, white, white);");

@@ -5,14 +5,14 @@ namespace Tests.InterpreterTests.EvaluateExpressionTests;
 public class EvaluateExpressionRemoveFromList
 {
     [Fact]
-    public void EvaluateExpressionRemoveFromListNumberPass()
+    public void EvaluateExpressionRemoveFromListNumPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<number> listNumber = List{1, 2, 3, 4, 5};" +
-            "RemoveFromList(0, listNumber);"
+            "list<num> listNum = List{1, 2, 3, 4, 5};" +
+            "RemoveFromList(0, listNum);"
         );
-        var result = scope.vTable.LookUp("listNumber")?.ActualValue as FinalList;
+        var result = scope.vTable.LookUp("listNum")?.ActualValue as FinalList;
         var expected = new FinalList(new List<object> {2f, 3f, 4f, 5f}, scope);
 
         Assert.NotNull(result);

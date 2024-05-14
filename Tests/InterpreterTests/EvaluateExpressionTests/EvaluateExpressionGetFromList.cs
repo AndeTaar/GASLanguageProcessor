@@ -8,12 +8,12 @@ namespace Tests.InterpreterTests.EvaluateExpressionTests;
 public class EvaluateExpressionGetFromList
 {
     [Fact]
-    public void EvaluateExpressionGetFromListNumberPass()
+    public void EvaluateExpressionGetFromListNumPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<number> listNumber = List{1, 2, 3, 4, 5};" +
-            "number fromList = GetFromList(0, listNumber);"
+            "list<num> listNum = List{1, 2, 3, 4, 5};" +
+            "num fromList = GetFromList(0, listNum);"
         );
         var result = scope.vTable.LookUp("fromList")?.ActualValue;
         var expected = 1f;

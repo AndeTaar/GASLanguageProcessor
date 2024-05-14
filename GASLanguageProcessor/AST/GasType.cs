@@ -2,7 +2,7 @@
 
 public enum GasType
 {
-    Number,
+    Num,
     Text,
     Null,
     Void,

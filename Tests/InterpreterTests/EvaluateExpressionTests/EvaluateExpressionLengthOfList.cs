@@ -3,12 +3,12 @@
 public class EvaluateExpressionLengthOfList
 {
     [Fact]
-    public void EvaluateExpressionLengthOfListNumberPass()
+    public void EvaluateExpressionLengthOfListNumPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<number> listNumber = List{1, 2, 3, 4, 5};" +
-            "number listLength = LengthOfList(listNumber);"
+            "list<num> listNum = List{1, 2, 3, 4, 5};" +
+            "num listLength = LengthOfList(listNum);"
         );
         var result = (float) scope.vTable.LookUp("listLength")?.ActualValue;
         var expected = 5f;
@@ -28,7 +28,7 @@ public class EvaluateExpressionLengthOfList
             "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1)), " + 
             "   Circle(Point(100, 200), 30, 10, Color(0, 0, 255, 1), Color(0, 255, 0, 1)) " +
             "};" +
-            "number listLength = LengthOfList(listCircle);"
+            "num listLength = LengthOfList(listCircle);"
         );
         var result = (float) scope.vTable.LookUp("listLength")?.ActualValue;
         var expected = 2f;

@@ -10,26 +10,26 @@ public class VisitProgram
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));\n" +
-            "number l1 = 10;\n" +
+            "num l1 = 10;\n" +
             "bool y1 = !true;\n" +
             "bool i1 = !!false;\n" +
             "if (true) { \n" +
-            "   number x = 1; \n" +
+            "   num x = 1; \n" +
             "}\n" +
             "else if (false) { \n" +
-            "   number x = 1; \n" +
+            "   num x = 1; \n" +
             "} else { \n" +
-            "   number x = 1; \n" +
+            "   num x = 1; \n" +
             "}\n" +
-            "number i = 10 * 2 * 30 * 20;\n" +
-            "number l = 10 * 2 * 30 * 20 - i;\n" +
+            "num i = 10 * 2 * 30 * 20;\n" +
+            "num l = 10 * 2 * 30 * 20 - i;\n" +
             "group g = Group(Point(10,10), { \n" +
-            "       number x = 1; \n" +
+            "       num x = 1; \n" +
             "   group mousEars = Group(Point(10,10), { \n" +
-            "       number y = 2; \n" +
+            "       num y = 2; \n" +
             "   });\n" +
             "   group mousEyes = Group(Point(10,10), { \n" +
-            "       number y = 2; \n" +
+            "       num y = 2; \n" +
             "       });\n" +
             "});\n"
         );
@@ -42,22 +42,22 @@ public class VisitProgram
     public void VisitPassVisitProgramLargeProgram()
     {
         var ast = SharedTesting.GetAst(
-            "number Cos(number angle1) {\n" +
-            "    number result = 1;\n" +
-            "    number term = 1;\n" +
-            "    number factorial = 1;\n" +
-            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "num Cos(num angle1) {\n" +
+            "    num result = 1;\n" +
+            "    num term = 1;\n" +
+            "    num factorial = 1;\n" +
+            "    for (num i = 1; i <= 10; i+=1) {\n" +
             "        term *= -angle1 * angle1 / ((2 * i) * (2 * i - 1));\n" +
             "        result += term;\n" +
             "    }\n" +
             "    return result;\n" +
             "}\n" +
             "\n" +
-            "number Sin(number angle) {\n" +
-            "    number result = angle;\n" +
-            "    number term = angle;\n" +
-            "    number factorial = 1;\n" +
-            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "num Sin(num angle) {\n" +
+            "    num result = angle;\n" +
+            "    num term = angle;\n" +
+            "    num factorial = 1;\n" +
+            "    for (num i = 1; i <= 10; i+=1) {\n" +
             "        term *= -angle * angle / ((2 * i + 1) * (2 * i));\n" +
             "        result += term;\n" +
             "    }\n" +
@@ -68,21 +68,21 @@ public class VisitProgram
             "canvas (250, 250, Color(255, 255, 255, 1));\n" +
             "\n" +
             "\n" +
-            "circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)\n" +
+            "circle CircleCreator(point Center, num Width, num Stroke, color Fill, color StrokeColor)\n" +
             "{\n" +
             "    return Circle(Center, Width, Stroke, Fill, StrokeColor);\n" +
             "}\n" +
             "\n" +
             "if(false){\n" +
-            "    number x = 0;\n" +
+            "    num x = 0;\n" +
             "}else if(true){\n" +
-            "    number x = 0;\n" +
+            "    num x = 0;\n" +
             "  }else{\n" +
-            "  number x = 0;\n" +
-            "    number y = 0;\n" +
+            "  num x = 0;\n" +
+            "    num y = 0;\n" +
             "}\n" +
             "\n" +
-            "number x = 0;\n" +
+            "num x = 0;\n" +
             "\n" +
             "square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1));\n" +
             "\n" +
@@ -98,12 +98,12 @@ public class VisitProgram
             "AddToList(CircleCreator(Point(50, 10), 33, 10, red, black), circles);\n" +
             "AddToList(CircleCreator(Point(100, 10), 36, 10, pink, white), circles);\n" +
             "AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circles);\n" +
-            "\nfor(number i = 0; i < 10; i = i + 1)\n" +
+            "\nfor(num i = 0; i < 10; i = i + 1)\n" +
             "{\n" +
             "    AddToList(CircleCreator(Point(50+i*10, 10), 40, 10, red, black), circles);\n" +
             "}\n" +
             "\n" +
-            "for(number i = 0; x < 10; x = x + 1)\n" +
+            "for(num i = 0; x < 10; x = x + 1)\n" +
             "{\n" +
             "    square firkant2 = Square(Point(10, 10 + x * 50), 180, 10, green, pink);\n" +
             "    text txt2 = Text(\"Its even worse for mouses!\", Point(0,0 + x * 50), \"Arial\", 14, pink);\n" +
@@ -136,7 +136,7 @@ public class VisitProgram
             "color reds = Color(255, 0, 0, 1);\n" +
             "point xy = Point(0, 0);\n" +
             "\n" +
-            "number start = 180-40;\n" +
+            "num start = 180-40;\n" +
             "rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);\n" +
             "string s1 = \"It's even worse\";\n" +
             "string s2 = \" for mouses!\";\n" +
@@ -149,11 +149,11 @@ public class VisitProgram
             "\nlist<circle> circles2 = List {\n" +
             "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
             "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n\nlist<point> points = List {\n" +
-            "    Point(0, 0)\n};\n\nnumber radius = 50;\npoint center = Point(100, 100);\n" +
-            "\nfor (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
+            "    Point(0, 0)\n};\n\nnum radius = 50;\npoint center = Point(100, 100);\n" +
+            "\nfor (num theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
             "{\n" +
-            "    number x2 = 100 + radius * Cos(theta);\n" +
-            "    number y = 100 + radius * Sin(theta);\n" +
+            "    num x2 = 100 + radius * Cos(theta);\n" +
+            "    num y = 100 + radius * Sin(theta);\n" +
             "    AddToList(Point(x2, y), points);\n" +
             "}\n" +
             "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +

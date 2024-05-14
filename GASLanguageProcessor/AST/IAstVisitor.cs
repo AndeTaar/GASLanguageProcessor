@@ -16,7 +16,7 @@ public interface IAstVisitor<T>
 
     T VisitList(List node, Scope scope);
 
-    T VisitNumber(Number node, Scope scope);
+    T VisitNum(Num node, Scope scope);
 
     T VisitIfStatement(If node, Scope scope);
 

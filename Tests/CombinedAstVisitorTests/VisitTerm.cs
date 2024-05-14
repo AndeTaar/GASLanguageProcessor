@@ -10,8 +10,8 @@ public class VisitTerm
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
-            "number y = x * 10;"
+            "num x = 10;" +
+            "num y = x * 10;"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
@@ -23,8 +23,8 @@ public class VisitTerm
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
-            "number y = x / 10;"
+            "num x = 10;" +
+            "num y = x / 10;"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));

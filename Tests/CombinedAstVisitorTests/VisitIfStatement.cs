@@ -11,12 +11,12 @@ public class VisitIfStatement
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "if (true) { " +
-            "   number x = 1; " +
+            "   num x = 1; " +
             "}" +
             "else if (false) { " +
-            "   number x = 1; " +
+            "   num x = 1; " +
             "} else { " +
-            "   number x = 1; " +
+            "   num x = 1; " +
             "}"
         );
         var visitor = new CombinedAstVisitor();
@@ -29,12 +29,12 @@ public class VisitIfStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
+            "num x = 10;" +
             "if (true) { " +
-            "   number x = 1; " +
+            "   num x = 1; " +
             "}" +
             "else if (true) { " +
-            "   number x = 1; " +
+            "   num x = 1; " +
             "}"
         );
         var visitor = new CombinedAstVisitor();

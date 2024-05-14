@@ -7,7 +7,7 @@ using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
-using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
+using Num = GASLanguageProcessor.AST.Expressions.Terms.Num;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 
 namespace GASLanguageProcessor;
@@ -208,7 +208,7 @@ public class Interpreter
                 {
                     "+" => binaryOp.Type switch
                     {
-                        GasType.Number => (float)left + (float)right,
+                        GasType.Num => (float)left + (float)right,
                         GasType.String => (string)left + (string)right,
                         _ => (float) left + (float) right
                     },
@@ -247,8 +247,8 @@ public class Interpreter
                 }
                 return EvaluateExpression(variable.FormalValue, scope);
 
-            case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
-                return float.Parse(number.Value, CultureInfo.InvariantCulture);
+            case Num num: // Num is a float; CultureInfo is used to ensure that the decimal separator is a dot
+                return float.Parse(num.Value, CultureInfo.InvariantCulture);
 
             case Boolean boolean:
                 return bool.Parse(boolean.Value);

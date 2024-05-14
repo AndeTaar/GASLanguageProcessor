@@ -110,12 +110,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitReturnStatement([NotNull] GASParser.ReturnStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.classDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitClassDeclaration([NotNull] GASParser.ClassDeclarationContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.functionDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

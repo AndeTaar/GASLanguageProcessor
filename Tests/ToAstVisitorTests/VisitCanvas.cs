@@ -17,10 +17,10 @@ public class VisitCanvas
         Assert.IsType<Canvas>(ast);
         var canvas = (Canvas) ast;
         Assert.NotNull(canvas);
-        Assert.IsType<Number>(canvas.Width);
-        Assert.IsType<Number>(canvas.Height);
-        var width = (Number) canvas.Width;
-        var height = (Number) canvas.Height;
+        Assert.IsType<Num>(canvas.Width);
+        Assert.IsType<Num>(canvas.Height);
+        var width = (Num) canvas.Width;
+        var height = (Num) canvas.Height;
         Assert.Equal("250", width.Value);
         Assert.Equal("250", height.Value);
     }
