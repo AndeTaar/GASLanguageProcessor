@@ -33,11 +33,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         scope = scope.EnterScope(node);
         var list = node.Expressions.Select(expression => expression.Accept(this, scope)).ToList();
-        if(list.Count == 0)
-        {
-            return GasType.Any;
-        }
-        var listType = list.First();
+        var listType = node.Type.Accept(this,scope);
         return list.All(l => l == listType) ? listType : GasType.Error;
     }
 

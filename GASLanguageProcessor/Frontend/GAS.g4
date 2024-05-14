@@ -37,7 +37,7 @@ listAccessExpression : term ('[' expression ']')?;
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | groupTerm;
 
-listTerm : 'List' '{' (expression (',' expression)*)? '}';
+listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
