@@ -37,9 +37,10 @@ public static class SharedTesting
         ast.Accept(combinedAstVisitor, scope);
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, scope);
+        Assert.Empty(interpreter.errors);
         return scope;
     }
-    
+
     public static ArrayList<string> GetSvgLines(string input)
     {
         var scope = GetInterpretedScope(input);

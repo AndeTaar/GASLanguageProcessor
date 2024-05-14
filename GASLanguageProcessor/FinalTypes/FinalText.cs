@@ -6,7 +6,7 @@ public class FinalText
     public string Text { get; set; }
     public FinalPoint Position { get; set; }
     public string Font { get; set; }
-    public float FontSize { get; set; }
+    public FinalNumber FontSize { get; set; }
 
     public FinalColor TextColor { get; set; }
 
@@ -15,7 +15,7 @@ public class FinalText
         Text = text;
         Position = position;
         Font = font;
-        FontSize = fontSize;
+        FontSize = new FinalNumber(fontSize);
         TextColor = textColor;
     }
 }

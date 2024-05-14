@@ -1,47 +1,16 @@
-using GASLanguageProcessor;
+using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 
-namespace Tests.CombinedAstVisitorTests;
+namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
 public class VisitProgram
 {
-    [Fact]
-    public void VisitPassVisitProgram()
-    {
-        var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));\n" +
-            "number l1 = 10;\n" +
-            "bool y1 = !true;\n" +
-            "bool i1 = !!false;\n" +
-            "if (true) { \n" +
-            "   number x = 1; \n" +
-            "}\n" +
-            "else if (false) { \n" +
-            "   number x = 1; \n" +
-            "} else { \n" +
-            "   number x = 1; \n" +
-            "}\n" +
-            "number i = 10 * 2 * 30 * 20;\n" +
-            "number l = 10 * 2 * 30 * 20 - i;\n" +
-            "group g = Group(Point(10,10), { \n" +
-            "       number x = 1; \n" +
-            "   group mousEars = Group(Point(10,10), { \n" +
-            "       number y = 2; \n" +
-            "   });\n" +
-            "   group mousEyes = Group(Point(10,10), { \n" +
-            "       number y = 2; \n" +
-            "       });\n" +
-            "});\n"
-        );
-        var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
-        Assert.Empty(visitor.errors);
-    }
 
     [Fact]
-    public void VisitPassVisitProgramLargeProgram()
+    public void VisitPassVisitProgramSemiLarge()
     {
-        var ast = SharedTesting.GetAst(
+        var ast = SharedTesting.GetInterpretedScope(
             "number Cos(number angle1) {\n" +
             "    number result = 1;\n" +
             "    number term = 1;\n" +
@@ -65,13 +34,74 @@ public class VisitProgram
             "}\n" +
             "\n" +
             "\n" +
-            "canvas (250, 250, Color(255, 255, 255, 1));\n" +
+            "\nlist<point> points = List {\n" +
+            "    Point(0, 0)\n};\n" +
+            "\nnumber radius = 50;" +
+            "\npoint center = Point(100, 100);\n" +
+            "\nfor (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
+            "{\n" +
+            "    number x2 = 100 + radius * Cos(theta);\n" +
+            "    number y = 100 + radius * Sin(theta);\n" +
+            "    AddToList(Point(x2, y), points);\n" +
+            "}\n" +
+            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
+            "canvas (250, 250, Color(255, 255, 255, 1));\n");
+
+        var cosFunc = ast.fTable.LookUp("Cos");
+        var sinFunc = ast.fTable.LookUp("Sin");
+
+        Assert.NotNull(cosFunc);
+        Assert.NotNull(sinFunc);
+    }
+
+    [Fact]
+    public void VisitPassVisitProgramLargeProgram()
+    {
+        var ast = SharedTesting.GetInterpretedScope(
+            "number Cos(number angle1) {\n" +
+            "    number result = 1;\n" +
+            "    number term = 1;\n" +
+            "    number factorial = 1;\n" +
+            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "        term *= -angle1 * angle1 / ((2 * i) * (2 * i - 1));\n" +
+            "        result += term;\n" +
+            "    }\n" +
+            "    return result;\n" +
+            "}\n" +
+            "\n" +
+            "number Sin(number angle) {\n" +
+            "    number result = angle;\n" +
+            "    number term = angle;\n" +
+            "    number factorial = 1;\n" +
+            "    for (number i = 1; i <= 10; i+=1) {\n" +
+            "        term *= -angle * angle / ((2 * i + 1) * (2 * i));\n" +
+            "        result += term;\n" +
+            "    }\n" +
+            "    return result;\n" +
+            "}\n" +
             "\n" +
             "\n" +
             "circle CircleCreator(point Center, number Width, number Stroke, color Fill, color StrokeColor)\n" +
             "{\n" +
             "    return Circle(Center, Width, Stroke, Fill, StrokeColor);\n" +
             "}\n" +
+            "\nlist<circle> circles2 = List {\n" +
+            "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
+            "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n" +
+            "\nlist<point> points = List {\n" +
+            "    Point(0, 0)\n};\n" +
+            "\nnumber radius = 50;" +
+            "\npoint center = Point(100, 100);\n" +
+            "\nfor (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
+            "{\n" +
+            "    number x2 = 100 + radius * Cos(theta);\n" +
+            "    number y = 100 + radius * Sin(theta);\n" +
+            "    AddToList(Point(x2, y), points);\n" +
+            "}\n" +
+            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
+            "canvas (250, 250, Color(255, 255, 255, 1));\n" +
+            "\n" +
+            "\n" +
             "\n" +
             "if(false){\n" +
             "    number x = 0;\n" +
@@ -146,23 +176,48 @@ public class VisitProgram
             "line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));\n" +
             "\nstring j = \"a\" + \"b\" + \"c\";\n" +
             "bool k = true == false != true;\nbool l = 5<3 || 5>3 && 5<=5;\n" +
-            "\nlist<circle> circles2 = List {\n" +
-            "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
-            "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n\nlist<point> points = List {\n" +
-            "    Point(0, 0)\n};\n\nnumber radius = 50;\npoint center = Point(100, 100);\n" +
-            "\nfor (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
-            "{\n" +
-            "    number x2 = 100 + radius * Cos(theta);\n" +
-            "    number y = 100 + radius * Sin(theta);\n" +
-            "    AddToList(Point(x2, y), points);\n" +
-            "}\n" +
-            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
             ""
         );
-        var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
-        Assert.Empty(visitor.errors);
+        var cosFunc = ast.fTable.LookUp("Cos");
+        var sinFunc = ast.fTable.LookUp("Sin");
+        var circleCreatorFunc = ast.fTable.LookUp("CircleCreator");
+        var getBoolFunc = ast.fTable.LookUp("GetBool");
 
+        Assert.NotNull(cosFunc);
+        Assert.NotNull(sinFunc);
+        Assert.NotNull(circleCreatorFunc);
+        Assert.NotNull(getBoolFunc);
 
+        Assert.Equal(GasType.Number, cosFunc?.ReturnType);
+        Assert.Equal(GasType.Number, sinFunc?.ReturnType);
+        Assert.Equal(GasType.Circle, circleCreatorFunc?.ReturnType);
+        Assert.Equal(GasType.Bool, getBoolFunc?.ReturnType);
+
+        var groupMouse = ast.vTable.LookUp("mouse")?.ActualValue as FinalGroup;
+        Assert.NotNull(groupMouse);
+
+        var groupMouseEars = groupMouse.Scope.vTable.LookUp("mousEars")?.ActualValue as FinalGroup;
+        Assert.NotNull(groupMouseEars);
+
+        var groupMouseFace = groupMouse.Scope.vTable.LookUp("mouseFace")?.ActualValue as FinalGroup;
+        Assert.NotNull(groupMouseFace);
+
+        var circleLeftEar = groupMouseEars.Scope.vTable.LookUp("leftEar")?.ActualValue as FinalCircle;
+        var circleRightEar = groupMouseEars.Scope.vTable.LookUp("rightEar")?.ActualValue as FinalCircle;
+        Assert.NotNull(circleLeftEar);
+        Assert.NotNull(circleRightEar);
+
+        var circleFace = groupMouseFace.Scope.vTable.LookUp("face")?.ActualValue as FinalCircle;
+        var circleEye = groupMouseFace.Scope.vTable.LookUp("eye")?.ActualValue as FinalCircle;
+        var circleEye2 = groupMouseFace.Scope.vTable.LookUp("eye2")?.ActualValue as FinalCircle;
+        var ellipseEyeball = groupMouseFace.Scope.vTable.LookUp("eyeball")?.ActualValue as FinalEllipse;
+        var ellipseEyeball2 = groupMouseFace.Scope.vTable.LookUp("eyeball2")?.ActualValue as FinalEllipse;
+        var segLineMouth = groupMouseFace.Scope.vTable.LookUp("mouth")?.ActualValue as FinalSegLine;
+        Assert.NotNull(circleFace);
+        Assert.NotNull(circleEye);
+        Assert.NotNull(circleEye2);
+        Assert.NotNull(ellipseEyeball);
+        Assert.NotNull(ellipseEyeball2);
+        Assert.NotNull(segLineMouth);
     }
 }

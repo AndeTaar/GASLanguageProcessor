@@ -16,14 +16,16 @@ public class Interpreter
 {
     public float canvasWidth;
     public float canvasHeight;
+    public List<string> errors = new();
 
-    public object EvaluateStatement(Statement statement, Scope scope)
+    public object? EvaluateStatement(Statement statement, Scope scope)
     {
         switch (statement)
         {
             case Canvas canvas:
                 var width = (float)EvaluateExpression(canvas.Width, scope);
                 var height = (float)EvaluateExpression(canvas.Height, scope);
+                canvasHeight = height;
                 canvasHeight = height;
                 canvasWidth = width;
                 var backgroundColor = canvas.BackgroundColor == null
@@ -33,10 +35,11 @@ public class Interpreter
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
                 return finalCanvas;
+
             case Compound compound:
-                EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
-                EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
-                return null;
+                var eval1 = EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
+                var eval2 = EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
+                return eval1 ?? eval2;
 
             // Currently allows infinite loops.
             case For @for:
@@ -44,11 +47,11 @@ public class Interpreter
                 var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 while ((bool)condition)
                 {
-                    EvaluateStatement(@for.Statements, @for.Scope ?? scope);
+                    var eval = EvaluateStatement(@for.Statements, @for.Scope ?? scope);
+                    if(eval != null) return eval;
                     EvaluateStatement(@for.Increment, @for.Scope ?? scope);
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 }
-
                 return null;
 
             // Currently allows infinite loops.
@@ -56,7 +59,8 @@ public class Interpreter
                 var whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 while ((bool) whileCondition)
                 {
-                    EvaluateStatement(@while.Statements, @while.Scope ?? scope);
+                    var eval = EvaluateStatement(@while.Statements, @while.Scope ?? scope);
+                    if (eval != null) return eval;
                     whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 }
                 return null;
@@ -68,12 +72,12 @@ public class Interpreter
                 var variable = scope.vTable.LookUp(declIdentifier);
                 if (variable == null)
                 {
-                    Console.WriteLine($"Variable {declIdentifier} not found");
+                    errors.Add($"Variable {declIdentifier} not found");
                     return null;
                 }
 
                 variable.ActualValue = val;
-                return val;
+                return null;
 
             case CollectionDeclaration collectionDeclaration:
                 var collectionDeclarationVal = EvaluateExpression(collectionDeclaration.Expression, collectionDeclaration.Scope ?? scope);
@@ -81,11 +85,11 @@ public class Interpreter
                 var collectionVariable = scope.vTable.LookUp(collectionDeclIdentifier);
                 if (collectionVariable == null)
                 {
-                    Console.WriteLine($"Variable {collectionDeclIdentifier} not found");
+                    errors.Add($"Variable {collectionDeclIdentifier} not found");
                     return null;
                 }
                 collectionVariable.ActualValue = collectionDeclarationVal;
-                return collectionDeclarationVal;
+                return null;
 
             case FunctionCallStatement functionCallStatement:
                 var identifierAndFunction =
@@ -94,22 +98,29 @@ public class Interpreter
                 Function function = identifierAndFunction.Item2;
                 if (function == null)
                 {
-                    throw new Exception($"Function {identifier} not found");
+                    errors.Add($"Function {identifier} not found");
                 }
 
                 var functionCallScope = functionCallStatement.Scope ?? scope;
                 var functionScope = function.Scope;
-                functionScope.vTable.Variables.Clear();
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
-                    functionScope.vTable.Bind(parameter.Identifier,
-                        new Variable(parameter.Identifier, functionCallVal));
+                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
+                    if (var != null)
+                    {
+                        var.ActualValue = functionCallVal;
+                    }
+                    else
+                    {
+                        functionScope.vTable.Bind(parameter.Identifier,
+                            new Variable(parameter.Identifier, functionCallVal));
+                    }
                 }
 
-                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
-                return functionCallRes;
+                EvaluateStatement(function.Statements, functionScope);
+                return null;
 
             case Assignment assignment:
                 var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
@@ -117,12 +128,30 @@ public class Interpreter
                 var assignVariable = scope.vTable.LookUp(assignIdentifier);
                 if (assignVariable == null)
                 {
-                    Console.WriteLine($"Variable {assignIdentifier} not found");
+                    errors.Add($"Variable {assignIdentifier} not found");
                     return null;
                 }
 
-                assignVariable.ActualValue = assignExpression;
-                return assignExpression;
+                switch (assignment.Operator)
+                {
+                    case "+=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! + (float) assignExpression;
+                        break;
+                    case "-=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! - (float) assignExpression;
+                        break;
+                    case "*=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! * (float) assignExpression;
+                        break;
+                    case "/=":
+                        assignVariable.ActualValue = (float) assignVariable.ActualValue! / (float) assignExpression;
+                        break;
+                    case "=":
+                        assignVariable.ActualValue = assignExpression;
+                        break;
+                }
+
+                return null;
 
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
@@ -138,17 +167,26 @@ public class Interpreter
                 Function function = scope.fTable.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {
-                    throw new Exception($"Function {functionCall.Identifier.Name} not found");
+                    errors.Add($"Function {functionCall.Identifier.Name} not found");
+                    return null;
                 }
 
                 var functionCallScope = functionCall.Scope ?? scope;
                 var functionScope = function.Scope;
-                functionScope.vTable.Variables.Clear();
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var val = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
-                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, val));
+                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
+                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
+                    if (var != null)
+                    {
+                        var.ActualValue = functionCallVal;
+                    }
+                    else
+                    {
+                        functionScope.vTable.Bind(parameter.Identifier,
+                            new Variable(parameter.Identifier, functionCallVal));
+                    }
                 }
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
                 return functionCallRes;
@@ -192,14 +230,15 @@ public class Interpreter
             case Identifier identifier:
                 if (scope == null || scope.vTable == null || identifier == null || identifier.Name == null)
                 {
-                    throw new Exception("Scope, VariableTable, Identifier or Identifier Name is null");
+                   errors.Add("Scope, VariableTable, Identifier or Identifier Name is null");
                 }
 
                 var variable = scope.LookupAttribute(identifier, scope, scope, new List<string>());
 
                 if (variable == null)
                 {
-                    throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
+                    errors.Add($"Variable {identifier.Name} not found in the VariableTable");
+                    return null;
                 }
 
                 if (variable.ActualValue != null)
@@ -291,6 +330,13 @@ public class Interpreter
                 var segLineColor = (FinalColor) EvaluateExpression(segLine.Color, scope);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
 
+            case Polygon polygon:
+                var polygonPoints = (FinalList) EvaluateExpression(polygon.Points, scope);
+                var polygonColor = (FinalColor) EvaluateExpression(polygon.Color, scope);
+                var polygonStroke = (float) EvaluateExpression(polygon.Stroke, scope);
+                var polygonStrokeColor = (FinalColor) EvaluateExpression(polygon.StrokeColor, scope);
+                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor);
+
             case Group group:
                 var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
                 EvaluateStatement(group.Statements, group.Scope ?? scope);
@@ -299,12 +345,22 @@ public class Interpreter
             case AddToList addToList:
                 var listToAddTo = scope.vTable.LookUp(addToList.ListIdentifier.Name);
 
-                if (listToAddTo == null) throw new Exception($"Variable {addToList.ListIdentifier.Name} not found");
-                if (listToAddTo.ActualValue == null)
+                if (listVariable == null)
+                {
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                if (listVariable.ActualValue == null)
                 {
                     listToAddTo.ActualValue = new FinalList(new List<object>(), scope);
                 }
-                if (listToAddTo.ActualValue is not FinalList destList) throw new Exception($"Variable {addToList.ListIdentifier.Name} is not a list");
+
+                if (listVariable.ActualValue is not FinalList destList)
+                {
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
 
                 var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
                 destList.Values.Add(valueToAdd);

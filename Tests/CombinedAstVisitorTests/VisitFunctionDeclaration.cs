@@ -35,7 +35,10 @@ public class VisitFunctionDeclaration
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "bool test() {}" +
+            "bool test() {" +
+            "   number x = 10;" +
+            "   return x > 0;" +
+            "}" +
             "if(test()) {}"
         );
         var visitor = new CombinedAstVisitor();
@@ -51,7 +54,7 @@ public class VisitFunctionDeclaration
             "number test(number x, point y, circle f) {" +
             "  x = 1;" +
             "  y = Point(1, 1);" +
-            "  f = Circle(1, 1, 1);" +
+            "  f = Circle(y, 10, 10, Color(255,255,255,1), Color(255,255,255,1));" +
             "}"
         );
         var visitor = new CombinedAstVisitor();

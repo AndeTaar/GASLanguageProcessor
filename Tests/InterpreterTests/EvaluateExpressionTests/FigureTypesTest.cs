@@ -9,7 +9,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
-public class EvaluateExpressionFigureTypes
+public class FigureTypesTest
 {
     [Fact]
     public void PassEvaluateExpressionColor() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
@@ -22,10 +22,10 @@ public class EvaluateExpressionFigureTypes
 
         Assert.NotNull(result);
         Assert.IsType<FinalColor>(result);
-        Assert.Equal(expected.Red, result.Red);
-        Assert.Equal(expected.Green, result.Green);
-        Assert.Equal(expected.Blue, result.Blue);
-        Assert.Equal(expected.Alpha, result.Alpha);
+        Assert.Equal(expected.Red.Value, result.Red.Value);
+        Assert.Equal(expected.Green.Value, result.Green.Value);
+        Assert.Equal(expected.Blue.Value, result.Blue.Value);
+        Assert.Equal(expected.Alpha.Value, result.Alpha.Value);
     }
 
     [Fact]
@@ -39,8 +39,8 @@ public class EvaluateExpressionFigureTypes
 
         Assert.NotNull(result);
         Assert.IsType<FinalPoint>(result);
-        Assert.Equal(expected.X, result.X);
-        Assert.Equal(expected.Y, result.Y);
+        Assert.Equal(expected.X.Value, result.X.Value);
+        Assert.Equal(expected.Y.Value, result.Y.Value);
     }
 
     [Fact]
@@ -57,8 +57,8 @@ public class EvaluateExpressionFigureTypes
         Assert.NotNull(result);
         Assert.IsType<FinalSquare>(result);
         Assert.IsType<FinalPoint>(result.TopLeft);
-        Assert.Equal(expected.Length, result.Length);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Length.Value, result.Length.Value);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
         Assert.IsType<FinalColor>(result.FillColor);
         Assert.IsType<FinalColor>(result.StrokeColor);
     }
@@ -77,11 +77,11 @@ public class EvaluateExpressionFigureTypes
         Assert.NotNull(result);
         Assert.IsType<FinalEllipse>(result);
         Assert.IsType<FinalPoint>(result.Center);
-        Assert.Equal(expected.RadiusX, result.RadiusX);
-        Assert.Equal(expected.RadiusY, result.RadiusY);
+        Assert.Equal(expected.RadiusX.Value, result.RadiusX.Value);
+        Assert.Equal(expected.RadiusY.Value, result.RadiusY.Value);
         Assert.IsType<FinalColor>(result.Color);
         Assert.IsType<FinalColor>(result.StrokeColor);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class EvaluateExpressionFigureTypes
         Assert.Equal(expected.Text, result.Text);
         Assert.IsType<FinalPoint>(result.Position);
         Assert.Equal(expected.Font, result.Font);
-        Assert.Equal(expected.FontSize, result.FontSize);
+        Assert.Equal(expected.FontSize.Value, result.FontSize.Value);
         Assert.IsType<FinalColor>(result.TextColor);
     }
 
@@ -116,8 +116,8 @@ public class EvaluateExpressionFigureTypes
         Assert.NotNull(result);
         Assert.IsType<FinalCircle>(result);
         Assert.IsType<FinalPoint>(result.Center);
-        Assert.Equal(expected.Radius, result.Radius);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Radius.Value, result.Radius.Value);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
         Assert.IsType<FinalColor>(result.FillColor);
         Assert.IsType<FinalColor>(result.StrokeColor);
     }
@@ -137,7 +137,7 @@ public class EvaluateExpressionFigureTypes
         Assert.IsType<FinalRectangle>(result);
         Assert.IsType<FinalPoint>(result.TopLeft);
         Assert.IsType<FinalPoint>(result.BottomRight);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
         Assert.IsType<FinalColor>(result.FillColor);
         Assert.IsType<FinalColor>(result.StrokeColor);
     }
@@ -155,7 +155,7 @@ public class EvaluateExpressionFigureTypes
         Assert.IsType<FinalPoint>(result.Start);
         Assert.IsType<FinalPoint>(result.End);
         Assert.IsType<FinalColor>(result.StrokeColor);
-        Assert.Equal(4, result.Stroke);
+        Assert.Equal(4, result.Stroke.Value);
         // Consider adding asserts for the actual values of the points
     }
 
@@ -173,7 +173,7 @@ public class EvaluateExpressionFigureTypes
         Assert.IsType<FinalPoint>(result.Start);
         Assert.IsType<FinalPoint>(result.End);
         Assert.IsType<FinalColor>(result.StrokeColor);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
     }
 
     [Fact]

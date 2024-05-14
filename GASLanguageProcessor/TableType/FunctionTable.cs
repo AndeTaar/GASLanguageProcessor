@@ -13,9 +13,14 @@ public class FunctionTable
         this.Scope = scope;
     }
 
-    public void Bind(string key, Function value)
+    public bool Bind(string key, Function value)
     {
+        if(Functions.ContainsKey(key))
+        {
+            return false;
+        }
         Functions.Add(key, value);
+        return true;
     }
 
     public Function? LookUp(string key)

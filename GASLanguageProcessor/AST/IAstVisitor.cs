@@ -75,10 +75,12 @@ public interface IAstVisitor<T>
     T VisitSegLine(SegLine node, Scope scope);
 
     T VisitLine(Line node, Scope scope);
-    
+
     T VisitGetFromList(GetFromList node, Scope scope);
-    
+
     T VisitRemoveFromList(RemoveFromList node, Scope scope);
-    
+
     T VisitLengthOfList(LengthOfList node, Scope scope);
+
+    T VisitPolygon(Polygon polygon, Scope scope);
 }

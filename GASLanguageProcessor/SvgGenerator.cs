@@ -8,8 +8,15 @@ public class SvgGenerator
 {
     public ArrayList<string> SvgLines = new();
 
-    public ArrayList<string> GenerateSvg(VariableTable vTable) //still only takes variables from global scope and it does not look as expected
+    public ArrayList<string> GenerateSvg(VariableTable vTable)
     {
+        if (vTable.Variables.ContainsKey("canvas"))
+        {
+            var canvas = vTable.Variables["canvas"];
+            vTable.Variables.Remove("canvas");
+            GenerateLine(canvas.ActualValue, canvas);
+        }
+
         foreach (Variable variable in vTable.Variables.Values)
         {
             GenerateLine(variable.ActualValue, variable);
@@ -18,8 +25,12 @@ public class SvgGenerator
         return SvgLines;
     }
 
+
+
+
+
    public void GenerateLine(Object obj, Variable? variable = null)
-{
+   {
     switch (obj)
     {
         case FinalCanvas canvas:
@@ -58,6 +69,10 @@ public class SvgGenerator
                 GenerateLine(list.Values[i], variable);
             }
             return;
+        case FinalPolygon polygon:
+            SvgLines.Add($"<polygon id=\"{variable?.Identifier}\" points=\"{polygon.Points.ToString()}\" fill=\"{polygon.Color.ColorToString()}\" fill-opacity=\"{polygon.Color.Alpha}\" stroke=\"{polygon.StrokeColor.ColorToString()}\" stroke-width=\"{polygon.Stroke}\" />");
+            break;
+
     }
 }
 }

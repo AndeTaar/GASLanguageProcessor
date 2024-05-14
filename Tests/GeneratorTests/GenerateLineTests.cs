@@ -1,4 +1,6 @@
-﻿namespace Tests.GeneratorTests;
+﻿using GASLanguageProcessor.FinalTypes;
+
+namespace Tests.GeneratorTests;
 
 public class GenerateLineTests
 {
@@ -8,7 +10,7 @@ public class GenerateLineTests
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -16,7 +18,7 @@ public class GenerateLineTests
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("</svg>", svgLines[1]);
     }
-    
+
     [Fact]
     public void GenerateLineCirclePass()
     {
@@ -24,7 +26,7 @@ public class GenerateLineTests
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "circle c = Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -35,7 +37,7 @@ public class GenerateLineTests
                      " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineSegLinePass()
     {
@@ -43,7 +45,7 @@ public class GenerateLineTests
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "segLine sl = SegLine(Point(10, 20), Point(30, 40), 10, Color(255, 0, 0, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -53,7 +55,7 @@ public class GenerateLineTests
                      " stroke=\"rgba(255, 0, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineLinePass()
     {
@@ -63,10 +65,10 @@ public class GenerateLineTests
             $"canvas ({canvasWidth}, {canvasHeight}, Color(255, 255, 255, 1));" +
             $"line l = Line({lineIntercept}, {lineGradient}, 10, Color(255, 0, 0, 1));"
         );
-        
-        float expectedLineEndX = (canvasHeight - lineIntercept) / lineGradient + 1;
-        float expectedLineEndY = lineGradient * expectedLineEndX + lineIntercept;
-        
+
+        var expectedLineEndX = new FinalNumber((canvasHeight - lineIntercept) / lineGradient + 1);
+        var expectedLineEndY = new FinalNumber(lineGradient * expectedLineEndX.Value + lineIntercept);
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -94,15 +96,15 @@ public class GenerateLineTests
                      " fill-opacity=\"1\" stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineEllipsePass()
     {
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "ellipse e = Ellipse(Point(10, 20), 30, 40, Color(255, 0, 0, 1), Color(0, 255, 0, 1), 10);"
+            "ellipse e = Ellipse(Point(10, 20), 30, 40, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -112,7 +114,7 @@ public class GenerateLineTests
                      " fill=\"rgba(255, 0, 0, 1)\" stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineTextPass()
     {
@@ -120,7 +122,7 @@ public class GenerateLineTests
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "text t = Text(\"Hello, World!\", Point(10, 20), \"Arial\", 20, Color(255, 0, 0, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -130,7 +132,7 @@ public class GenerateLineTests
                      " font-family=\"Arial\" font-size=\"20\">Hello, World!</text>", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineSquarePass()
     {
@@ -138,7 +140,7 @@ public class GenerateLineTests
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "square s = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -149,7 +151,7 @@ public class GenerateLineTests
                      " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
-    
+
     [Fact]
     public void GenerateLineGroupPass()
     {
@@ -161,7 +163,7 @@ public class GenerateLineTests
             "   square groupSquare = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));" +
             "});"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
@@ -177,7 +179,7 @@ public class GenerateLineTests
         Assert.Equal("</g>", svgLines[4]);
         Assert.Equal("</svg>", svgLines[5]);
     }
-    
+
     [Fact]
     public void GenerateLineListPass()
     {
@@ -189,7 +191,7 @@ public class GenerateLineTests
             "   Circle(Point(100, 200), 30, 10, Color(0, 255, 0, 1), Color(0, 0, 255, 1))" +
             "};"
         );
-        
+
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +

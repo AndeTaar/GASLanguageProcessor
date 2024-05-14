@@ -14,4 +14,14 @@ public class FinalList
         Values = values;
         Scope = scope;
     }
+
+    public override string ToString()
+    {
+        string s = "";
+        for (int i = 0; i < Values.Count; i++)
+        {
+            s += Values[i].ToString() + " ";
+        }
+        return s;
+    }
 }

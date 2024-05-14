@@ -164,11 +164,11 @@ public class Scope
                 new Identifier("color"),
                 new Identifier("strokeColor")
             )), new Scope(this, null)));
-            
+
             fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
             {
-                new Variable("value", this, GasType.Any),
-                new Variable("list", this, GasType.Any)
+                new Variable("value", this, GasType.Number),
+                new Variable("list", this, GasType.List)
             }, new Return(new AddToList(
                 new Identifier("value"),
                 new Identifier("list")
@@ -176,8 +176,8 @@ public class Scope
             
             fTable.Bind("RemoveFromList", new Function(GasType.Void, new List<Variable>()
             {
-                new Variable("index", this, GasType.Any),
-                new Variable("list", this, GasType.Any)
+                new Variable("index", this, GasType.Number),
+                new Variable("list", this, GasType.List)
             }, new Return(new RemoveFromList(
                 new Identifier("index"),
                 new Identifier("list")
@@ -185,8 +185,8 @@ public class Scope
             
             fTable.Bind("GetFromList", new Function(GasType.Any, new List<Variable>()
             {
-                new Variable("index", this, GasType.Any),
-                new Variable("list", this, GasType.Any)
+                new Variable("index", this, GasType.Number),
+                new Variable("list", this, GasType.List)
             }, new Return(new GetFromList(
                 new Identifier("index"),
                 new Identifier("list")
@@ -194,9 +194,22 @@ public class Scope
             
             fTable.Bind("LengthOfList", new Function(GasType.Number, new List<Variable>()
             {
-                new Variable("list", this, GasType.Any)
+                new Variable("list", this, GasType.List)
             }, new Return(new LengthOfList(
                 new Identifier("list")
+            )), new Scope(this, null)));
+
+            fTable.Bind("Polygon", new Function(GasType.Polygon, new List<Variable>()
+            {
+                new Variable("points", this, GasType.List),
+                new Variable("stroke", this, GasType.Number),
+                new Variable("color", this, GasType.Color),
+                new Variable("strokeColor", this, GasType.Color)
+            }, new Return(new Polygon(
+                new Identifier("points"),
+                new Identifier("stroke"),
+                new Identifier("color"),
+                new Identifier("strokeColor")
             )), new Scope(this, null)));
         }
     }

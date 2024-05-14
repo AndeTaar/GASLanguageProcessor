@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime ;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
+using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.Frontend;
 using GASLanguageProcessor.TableType;
 
@@ -42,6 +43,11 @@ static void Main(string[] args)
     }
     Interpreter interpreter = new Interpreter();
     interpreter.EvaluateStatement(ast as Statement, scope);
+    interpreter.errors.ForEach(Console.Error.WriteLine);
+    if(interpreter.errors.Count > 0)
+    {
+        return;
+    }
     SvgGenerator svgGenerator = new SvgGenerator();
     var lines = svgGenerator.GenerateSvg(scope.vTable);
     lines.Add("</svg>");
