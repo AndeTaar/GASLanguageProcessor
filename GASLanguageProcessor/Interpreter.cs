@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Antlr4.Runtime;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
@@ -370,10 +371,23 @@ public class Interpreter
                 var listToRemoveFrom = scope.vTable.LookUp(removeFromList.ListIdentifier.Name);
                 var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, removeFromList.Scope ?? scope));
 
-                if (listToRemoveFrom == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} not found");
-                if (listToRemoveFrom.ActualValue == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is already empty");
-                if (listToRemoveFrom.ActualValue is not FinalList destinedList) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is not a list");
-                if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Count) throw new Exception($"Index {indexToRemove} out of range for list {removeFromList.ListIdentifier.Name}");
+                if (listToRemoveFrom == null)
+                {
+                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                if (listToRemoveFrom.ActualValue is not FinalList destinedList)
+                {
+                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Count)
+                {
+                    errors.Add($"Index {indexToRemove} out of range for list {removeFromList.ListIdentifier.Name}");
+                    return null;
+                }
 
                 destinedList.Values.RemoveAt(indexToRemove);
                 return null;
@@ -383,9 +397,23 @@ public class Interpreter
                 var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
                 var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
 
-                if (listToGetFrom == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} not found");
-                if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
-                if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count) throw new Exception($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
+                if (listToGetFrom == null)
+                {
+                    errors.Add($"Variable {getFromList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                if (listToGetFrom.ActualValue is not FinalList sourceList)
+                {
+                    errors.Add($"Variable {getFromList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count)
+                {
+                    errors.Add($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
+                    return null;
+                }
 
                 var valueToGet = sourceList.Values[indexOfValue];
 
@@ -394,8 +422,17 @@ public class Interpreter
             case LengthOfList lengthOfList:
                 var listToCheck = scope.vTable.LookUp(lengthOfList.ListIdentifier.Name);
 
-                if (listToCheck == null) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} not found");
-                if (listToCheck.ActualValue is not FinalList listToCheckLength) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} is not a list");
+                if (listToCheck == null)
+                {
+                    errors.Add($"Variable {lengthOfList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                if (listToCheck.ActualValue is not FinalList listToCheckLength)
+                {
+                    errors.Add($"Variable {lengthOfList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
 
                 return (float)listToCheckLength.Values.Count;
 
