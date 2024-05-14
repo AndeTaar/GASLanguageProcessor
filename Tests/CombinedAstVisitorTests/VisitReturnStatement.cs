@@ -10,7 +10,7 @@ public class VisitReturnStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
+            "num x = 10;" +
             "return x;"
         );
         var visitor = new CombinedAstVisitor();
@@ -23,7 +23,7 @@ public class VisitReturnStatement
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "void ypass() { " +
-            "number x = 10;" +
+            "num x = 10;" +
             "return x;" +
             "}" +
             "return 10;"
@@ -38,7 +38,7 @@ public class VisitReturnStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number x = 10;" +
+            "num x = 10;" +
             "return y;"
         );
         var visitor = new CombinedAstVisitor();

@@ -3,7 +3,7 @@ namespace GASLanguageProcessor.FinalTypes;
 public class FinalPolygon
 {
     public FinalList Points { get; set; }
-    public FinalNumber Stroke { get; set; }
+    public FinalNum Stroke { get; set; }
     public FinalColor Color { get; set; }
     public FinalColor StrokeColor { get; set; }
 
@@ -11,7 +11,7 @@ public class FinalPolygon
     {
         Points = points;
         Color = color;
-        Stroke = new FinalNumber(stroke);
+        Stroke = new FinalNum(stroke);
         StrokeColor = strokeColor;
     }
 

@@ -10,8 +10,8 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "for (number i = 0; i < 10; i = i + 1) {" +
-            "number x = i;" +
+            "for (num i = 0; i < 10; i = i + 1) {" +
+            "num x = i;" +
             "}"
         );
         var visitor = new CombinedAstVisitor();
@@ -24,8 +24,8 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "for (number i = 0; i < 10; i = i + 1) {" +
-            "number x = i;" +
+            "for (num i = 0; i < 10; i = i + 1) {" +
+            "num x = i;" +
             "}"
         );
         var visitor = new CombinedAstVisitor();
@@ -41,7 +41,7 @@ public class VisitForStatement
             "list<circle> circles;" +
             "color red = Color(255, 0, 0, 1);" +
             "color black = Color(0, 0, 0, 1);" +
-            "for(number i = 0; i < 10; i = i + 1){" +
+            "for(num i = 0; i < 10; i = i + 1){" +
                 "AddToList(Circle(Point(50, 10), 40+i, 10, red, black), circles);" +
                 "circle circle1 = Circle(Point(50, 10), 40+i, 10, red, black);" +
                 "}"
@@ -56,7 +56,7 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "for (i = 0; i < 10; i = i + 1) { number i = 1; }"
+            "for (i = 0; i < 10; i = i + 1) { num i = 1; }"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
@@ -68,7 +68,7 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "for (number i = 0; x < 10; i = i + 1) { number x; }"
+            "for (num i = 0; x < 10; i = i + 1) { num x; }"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
@@ -80,7 +80,7 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "for (number i = 0; i < 10; i = x + 1) { x = 1; }"
+            "for (num i = 0; i < 10; i = x + 1) { x = 1; }"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));

@@ -2,11 +2,11 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalNumber
+public class FinalNum
 {
     public float Value { get; set; }
 
-    public FinalNumber(float value)
+    public FinalNum(float value)
     {
         Value = value;
     }

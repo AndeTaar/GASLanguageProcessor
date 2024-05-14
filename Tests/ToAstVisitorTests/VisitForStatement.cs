@@ -11,7 +11,7 @@ public class VisitForStatement
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "for (number i = 0; i < 10; i = i + 1) { }");
+            "for (num i = 0; i < 10; i = i + 1) { }");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound) ast;

@@ -19,9 +19,9 @@ public class VisitMultExpression
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "number y = 10 * 2 * 30;" +
-            "number i = 10 * 2 * 30 + y * 20;" +
-            "number x = 10 * 2 * 30 + y * 20 - i;"
+            "num y = 10 * 2 * 30;" +
+            "num i = 10 * 2 * 30 + y * 20;" +
+            "num x = 10 * 2 * 30 + y * 20 - i;"
             );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));

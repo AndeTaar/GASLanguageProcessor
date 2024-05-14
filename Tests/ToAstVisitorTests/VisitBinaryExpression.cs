@@ -14,7 +14,7 @@ public class VisitBinaryExpression
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number c = 10 + 10;");
+            "num c = 10 + 10;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound) ast;
@@ -40,7 +40,7 @@ public class VisitBinaryExpression
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "number c = 10 + 10 + 10 + 10 * 100 / 50;");
+            "num c = 10 + 10 + 10 + 10 * 100 / 50;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound) ast;

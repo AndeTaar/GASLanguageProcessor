@@ -13,7 +13,7 @@ public class VisitDeclaration
     {
         var ast = SharedTesting.GetAst(
             "canvas(100, 200, Color(0, 0, 0, 1));" +
-            "number x = 100 + 200;");
+            "num x = 100 + 200;");
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -27,10 +27,10 @@ public class VisitDeclaration
         Assert.IsType<BinaryOp>(declaration.Expression);
         var binary = (BinaryOp)declaration.Expression;
         Assert.NotNull(binary);
-        Assert.IsType<Number>(binary.Left);
-        Assert.IsType<Number>(binary.Right);
-        var left = (Number)binary.Left;
-        var right = (Number)binary.Right;
+        Assert.IsType<Num>(binary.Left);
+        Assert.IsType<Num>(binary.Right);
+        var left = (Num)binary.Left;
+        var right = (Num)binary.Right;
         Assert.Equal("100", left.Value);
         Assert.Equal("200", right.Value);
     }

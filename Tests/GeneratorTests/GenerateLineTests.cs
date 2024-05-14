@@ -66,8 +66,8 @@ public class GenerateLineTests
             $"line l = Line({lineIntercept}, {lineGradient}, 10, Color(255, 0, 0, 1));"
         );
 
-        var expectedLineEndX = new FinalNumber((canvasHeight - lineIntercept) / lineGradient + 1);
-        var expectedLineEndY = new FinalNumber(lineGradient * expectedLineEndX.Value + lineIntercept);
+        var expectedLineEndX = new FinalNum((canvasHeight - lineIntercept) / lineGradient + 1);
+        var expectedLineEndY = new FinalNum(lineGradient * expectedLineEndX.Value + lineIntercept);
 
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));

@@ -15,8 +15,8 @@ public class UnaryOpTest
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (-125, -50, Color(255, 255, 255, 1));" +
-                "number x = 20;" +
-                "number y = -x;");
+                "num x = 20;" +
+                "num y = -x;");
         var result = scope.vTable.LookUp("y")?.ActualValue;
 
         Assert.NotNull(result);

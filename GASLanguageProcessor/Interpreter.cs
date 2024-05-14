@@ -7,7 +7,7 @@ using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
-using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
+using Num = GASLanguageProcessor.AST.Expressions.Terms.Num;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 
 namespace GASLanguageProcessor;
@@ -208,7 +208,7 @@ public class Interpreter
                 {
                     "+" => binaryOp.Type switch
                     {
-                        GasType.Number => (float)left + (float)right,
+                        GasType.Num => (float)left + (float)right,
                         GasType.String => (string)left + (string)right,
                         _ => (float) left + (float) right
                     },
@@ -247,8 +247,8 @@ public class Interpreter
                 }
                 return EvaluateExpression(variable.FormalValue, scope);
 
-            case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
-                return float.Parse(number.Value, CultureInfo.InvariantCulture);
+            case Num num: // Num is a float; CultureInfo is used to ensure that the decimal separator is a dot
+                return float.Parse(num.Value, CultureInfo.InvariantCulture);
 
             case Boolean boolean:
                 return bool.Parse(boolean.Value);
@@ -365,6 +365,39 @@ public class Interpreter
                 var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
                 destList.Values.Add(valueToAdd);
                 return null;
+
+            case RemoveFromList removeFromList:
+                var listToRemoveFrom = scope.vTable.LookUp(removeFromList.ListIdentifier.Name);
+                var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, removeFromList.Scope ?? scope));
+
+                if (listToRemoveFrom == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} not found");
+                if (listToRemoveFrom.ActualValue == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is already empty");
+                if (listToRemoveFrom.ActualValue is not FinalList destinedList) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is not a list");
+                if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Count) throw new Exception($"Index {indexToRemove} out of range for list {removeFromList.ListIdentifier.Name}");
+
+                destinedList.Values.RemoveAt(indexToRemove);
+                return null;
+
+
+            case GetFromList getFromList:
+                var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
+                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
+
+                if (listToGetFrom == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} not found");
+                if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
+                if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count) throw new Exception($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
+
+                var valueToGet = sourceList.Values[indexOfValue];
+
+                return valueToGet;
+
+            case LengthOfList lengthOfList:
+                var listToCheck = scope.vTable.LookUp(lengthOfList.ListIdentifier.Name);
+
+                if (listToCheck == null) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} not found");
+                if (listToCheck.ActualValue is not FinalList listToCheckLength) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} is not a list");
+
+                return (float)listToCheckLength.Values.Count;
 
             case List list:
                 var values = new List<object>();
