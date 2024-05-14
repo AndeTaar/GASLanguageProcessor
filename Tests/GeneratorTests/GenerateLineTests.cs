@@ -185,7 +185,7 @@ public class GenerateLineTests
     {
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<circle> l = List" +
+            "list<circle> l = List<circle>" +
             "{" +
             "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1))," +
             "   Circle(Point(100, 200), 30, 10, Color(0, 255, 0, 1), Color(0, 0, 255, 1))" +

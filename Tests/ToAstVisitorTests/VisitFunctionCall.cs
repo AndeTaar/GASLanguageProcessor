@@ -32,7 +32,7 @@ public class VisitFunctionCall
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
             "Color(255, 255, 255, 1);" +
-            "Polygon(List{Point(0, 0)}, 1, Color(255, 255, 255, 1), Color(255, 255, 255, 1));"
+            "Polygon(List<point>{Point(0, 0)}, 1, Color(255, 255, 255, 1), Color(255, 255, 255, 1));"
             );
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

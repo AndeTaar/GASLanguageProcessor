@@ -23,7 +23,6 @@ num x = 0;
 square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1));
 
 
-
 list<circle> circles = List <circle> {
     Circle(Point(0, 0), 1, 1, red, black)
 };

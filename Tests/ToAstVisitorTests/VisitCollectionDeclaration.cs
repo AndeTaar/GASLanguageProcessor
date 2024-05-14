@@ -48,7 +48,7 @@ public class VisitCollectionDeclaration
     {
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
-            "list<point> points = List{Point(10,10), Point(20,20), Point(30,30)};");
+            "list<point> points = List<point>{Point(10,10), Point(20,20), Point(30,30)};");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound) ast;
