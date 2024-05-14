@@ -343,7 +343,7 @@ public class Interpreter
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
 
             case AddToList addToList:
-                var listToAddTo = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+                var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
 
                 if (listVariable == null)
                 {
@@ -353,7 +353,7 @@ public class Interpreter
 
                 if (listVariable.ActualValue == null)
                 {
-                    listToAddTo.ActualValue = new FinalList(new List<object>(), scope);
+                    listVariable.ActualValue = new FinalList(new List<object>(), scope);
                 }
 
                 if (listVariable.ActualValue is not FinalList destList)
@@ -365,11 +365,11 @@ public class Interpreter
                 var valueToAdd = EvaluateExpression(addToList.Value, addToList.Scope ?? scope);
                 destList.Values.Add(valueToAdd);
                 return null;
-            
+
             case RemoveFromList removeFromList:
                 var listToRemoveFrom = scope.vTable.LookUp(removeFromList.ListIdentifier.Name);
                 var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, removeFromList.Scope ?? scope));
-                
+
                 if (listToRemoveFrom == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} not found");
                 if (listToRemoveFrom.ActualValue == null) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is already empty");
                 if (listToRemoveFrom.ActualValue is not FinalList destinedList) throw new Exception($"Variable {removeFromList.ListIdentifier.Name} is not a list");
@@ -378,25 +378,25 @@ public class Interpreter
                 destinedList.Values.RemoveAt(indexToRemove);
                 return null;
 
-            
+
             case GetFromList getFromList:
                 var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
                 var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
-                
+
                 if (listToGetFrom == null) throw new Exception($"Variable {getFromList.ListIdentifier.Name} not found");
                 if (listToGetFrom.ActualValue is not FinalList sourceList) throw new Exception($"Variable {getFromList.ListIdentifier.Name} is not a list");
                 if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count) throw new Exception($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
-                
+
                 var valueToGet = sourceList.Values[indexOfValue];
 
                 return valueToGet;
-            
+
             case LengthOfList lengthOfList:
                 var listToCheck = scope.vTable.LookUp(lengthOfList.ListIdentifier.Name);
-                
+
                 if (listToCheck == null) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} not found");
                 if (listToCheck.ActualValue is not FinalList listToCheckLength) throw new Exception($"Variable {lengthOfList.ListIdentifier.Name} is not a list");
-                
+
                 return (float)listToCheckLength.Values.Count;
 
             case List list:

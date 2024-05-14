@@ -24,7 +24,7 @@ functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
  'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon';
-collectionType : 'list' '<' type '>' | 'group' | 'T' | 'void';
+collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
