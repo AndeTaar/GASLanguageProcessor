@@ -3,8 +3,8 @@
 public class FinalSquare
 {
     public FinalPoint TopLeft { get; set; }
-    public float Length { get; set; }
-    public float Stroke { get; set; }
+    public FinalNumber Length { get; set; }
+    public FinalNumber Stroke { get; set; }
     public FinalColor FillColor { get; set; }
     public FinalColor StrokeColor { get; set; }
 
@@ -12,8 +12,8 @@ public class FinalSquare
     public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColor fillColor, FinalColor strokeColor)
     {
         TopLeft = topLeft;
-        Length = length;
-        Stroke = stroke;
+        Length = new FinalNumber(length);
+        Stroke = new FinalNumber(stroke);
         FillColor = fillColor;
         StrokeColor = strokeColor;
     }

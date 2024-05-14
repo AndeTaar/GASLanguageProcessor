@@ -4,7 +4,7 @@ public class FinalSegLine
 {
     public FinalPoint Start { get; set; }
     public FinalPoint End { get; set; }
-    public float Stroke { get; set; }
+    public FinalNumber Stroke { get; set; }
     public FinalColor StrokeColor { get; set; }
 
 
@@ -12,7 +12,7 @@ public class FinalSegLine
     {
         Start = start;
         End = end;
-        Stroke = stroke;
+        Stroke = new FinalNumber(stroke);
         StrokeColor = strokeColor;
     }
 }

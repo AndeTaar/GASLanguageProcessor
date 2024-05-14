@@ -25,4 +25,32 @@ public class VisitFunctionCall
         Assert.Equal("print", functionCallStatement.Identifier.Name);
         Assert.NotEmpty(functionCallStatement.Arguments);
     }
+
+    [Fact]
+    public void PassVisitFunctionCallExpression()
+    {
+        var ast = SharedTesting.GetAst(
+            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "Color(255, 255, 255, 1);" +
+            "Polygon(List{Point(0, 0)}, 1, Color(255, 255, 255, 1), Color(255, 255, 255, 1));"
+            );
+        Assert.NotNull(ast);
+        Assert.IsType<Compound>(ast);
+        var compound = (Compound) ast;
+        Assert.IsAssignableFrom<Statement>(compound.Statement1);
+        var canvas = (Canvas) compound.Statement1;
+        Assert.IsAssignableFrom<Statement>(compound.Statement2);
+        var compound1 = (Compound) compound.Statement2;
+        Assert.IsAssignableFrom<FunctionCallStatement>(compound1.Statement1);
+        var functionCallStatement = (FunctionCallStatement) compound1.Statement1;
+        Assert.NotNull(functionCallStatement);
+        Assert.NotNull(canvas);
+        Assert.Equal("Color", functionCallStatement.Identifier.Name);
+        Assert.NotEmpty(functionCallStatement.Arguments);
+        Assert.IsAssignableFrom<FunctionCallStatement>(compound1.Statement2);
+        var functionCallStatement1 = (FunctionCallStatement) compound1.Statement2;
+        Assert.NotNull(functionCallStatement1);
+        Assert.Equal("Polygon", functionCallStatement1.Identifier.Name);
+        Assert.NotEmpty(functionCallStatement1.Arguments);
+    }
 }

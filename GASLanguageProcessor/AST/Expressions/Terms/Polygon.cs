@@ -1,12 +1,11 @@
-﻿using GASLanguageProcessor.TableType;
+using GASLanguageProcessor.FinalTypes;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Square: Term
+public class Polygon: Term
 {
-    public Expression TopLeft { get; protected set; }
-
-    public Expression Length { get; protected set; }
+    public Expression Points { get; protected set; }
 
     public Expression Stroke { get; protected set; }
 
@@ -14,10 +13,9 @@ public class Square: Term
 
     public Expression StrokeColor { get; protected set; }
 
-    public Square(Expression topLeft, Expression length, Expression stroke, Expression color, Expression strokeColor)
+    public Polygon(Expression points, Expression stroke, Expression color, Expression strokeColor)
     {
-        TopLeft = topLeft;
-        Length = length;
+        Points = points;
         Stroke = stroke;
         Color = color;
         StrokeColor = strokeColor;
@@ -25,6 +23,6 @@ public class Square: Term
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
-        return visitor.VisitSquare(this, scope);
+        return visitor.VisitPolygon(this, scope);
     }
 }

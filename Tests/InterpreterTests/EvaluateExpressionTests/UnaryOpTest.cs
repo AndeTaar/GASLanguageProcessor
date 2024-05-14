@@ -8,7 +8,7 @@ using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
-public class EvaluateExpressionUnaryOp
+public class UnaryOpTest
 {
     [Fact]
     public void PassEvaluateExpressionUnaryOpNegation()

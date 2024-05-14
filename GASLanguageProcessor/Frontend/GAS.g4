@@ -12,7 +12,7 @@ complexStatement:  whileStatement | functionDeclaration | forStatement | classDe
 // (',' identifierTerm ('=' expression)?)* Could be added on this line to allow for multiple declarations on one line
 declaration : type IDENTIFIER ('=' expression)?;
 collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER ('.' IDENTIFIER)* ('=' | '+=' | '-=' | '*=') expression;
+assignment : IDENTIFIER ('.' IDENTIFIER)* ('=' | '+=' | '-=' | '*=' | '/=') expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -23,7 +23,7 @@ functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER
 
 //Standard data types
 type: 'number' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
- 'T' | 'void' | 'segLine' | 'ellipse';
+ 'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon';
 collectionType : 'list' '<' type '>' | 'group' | 'T' | 'void';
 
 // Expressions

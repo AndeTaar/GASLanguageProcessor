@@ -2,17 +2,17 @@
 
 public class FinalColor
 {
-    public float Red { get; set; }
-    public float Green { get; set; }
-    public float Blue { get; set; }
-    public float Alpha { get; set; }
+    public FinalNumber Red { get; set; }
+    public FinalNumber Green { get; set; }
+    public FinalNumber Blue { get; set; }
+    public FinalNumber Alpha { get; set; }
 
     public FinalColor(float red, float green, float blue, float alpha)
     {
-        Red = red;
-        Green = green;
-        Blue = blue;
-        Alpha = alpha;
+        Red = new FinalNumber(red);
+        Green = new FinalNumber(green);
+        Blue = new FinalNumber(blue);
+        Alpha = new FinalNumber(alpha);
     }
 
     public string ColorToString()
