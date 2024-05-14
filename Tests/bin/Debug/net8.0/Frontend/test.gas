@@ -84,8 +84,7 @@ bool k = true == false != true;
 bool l = 5<3 || 5>3 && 5<=5;
 
 list<circle> circles2 = List {
-    CircleCreator(Point(50, 10), 40, 10, red, black),
-    CircleCreator(Point(220, 120), 40, 10, red, black)
+    Circle(Point(0, 0), 1, 1, red, black)
 };
 
 circle gottenCircle = GetFromList(0, circles);

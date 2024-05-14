@@ -84,8 +84,7 @@ bool k = true == false != true;
 bool l = 5<3 || 5>3 && 5<=5;
 
 list<circle> circles2 = List {
-    CircleCreator(Point(50, 10), 40, 10, red, black),
-    CircleCreator(Point(220, 120), 40, 10, red, black)
+    Circle(Point(0, 0), 1, 1, red, black)
 };
 
 circle gottenCircle = GetFromList(0, circles);
@@ -125,8 +124,8 @@ for (num theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)
     AddToList(Point(x2, y), points);
 }
 polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));
-canvas (250, 250, Color(255, 255, 255, 1)););
 color blue = Color(69, 95, 214, 1);
 circle numse = Circle(Point(69, 69), 30, 2, blue, red);
+
 circle numse1 = Circle(Point(99, 69), 30, 2, blue, red);
-canvas (250, 250, Color(255, 255, 255, 1));
+canvas (250, 250, Color(2, 255, 255, 1));
