@@ -10,6 +10,13 @@ public class SvgGenerator
 
     public ArrayList<string> GenerateSvg(VariableTable vTable)
     {
+        if (vTable.Variables.ContainsKey("canvas"))
+        {
+            var canvas = vTable.Variables["canvas"];
+            vTable.Variables.Remove("canvas");
+            GenerateLine(canvas.ActualValue, canvas);
+        }
+
         foreach (Variable variable in vTable.Variables.Values)
         {
             GenerateLine(variable.ActualValue, variable);
@@ -18,8 +25,12 @@ public class SvgGenerator
         return SvgLines;
     }
 
+
+
+
+
    public void GenerateLine(Object obj, Variable? variable = null)
-{
+   {
     switch (obj)
     {
         case FinalCanvas canvas:
