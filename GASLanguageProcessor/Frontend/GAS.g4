@@ -11,7 +11,7 @@ complexStatement:  whileStatement | functionDeclaration | forStatement | ifState
 
 declaration : type IDENTIFIER ('=' expression)?;
 collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER ('.' IDENTIFIER)* ('=' | '+=' | '-=' | '*=' | '/=') expression;
+assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -34,13 +34,13 @@ unaryExpression : ('!' | '-')* listAccessExpression ('++' | '--')*;
 listAccessExpression : term ('[' expression ']')?;
 
 //Terms
-term : IDENTIFIER ('.' IDENTIFIER)* | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | groupTerm;
 
 listTerm : 'List' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-functionCall : IDENTIFIER ( '.' IDENTIFIER  )* '(' (expression (',' expression)*)? ')';
+functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

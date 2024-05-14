@@ -99,8 +99,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNum = context.Start.Line}).ToList();
-        Identifier identifier = ToCompoundIdentifier(allIdentifiers);
+        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
         string op = context.GetChild(1).GetText();
         Expression value = context.expression().Accept(this) as Expression;
 
@@ -186,8 +185,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNum = context.Start.Line}).ToList();
-        var identifier = ToCompoundIdentifier(allIdentifiers);
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
         if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
         {
@@ -277,8 +275,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
         else if (context.IDENTIFIER() != null)
         {
-            var allIdentifiers = context.IDENTIFIER().Select(id => new Identifier(id.GetText()) {LineNum = context.Start.Line}).ToList();
-            return ToCompoundIdentifier(allIdentifiers);
+            return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
         }
         else
         {
@@ -315,21 +312,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var expression = context.listAccessExpression().Accept(this) as Expression;
 
         return new UnaryOp(context.GetChild(0).GetText(), expression);
-    }
-
-    private static Identifier ToCompoundIdentifier(List<Identifier> identifiers)
-    {
-        if (identifiers.Count == 0)
-        {
-            return null!;
-        }
-
-        if (identifiers.Count == 1)
-        {
-            return identifiers[0];
-        }
-
-        return new Identifier(identifiers[0].Name, ToCompoundIdentifier(identifiers.Skip(1).ToList())) {LineNum = identifiers[0].LineNum};
     }
 
     private static Statement ToCompound(List<AstNode> lines)
