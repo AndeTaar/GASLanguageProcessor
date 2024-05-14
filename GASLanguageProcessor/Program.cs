@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime ;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
+using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.Frontend;
 using GASLanguageProcessor.TableType;
 
@@ -48,6 +49,11 @@ static void Main(string[] args)
         return;
     }
     SvgGenerator svgGenerator = new SvgGenerator();
+    var canvas = scope.vTable.Variables["canvas"];
+    scope.vTable.Variables.Remove("canvas");
+    var variablesList = scope.vTable.Variables.ToList();
+    variablesList.Insert(0, new KeyValuePair<string, Variable>("canvas", canvas));
+    scope.vTable.Variables = variablesList.ToDictionary(x => x.Key, x => x.Value);
     var lines = svgGenerator.GenerateSvg(scope.vTable);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);

@@ -121,3 +121,8 @@ for (number theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)
 }
 polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));
 canvas (250, 250, Color(255, 255, 255, 1)););
+color red = Color(209, 69, 38, 1);
+color blue = Color(69, 95, 214, 1);
+circle numse = Circle(Point(69, 69), 30, 2, blue, red);
+circle numse1 = Circle(Point(99, 69), 30, 2, blue, red);
+canvas (250, 250, Color(255, 255, 255, 1));

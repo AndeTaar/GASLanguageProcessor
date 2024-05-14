@@ -8,7 +8,7 @@ public class SvgGenerator
 {
     public ArrayList<string> SvgLines = new();
 
-    public ArrayList<string> GenerateSvg(VariableTable vTable) //still only takes variables from global scope and it does not look as expected
+    public ArrayList<string> GenerateSvg(VariableTable vTable)
     {
         foreach (Variable variable in vTable.Variables.Values)
         {

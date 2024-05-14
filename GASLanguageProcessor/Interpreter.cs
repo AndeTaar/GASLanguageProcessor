@@ -107,7 +107,7 @@ public class Interpreter
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
-                    var var = functionScope.vTable.LookUp(parameter.Identifier);
+                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
                     if (var != null)
                     {
                         var.ActualValue = functionCallVal;
@@ -168,6 +168,7 @@ public class Interpreter
                 if (function == null)
                 {
                     errors.Add($"Function {functionCall.Identifier.Name} not found");
+                    return null;
                 }
 
                 var functionCallScope = functionCall.Scope ?? scope;
@@ -176,7 +177,7 @@ public class Interpreter
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
-                    var var = functionScope.vTable.LookUp(parameter.Identifier);
+                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
                     if (var != null)
                     {
                         var.ActualValue = functionCallVal;

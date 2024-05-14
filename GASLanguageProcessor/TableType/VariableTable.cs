@@ -4,7 +4,7 @@ namespace GASLanguageProcessor.TableType;
 
 public class VariableTable
 {
-    public Dictionary<string, Variable> Variables { get; protected set; } = new();
+    public Dictionary<string, Variable> Variables { get; set; } = new();
 
     public Scope Scope { get; set; }
 
@@ -30,6 +30,15 @@ public class VariableTable
             return Variables[key];
         }
         return this.Scope.ParentScope?.vTable.LookUp(key);
+    }
+
+    public Variable? LocalLookUp(string key)
+    {
+        if (Variables.ContainsKey(key))
+        {
+            return Variables[key];
+        }
+        return null;
     }
 
 }

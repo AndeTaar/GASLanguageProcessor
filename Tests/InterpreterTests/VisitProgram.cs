@@ -194,22 +194,25 @@ public class VisitProgram
         Assert.Equal(GasType.Bool, getBoolFunc?.ReturnType);
 
         var groupMouse = ast.vTable.LookUp("mouse")?.ActualValue as FinalGroup;
-        var groupMouseEars = ast?.vTable.LookUp("mousEars")?.ActualValue as FinalGroup;
-        var groupMouseFace = ast?.vTable.LookUp("mouseFace")?.ActualValue as FinalGroup;
-        var circleLeftEar = ast?.vTable.LookUp("leftEar")?.ActualValue as FinalCircle;
-        var circleRightEar = ast?.vTable.LookUp("rightEar")?.ActualValue as FinalCircle;
-        var circleFace = ast?.vTable.LookUp("face")?.ActualValue as FinalCircle;
-        var circleEye = ast?.vTable.LookUp("eye")?.ActualValue as FinalCircle;
-        var circleEye2 = ast?.vTable.LookUp("eye2")?.ActualValue as FinalCircle;
-        var ellipseEyeball = ast?.vTable.LookUp("eyeball")?.ActualValue as FinalEllipse;
-        var ellipseEyeball2 = ast?.vTable.LookUp("eyeball2")?.ActualValue as FinalEllipse;
-        var segLineMouth = ast?.vTable.LookUp("mouth")?.ActualValue as FinalSegLine;
-
         Assert.NotNull(groupMouse);
+
+        var groupMouseEars = groupMouse.Scope.vTable.LookUp("mousEars")?.ActualValue as FinalGroup;
         Assert.NotNull(groupMouseEars);
+
+        var groupMouseFace = groupMouse.Scope.vTable.LookUp("mouseFace")?.ActualValue as FinalGroup;
         Assert.NotNull(groupMouseFace);
+
+        var circleLeftEar = groupMouseEars.Scope.vTable.LookUp("leftEar")?.ActualValue as FinalCircle;
+        var circleRightEar = groupMouseEars.Scope.vTable.LookUp("rightEar")?.ActualValue as FinalCircle;
         Assert.NotNull(circleLeftEar);
         Assert.NotNull(circleRightEar);
+
+        var circleFace = groupMouseFace.Scope.vTable.LookUp("face")?.ActualValue as FinalCircle;
+        var circleEye = groupMouseFace.Scope.vTable.LookUp("eye")?.ActualValue as FinalCircle;
+        var circleEye2 = groupMouseFace.Scope.vTable.LookUp("eye2")?.ActualValue as FinalCircle;
+        var ellipseEyeball = groupMouseFace.Scope.vTable.LookUp("eyeball")?.ActualValue as FinalEllipse;
+        var ellipseEyeball2 = groupMouseFace.Scope.vTable.LookUp("eyeball2")?.ActualValue as FinalEllipse;
+        var segLineMouth = groupMouseFace.Scope.vTable.LookUp("mouth")?.ActualValue as FinalSegLine;
         Assert.NotNull(circleFace);
         Assert.NotNull(circleEye);
         Assert.NotNull(circleEye2);
