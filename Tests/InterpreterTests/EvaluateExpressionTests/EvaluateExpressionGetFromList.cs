@@ -39,30 +39,30 @@ public class EvaluateExpressionGetFromList
         
         var expected =
             new FinalCircle(
-                new FinalPoint(100, 200),
-                30,
-                10,
-                new FinalColor(0, 0, 255, 1),
-                new FinalColor(0, 255, 0, 1)
+                new FinalPoint(100f, 200f),
+                30f,
+                10f,
+                new FinalColor(0f, 0f, 255f, 1f),
+                new FinalColor(0f, 255f, 0f, 1f)
         );
 
         Assert.NotNull(result);
         Assert.IsType<FinalCircle>(result);
         
-        Assert.Equal(expected.Center.X, result.Center.X);
-        Assert.Equal(expected.Center.Y, result.Center.Y);
-        Assert.Equal(expected.Radius, result.Radius);
-        Assert.Equal(expected.Stroke, result.Stroke);
+        Assert.Equal(expected.Center.X.Value, result.Center.X.Value);
+        Assert.Equal(expected.Center.Y.Value, result.Center.Y.Value);
+        Assert.Equal(expected.Radius.Value, result.Radius.Value);
+        Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
         
-        Assert.Equal(expected.FillColor.Red, result.FillColor.Red);
-        Assert.Equal(expected.FillColor.Green, result.FillColor.Green);
-        Assert.Equal(expected.FillColor.Blue, result.FillColor.Blue);
-        Assert.Equal(expected.FillColor.Alpha, result.FillColor.Alpha);
+        Assert.Equal(expected.FillColor.Red.Value, result.FillColor.Red.Value);
+        Assert.Equal(expected.FillColor.Green.Value, result.FillColor.Green.Value);
+        Assert.Equal(expected.FillColor.Blue.Value, result.FillColor.Blue.Value);
+        Assert.Equal(expected.FillColor.Alpha.Value, result.FillColor.Alpha.Value);
         
-        Assert.Equal(expected.StrokeColor.Red, result.StrokeColor.Red);
-        Assert.Equal(expected.StrokeColor.Green, result.StrokeColor.Green);
-        Assert.Equal(expected.StrokeColor.Blue, result.StrokeColor.Blue);
-        Assert.Equal(expected.StrokeColor.Alpha, result.StrokeColor.Alpha);
+        Assert.Equal(expected.StrokeColor.Red.Value, result.StrokeColor.Red.Value);
+        Assert.Equal(expected.StrokeColor.Green.Value, result.StrokeColor.Green.Value);
+        Assert.Equal(expected.StrokeColor.Blue.Value, result.StrokeColor.Blue.Value);
+        Assert.Equal(expected.StrokeColor.Alpha.Value, result.StrokeColor.Alpha.Value);
         
     }
     

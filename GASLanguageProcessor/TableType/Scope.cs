@@ -167,7 +167,7 @@ public class Scope
 
             fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
             {
-                new Variable("value", this, GasType.Num),
+                new Variable("value", this, GasType.Any),
                 new Variable("list", this, GasType.Any)
             }, new Return(new AddToList(
                 new Identifier("value"),
