@@ -130,7 +130,7 @@ public class Scope
                 new Identifier("stroke"),
                 new Identifier("color")
             )), new Scope(this, null)));
-            
+
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
             {
                 new Variable("topLeft", this, GasType.Point),
