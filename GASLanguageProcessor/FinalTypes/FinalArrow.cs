@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using System.Numerics;
+
+namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalArrow
 {
@@ -7,7 +9,7 @@ public class FinalArrow
     public FinalNum Stroke { get; set; }
     public FinalColor StrokeColor { get; set; }
     public FinalTriangle ArrowHead { get; set; }
-    
+
     public FinalArrow(FinalPoint start, FinalPoint end, float stroke, FinalColor strokeColor)
     {
         Start = start;
@@ -16,23 +18,24 @@ public class FinalArrow
         StrokeColor = strokeColor;
         ArrowHead = GetArrowHead();
     }
-    
+
     private FinalTriangle GetArrowHead()
     {
-        
-        //var distance = MathF.Sqrt(MathF.Pow(End.X.Value - Start.X.Value, 2) + MathF.Pow(End.Y.Value - Start.Y.Value, 2));
-        var basePointX = Start.X.Value + (End.X.Value - Start.X.Value) * 0.9f;
-        var basePointY = Start.Y.Value + (End.Y.Value - Start.Y.Value) * 0.9f;
-        var basePoint = new FinalPoint(basePointX, basePointY);
-        
-        return new FinalTriangle(new FinalPoint(End.X.Value, End.Y.Value), basePoint, Stroke.Value, StrokeColor, StrokeColor);
-        
-        /*var x = End.X.Value - Start.X.Value;
-        var y = End.Y.Value - Start.Y.Value;
-        var angle = MathF.Atan2(y, x);
-        var length = MathF.Sqrt(x * x + y * y);
-        var peak = new FinalPoint(End.X.Value, End.Y.Value);
-        var basePoint = new FinalPoint(End.X.Value - MathF.Cos(angle) * length / 10, End.Y.Value - MathF.Sin(angle) * length / 10);
-        return new FinalTriangle(peak, basePoint, Stroke.Value, StrokeColor, StrokeColor);*/
+        var vector = new Vector2(End.X.Value - Start.X.Value, End.Y.Value - Start.Y.Value);
+        vector = Vector2.Normalize(vector);
+        var orthoVector =  new Vector2(vector.Y, -vector.X);
+
+        var basePointX = End.X.Value - vector.X * Stroke.Value;
+        var basePointY = End.Y.Value - vector.Y * Stroke.Value;
+
+        var point1x = basePointX - orthoVector.X * Stroke.Value;
+        var point1y = basePointY - orthoVector.Y * Stroke.Value;
+        var point1 = new FinalPoint(point1x , point1y);
+
+        var point2x = basePointX + orthoVector.X * Stroke.Value;
+        var point2y = basePointY + orthoVector.Y * Stroke.Value;
+        var point2 = new FinalPoint(point2x , point2y);
+
+        return new FinalTriangle(new FinalPoint(End.X.Value, End.Y.Value), [point1, point2], Stroke.Value, StrokeColor, StrokeColor);
     }
 }

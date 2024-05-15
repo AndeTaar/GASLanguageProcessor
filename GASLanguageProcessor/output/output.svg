@@ -11,7 +11,7 @@
 <rect id="sqr" x="443.33337" y="34.5" width="161" height="161" fill="rgba(173, 216, 230, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
 </g>
 <text id="startText" x="40" y="125" fill="rgba(0, 0, 0, 1)" font-family="Arial" font-size="20">Program text</text>
-<line id="lineToSquareOne" x1="166.66667" y1="119.04762" x2="216.11111" y2="119.04762" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
-<polygon id="lineToSquareOne" points="216.11111,119.04762 212.16667,-Infinity 210.16667,Infinity " fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
+<line id="lineToSquareOne" x1="166.66667" y1="119.04762" x2="216.11111" y2="119.04762" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
+<polygon id="lineToSquareOne" points="216.11111,119.04762 212.11111,123.04762 212.11111,115.04762" fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
 </g>
 </svg>
