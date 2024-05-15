@@ -344,8 +344,8 @@ public class Interpreter
 
             case Line line:
                 var lineIntercept = (float)EvaluateExpression(line.Intercept, scope);
-                var lineStart = new FinalPoint(0, lineIntercept);
                 var lineGradient = (float)EvaluateExpression(line.Gradient, scope);
+                var lineStart = new FinalPoint(-1, lineIntercept-lineGradient);
 
                 float lineEndX = lineGradient < 0
                     ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
@@ -363,6 +363,13 @@ public class Interpreter
                 var segLineStroke = (float)EvaluateExpression(segLine.Stroke, scope);
                 var segLineColor = (FinalColor)EvaluateExpression(segLine.Color, scope);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
+
+            case Arrow arrow:
+                var arrowStart = (FinalPoint)EvaluateExpression(arrow.Start, scope);
+                var arrowEnd = (FinalPoint)EvaluateExpression(arrow.End, scope);
+                var arrowStroke = (float)EvaluateExpression(arrow.Stroke, scope);
+                var arrowColor = (FinalColor)EvaluateExpression(arrow.Color, scope);
+                return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
 
             case Polygon polygon:
                 var polygonPoints = (FinalList)EvaluateExpression(polygon.Points, scope);

@@ -338,6 +338,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Void;
             case "polygon":
                 return GasType.Polygon;
+            case "arrow":
+                return GasType.Arrow;
         }
         errors.Add(node.Value + " Not implemented");
         return GasType.Error;
@@ -509,6 +511,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
+    public GasType VisitArrow(Arrow node, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+
     public GasType VisitLengthOfList(LengthOfList node, Scope scope)
     {
         throw new NotImplementedException();
@@ -519,6 +526,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
+    public GasType VisitTriangle(Triangle triangle, Scope scope)
+    {
+        throw new NotImplementedException();
+    }
+    
     public GasType VisitIncrement(Increment increment, Scope scope)
     {
         var identifier = increment.Identifier;

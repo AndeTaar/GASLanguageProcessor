@@ -48,6 +48,10 @@ public class SvgGenerator
         case FinalSegLine segLine:
             SvgLines.Add($"<line id=\"{variable?.Identifier}\" x1=\"{segLine.Start.X}\" y1=\"{segLine.Start.Y}\" x2=\"{segLine.End.X}\" y2=\"{segLine.End.Y}\" stroke=\"{segLine.StrokeColor.ColorToString()}\" stroke-width=\"{segLine.Stroke}\" />");
             break;
+        case FinalArrow arrow:
+            SvgLines.Add($"<line id=\"{variable?.Identifier}\" x1=\"{arrow.Start.X}\" y1=\"{arrow.Start.Y}\" x2=\"{arrow.End.X}\" y2=\"{arrow.End.Y}\" stroke=\"{arrow.StrokeColor.ColorToString()}\" stroke-width=\"{arrow.Stroke}\" />");
+            SvgLines.Add($"<polygon id=\"{variable?.Identifier}\" points=\"{arrow.ArrowHead.ToString()}\" fill=\"{arrow.ArrowHead.Color.ColorToString()}\" fill-opacity=\"{arrow.ArrowHead.Color.Alpha}\" stroke=\"{arrow.ArrowHead.StrokeColor.ColorToString()}\" stroke-width=\"{arrow.ArrowHead.Stroke}\" />");
+            break;
         case FinalEllipse ellipse:
             SvgLines.Add($"<ellipse id=\"{variable?.Identifier}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.StrokeColor.ColorToString()}\" stroke-width=\"{ellipse.Stroke}\" />");
             break;

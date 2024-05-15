@@ -118,6 +118,19 @@ public class Scope
                 new Identifier("color")
             )), new Scope(this, null)));
 
+            fTable.Bind("Arrow", new Function(GasType.Arrow, new List<Variable>()
+            {
+                new Variable("start", this, GasType.Point),
+                new Variable("end", this, GasType.Point),
+                new Variable("stroke", this, GasType.Num),
+                new Variable("color", this, GasType.Color)
+            }, new Return(new Arrow(
+                new Identifier("start"),
+                new Identifier("end"),
+                new Identifier("stroke"),
+                new Identifier("color")
+            )), new Scope(this, null)));
+
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
             {
                 new Variable("topLeft", this, GasType.Point),

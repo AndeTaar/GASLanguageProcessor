@@ -80,9 +80,13 @@ public interface IAstVisitor<T>
 
     T VisitRemoveFromList(RemoveFromList node, Scope scope);
 
+    T VisitArrow(Arrow node, Scope scope);
+
     T VisitLengthOfList(LengthOfList node, Scope scope);
 
     T VisitPolygon(Polygon polygon, Scope scope);
+
+    T VisitTriangle(Triangle triangle, Scope scope);
 
     T VisitIncrement(Increment increment, Scope scope);
 }
