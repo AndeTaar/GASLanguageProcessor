@@ -17,6 +17,19 @@ public class Function
         ReturnType = returnType;
     }
 
+    public string ParametersToString()
+    {
+        string result = "";
+        int i = 0;
+        for (i = 0; i < this.Parameters.Count-1; i++)
+        {
+            result += i + ": " + this.Parameters[i].Type + " " + this.Parameters[i].Identifier + ", ";
+        }
+        result += i + ": " + this.Parameters[i].Type + " " + this.Parameters[i].Identifier;
+
+        return result;
+    }
+
     public Function(GasType gasType, List<Variable> parameters, Statement statements, Scope scope)
     {
         Parameters = parameters;

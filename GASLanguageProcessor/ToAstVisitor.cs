@@ -75,14 +75,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitForStatement(GASParser.ForStatementContext context)
     {
         var declaration = context.declaration()?.Accept(this) as Declaration;
-        var assignment = context.assignment()[0].Accept(this) as Assignment;
-
-        Assignment assignment2 = null;
-
-        if (declaration == null)
-        {
-            assignment2 = context.assignment()[1].Accept(this) as Assignment;
-        }
+        var assignments = context.assignment().Select(a => a.Accept(this) as Assignment).ToList();
+        var increment = context.increment()?.Accept(this) as Increment;
 
         var condition = context.expression().Accept(this) as Expression;
 
@@ -91,10 +85,20 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
         if (declaration != null)
         {
-            return new For(declaration, condition, assignment, statements);
+            if(increment != null)
+            {
+                return new For(declaration, condition, increment, statements);
+            }
+
+            return new For(declaration, condition, assignments[0], statements);
         }
 
-        return new For(assignment, condition, assignment2, statements){ LineNum = context.Start.Line };
+        if(increment != null)
+        {
+            return new For(assignments[0], condition, increment, statements);
+        }
+
+        return new For(assignments[0], condition, assignments[1], statements){ LineNum = context.Start.Line };
     }
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
@@ -104,6 +108,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         Expression value = context.expression().Accept(this) as Expression;
 
         return new Assignment(identifier, value, op) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitIncrement(GASParser.IncrementContext context)
+    {
+        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        string op = context.GetChild(1).GetText();
+
+        return new Increment(identifier, op) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
@@ -196,10 +208,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
-        var returnType = context.type()[0].Accept(this) as Type;
+        var returnType = context.allTypes()[0].Accept(this) as Type;
         var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
 
-        var types = context.type().Skip(1).ToList();
+        var types = context.allTypes().Skip(1).ToList();
         var identifiers = context.IDENTIFIER().Skip(1).ToList();
 
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
