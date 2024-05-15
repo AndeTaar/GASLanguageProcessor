@@ -1,9 +1,37 @@
-﻿canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));
-list<circle> test(list<point> nums) {
-   list<circle> circles = List<circle>{};
-   for (num i = 0; i < LengthOfList(nums); i++) {
-AddToList(Circle(GetFromList(i, nums), 10, 10, Color(255,255,255,1), Color(255,255,255,1)), circles);
-   }
-   return circles;
-}
-list<circle> nus = test(List<point>{Point(10,10),Point(20,20),Point(30,30)});
+﻿num canvasWidth = 1000;
+num canvasHeight = 250;
+
+canvas(canvasWidth, canvasHeight, Color(255, 255, 255, 1));
+
+color lightBlue = Color(173, 216, 230, 1);
+
+group g = Group(Point(0,0),
+{
+    num rectTlX = canvasWidth/5; num rectTlY = canvasHeight/25;
+    num rectBrX = (canvasWidth/6)*5; num rectBrY = (canvasHeight/25)*24;
+
+    num rectWidth = rectBrX - rectTlX;
+    num rectHeight = rectBrY - rectTlY;
+
+    rectangle groupRect = Rectangle(Point(rectTlX, rectTlY), Point(rectBrX, rectBrY), 4, Color(255, 255, 255, 1), Color(0, 0, 0, 1));
+
+    group squareOne = Group(Point(rectTlX, rectTlY),
+    {
+        square sqr = Square(Point(rectWidth/30, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+    });
+
+    group squareTwo = Group(Point(rectTlX, rectTlY),
+    {
+        square sqr = Square(Point((rectWidth/30)*11, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+    });
+
+    group squareThree = Group(Point(rectTlX, rectTlY),
+    {
+        square sqr = Square(Point((rectWidth/30)*21, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+    });
+
+    text startText = Text("Program text", Point(canvasWidth/25, canvasHeight/2), "Arial", 20, Color(0, 0, 0, 1));
+
+    arrow lineToSquareOne = Arrow(Point(canvasWidth/6, canvasHeight/2.1), Point(rectTlX + rectWidth/30 - 5, canvasHeight/2.1), 4, Color(0, 0, 0, 1));
+
+});
