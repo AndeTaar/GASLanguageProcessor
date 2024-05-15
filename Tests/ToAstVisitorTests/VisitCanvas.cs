@@ -14,8 +14,11 @@ public class VisitCanvas
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));");
         Assert.NotNull(ast);
-        Assert.IsType<Canvas>(ast);
-        var canvas = (Canvas) ast;
+        Assert.IsType<Compound>(ast);
+        var compound = (Compound) ast;
+        var canvas = (Canvas) compound.Statement1;
+        var eofNull = compound.Statement2;
+        Assert.Null(eofNull);
         Assert.NotNull(canvas);
         Assert.IsType<Num>(canvas.Width);
         Assert.IsType<Num>(canvas.Height);

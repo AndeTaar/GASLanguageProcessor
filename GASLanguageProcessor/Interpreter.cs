@@ -158,6 +158,23 @@ public class Interpreter
 
                 return null;
 
+            case Increment increment:
+                var incrementIdentifier = increment.Identifier.Name;
+                var incrementVariable = scope.vTable.LookUp(incrementIdentifier);
+                var op = increment.Operator;
+
+                switch (op)
+                {
+                    case "++":
+                        incrementVariable.ActualValue = (float)incrementVariable.ActualValue! + 1;
+                        break;
+                    case "--":
+                        incrementVariable.ActualValue = (float)incrementVariable.ActualValue! - 1;
+                        break;
+                }
+
+                return null;
+
             case Return returnStatement:
                 return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
         }
@@ -179,6 +196,13 @@ public class Interpreter
 
                 var functionCallScope = functionCall.Scope ?? scope;
                 var functionScope = function.Scope;
+
+                if (function.Parameters.Count != functionCall.Arguments.Count)
+                {
+                    errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
+                    return null;
+                }
+
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];

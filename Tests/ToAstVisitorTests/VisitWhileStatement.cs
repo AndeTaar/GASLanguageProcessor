@@ -18,8 +18,9 @@ public class VisitWhileStatement
         var compound = (Compound) ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
         var canvas = (Canvas) compound.Statement1;
-        Assert.IsAssignableFrom<While>(compound.Statement2);
-        var whileStatement = (While) compound.Statement2;
+        Assert.IsAssignableFrom<Compound>(compound.Statement2);
+        var compound1 = (Compound) compound.Statement2;
+        var whileStatement = (While) compound1.Statement1;
         Assert.NotNull(whileStatement);
         Assert.NotNull(canvas);
     }

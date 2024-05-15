@@ -21,8 +21,9 @@ public class VisitorTests
         Assert.IsType<Compound>(ast);
         var compound = (Compound)ast;
         var canvas = (Canvas) compound.Statement1;
-        Assert.IsType<FunctionDeclaration>(compound.Statement2);
-        var functionDeclaration = (FunctionDeclaration)compound.Statement2;
+        Assert.IsType<Compound>(compound.Statement2);
+        var compound1 = (Compound) compound.Statement2;
+        var functionDeclaration = (FunctionDeclaration) compound1.Statement1;
         Assert.IsType<Canvas>(canvas);
         Assert.NotNull(canvas);
         Assert.Equal("test", functionDeclaration.Identifier.Name);
@@ -31,11 +32,11 @@ public class VisitorTests
         Assert.Equal("y", functionDeclaration.Declarations[1].Identifier.Name);
         Assert.Equal("C", functionDeclaration.Declarations[2].Identifier.Name);
         Assert.IsAssignableFrom<Statement>(functionDeclaration.Statements);
-        var compound1 = (Compound) functionDeclaration.Statements;
-        var assignment1 = (Assignment) compound1.Statement1;
-        var compound2 = (Compound) compound1.Statement2;
-        var assignment2 = (Assignment) compound2.Statement1;
-        var assignment3 = (Assignment) compound2.Statement2;
+        var compound2 = (Compound) functionDeclaration.Statements;
+        var assignment1 = (Assignment) compound2.Statement1;
+        var compound3 = (Compound) compound2.Statement2;
+        var assignment2 = (Assignment) compound3.Statement1;
+        var assignment3 = (Assignment) compound3.Statement2;
         Assert.Equal("x", assignment1.Identifier.Name);
         Assert.Equal("y", assignment2.Identifier.Name);
         Assert.Equal("C", assignment3.Identifier.Name);

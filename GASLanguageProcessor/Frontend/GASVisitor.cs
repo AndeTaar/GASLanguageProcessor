@@ -80,6 +80,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitAssignment([NotNull] GASParser.AssignmentContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.increment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIncrement([NotNull] GASParser.IncrementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.ifStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -115,6 +121,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitFunctionDeclaration([NotNull] GASParser.FunctionDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.allTypes"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAllTypes([NotNull] GASParser.AllTypesContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.type"/>.
 	/// </summary>

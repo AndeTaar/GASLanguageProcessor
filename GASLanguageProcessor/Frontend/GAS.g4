@@ -1,25 +1,27 @@
 grammar GAS;
 
 //Program
-program : (statement)*;
+program : (statement)* EOF;
 canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration | canvas) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
 
 declaration : type IDENTIFIER ('=' expression)?;
 collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
+increment : IDENTIFIER ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
-forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' assignment ')' '{' (statement)* '}';
+forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
-functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER)*)? ')' '{' (statement)* ? '}';
-
+functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 //Standard data types
+
+allTypes : type | collectionType;
 type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
  'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
 collectionType : 'list' '<' type '>' | 'group';
@@ -30,7 +32,7 @@ equalityExpression : relationExpression (('==' | '!=') (relationExpression | equ
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
 binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
 multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
-unaryExpression : ('!' | '-')* listAccessExpression ('++' | '--')*;
+unaryExpression : ('!' | '-')* listAccessExpression;
 listAccessExpression : term ('[' expression ']')?;
 
 //Terms
