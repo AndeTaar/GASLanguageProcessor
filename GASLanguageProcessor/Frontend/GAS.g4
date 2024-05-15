@@ -21,7 +21,7 @@ functionDeclaration : type IDENTIFIER '(' (type IDENTIFIER  (',' type IDENTIFIER
 
 //Standard data types
 type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
- 'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon';
+ 'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
 collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions

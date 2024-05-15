@@ -317,11 +317,22 @@ public class Interpreter
                 var rectFillColor = (FinalColor)EvaluateExpression(rectangle.Color, scope);
                 var rectStrokeColor = (FinalColor)EvaluateExpression(rectangle.StrokeColor, scope);
                 return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor);
+            
+            case Triangle triangle:
+                var trianglePeak = (FinalPoint)EvaluateExpression(triangle.TrianglePeak, scope);
+                var triangleBase = (FinalPoint)EvaluateExpression(triangle.TriangleBase, scope);
+                var triangleStroke = (float)EvaluateExpression(triangle.Stroke, scope);
+                var triangleColor = (FinalColor)EvaluateExpression(triangle.Color, scope);
+                var triangleStrokeColor = (FinalColor)EvaluateExpression(triangle.StrokeColor, scope);
+                
+                var resultTriangle = new FinalTriangle(trianglePeak, triangleBase, triangleStroke, triangleColor, triangleStrokeColor);
+                var polyTri = resultTriangle.ToPolygon();
+                return resultTriangle;
 
             case Line line:
                 var lineIntercept = (float)EvaluateExpression(line.Intercept, scope);
-                var lineStart = new FinalPoint(0, lineIntercept);
                 var lineGradient = (float)EvaluateExpression(line.Gradient, scope);
+                var lineStart = new FinalPoint(-1, lineIntercept-lineGradient);
 
                 float lineEndX = lineGradient < 0
                     ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
@@ -339,6 +350,13 @@ public class Interpreter
                 var segLineStroke = (float)EvaluateExpression(segLine.Stroke, scope);
                 var segLineColor = (FinalColor)EvaluateExpression(segLine.Color, scope);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
+            
+            case Arrow arrow:
+                var arrowStart = (FinalPoint)EvaluateExpression(arrow.Start, scope);
+                var arrowEnd = (FinalPoint)EvaluateExpression(arrow.End, scope);
+                var arrowStroke = (float)EvaluateExpression(arrow.Stroke, scope);
+                var arrowColor = (FinalColor)EvaluateExpression(arrow.Color, scope);
+                return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
 
             case Polygon polygon:
                 var polygonPoints = (FinalList)EvaluateExpression(polygon.Points, scope);

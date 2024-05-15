@@ -1,143 +1,37 @@
-﻿circle CircleCreator(point Center, num Width, num Stroke, color Fill, color StrokeColor)
+﻿num canvasWidth = 1000;
+num canvasHeight = 250;
+
+canvas(canvasWidth, canvasHeight, Color(255, 255, 255, 1));
+
+color lightBlue = Color(173, 216, 230, 1);
+
+group g = Group(Point(0,0),
 {
-    return Circle(Center, Width, Stroke, Fill, StrokeColor);
-}
-color white = Color(255, 255, 255, 1);
-color green = Color(0, 255, 0, 1);
-color red = Color(255, 0, 0, 1);
-color pink = Color(255, 100, 100, 1);
-color black = Color(0, 0, 0, 1);
-
-
-if(false){
-    num x = 0;
-}else if(true){
-    num x = 0;
-  }else{
-  num x = 0;
-    num y = 0;
-}
-
-num x = 0;
-
-square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1));
-
-
-
-list<circle> circles = List <circle> {
-    Circle(Point(0, 0), 1, 1, red, black)
-};
-
-AddToList(CircleCreator(Point(50, 10), 33, 10, red, black), circles);
-AddToList(CircleCreator(Point(100, 10), 36, 10, pink, white), circles);
-AddToList(CircleCreator(Point(500, 10), 39, 10, green, black), circles);
-
-for(num i = 0; i < 10; i = i + 1)
-{
-    AddToList(CircleCreator(Point(50+i*10, 10), 40, 10, red, black), circles);
-}
-
-for(num i = 0; x < 10; x = x + 1)
-{
-    square firkant2 = Square(Point(10, 10 + x * 50), 180, 10, green, pink);
-    text txt2 = Text("Its even worse for mouses!", Point(0,0 + x * 50), "Arial", 14, pink);
-}
-
-
-bool GetBool()
-{
-    return true;
-}
-
-group mouse = Group(Point(145-20, 80),
-{
-    group mousEars = Group(Point(0, 0),
+    num rectTlX = canvasWidth/5; num rectTlY = canvasHeight/25; 
+    num rectBrX = (canvasWidth/6)*5; num rectBrY = (canvasHeight/25)*24;
+    
+    num rectWidth = rectBrX - rectTlX;
+    num rectHeight = rectBrY - rectTlY;
+    
+    rectangle groupRect = Rectangle(Point(rectTlX, rectTlY), Point(rectBrX, rectBrY), 4, Color(255, 255, 255, 1), Color(0, 0, 0, 1));
+    
+    group squareOne = Group(Point(rectTlX, rectTlY),
     {
-        circle leftEar = CircleCreator(Point(-30, 0), 30, 10, white, pink);
-        circle rightEar = CircleCreator(Point(30, 0), 30, 10, white, pink);
+        square sqr = Square(Point(rectWidth/30, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
     });
-
-    group mouseFace = Group(Point(0, 0),
+    
+    group squareTwo = Group(Point(rectTlX, rectTlY),
     {
-        circle face = CircleCreator(Point(0, 30), 50, 10, white, pink);
-        circle eye = CircleCreator(Point(-20, 20), 10, 3, white, black);
-        circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);
-        ellipse eyeball = Ellipse(Point(-20, 21), 5, 2, 2, black, black);
-        ellipse eyeball2 = Ellipse(Point(20, 21), 5, 9, 2, black, black);
-
-        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
+        square sqr = Square(Point((rectWidth/30)*11, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
     });
+    
+    group squareThree = Group(Point(rectTlX, rectTlY),
+    {
+        square sqr = Square(Point((rectWidth/30)*21, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+    });
+    
+    text startText = Text("Program text", Point(canvasWidth/25, canvasHeight/2), "Arial", 20, Color(0, 0, 0, 1));
+    
+    arrow lineToSquareOne = Arrow(Point(canvasWidth/6, canvasHeight/2.1), Point(rectTlX + rectWidth/30 - 5, canvasHeight/2.1), 2, Color(0, 0, 0, 1));
+    
 });
-
-color reds = Color(255, 0, 0, 1);
-point xy = Point(0, 0);
-
-num start = 180-40;
-rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);
-string s1 = "It's even worse";
-string s2 = " for mouses!";
-text txt = Text(s1+s2, Point(29,200), "Arial", 16, black);
-
-line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));
-line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));
-
-string j = "a" + "b" + "c";
-bool k = true == false != true;
-bool l = 5<3 || 5>3 && 5<=5;
-
-list<circle> circles2 = List <circle> {
-    CircleCreator(Point(50, 10), 40, 10, red, black),
-    CircleCreator(Point(220, 120), 40, 10, red, black)
-};
-
-circle gottenCircle = GetFromList(0, circles);
-RemoveFromList(0, circles);
-num xoxo = LengthOfList(circles);
-circle tis = Circle(Point(x, x), 1, 100, Color(255, 0, 0, 1), Color(0, 0, 0, 1));
-
-num Cos(num angle1) {
-    num result = 1;
-    num term = 1;
-    num factorial = 1;
-    for (num i = 1; i <= 10; i+=1) {
-        term *= -angle1 * angle1 / ((2 * i) * (2 * i - 1));
-        result += term;
-    }
-    return result;
-}
-
-num Sin(num angle) {
-    num result = angle;
-    num term = angle;
-    num factorial = 1;
-    for (num i = 1; i <= 10; i+=1) {
-        term *= -angle * angle / ((2 * i + 1) * (2 * i));
-        result += term;
-    }
-    return result;
-}
-
-list<point> points = List<point>{Point(150,100)};
-num radius = 50;
-point center = Point(100.300, 100 - 0.4);
-for (num theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)
-{
-    num x2 = 100 + radius * Cos(theta);
-    num y = 100 + radius * Sin(theta);
-    AddToList(Point(x2, y), points);
-}
-polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));
-
-list<circle> cricles = List <circle> {};
-
-RemoveFromList(0, cricles);
-
-for(num i = 0; i < 10; i = i + 1)
-{
-    AddToList(CircleCreator(Point(50+i*10, 50), 20, 10, red, pink), cricles);
-}
-
-color blue = Color(69, 95, 214, 1);
-circle numse = Circle(Point(69, 69), 30, 2, blue, red);
-circle numse1 = Circle(Point(99, 69), 30, 2, blue, red);
-canvas (250, 250, Color(255, 255, 255, 1));

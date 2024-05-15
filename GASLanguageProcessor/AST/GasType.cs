@@ -21,5 +21,7 @@ public enum GasType
     Error,
     Ellipse,
     Any,
-    Polygon
+    Polygon,
+    Arrow,
+    Triangle
 }
