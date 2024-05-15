@@ -362,8 +362,9 @@ public class Interpreter
                 }
 
                 if (listVariable.ActualValue == null)
-                {
-                    listVariable.ActualValue = new FinalList(new List<object>(), scope);
+                {                   
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} is not initialized");
+                    return null;
                 }
 
                 if (listVariable.ActualValue is not FinalList destList)

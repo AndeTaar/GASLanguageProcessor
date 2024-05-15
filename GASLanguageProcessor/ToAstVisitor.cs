@@ -285,8 +285,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)
     {
+        var type = context.type()?.Accept(this) as Type;
         var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
-        return new List(expressions) {LineNum = context.Start.Line};
+        return new List(expressions, type) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)

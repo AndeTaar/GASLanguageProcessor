@@ -34,7 +34,7 @@ public class VisitProgram
             "}\n" +
             "\n" +
             "\n" +
-            "\nlist<point> points = List {\n" +
+            "\nlist<point> points = List<point> {\n" +
             "    Point(0, 0)\n};\n" +
             "\nnum radius = 50;" +
             "\npoint center = Point(100, 100);\n" +
@@ -85,10 +85,10 @@ public class VisitProgram
             "{\n" +
             "    return Circle(Center, Width, Stroke, Fill, StrokeColor);\n" +
             "}\n" +
-            "\nlist<circle> circles2 = List {\n" +
+            "\nlist<circle> circles2 = List<circle> {\n" +
             "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
             "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n" +
-            "\nlist<point> points = List {\n" +
+            "\nlist<point> points = List<point> {\n" +
             "    Point(0, 0)\n};\n" +
             "\nnum radius = 50;" +
             "\npoint center = Point(100, 100);\n" +
@@ -121,7 +121,7 @@ public class VisitProgram
             "color red = Color(255, 0, 0, 1);\n" +
             "color pink = Color(255, 100, 100, 1);\n" +
             "color black = Color(0, 0, 0, 1);\n" +
-            "\nlist<circle> circles = List {\n" +
+            "\nlist<circle> circles = List<circle> {\n" +
             "    Circle(Point(0, 0), 1, 1, red, black)\n" +
             "};\n" +
             "\n" +

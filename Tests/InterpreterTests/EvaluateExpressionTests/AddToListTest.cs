@@ -12,7 +12,7 @@ public class AddToListTest
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "num x = 10;" +
-            "list<num> l = List{1, 2, 3, 4, 5};" +
+            "list<num> l = List<num>{1, 2, 3, 4, 5};" +
             "AddToList(5, l);"
         );
         var result = scope.vTable.LookUp("l")?.ActualValue as FinalList;
@@ -29,14 +29,13 @@ public class AddToListTest
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "num x = 10;" +
-            "list<num> l;" +
+            "list<num> l = List<num>{};" +
             "AddToList(5, l);"
         );
         var result = scope.vTable.LookUp("l")?.ActualValue as FinalList;
         var expected = new FinalList(new List<object> { 5f }, scope);
-        //Fails for now
-        /**Assert.NotNull(result);
+        Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
-        Assert.Equal(expected.Values, result.Values);*/
+        Assert.Equal(expected.Values, result.Values);
     }
 }

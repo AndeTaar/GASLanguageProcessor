@@ -12,7 +12,7 @@ public class EvaluateExpressionGetFromList
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<num> listNum = List{1, 2, 3, 4, 5};" +
+            "list<num> listNum = List<num>{1, 2, 3, 4, 5};" +
             "num fromList = GetFromList(0, listNum);"
         );
         var result = scope.vTable.LookUp("fromList")?.ActualValue;
@@ -28,7 +28,7 @@ public class EvaluateExpressionGetFromList
     {
         var scope = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "list<circle> listCircle = List" +
+            "list<circle> listCircle = List<circle>" +
             "{" +
             "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1)), " + 
             "   Circle(Point(100, 200), 30, 10, Color(0, 0, 255, 1), Color(0, 255, 0, 1)) " +

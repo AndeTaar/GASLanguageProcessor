@@ -91,7 +91,7 @@ public class VisitProgram
             "color red = Color(255, 0, 0, 1);\n" +
             "color pink = Color(255, 100, 100, 1);\n" +
             "color black = Color(0, 0, 0, 1);\n" +
-            "\nlist<circle> circles = List {\n" +
+            "\nlist<circle> circles = List<circle> {\n" +
             "    Circle(Point(0, 0), 1, 1, red, black)\n" +
             "};\n" +
             "\n" +
@@ -146,9 +146,9 @@ public class VisitProgram
             "line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));\n" +
             "\nstring j = \"a\" + \"b\" + \"c\";\n" +
             "bool k = true == false != true;\nbool l = 5<3 || 5>3 && 5<=5;\n" +
-            "\nlist<circle> circles2 = List {\n" +
+            "\nlist<circle> circles2 = List<circle> {\n" +
             "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
-            "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n\nlist<point> points = List {\n" +
+            "   CircleCreator(Point(220, 120), 40, 10, red, black)\n};\n\nlist<point> points = List<point> {\n" +
             "    Point(0, 0)\n};\n\nnum radius = 50;\npoint center = Point(100, 100);\n" +
             "\nfor (num theta = 0; theta <= 2 * 3.14; theta = theta + 3.14 / 180)\n" +
             "{\n" +
