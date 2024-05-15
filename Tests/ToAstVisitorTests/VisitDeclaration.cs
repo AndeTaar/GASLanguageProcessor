@@ -19,8 +19,11 @@ public class VisitDeclaration
         Assert.IsType<Compound>(ast);
         var compound = (Compound)ast;
         var canvas = (Canvas)compound.Statement1;
-        Assert.IsType<Declaration>(compound.Statement2);
-        var declaration = (Declaration)compound.Statement2;
+        Assert.IsType<Compound>(compound.Statement2);
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
+        Assert.Null(compound1.Statement2);
+        Assert.NotNull(declaration);
         Assert.IsType<Canvas>(canvas);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);

@@ -83,4 +83,6 @@ public interface IAstVisitor<T>
     T VisitLengthOfList(LengthOfList node, Scope scope);
 
     T VisitPolygon(Polygon polygon, Scope scope);
+
+    T VisitIncrement(Increment increment, Scope scope);
 }

@@ -382,15 +382,19 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var parameters = node.Arguments.Select(expression => expression.Accept(this, scope)).ToList();
         if (parameters.Count != function?.Parameters.Count)
         {
-            errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong num of arguments");
+            errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() +
+                       " expecting arguments: \n" + function?.ParametersToString() +
+                       "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             return GasType.Error;
         }
 
         for (int i = 0; i < function?.Parameters.Count; i++)
         {
-            if (function.Parameters[i].Type != parameters[i] && function.Parameters[i].Type != GasType.Any)
+            if (function.Parameters[i].Type != parameters[i] && parameters[i] != GasType.Any && function.Parameters[i].Type != GasType.Any)
             {
-                errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong type of arguments");
+                errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() +
+                           " expecting arguments: \n" + function?.ParametersToString() +
+                           "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             }
         }
 
@@ -413,15 +417,20 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var parameters = node.Arguments.Select(expression => expression.Accept(this, scope)).ToList();
         if (parameters.Count != function?.Parameters.Count)
         {
-            errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong num of arguments");
+            errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() +
+                       " expecting arguments: \n" + function?.ParametersToString() +
+                       "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             return GasType.Error;
         }
 
         for (int i = 0; i < function?.Parameters.Count; i++)
         {
-            if (function.Parameters[i].Type != GasType.Any && function.Parameters[i].Type != parameters[i])
+            if (function.Parameters[i].Type != GasType.Any && parameters[i] != GasType.Any && function.Parameters[i].Type != parameters[i])
             {
-                errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() + " has wrong type of arguments");
+                errors.Add("Line: " + node.LineNum + " Function name: " + identifier.ToCompoundIdentifierName() +
+                           " expecting arguments: \n" + function?.ParametersToString() +
+                            "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
+
             }
         }
 
@@ -504,10 +513,38 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         throw new NotImplementedException();
     }
-    
+
     public GasType VisitPolygon(Polygon polygon, Scope scope)
     {
         throw new NotImplementedException();
+    }
+
+    public GasType VisitIncrement(Increment increment, Scope scope)
+    {
+        var identifier = increment.Identifier;
+        var op = increment.Operator;
+        var variable = scope.LookupAttribute(identifier, scope, scope, errors);
+
+        if(variable == null){
+            errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found");
+            return GasType.Error;
+        }
+
+        switch (op)
+        {
+            case "++":
+                if(variable.Type == GasType.Num)
+                    return GasType.Num;
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: Num, got: " + variable.Type);
+                break;
+            case "--":
+                if(variable.Type == GasType.Num)
+                    return GasType.Num;
+                errors.Add("Invalid type for variable: " + identifier.Name + " expected: Num, got: " + variable.Type);
+                break;
+        }
+
+        return GasType.Error;
     }
 
     public GasType VisitBinaryOp(BinaryOp node, Scope scope)

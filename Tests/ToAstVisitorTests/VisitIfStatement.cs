@@ -17,8 +17,11 @@ public class VisitIfStatement
         var compound = (Compound) ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
         var canvas = (Canvas) compound.Statement1;
-        Assert.IsAssignableFrom<If>(compound.Statement2);
-        var ifStatement = (If) compound.Statement2;
+        Assert.IsAssignableFrom<Compound>(compound.Statement2);
+        var compound1 = (Compound) compound.Statement2;
+        var ifStatement = (If) compound1.Statement1;
+        var eofNull = compound1.Statement2;
+        Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
     }
@@ -34,8 +37,14 @@ public class VisitIfStatement
         var compound = (Compound) ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
         var canvas = (Canvas) compound.Statement1;
-        Assert.IsAssignableFrom<If>(compound.Statement2);
-        var ifStatement = (If) compound.Statement2;
+        Assert.IsAssignableFrom<Compound>(compound.Statement2);
+        var ifStatement = (Compound) compound.Statement2;
+        Assert.IsAssignableFrom<If>(ifStatement.Statement1);
+        var ifStatement1 = (If) ifStatement.Statement1;
+        var eofNull = ifStatement.Statement2;
+        Assert.Null(eofNull);
+        Assert.NotNull(ifStatement1);
+        Assert.NotNull(canvas);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
     }
@@ -51,8 +60,12 @@ public class VisitIfStatement
         var compound = (Compound) ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
         var canvas = (Canvas) compound.Statement1;
-        Assert.IsAssignableFrom<If>(compound.Statement2);
-        var ifStatement = (If) compound.Statement2;
+        Assert.IsAssignableFrom<Compound>(compound.Statement2);
+        var compound1 = (Compound) compound.Statement2;
+        Assert.IsAssignableFrom<If>(compound1.Statement1);
+        var ifStatement = (If) compound1.Statement1;
+        var eofNull = compound1.Statement2;
+        Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
 
