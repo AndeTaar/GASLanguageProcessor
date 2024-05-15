@@ -14,4 +14,6 @@
 <line id="lineToSquareOne" x1="166.66667" y1="119.04762" x2="216.11111" y2="119.04762" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
 <polygon id="lineToSquareOne" points="216.11111,119.04762 212.11111,123.04762 212.11111,115.04762" fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
 </g>
+<line id="newLine" x1="-1" y1="-1" x2="251" y2="251" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
+<line id="newLine2" x1="-1" y1="251" x2="1001" y2="-751" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
 </svg>
