@@ -1,37 +1,34 @@
-﻿num canvasWidth = 1000;
+﻿num canvasWidth = 250;
 num canvasHeight = 250;
 
-canvas(canvasWidth, canvasHeight, Color(255, 255, 255, 1));
+color white = Color(255, 255, 255, 1);
+color green = Color(0, 255, 0, 1);
+color pink = Color(255, 100, 100, 1);
+color black = Color(0, 0, 0, 1);
 
-color lightBlue = Color(173, 216, 230, 1);
-
-group g = Group(Point(0,0),
+group mouse = Group(Point(canvasWidth/2, 80),
 {
-    num rectTlX = canvasWidth/5; num rectTlY = canvasHeight/25;
-    num rectBrX = (canvasWidth/6)*5; num rectBrY = (canvasHeight/25)*24;
-
-    num rectWidth = rectBrX - rectTlX;
-    num rectHeight = rectBrY - rectTlY;
-
-    rectangle groupRect = Rectangle(Point(rectTlX, rectTlY), Point(rectBrX, rectBrY), 4, Color(255, 255, 255, 1), Color(0, 0, 0, 1));
-
-    group squareOne = Group(Point(rectTlX, rectTlY),
+    group mousEars = Group(Point(0, 0),
     {
-        square sqr = Square(Point(rectWidth/30, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+        circle leftEar = Circle(Point(-30, 0), 30, 10, white, pink);
+        circle rightEar = Circle(Point(30, 0), 30, 10, white, pink);
     });
 
-    group squareTwo = Group(Point(rectTlX, rectTlY),
+    group mouseFace = Group(Point(0, 0),
     {
-        square sqr = Square(Point((rectWidth/30)*11, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
+        circle face = Circle(Point(0, 30), 50, 10, white, pink);
+        circle eye = Circle(Point(-20, 20), 10, 3, white, black);
+        circle eye2 = Circle(Point(20, 20), 10, 3, white, black);
+        circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);
+        circle eyeball2 = Circle(Point(20, 21), 5, 2, black, black);
+
+        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
     });
-
-    group squareThree = Group(Point(rectTlX, rectTlY),
-    {
-        square sqr = Square(Point((rectWidth/30)*21, (rectHeight*1.5)/10), (rectHeight*7)/10, 2, lightBlue, Color(0, 0, 0, 1));
-    });
-
-    text startText = Text("Program text", Point(canvasWidth/25, canvasHeight/2), "Arial", 20, Color(0, 0, 0, 1));
-
-    arrow lineToSquareOne = Arrow(Point(canvasWidth/6, canvasHeight/2.1), Point(rectTlX + rectWidth/30 - 5, canvasHeight/2.1), 4, Color(0, 0, 0, 1));
-
 });
+
+rectangle rectangle1 = Rectangle(Point(20, canvasHeight-60), Point(canvasWidth-20, canvasHeight-20), 2, white, black);
+string s1 = "It's even worse";
+string s2 = " for mouses!";
+text txt = Text(s1+s2, Point(29,canvasHeight-35), "Arial", 100, black);
+
+canvas (canvasWidth, canvasHeight, white);

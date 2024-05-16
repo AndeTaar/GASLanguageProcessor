@@ -1,17 +1,18 @@
-<svg width="1000" height="250" style="background-color: rgba(255, 255, 255, 1)" xmlns="http://www.w3.org/2000/svg">
-<g id="g" transform="translate(0, 0)">
-<rect id="groupRect" x="200" y="10" width="633.3334" height="230" fill="rgba(255, 255, 255, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
-<g id="squareOne" transform="translate(200, 10)">
-<rect id="sqr" x="21.111113" y="34.5" width="161" height="161" fill="rgba(173, 216, 230, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
+<svg width="250" height="250" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
+<g id="mouse" transform="translate(125, 80)">
+<g id="mousEars" transform="translate(0, 0)">
+<circle id="leftEar" cx="-30" cy="0" r="30" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(255, 100, 100)" stroke-width="10" />
+<circle id="rightEar" cx="30" cy="0" r="30" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(255, 100, 100)" stroke-width="10" />
 </g>
-<g id="squareTwo" transform="translate(200, 10)">
-<rect id="sqr" x="232.22224" y="34.5" width="161" height="161" fill="rgba(173, 216, 230, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
+<g id="mouseFace" transform="translate(0, 0)">
+<circle id="face" cx="0" cy="30" r="50" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(255, 100, 100)" stroke-width="10" />
+<circle id="eye" cx="-20" cy="20" r="10" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="3" />
+<circle id="eye2" cx="20" cy="20" r="10" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="3" />
+<circle id="eyeball" cx="-20" cy="21" r="5" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="2" />
+<circle id="eyeball2" cx="20" cy="21" r="5" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="2" />
+<line id="mouth" x1="-20" y1="50" x2="20" y2="40" stroke="rgb(0, 0, 0)" stroke-width="3" />
 </g>
-<g id="squareThree" transform="translate(200, 10)">
-<rect id="sqr" x="443.33337" y="34.5" width="161" height="161" fill="rgba(173, 216, 230, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="2" />
 </g>
-<text id="startText" x="40" y="125" fill="rgba(0, 0, 0, 1)" font-family="Arial" font-size="20">Program text</text>
-<line id="lineToSquareOne" x1="166.66667" y1="119.04762" x2="216.11111" y2="119.04762" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
-<polygon id="lineToSquareOne" points="216.11111,119.04762 212.11111,123.04762 212.11111,115.04762" fill="rgba(0, 0, 0, 1)" fill-opacity="1" stroke="rgba(0, 0, 0, 1)" stroke-width="4" />
-</g>
+<rect id="rectangle1" x="20" y="190" width="210" height="40" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="2" />
+<text id="txt" x="29" y="215" fill="rgb(0, 0, 0)" font-family="Arial" font-size="100%">It's even worse for mouses!</text>
 </svg>

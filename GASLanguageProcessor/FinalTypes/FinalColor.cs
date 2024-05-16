@@ -17,6 +17,6 @@ public class FinalColor
 
     public string ColorToString()
     {
-        return $"rgba({Red}, {Green}, {Blue}, {Alpha})";
+        return $"rgb({Red}, {Green}, {Blue})";
     }
 }
