@@ -1,20 +1,7 @@
-num canvasWidth = 2100;
-num canvasHeight = 2000;
-
-num rectHeight = 200;
-num rectWidth = 300;
-
-color white = Color(255, 255, 255, 1);
-color black = Color(0, 0, 0, 1);
-
-canvas (canvasWidth, canvasHeight, white);
-
-
-group group1 = Group(Point(0, canvasHeight-600), {
-    list<rectangle> rects = List<rectangle>{};
-    for(num i = 0; i < 6; i ++) {
-        AddToList(Rectangle(Point(i*rectWidth+25, 0), Point(i*rectWidth+rectWidth+25, rectHeight), 3, black, black, 40),rects);
-    }
-});
-
-text tekst = Text("10   +   100     *     a && b      -      !a   /  -b ", Point(30, canvasHeight-100), "Arial", 110, black);
+ canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1)); 
+ num x = 11;
+ if (x == 10) { x = 20; }
+ 
+ circle cricle = Circle(Point(x,10), 10, 10, Color(255, 0, 0, 1), Color(0, 0, 0, 1));
+ 
+ 
