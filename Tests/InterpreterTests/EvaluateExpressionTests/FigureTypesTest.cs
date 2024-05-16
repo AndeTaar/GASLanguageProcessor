@@ -89,10 +89,10 @@ public class FigureTypesTest
     public void PassEvaluateExpressionText() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
     {
         var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
-                                        "text one = Text(\"Hello World\", Point(67,37), \"Arial\", 24, Color(0,255,255,1));");
+                                        "text one = Text(\"Hello World\", Point(67,37), \"Arial\", 24, 400, Color(0,255,255,1));");
 
         var result = scope.vTable.LookUp("one")?.ActualValue as FinalText;
-        var expected = new FinalText("Hello World", new FinalPoint(67, 37), "Arial", 24, new FinalColor(0, 255, 255, 1));
+        var expected = new FinalText("Hello World", new FinalPoint(67, 37), "Arial", 24, 400, new FinalColor(0, 255, 255, 1));
 
         Assert.NotNull(result);
         Assert.IsType<FinalText>(result);

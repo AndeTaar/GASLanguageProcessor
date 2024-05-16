@@ -120,7 +120,7 @@ public class GenerateLineTests
     {
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "text t = Text(\"Hello, World!\", Point(10, 20), \"Arial\", 20, Color(255, 0, 0, 1));"
+            "text t = Text(\"Hello, World!\", Point(10, 20), \"Arial\", 20, 400, Color(255, 0, 0, 1));"
         );
 
         Assert.NotEmpty(svgLines);
@@ -129,7 +129,7 @@ public class GenerateLineTests
                      " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<text id=\"t\" x=\"10\" y=\"20\" fill=\"rgb(255, 0, 0)\"" +
-                     " font-family=\"Arial\" font-size=\"20\">Hello, World!</text>", svgLines[1]);
+                     " font-family=\"Arial\" font-weight=\"400\" font-size=\"20\">Hello, World!</text>", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
