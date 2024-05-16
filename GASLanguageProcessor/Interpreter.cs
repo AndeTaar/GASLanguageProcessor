@@ -323,8 +323,9 @@ public class Interpreter
                 var position = (FinalPoint)EvaluateExpression(text.Position, scope);
                 var font = (string)EvaluateExpression(text.Font, scope);
                 var fontSize = (float)EvaluateExpression(text.FontSize, scope);
+                var fontWeight = (float)EvaluateExpression(text.FontWeight, scope);
                 var textColor = (FinalColor)EvaluateExpression(text.Color, scope);
-                return new FinalText(value, position, font, fontSize, textColor);
+                return new FinalText(value, position, font, fontSize, fontWeight, textColor);
 
             case Circle circle:
                 var centre = (FinalPoint)EvaluateExpression(circle.Center, scope);

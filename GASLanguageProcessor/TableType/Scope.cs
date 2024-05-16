@@ -83,12 +83,14 @@ public class Scope
                 new Variable("position", this, GasType.Point),
                 new Variable("font", this, GasType.String),
                 new Variable("fontSize", this, GasType.Num),
+                new Variable("fontWeight", this, GasType.Num),
                 new Variable("color", this, GasType.Color)
             }, new Return(new Text(
                 new Identifier("value"),
                 new Identifier("position"),
                 new Identifier("font"),
                 new Identifier("fontSize"),
+                new Identifier("fontWeight"),
                 new Identifier("color")
             )), new Scope(this, null)));
 
