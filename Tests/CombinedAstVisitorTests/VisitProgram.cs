@@ -106,7 +106,7 @@ public class VisitProgram
             "for(num i = 0; x < 10; x = x + 1)\n" +
             "{\n" +
             "    square firkant2 = Square(Point(10, 10 + x * 50), 180, 10, green, pink);\n" +
-            "    text txt2 = Text(\"Its even worse for mouses!\", Point(0,0 + x * 50), \"Arial\", 14, pink);\n" +
+            "    text txt2 = Text(\"Its even worse for mouses!\", Point(0,0 + x * 50), \"Arial\", 14, 400, pink);\n" +
             "}\n" +
             "\n" +
             "\n" +
@@ -140,7 +140,7 @@ public class VisitProgram
             "rectangle rectangle1 = Rectangle(Point(20, start+40), Point(230, start+70), 2, white, black);\n" +
             "string s1 = \"It's even worse\";\n" +
             "string s2 = \" for mouses!\";\n" +
-            "text txt = Text(s1+s2, Point(29,200), \"Arial\", 16, black);\n" +
+            "text txt = Text(s1+s2, Point(29,200), \"Arial\", 16, 400, black);\n" +
             "\n" +
             "line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));\n" +
             "line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));\n" +
