@@ -3,9 +3,9 @@
 color black = Color(0, 0, 0, 1);
 color white = Color(255, 255, 255, 1);
 
-rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black);
-rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black);
-rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black);
+rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black, 0);
+rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black, 0);
+rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black, 0);
 
 text var = Text("Var", Point(17, 18), "Arial", 12, 900, black);
 text x = Text("x", Point(20, 45), "Arial", 12, 400,black);
