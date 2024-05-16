@@ -22,8 +22,8 @@ functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allType
 //Standard data types
 
 allTypes : type | collectionType;
-type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line' |
- 'T' | 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
+type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line'
+| 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
 collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
