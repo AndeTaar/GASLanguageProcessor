@@ -29,6 +29,6 @@ group mouse = Group(Point(canvasWidth/2, 80),
 rectangle rectangle1 = Rectangle(Point(20, canvasHeight-60), Point(canvasWidth-20, canvasHeight-20), 2, white, black);
 string s1 = "It's even worse";
 string s2 = " for mouses!";
-text txt = Text(s1+s2, Point(29,canvasHeight-35), "Arial", 100, black);
+text txt = Text(s1+s2, Point(29,canvasHeight-35), "Arial", 16, black);
 
 canvas (canvasWidth, canvasHeight, white);
