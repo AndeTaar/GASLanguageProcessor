@@ -10,6 +10,23 @@ public class FinalText
 
     public FinalColor TextColor { get; set; }
 
+    public string ToCdataText()
+    {
+        var texts = this.Text.Split(' ');
+        string str = "";
+        foreach (var text in texts)
+        {
+            if(text == "")
+            {
+                str += " ";
+                continue;
+            }
+            str += "<![CDATA[" + text + "]]> ";
+        }
+
+        return str;
+    }
+
     public FinalText(string text, FinalPoint position, string font, float fontSize, FinalColor textColor)
     {
         Text = text;

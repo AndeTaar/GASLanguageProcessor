@@ -306,7 +306,8 @@ public class Interpreter
                 var strokeSize = (float)EvaluateExpression(square.Stroke, scope);
                 var squareFillColor = (FinalColor)EvaluateExpression(square.Color, scope);
                 var squareStrokeColor = (FinalColor)EvaluateExpression(square.StrokeColor, scope);
-                return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor);
+                var cornerRounding = (float)EvaluateExpression(square.CornerRounding, scope);
+                return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor, cornerRounding);
 
             case Ellipse ellipse:
                 var ellipseCentre = (FinalPoint)EvaluateExpression(ellipse.Center, scope);
@@ -340,7 +341,8 @@ public class Interpreter
                 var rectStroke = (float)EvaluateExpression(rectangle.Stroke, scope);
                 var rectFillColor = (FinalColor)EvaluateExpression(rectangle.Color, scope);
                 var rectStrokeColor = (FinalColor)EvaluateExpression(rectangle.StrokeColor, scope);
-                return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor);
+                var rectCornerRounding = (float)EvaluateExpression(rectangle.CornerRounding, scope);
+                return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor, rectCornerRounding);
 
             case Line line:
                 var lineIntercept = (float)EvaluateExpression(line.Intercept, scope);

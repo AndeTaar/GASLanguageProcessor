@@ -1,34 +1,20 @@
-﻿num canvasWidth = 250;
-num canvasHeight = 250;
+num canvasWidth = 2100;
+num canvasHeight = 2000;
+
+num rectHeight = 200;
+num rectWidth = 300;
 
 color white = Color(255, 255, 255, 1);
-color green = Color(0, 255, 0, 1);
-color pink = Color(255, 100, 100, 1);
 color black = Color(0, 0, 0, 1);
 
-group mouse = Group(Point(canvasWidth/2, 80),
-{
-    group mousEars = Group(Point(0, 0),
-    {
-        circle leftEar = Circle(Point(-30, 0), 30, 10, white, pink);
-        circle rightEar = Circle(Point(30, 0), 30, 10, white, pink);
-    });
+canvas (canvasWidth, canvasHeight, white);
 
-    group mouseFace = Group(Point(0, 0),
-    {
-        circle face = Circle(Point(0, 30), 50, 10, white, pink);
-        circle eye = Circle(Point(-20, 20), 10, 3, white, black);
-        circle eye2 = Circle(Point(20, 20), 10, 3, white, black);
-        circle eyeball = Circle(Point(-20, 21), 5, 2, black, black);
-        circle eyeball2 = Circle(Point(20, 21), 5, 2, black, black);
 
-        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);
-    });
+group group1 = Group(Point(0, canvasHeight-600), {
+    list<rectangle> rects = List<rectangle>{};
+    for(num i = 0; i < 6; i ++) {
+        AddToList(Rectangle(Point(i*rectWidth+25, 0), Point(i*rectWidth+rectWidth+25, rectHeight), 3, black, black, 40),rects);
+    }
 });
 
-rectangle rectangle1 = Rectangle(Point(20, canvasHeight-60), Point(canvasWidth-20, canvasHeight-20), 2, white, black);
-string s1 = "It's even worse";
-string s2 = " for mouses!";
-text txt = Text(s1+s2, Point(29,canvasHeight-35), "Arial", 100, black);
-
-canvas (canvasWidth, canvasHeight, white);
+text tekst = Text("10   +   100     *     a && b      -      !a   /  -b ", Point(30, canvasHeight-100), "Arial", 110, black);

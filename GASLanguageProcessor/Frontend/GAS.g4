@@ -32,8 +32,7 @@ equalityExpression : relationExpression (('==' | '!=') (relationExpression | equ
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
 binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
 multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
-unaryExpression : ('!' | '-')* listAccessExpression;
-listAccessExpression : term ('[' expression ']')?;
+unaryExpression : ('!' | '-')* term;
 
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
