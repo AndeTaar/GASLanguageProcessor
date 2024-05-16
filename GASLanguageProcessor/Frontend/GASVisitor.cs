@@ -176,12 +176,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitUnaryExpression([NotNull] GASParser.UnaryExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listAccessExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitListAccessExpression([NotNull] GASParser.ListAccessExpressionContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.term"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

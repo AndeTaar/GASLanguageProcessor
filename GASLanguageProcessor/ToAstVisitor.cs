@@ -322,7 +322,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             return base.VisitUnaryExpression(context);
         }
 
-        var expression = context.listAccessExpression().Accept(this) as Expression;
+        var expression = context.term().Accept(this) as Expression;
 
         return new UnaryOp(context.GetChild(0).GetText(), expression);
     }

@@ -14,7 +14,7 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("</svg>", svgLines[1]);
     }
@@ -30,11 +30,11 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<circle id=\"c\" cx=\"10\" cy=\"20\" r=\"30\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\"" +
+                     " stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -49,10 +49,10 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<line id=\"sl\" x1=\"10\" y1=\"20\" x2=\"30\" y2=\"40\"" +
-                     " stroke=\"rgba(255, 0, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " stroke=\"rgb(255, 0, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -72,10 +72,10 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal($"<line id=\"l\" x1=\"-1\" y1=\"{lineIntercept-lineGradient}\" x2=\"{expectedLineEndX}\" y2=\"{expectedLineEndY}\"" +
-                     " stroke=\"rgba(255, 0, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " stroke=\"rgb(255, 0, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -84,16 +84,16 @@ public class GenerateLineTests
     {
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "rectangle r = Rectangle(Point(10, 20), Point(100, 250), 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));"
+            "rectangle r = Rectangle(Point(10, 20), Point(100, 250), 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1),1);"
         );
 
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
-        Assert.Equal("<rect id=\"r\" x=\"10\" y=\"20\" width=\"90\" height=\"230\"" + " fill=\"rgba(255, 0, 0, 1)\"" +
-                     " fill-opacity=\"1\" stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+        Assert.Equal("<rect id=\"r\" x=\"10\" y=\"20\" width=\"90\" height=\"230\"" + " fill=\"rgb(255, 0, 0)\"" +
+                     " fill-opacity=\"1\" rx=\"1\" stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -108,10 +108,10 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<ellipse id=\"e\" cx=\"10\" cy=\"20\" rx=\"30\" ry=\"40\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " fill=\"rgb(255, 0, 0)\" stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -126,9 +126,9 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
-        Assert.Equal("<text id=\"t\" x=\"10\" y=\"20\" fill=\"rgba(255, 0, 0, 1)\"" +
+        Assert.Equal("<text id=\"t\" x=\"10\" y=\"20\" fill=\"rgb(255, 0, 0)\"" +
                      " font-family=\"Arial\" font-size=\"20\">Hello, World!</text>", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
@@ -138,17 +138,17 @@ public class GenerateLineTests
     {
         var svgLines = SharedTesting.GetSvgLines(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "square s = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));"
+            "square s = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1),1);"
         );
 
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<rect id=\"s\" x=\"10\" y=\"20\" width=\"30\" height=\"30\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\" rx=\"1\"" +
+                     " stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 
@@ -160,22 +160,22 @@ public class GenerateLineTests
             "group g = Group(Point(0,0)," +
             "{" +
             "   circle groupCircle = Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));" +
-            "   square groupSquare = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1));" +
+            "   square groupSquare = Square(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1),1);" +
             "});"
         );
 
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<g id=\"g\" transform=\"translate(0, 0)\">", svgLines[1]);
         Assert.Equal("<circle id=\"groupCircle\" cx=\"10\" cy=\"20\" r=\"30\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[2]);
+                     " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\"" +
+                     " stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[2]);
         Assert.Equal("<rect id=\"groupSquare\" x=\"10\" y=\"20\" width=\"30\" height=\"30\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[3]);
+                     " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\"" +
+                     " rx=\"1\" stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[3]);
         Assert.Equal("</g>", svgLines[4]);
         Assert.Equal("</svg>", svgLines[5]);
     }
@@ -195,14 +195,14 @@ public class GenerateLineTests
         Assert.NotEmpty(svgLines);
         Assert.All(svgLines, line => Assert.IsType<string>(line));
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
-                     " style=\"background-color: rgba(255, 255, 255, 1)\"" +
+                     " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
         Assert.Equal("<circle id=\"l\" cx=\"10\" cy=\"20\" r=\"30\"" +
-                     " fill=\"rgba(255, 0, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 255, 0, 1)\" stroke-width=\"10\" />", svgLines[1]);
+                     " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\"" +
+                     " stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("<circle id=\"l\" cx=\"100\" cy=\"200\" r=\"30\"" +
-                     " fill=\"rgba(0, 255, 0, 1)\" fill-opacity=\"1\"" +
-                     " stroke=\"rgba(0, 0, 255, 1)\" stroke-width=\"10\" />", svgLines[2]);
+                     " fill=\"rgb(0, 255, 0)\" fill-opacity=\"1\"" +
+                     " stroke=\"rgb(0, 0, 255)\" stroke-width=\"10\" />", svgLines[2]);
         Assert.Equal("</svg>", svgLines[3]);
     }
 }

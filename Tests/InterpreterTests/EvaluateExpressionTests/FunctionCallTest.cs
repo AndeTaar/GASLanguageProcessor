@@ -34,7 +34,7 @@ public class FunctionCallTest
             "num funcCallVal = Func(10, 20);" +
             "color white = Color(255, 255, 255, 1);" +
             "point p = Point(10, 20);" +
-            "square s = Square(p, 10, 20, white, white);");
+            "square s = Square(p, 10, 20, white, white,1);");
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
 
         Assert.NotNull(result);

@@ -47,12 +47,13 @@ public class FigureTypesTest
     public void PassEvaluateExpressionSqaure() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
     {
         var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
-                                        "square one = Square(Point(10,2), 40, 4, Color(255,0,255,1), Color(255,255,0,1));");
+                                        "square one = Square(Point(10,2), 40, 4, Color(255,0,255,1), Color(255,255,0,1), 10);");
 
         var result = scope.vTable.LookUp("one")?.ActualValue as FinalSquare;
         var expected = new FinalSquare(new FinalPoint(10, 2), 40, 4,
                     new FinalColor(255, 0, 255, 1),
-                    new FinalColor(255, 255, 0, 1));
+                    new FinalColor(255, 255, 0, 1),
+                    10);
 
         Assert.NotNull(result);
         Assert.IsType<FinalSquare>(result);
@@ -126,12 +127,12 @@ public class FigureTypesTest
     public void PassEvaluateExpressionRectangle() //canvas is needed since GenerateAst uses parser.program() and program needs canvas
     {
         var scope = SharedTesting.GetInterpretedScope("canvas (150, 150, Color(255, 255, 255, 1));" +
-                                        "rectangle one = Rectangle(Point(5,2), Point(10,4), 9, Color(255,255,0,1), Color(175,6,135,1));");
+                                        "rectangle one = Rectangle(Point(5,2), Point(10,4), 9, Color(255,255,0,1), Color(175,6,135,1),1);");
 
         var result = scope.vTable.LookUp("one")?.ActualValue as FinalRectangle;
         var expected = new FinalRectangle(new FinalPoint(5, 2), new FinalPoint(10, 4), 9,
                     new FinalColor(255, 255, 0, 1),
-                    new FinalColor(175, 6, 135, 1));
+                    new FinalColor(175, 6, 135, 1),0);
 
         Assert.NotNull(result);
         Assert.IsType<FinalRectangle>(result);
