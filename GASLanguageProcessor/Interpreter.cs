@@ -65,6 +65,18 @@ public class Interpreter
                     if (eval != null) return eval;
                     whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
                 }
+                return null;
+            case If @if:
+                var ifCondition = EvaluateExpression(@if.Condition, @if.Scope ?? scope);
+                
+                if ((bool)ifCondition)
+                {
+                    return EvaluateStatement(@if.Statements, @if.Scope ?? scope);
+                }
+                if (@if.Else != null)
+                {
+                    return EvaluateStatement(@if.Else, @if.Scope ?? scope);
+                }
 
                 return null;
             case FunctionDeclaration functionDeclaration:
@@ -251,8 +263,8 @@ public class Interpreter
                     ">" => (float)left > (float)right,
                     "<=" => (float)left <= (float)right,
                     ">=" => (float)left >= (float)right,
-                    "!=" => left != right,
-                    "==" => left == right,
+                    "!=" => !left.Equals(right),
+                    "==" => left.Equals(right),
                     "&&" => (bool)left && (bool)right,
                     "||" => (bool)left || (bool)right,
                     _ => throw new NotImplementedException()
