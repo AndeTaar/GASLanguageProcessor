@@ -35,10 +35,11 @@ public class Interpreter
                 var finalCanvas = new FinalCanvas(width, height, backgroundColor);
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
-                return finalCanvas;
+                return null;
 
             case Compound compound:
                 var eval1 = EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
+                if(eval1 != null) return eval1;
                 var eval2 = EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
                 return eval1 ?? eval2;
 
