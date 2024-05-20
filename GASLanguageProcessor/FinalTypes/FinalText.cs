@@ -20,4 +20,24 @@ public class FinalText
         FontWeight = new FinalNum(fontWeight == 0 ? 400 : fontWeight ) ;
         TextColor = textColor;
     }
+    
+    public string ToCdataString()
+    {
+        var strings = this.Text.Split(' ');
+
+        var finalString = "";
+
+        foreach (var str in strings)
+        {
+            if (str == " ")
+            {
+                finalString += " ";
+                continue;
+            }
+
+            finalString += "<![CDATA[" + str + "]]> ";
+        }
+
+        return finalString;
+    }
 }

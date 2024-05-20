@@ -357,7 +357,19 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         }).ToList();
         var statements = node.Statements;
         var statementsInScope = node.Statements?.Accept(this, scope);
+        var statementList = FlattenCompoundStatements(statements);
         var type = node.ReturnType.Accept(this, scope);
+        foreach (Statement statement in statementList)
+        {
+            if (statement is Return)
+            {
+                var returnType = statement.Accept(this, scope);
+                if (returnType != type && type != GasType.Void)
+                {
+                    errors.Add("Line: " + node.LineNum + " Function name: " + identifier + " expected return type: " + node.ReturnType.Accept(this, scope) + " got: " + returnType);
+                }
+            }
+        }
         var bound = scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, type, statements, scope));
         if (bound == null || bound == false)
         {
@@ -630,5 +642,60 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 errors.Add("Invalid operator: " + @operator);
                 return GasType.Error;
         }
+    }
+    public List<Statement> FlattenCompoundStatements(Statement statement)
+    {
+        List<Statement> statements = new List<Statement>();
+
+        // If the statement is not a compound statement, add it to the list and return
+        if (!(statement is Compound compoundStatement))
+        {
+            statements.Add(statement);
+            return statements;
+        }
+
+        // Use a stack to handle nested compound statements
+        Stack<Statement> stack = new Stack<Statement>();
+        stack.Push(compoundStatement);
+
+        while (stack.Count > 0)
+        {
+            Statement current = stack.Pop();
+
+            if (current is Compound compound)
+            {
+                // If the current statement is a compound statement, push its child statements onto the stack
+                stack.Push(compound.Statement1);
+                stack.Push(compound.Statement2);
+            }
+            else
+            {
+                // If the current statement is not a compound statement, add it to the list
+                statements.Add(current);
+            }
+        }
+
+        return statements;
+    }
+    
+    private static Statement ToCompound(List<AstNode> lines)
+    {
+        if (lines.Count == 0)
+        {
+            return null!;
+        }
+
+        if(lines.Count == 1)
+        {
+            return lines[0] as Statement;
+        }
+
+        if (lines[0] is Compound compound)
+        {
+            return new Compound(compound.Statement1,
+                new Compound(compound.Statement2, ToCompound(lines.Skip(1).ToList())));
+        }
+
+        return new Compound(lines[0] as Statement, ToCompound(lines.Skip(1).ToList()));
     }
 }
