@@ -135,8 +135,12 @@ public class Interpreter
                             new Variable(parameter.Identifier, functionCallVal));
                     }
                 }
-
-                EvaluateStatement(function.Statements, functionScope);
+                
+                var funcReturn = EvaluateStatement(function.Statements, functionScope);
+                if(function.ReturnType != GasType.Void && funcReturn == null) 
+                {
+                    errors.Add($"Function {identifier} does not return a value");
+                }
                 return null;
 
             case Assignment assignment:
@@ -208,7 +212,7 @@ public class Interpreter
 
                 var functionCallScope = functionCall.Scope ?? scope;
                 var functionScope = function.Scope;
-
+           
                 if (function.Parameters.Count != functionCall.Arguments.Count)
                 {
                     errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
@@ -230,8 +234,14 @@ public class Interpreter
                             new Variable(parameter.Identifier, functionCallVal));
                     }
                 }
-
                 var functionCallRes = EvaluateStatement(function.Statements, functionScope);
+                if(function.ReturnType != GasType.Void && functionCallRes == null)
+                {
+                    errors.Add($"Function {functionCall.Identifier.Name} does not return a value");
+                    errors.ForEach(Console.Error.WriteLine);
+                    Environment.Exit(-1);
+                }
+                
                 return functionCallRes;
 
             case UnaryOp unaryOp:
@@ -505,4 +515,6 @@ public class Interpreter
 
         return null;
     }
+    
+    
 }
