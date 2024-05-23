@@ -1,23 +1,22 @@
 ﻿using Antlr4.Runtime;
 using GASLanguageProcessor;
+using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
 
 namespace Tests.Frontend.ToAstVisitorTests.UnitTests;
 
-public class VisitAssignment
+public class VisitExpression
 {
-
     [Fact]
-    public void testAssignment()
+    public void testExpression()
     {
-        var fileContents = "x = 1;";
-
+        var fileContents = "x==y;";
+    
         var inputStream = CharStreams.fromString(fileContents);
         var lexer = new GASLexer(inputStream);
         ParserErrorListener errorListener = new ParserErrorListener();
-
+    
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
         parser.RemoveErrorListeners();
@@ -26,13 +25,21 @@ public class VisitAssignment
         Assert.NotNull(parser);
         
         var astVisitor = new ToAstVisitor();
+
+        var expressionContext = parser.expression();
+        var expression = (Expression) astVisitor.VisitExpression(expressionContext);
         
-        var assignmentContext = parser.assignment();
-        var assignment = (Assignment) astVisitor.VisitAssignment(assignmentContext);
-        Assert.NotNull(assignment);
-        Assert.Equal("x", assignment.Identifier.Name);
-        Assert.IsType<Num>(assignment.Expression);
-        var num = (Num)assignment.Expression;
-        Assert.Equal("1", num.Value);
+        Assert.NotNull(expression);
+        Assert.IsType<BinaryOp>(expression);
+        var binaryOp = expression as BinaryOp;
+        Assert.Equal("==", binaryOp.Op);
+        Assert.IsType<Identifier>(binaryOp.Left);
+        Assert.IsType<Identifier>(binaryOp.Right);
+        var left = binaryOp.Left as Num;
+        var right = binaryOp.Right as Num;
+        Assert.Equal("x", left.Value);
+        Assert.Equal("y", right.Value);
     }
+
+
 }
