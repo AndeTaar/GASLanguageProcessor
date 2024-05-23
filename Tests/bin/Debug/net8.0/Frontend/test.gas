@@ -1,34 +1,57 @@
-﻿canvas (205, 120, Color(255, 255, 255, 1));
+﻿num canvasWidth = 500;
+num canvasHeight = 250;
 
-color black = Color(0, 0, 0, 1);
 color white = Color(255, 255, 255, 1);
+color red = Color(220, 57, 29, 1);
+color blue = Color(0, 0, 255, 1);
 
-rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black, 0);
-rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black, 0);
-rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black, 0);
+num Cos(num angle) {
+    num result = 1;
+    num term = 1;
+    num factorial = 1;
+    for (num i = 1; i <= 10; i+=1) {
+        term *= -angle * angle / ((2 * i) * (2 * i - 1));
+        result += term;
+    }
+    return result;
+}
 
-text var = Text("Var", Point(17, 18), "Arial", 12, 900, black);
-text x = Text("x", Point(20, 45), "Arial", 12, 400,black);
-text y = Text("y", Point(20, 70), "Arial", 12, 400,black);
-text z = Text("z", Point(20, 95), "Arial", 12, 400,black);
+num Sin(num angle) {
+    num result = angle;
+    num term = angle;
+    num factorial = 1;
+    for (num i = 1; i <= 10; i+=1) {
+        term *= -angle * angle / ((2 * i + 1) * (2 * i));
+        result += term;
+    }
+    return result;
+}
 
-text loc = Text("Loc", Point(87, 18), "Arial", 12, 900,black);
-text l1 = Text("L1", Point(90, 45), "Arial", 12, 400,black);
-text l2 = Text("L2", Point(90, 70), "Arial", 12, 400,black);
-text l3 = Text("L3", Point(90, 95), "Arial", 12, 400,black);
+list<polygon> polygons = List<polygon>{};
 
-text V = Text("V", Point(162, 18), "Arial", 12, 400,black);
-text z1 = Text("14", Point(160, 45), "Arial", 12, 400,black);
-text z2 = Text("32", Point(160, 70), "Arial", 12, 400,black);
+void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
+    list<point> points = List<point>{};
+    num entireCircle = 2 * 3.14;
+    entireCircle = entireCircle * percentage / 100;
 
-segLine arrowfromxtoL1 = SegLine(Point(40, 40), Point(87, 40), 1, black);
-segLine arrowfromytoL2 = SegLine(Point(40, 65), Point(87, 65), 1, black);
-segLine arrowfromztoL3 = SegLine(Point(40, 90), Point(87, 90), 1, black);
+    for (num theta = 0; theta <= entireCircle; theta = theta + 3.14 / 180)
+    {
+        num x2 = centerPointX + radius * Sin(theta)*-1;
+        num y = centerPointY + radius * Cos(theta)*-1;
+        AddToList(Point(x2, y), points);
+    }
 
-segLine arrowfromL1toz1 = SegLine(Point(115, 40), Point(155, 40), 1, black);
-segLine arrowfromL2toz1 = SegLine(Point(115, 65), Point(155, 40), 1, black);
-segLine arrowfromL3toz2 = SegLine(Point(115, 90), Point(155, 65), 1, black);
+    AddToList(Point(centerPointX, centerPointY), points);
+    circle c = Circle(Point(centerPointX, centerPointY), 50, 0, color1, red);
+    AddToList(c, polygons);
+    polygon poly = Polygon(points, 0, color2, white);
+    AddToList(poly, polygons);
+    circle c1 = Circle(Point(centerPointX, centerPointY), 30, 0, white, white);
+    AddToList(c1, polygons);
+}
+num centerPointX = canvasWidth/2;
+num radius = 50;
+num centerPointY = canvasHeight/2;
+createCircleDiagram(radius, centerPointX, centerPointY, 81, red, blue);
 
-text env = Text("Env", Point(55, 35), "Arial", 8, 400, black);
-text v = Text("v", Point(69, 38), "Arial", 8, 400, black);
-text store = Text("Sto", Point(127, 35), "Arial", 8, 400, black);
+canvas (canvasWidth, canvasHeight, white);
