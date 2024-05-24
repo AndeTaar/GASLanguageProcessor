@@ -243,7 +243,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
         }
         node.Statements?.Accept(this, scope);
-        return condition;
+        return GasType.Error;
     }
 
     public GasType VisitFor(For node, Scope scope)

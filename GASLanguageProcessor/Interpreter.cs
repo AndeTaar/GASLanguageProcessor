@@ -248,6 +248,11 @@ public class Interpreter
                 var left = EvaluateExpression(binaryOp.Left, scope);
                 var right = EvaluateExpression(binaryOp.Right, scope);
 
+                if((binaryOp.Op == "/" || binaryOp.Op == "%") && (float)right == 0)
+                {
+                    throw new Exception("Division by zero is not allowed.");
+                }
+                
                 return binaryOp.Op switch
                 {
                     "+" => binaryOp.Type switch
