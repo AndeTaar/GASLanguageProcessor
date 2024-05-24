@@ -244,45 +244,4 @@ public class Scope
     {
         return ParentScope ?? throw new Exception("Cannot exit global scope");;
     }
-
-    public Variable? LookupAttribute(Identifier identifier, Scope scope, Scope globalScope, List<string> errors)
-    {
-        if (identifier.ChildAttribute == null)
-        {
-            var var = scope.vTable.LookUp(identifier.Name);
-            if (var == null)
-            {
-                return null;
-            }
-            return var;
-        }
-        var variable = scope?.vTable.LookUp(identifier.Name);
-        if (variable == null)
-        {
-            errors.Add("Line: " + identifier.LineNum + " variable name: " + identifier.Name + " not found");
-            return null;
-        }
-
-        return LookupAttribute(identifier.ChildAttribute, variable.FormalValue.Scope ?? globalScope, globalScope, errors);
-    }
-
-    public (Identifier, Function?) LookupMethod(Identifier identifier, Scope localScope, Scope globalScope, List<string> errors)
-    {
-        if (identifier.ChildAttribute == null)
-        {
-            var function = localScope?.fTable.LookUp(identifier.Name);
-            if (function == null)
-            {
-                return (identifier, null);
-            }
-            return (identifier, function);
-        }
-        var variable = globalScope.vTable.LookUp(identifier.Name);
-        if (variable == null)
-        {
-            return (identifier, null);
-        }
-
-        return LookupMethod(identifier.ChildAttribute, variable.Scope ?? globalScope, globalScope, errors);
-    }
 }

@@ -45,13 +45,13 @@ public class Interpreter
 
             // Currently allows infinite loops.
             case For @for:
-                EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
+                EvaluateStatement(@for.Initializer, @for.Scope ?? scope);
                 var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 while ((bool)condition)
                 {
                     var eval = EvaluateStatement(@for.Statements, @for.Scope ?? scope);
                     if (eval != null) return eval;
-                    EvaluateStatement(@for.Increment, @for.Scope ?? scope);
+                    EvaluateStatement(@for.Incrementer, @for.Scope ?? scope);
                     condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
                 }
 
@@ -69,7 +69,7 @@ public class Interpreter
                 return null;
             case If @if:
                 var ifCondition = EvaluateExpression(@if.Condition, @if.Scope ?? scope);
-                
+
                 if ((bool)ifCondition)
                 {
                     return EvaluateStatement(@if.Statements, @if.Scope ?? scope);
@@ -95,28 +95,13 @@ public class Interpreter
                 variable.ActualValue = val;
                 return null;
 
-            case CollectionDeclaration collectionDeclaration:
-                var collectionDeclarationVal = EvaluateExpression(collectionDeclaration.Expression,
-                    collectionDeclaration.Scope ?? scope);
-                var collectionDeclIdentifier = collectionDeclaration.Identifier.Name;
-                var collectionVariable = scope.vTable.LookUp(collectionDeclIdentifier);
-                if (collectionVariable == null)
-                {
-                    errors.Add($"Variable {collectionDeclIdentifier} not found");
-                    return null;
-                }
-
-                collectionVariable.ActualValue = collectionDeclarationVal;
-                return null;
-
             case FunctionCallStatement functionCallStatement:
-                var identifierAndFunction =
-                    scope.LookupMethod(functionCallStatement.Identifier, scope, scope, new List<string>());
-                string identifier = identifierAndFunction.Item1.Name;
-                Function function = identifierAndFunction.Item2;
+                var fcIdentifier = functionCallStatement.Identifier;
+                var function = scope.fTable.LookUp(fcIdentifier.Name);
                 if (function == null)
                 {
-                    errors.Add($"Function {identifier} not found");
+                    errors.Add($"Function {fcIdentifier} not found");
+                    return null;
                 }
 
                 var functionCallScope = functionCallStatement.Scope ?? scope;
@@ -282,7 +267,7 @@ public class Interpreter
                     errors.Add("Scope, VariableTable, Identifier or Identifier Name is null");
                 }
 
-                var variable = scope.LookupAttribute(identifier, scope, scope, new List<string>());
+                var variable = scope.vTable.LookUp(identifier.Name);
 
                 if (variable == null)
                 {

@@ -10,6 +10,8 @@ namespace GASLanguageProcessor.AST;
 
 public interface IAstVisitor<T>
 {
+    T VisitProgram(Expressions.Terms.Program program, Scope scope);
+
     T VisitBinaryOp(BinaryOp node, Scope scope);
 
     T VisitGroup(Group node, Scope scope);
@@ -67,8 +69,6 @@ public interface IAstVisitor<T>
     T VisitSquare(Square node, Scope scope);
 
     T VisitAddToList(AddToList node, Scope scope);
-
-    T VisitCollectionDeclaration(CollectionDeclaration node, Scope scope);
 
     T VisitEllipse(Ellipse node, Scope scope);
 

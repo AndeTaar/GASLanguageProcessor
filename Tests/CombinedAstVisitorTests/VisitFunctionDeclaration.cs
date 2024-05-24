@@ -10,7 +10,9 @@ public class VisitFunctionDeclaration
     {
         var ast = SharedTesting.GetAst(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
-            "num test() {}"
+            "num test() {" +
+            "   return 10;" +
+            "}"
         );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new Scope(null, null));
@@ -70,6 +72,7 @@ public class VisitFunctionDeclaration
             "  x = 1;" +
             "  y = Point(1, 1);" +
             "  f = Circle(y, 10, 10, Color(255,255,255,1), Color(255,255,255,1));" +
+            "  return x;" +
             "}"
         );
         var visitor = new CombinedAstVisitor();

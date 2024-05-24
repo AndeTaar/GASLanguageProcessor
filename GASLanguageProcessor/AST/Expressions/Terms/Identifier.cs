@@ -14,15 +14,6 @@ public class Identifier : Term
         ChildAttribute = childAttribute;
     }
 
-    public string ToCompoundIdentifierName()
-    {
-        if (ChildAttribute == null)
-        {
-            return Name;
-        }
-        return $"{Name}.{ChildAttribute.ToCompoundIdentifierName()}";
-    }
-
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
     {
         return visitor.VisitIdentifier(this, scope);
