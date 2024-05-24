@@ -7,11 +7,13 @@ public class EvaluateExpressionRemoveFromList
     [Fact]
     public void EvaluateExpressionRemoveFromListNumPass()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "list<num> listNum = List<num>{1, 2, 3, 4, 5};" +
             "RemoveFromList(0, listNum);"
         );
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("listNum")?.ActualValue as FinalList;
         var expected = new FinalList(new List<object> {2f, 3f, 4f, 5f}, scope);
 
@@ -19,19 +21,21 @@ public class EvaluateExpressionRemoveFromList
         Assert.IsType<FinalList>(result);
         Assert.Equal(expected.Values, result.Values);
     }
-    
+
     [Fact]
     public void EvaluateExpressionRemoveFromListCirclePass()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "list<circle> listCircle = List<circle>" +
             "{" +
-            "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1)), " + 
+            "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1)), " +
             "   Circle(Point(100, 200), 30, 10, Color(0, 0, 255, 1), Color(0, 255, 0, 1)) " +
             "};" +
             "RemoveFromList(1, listCircle);"
         );
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("listCircle")?.ActualValue as FinalList;
         var expected = new FinalList(new List<object>
         {

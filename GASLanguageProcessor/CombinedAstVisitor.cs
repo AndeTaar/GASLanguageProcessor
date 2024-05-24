@@ -170,7 +170,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             }
         }
 
-        return function?.ReturnType ?? GasType.Error;
+        return GasType.Ok;
     }
 
     /// <summary>
@@ -363,10 +363,16 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var identifier = node.Identifier.Name;
         scope = scope.EnterScope(node);
 
-        var parameters = node.Declarations.Select(decl =>
+        var parameters = node.Parameters.Select(para =>
         {
-            var variable = new Variable(decl.Identifier.Name, scope, decl.Accept(this, scope),
-                decl.Expression);
+            var name = para.Identifier.Name;
+            var type = para.Type.Accept(this, scope);
+            var bound = scope.vTable.Bind(name, new Variable(name, scope, type, null));
+            if (!bound)
+            {
+                errors.Add("Line: " + node.LineNum + " Variable name: " + name + " already exists");
+            }
+            var variable = new Variable(name, scope, type,null);
             return variable;
         }).ToList();
 
@@ -387,7 +393,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        return returnType ?? GasType.Ok;
+        return GasType.Ok;
     }
 
 

@@ -8,13 +8,17 @@ public class EvaluateFunctionDeclarationAndCall
     [Fact]
     public void VisitPassVisitFunctionDeclarationWithLists()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "list<num> test(list<num> nums) {" +
             "   return nums;" +
             "}" +
             "list<num> nus = test(List<num>{1, 2, 3, 4, 5});"
         );
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
+
         var result = scope.vTable.LookUp("nus")?.ActualValue;
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
@@ -25,7 +29,7 @@ public class EvaluateFunctionDeclarationAndCall
     [Fact]
     public void VisitPassVisitFunctionDeclarationWithLists2()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1)); \n" +
             "list<circle> test(list<point> nums) { \n" +
             "   list<circle> circles = List<circle>{};\n" +
@@ -36,6 +40,10 @@ public class EvaluateFunctionDeclarationAndCall
             "}" +
             "list<circle> nus = test(List<point>{Point(10,10),Point(20,20),Point(30,30)});\n"
         );
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
+
         var result = scope.vTable.LookUp("nus")?.ActualValue;
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);

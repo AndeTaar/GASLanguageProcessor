@@ -29,7 +29,7 @@ public static class SharedTesting
         return context.Accept(new ToAstVisitor());
     }
 
-    public static Scope GetInterpretedScope(string input)
+    public static (Scope, List<string>) GetInterpretedScope(string input)
     {
         var ast = GetAst(input);
         var combinedAstVisitor = new CombinedAstVisitor();
@@ -37,13 +37,13 @@ public static class SharedTesting
         ast.Accept(combinedAstVisitor, scope);
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, scope);
-        Assert.Empty(interpreter.errors);
-        return scope;
+        return (scope, interpreter.errors);
     }
 
     public static ArrayList<string> GetSvgLines(string input)
     {
-        var scope = GetInterpretedScope(input);
+        var scopeErrors = GetInterpretedScope(input);
+        var scope = scopeErrors.Item1;
         var svgGenerator = new SvgGenerator();
         var lines = svgGenerator.GenerateSvg(scope.vTable);
         lines.Add("</svg>");

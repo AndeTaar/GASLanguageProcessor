@@ -15,10 +15,13 @@ public class FunctionCallTest
     [Fact]
     public void PassEvaluateExpressionFunctionCall()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
             "num Func(num x) {return x+20*5;}" +
             "num funcCallVal = Func(0);");
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
 
         Assert.NotNull(result);
@@ -28,13 +31,16 @@ public class FunctionCallTest
     [Fact]
     public void PassEvaluateExpressionFunctionCallWithMultipleArguments()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
             "num Func(num x, num y) {return x+y;}" +
             "num funcCallVal = Func(10, 20);" +
             "color white = Color(255, 255, 255, 1);" +
             "point p = Point(10, 20);" +
             "square s = Square(p, 10, 20, white, white,1);");
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
 
         Assert.NotNull(result);

@@ -12,7 +12,9 @@ public class EvaluateStatementDeclerationAssignment
     [Fact]
     public void PassEvaluateStatementDecleration()
     {
-        var scope = SharedTesting.GetInterpretedScope("canvas (250,250,Color(255,255,255,1));num x = 2;");
+        var scopeErrors = SharedTesting.GetInterpretedScope("canvas (250,250,Color(255,255,255,1));num x = 2;");
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("x")?.ActualValue;
 
         Assert.NotNull(result);
@@ -23,10 +25,12 @@ public class EvaluateStatementDeclerationAssignment
     [Fact]
     public void PassEvaluateStatementAssignment()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250,250,Color(255,255,255,1));" +
             "num x = 2; " +
             "x = 6;");
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("x")?.ActualValue;
 
         Assert.NotNull(result);

@@ -214,8 +214,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
             var type = typeNode.Accept(this) as Type;
-            var identif = new Identifier(identifierNode.GetText()) {LineNum = context.Start.Line};
-            return new Declaration(type, identif, null) {LineNum = context.Start.Line};
+            var identifier = new Identifier(identifierNode.GetText()) {LineNum = context.Start.Line};
+            return new Parameter(type, identifier);
         }).ToList();
 
         var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();

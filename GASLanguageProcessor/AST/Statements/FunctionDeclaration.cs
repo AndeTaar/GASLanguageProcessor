@@ -9,13 +9,13 @@ public class FunctionDeclaration: Statement
 {
     public Type ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }
-    public List<Declaration> Declarations { get; protected set; }
+    public List<Parameter> Parameters { get; protected set; }
     public Statement? Statements { get; protected set; }
 
-    public FunctionDeclaration(Identifier identifier, List<Declaration> declarations, Statement? statements, Type returnType)
+    public FunctionDeclaration(Identifier identifier, List<Parameter> parameters, Statement? statements, Type returnType)
     {
         Identifier = identifier;
-        Declarations = declarations;
+        Parameters = parameters;
         Statements = statements;
         ReturnType = returnType;
     }

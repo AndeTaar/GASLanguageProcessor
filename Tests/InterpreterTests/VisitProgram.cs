@@ -10,7 +10,7 @@ public class VisitProgram
     [Fact]
     public void VisitPassVisitProgramSemiLarge()
     {
-        var ast = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "num Cos(num angle1) {\n" +
             "    num result = 1;\n" +
             "    num term = 1;\n" +
@@ -47,8 +47,10 @@ public class VisitProgram
             "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
             "canvas (250, 250, Color(255, 255, 255, 1));\n");
 
-        var cosFunc = ast.fTable.LookUp("Cos");
-        var sinFunc = ast.fTable.LookUp("Sin");
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
+        var cosFunc = scope.fTable.LookUp("Cos");
+        var sinFunc = scope.fTable.LookUp("Sin");
 
         Assert.NotNull(cosFunc);
         Assert.NotNull(sinFunc);
@@ -57,7 +59,7 @@ public class VisitProgram
     [Fact]
     public void VisitPassVisitProgramLargeProgram()
     {
-        var ast = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "num Cos(num angle1) {\n" +
             "    num result = 1;\n" +
             "    num term = 1;\n" +
@@ -178,10 +180,13 @@ public class VisitProgram
             "bool k = true == false != true;\nbool l = 5<3 || 5>3 && 5<=5;\n" +
             ""
         );
-        var cosFunc = ast.fTable.LookUp("Cos");
-        var sinFunc = ast.fTable.LookUp("Sin");
-        var circleCreatorFunc = ast.fTable.LookUp("CircleCreator");
-        var getBoolFunc = ast.fTable.LookUp("GetBool");
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
+        var cosFunc = scope.fTable.LookUp("Cos");
+        var sinFunc = scope.fTable.LookUp("Sin");
+        var circleCreatorFunc = scope.fTable.LookUp("CircleCreator");
+        var getBoolFunc = scope.fTable.LookUp("GetBool");
 
         Assert.NotNull(cosFunc);
         Assert.NotNull(sinFunc);
@@ -193,7 +198,7 @@ public class VisitProgram
         Assert.Equal(GasType.Circle, circleCreatorFunc?.ReturnType);
         Assert.Equal(GasType.Bool, getBoolFunc?.ReturnType);
 
-        var groupMouse = ast.vTable.LookUp("mouse")?.ActualValue as FinalGroup;
+        var groupMouse = scope.vTable.LookUp("mouse")?.ActualValue as FinalGroup;
         Assert.NotNull(groupMouse);
 
         var groupMouseEars = groupMouse.Scope.vTable.LookUp("mousEars")?.ActualValue as FinalGroup;

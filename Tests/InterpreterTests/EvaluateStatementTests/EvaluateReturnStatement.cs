@@ -8,7 +8,7 @@ public class EvaluateReturnStatement
     [Fact]
     public void PassReturnStopsCompound()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var scopeErrors = SharedTesting.GetInterpretedScope(
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "num test1;" +
             "void testFunction() {" +
@@ -18,6 +18,10 @@ public class EvaluateReturnStatement
             "}" +
             "testFunction();"
         );
+
+        Assert.Empty(scopeErrors.Item2);
+        var scope = scopeErrors.Item1;
+
         var result = scope.vTable.LookUp("test1")?.ActualValue;
 
         Assert.NotNull(result);
