@@ -104,16 +104,29 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = (Identifier) context.identifier().Accept(this);
+
         string op = context.GetChild(1).GetText();
         Expression value = context.expression().Accept(this) as Expression;
 
         return new Assignment(identifier, value, op) {LineNum = context.Start.Line};
     }
 
+    public override AstNode VisitIdentifier(GASParser.IdentifierContext context)
+    {
+        var identifiers = context.IDENTIFIER();
+
+        if (identifiers.Length == 1)
+        {
+            return new Identifier(identifiers[0].GetText(), "") {LineNum = context.Start.Line};
+        }
+
+        return new Identifier(identifiers[0].GetText(), identifiers[1].GetText()) {LineNum = context.Start.Line};
+    }
+
     public override AstNode VisitIncrement(GASParser.IncrementContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = (Identifier) context.identifier().Accept(this);
         string op = context.GetChild(1).GetText();
 
         return new Increment(identifier, op) {LineNum = context.Start.Line};
@@ -137,7 +150,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             type = context.collectionType().Accept(this) as Type;
         }
 
-        Identifier identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = (Identifier) context.identifier().Accept(this);
 
         Expression value = context.expression()?.Accept(this) as Expression;
 
@@ -194,7 +207,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var identifier = (Identifier) context.identifier().Accept(this);
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
         if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
         {
@@ -282,9 +295,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return VisitListTerm(context.listTerm());
         }
-        else if (context.IDENTIFIER() != null)
+        else if (context.identifier() != null)
         {
-            return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+            return (Identifier)context.identifier().Accept(this);
         }
         else
         {

@@ -9,9 +9,9 @@ statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
 
-declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
-increment : IDENTIFIER ('++' | '--');
+declaration : (type | collectionType) identifier ('=' expression)?;
+assignment : identifier ('=' | '+=' | '-=' | '*=' | '/=') expression;
+increment : identifier ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
@@ -34,13 +34,15 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+term : identifier | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | groupTerm;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCall : identifier '(' (expression (',' expression)*)? ')';
+
+identifier : IDENTIFIER | (IDENTIFIER '.' IDENTIFIER);
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

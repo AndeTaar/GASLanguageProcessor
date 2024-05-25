@@ -248,7 +248,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         node.Scope = scope;
         var identifier = node.Identifier;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variable = scope.vTable.LookUpAttribute(identifier.Name, identifier.AttributeName);
         if (variable == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found");
@@ -291,7 +291,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         node.Scope = scope;
         var identifier = node.Identifier;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variable = scope.vTable.LookUpAttribute(identifier.Name, identifier.AttributeName);
         var type = node.Type.Accept(this, scope);
 
         if(variable != null)
@@ -329,7 +329,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         var identifier = increment.Identifier;
         var op = increment.Operator;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variable = scope.vTable.LookUpAttribute(identifier.Name, identifier.AttributeName);
 
         if(variable == null)
         {
@@ -447,7 +447,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     public GasType VisitIdentifier(Identifier node, Scope scope)
     {
         node.Scope = scope;
-        var variable = scope.vTable.LookUp(node.Name);
+        var variable = scope.vTable.LookUpAttribute(node.Name, node.AttributeName);
         if(variable == null){
             errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
             return GasType.Error;

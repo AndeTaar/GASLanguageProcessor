@@ -193,4 +193,10 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitFunctionCall([NotNull] GASParser.FunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.identifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifier([NotNull] GASParser.IdentifierContext context);
 }

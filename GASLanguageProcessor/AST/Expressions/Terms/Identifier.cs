@@ -6,12 +6,12 @@ public class Identifier : Term
 {
     public string Name { get; protected set; }
 
-    public Identifier? ChildAttribute { get; set; }
+    public string? AttributeName { get; set; }
 
-    public Identifier(string name, Identifier? childAttribute = null)
+    public Identifier(string name, string? attributeName = null)
     {
         Name = name;
-        ChildAttribute = childAttribute;
+        AttributeName = attributeName;
     }
 
     public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
