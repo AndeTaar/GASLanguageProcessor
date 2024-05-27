@@ -63,20 +63,31 @@ public class Interpreter
             // Currently allows infinite loops.
             case While @while:
                 var whileCondition = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
+
+                varEnv = varEnv.EnterScope();
+                store = store.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+
                 while ((bool)whileCondition)
                 {
                     var eval = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
                     if (eval != null) return eval;
-                    whileCondition = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
+                    whileCondition = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store.Parent);
                 }
                 return null;
+
             case If @if:
                 var ifCondition = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
+
+                varEnv = varEnv.EnterScope();
+                store = store.EnterScope();
+                funcEnv = funcEnv.EnterScope();
 
                 if ((bool)ifCondition)
                 {
                     return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
                 }
+
                 if (@if.Else != null)
                 {
                     return EvaluateStatement(@if.Else, varEnv, funcEnv, store);
@@ -84,6 +95,10 @@ public class Interpreter
 
                 return null;
             case FunctionDeclaration functionDeclaration:
+                var parameters = functionDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
+                var statements = functionDeclaration.Statements;
+                var functionDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), new Store(store));
+                funcEnv.Bind(functionDeclaration.Identifier.Name, functionDecl);
                 return null;
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
@@ -406,8 +421,12 @@ public class Interpreter
 
             case Group group:
                 var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
+                varEnv = varEnv.EnterScope();
+                store = store.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+
                 EvaluateStatement(group.Statements, varEnv, funcEnv, store);
-                return new FinalGroup(finalPoint);
+                return new FinalGroup(finalPoint, varEnv, store);
 
             case AddToList addToList:
                 var listVariableIndex = varEnv.LookUp(addToList.ListIdentifier.Name);

@@ -9,11 +9,26 @@ public class FuncEnv
 {
     public Dictionary<string, Function> Functions { get; protected set; } = new();
 
-    public FuncEnv? FuncEnvParent { get; set; }
+    public FuncEnv? Parent { get; set; }
+
+    public FuncEnv EnterScope()
+    {
+        return new FuncEnv(this);
+    }
+
+    public FuncEnv ExitScope()
+    {
+        return Parent ?? this;
+    }
+
+    public FuncEnv(FuncEnv parent)
+    {
+        this.Parent = parent;
+    }
 
     public FuncEnv(Store? parentStore = null, VarEnv? parentEnv = null, FuncEnv? parent = null)
     {
-        this.FuncEnvParent = parent;
+        this.Parent = parent;
 
         if (parent != null)
         {
@@ -101,6 +116,6 @@ public class FuncEnv
         {
             return Functions[key];
         }
-        return this.FuncEnvParent?.LookUp(key);
+        return this.Parent?.LookUp(key);
     }
 }
