@@ -1,7 +1,8 @@
-﻿canvas (205, 120, Color(255, 255, 255, 1));
+﻿color white = Color(255, 255, 255, 1);
+
+canvas (205, 120, white);
 
 color black = Color(0, 0, 0, 1);
-color white = Color(255, 255, 255, 1);
 
 rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black, 0);
 rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black, 0);
@@ -10,7 +11,7 @@ rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black,
 text var = Text("Var", Point(17, 18), "Arial", 12, 900, black);
 text x = Text("x", Point(20, 45), "Arial", 12, 400,black);
 text y = Text("y", Point(20, 70), "Arial", 12, 400,black);
-return Text("z", Point(20, 95), "Arial", 12, 400,black);
+text z = Text("z", Point(20, 95), "Arial", 12, 400,black);
 
 text loc = Text("Loc", Point(87, 18), "Arial", 12, 900,black);
 text l1 = Text("L1", Point(90, 45), "Arial", 12, 400,black);

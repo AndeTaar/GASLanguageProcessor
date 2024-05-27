@@ -7,16 +7,19 @@ public class GenerateArrowTest
     [Fact]
     public void PassEvaluateGenerateArrow()
     {
-        var scopeErrors = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "canvas (150, 150, Color(255, 255, 255, 1));" +
             "arrow one = Arrow(Point(10,2), Point(20, 30), 10, Color(0,0,0,1));"
         );
 
-        Assert.Empty(scopeErrors.Item2);
-        var scope = scopeErrors.Item1;
-
-        var variable = scope.vTable.LookUp("one");
-        var result = variable?.ActualValue as FinalArrow;
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var result = sto.LookUp(envV.LookUp("one").Value) as FinalArrow;
         var expected = new FinalArrow(
             new FinalPoint(10, 2),
             new FinalPoint(20, 30),

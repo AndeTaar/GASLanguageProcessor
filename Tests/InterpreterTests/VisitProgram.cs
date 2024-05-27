@@ -10,7 +10,7 @@ public class VisitProgram
     [Fact]
     public void VisitPassVisitProgramSemiLarge()
     {
-        var scopeErrors = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "num Cos(num angle1) {\n" +
             "    num result = 1;\n" +
             "    num term = 1;\n" +
@@ -47,10 +47,15 @@ public class VisitProgram
             "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
             "canvas (250, 250, Color(255, 255, 255, 1));\n");
 
-        Assert.Empty(scopeErrors.Item2);
-        var scope = scopeErrors.Item1;
-        var cosFunc = scope.fTable.LookUp("Cos");
-        var sinFunc = scope.fTable.LookUp("Sin");
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var cosFunc = envF.LookUp("Cos");
+        var sinFunc = envF.LookUp("Sin");
 
         Assert.NotNull(cosFunc);
         Assert.NotNull(sinFunc);
@@ -59,7 +64,7 @@ public class VisitProgram
     [Fact]
     public void VisitPassVisitProgramLargeProgram()
     {
-        var scopeErrors = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "num Cos(num angle1) {\n" +
             "    num result = 1;\n" +
             "    num term = 1;\n" +
@@ -181,43 +186,50 @@ public class VisitProgram
             ""
         );
 
-        Assert.Empty(scopeErrors.Item2);
-        var scope = scopeErrors.Item1;
-        var cosFunc = scope.fTable.LookUp("Cos");
-        var sinFunc = scope.fTable.LookUp("Sin");
-        var circleCreatorFunc = scope.fTable.LookUp("CircleCreator");
-        var getBoolFunc = scope.fTable.LookUp("GetBool");
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var scope = env.Item1;
+        var cosFunc = envF.LookUp("Cos");
+        var sinFunc = envF.LookUp("Sin");
+        var circleCreatorFunc = envF.LookUp("CircleCreator");
+        var getBoolFunc = envF.LookUp("GetBool");
 
         Assert.NotNull(cosFunc);
         Assert.NotNull(sinFunc);
         Assert.NotNull(circleCreatorFunc);
         Assert.NotNull(getBoolFunc);
 
-        Assert.Equal(GasType.Num, cosFunc?.ReturnType);
-        Assert.Equal(GasType.Num, sinFunc?.ReturnType);
-        Assert.Equal(GasType.Circle, circleCreatorFunc?.ReturnType);
-        Assert.Equal(GasType.Bool, getBoolFunc?.ReturnType);
+        Assert.Equal(GasType.Num, envT.FLookUp("cosFunc").Value.Item2);
+        Assert.Equal(GasType.Num, envT.FLookUp("sinFunc").Value.Item2);
+        Assert.Equal(GasType.Circle, envT.FLookUp("circleCreatorFunc").Value.Item2);
+        Assert.Equal(GasType.Bool, envT.FLookUp("getBoolFunc").Value.Item2);
 
-        var groupMouse = scope.vTable.LookUp("mouse")?.ActualValue as FinalGroup;
+        var groupMouse = sto.LookUp(envV.LookUp("mouse").Value) as FinalGroup;
         Assert.NotNull(groupMouse);
-
-        var groupMouseEars = groupMouse.Scope.vTable.LookUp("mousEars")?.ActualValue as FinalGroup;
+        
+        var groupMouseEars = sto.LookUp(envV.LookUp("mousEars").Value) as FinalGroup;
         Assert.NotNull(groupMouseEars);
-
-        var groupMouseFace = groupMouse.Scope.vTable.LookUp("mouseFace")?.ActualValue as FinalGroup;
+        
+        var groupMouseFace = sto.LookUp(envV.LookUp("mouseFace").Value) as FinalGroup;
         Assert.NotNull(groupMouseFace);
-
-        var circleLeftEar = groupMouseEars.Scope.vTable.LookUp("leftEar")?.ActualValue as FinalCircle;
-        var circleRightEar = groupMouseEars.Scope.vTable.LookUp("rightEar")?.ActualValue as FinalCircle;
+        
+        var circleLeftEar = sto.LookUp(envV.LookUp("leftEar").Value) as FinalCircle;
+        var circleRightEar = sto.LookUp(envV.LookUp("rightEar").Value) as FinalCircle;
         Assert.NotNull(circleLeftEar);
         Assert.NotNull(circleRightEar);
 
-        var circleFace = groupMouseFace.Scope.vTable.LookUp("face")?.ActualValue as FinalCircle;
-        var circleEye = groupMouseFace.Scope.vTable.LookUp("eye")?.ActualValue as FinalCircle;
-        var circleEye2 = groupMouseFace.Scope.vTable.LookUp("eye2")?.ActualValue as FinalCircle;
-        var ellipseEyeball = groupMouseFace.Scope.vTable.LookUp("eyeball")?.ActualValue as FinalEllipse;
-        var ellipseEyeball2 = groupMouseFace.Scope.vTable.LookUp("eyeball2")?.ActualValue as FinalEllipse;
-        var segLineMouth = groupMouseFace.Scope.vTable.LookUp("mouth")?.ActualValue as FinalSegLine;
+        var circleFace = sto.LookUp(envV.LookUp("face").Value) as FinalCircle;
+        var circleEye = sto.LookUp(envV.LookUp("eye").Value) as FinalCircle;
+        var circleEye2 = sto.LookUp(envV.LookUp("eye2").Value) as FinalCircle;
+        var ellipseEyeball = sto.LookUp(envV.LookUp("eyeball").Value) as FinalEllipse;
+        var ellipseEyeball2 = sto.LookUp(envV.LookUp("eyeball2").Value) as FinalEllipse;
+        var segLineMouth = sto.LookUp(envV.LookUp("mouth").Value) as FinalSegLine;
+        
         Assert.NotNull(circleFace);
         Assert.NotNull(circleEye);
         Assert.NotNull(circleEye2);
