@@ -13,6 +13,16 @@ public class VarEnv
         this.Parent = parent;
     }
 
+    public VarEnv EnterScope()
+    {
+        return new VarEnv(this);
+    }
+
+    public VarEnv ExitScope()
+    {
+        return Parent ?? this;
+    }
+
     public bool Bind(string key, int index)
     {
         if (Variables.ContainsKey(key))

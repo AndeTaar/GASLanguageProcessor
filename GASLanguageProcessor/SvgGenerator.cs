@@ -27,10 +27,6 @@ public class SvgGenerator
         return SvgLines;
     }
 
-
-
-
-
    public void GenerateLine(Object obj, int index, VarEnv varEnv)
    {
     switch (obj)
@@ -64,11 +60,11 @@ public class SvgGenerator
             SvgLines.Add($"<rect id=\"{varEnv.GetIdentifier(index)}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColor.ColorToString()}\" fill-opacity=\"{square.FillColor.Alpha}\" rx=\"{square.CornerRounding}\" stroke=\"{square.StrokeColor.ColorToString()}\" stroke-width=\"{square.Stroke}\" />");
             break;
 
-        /**case FinalGroup group:
+        case FinalGroup group:
             SvgLines.Add($"<g id=\"{varEnv.GetIdentifier(index)}\" transform=\"translate({group.Point.X}, {group.Point.Y})\">");
-            GenerateSvg(group.vTable, group.Scope.stoTable);
+            GenerateSvg(group.EnvV, group.Sto);
             SvgLines.Add("</g>");
-            return;*/
+            return;
         case FinalList list:
             for (int i = 0; i < list.Values.Count; i++)
             {

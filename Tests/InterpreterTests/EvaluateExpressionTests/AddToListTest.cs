@@ -19,7 +19,7 @@ public class AddToListTest
         Assert.Empty(scopeErrors.Item2);
         var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("l")?.ActualValue as FinalList;
-        var expected = new FinalList(new List<object> { 1f,2f,3f,4f,5f,5f }, scope);
+        var expected = new FinalList(new List<object> { 1f,2f,3f,4f,5f,5f });
 
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
@@ -38,7 +38,7 @@ public class AddToListTest
         Assert.Empty(scopeErrors.Item2);
         var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("l")?.ActualValue as FinalList;
-        var expected = new FinalList(new List<object> { 5f }, scope);
+        var expected = new FinalList(new List<object> { 5f });
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
         Assert.Equal(expected.Values, result.Values);

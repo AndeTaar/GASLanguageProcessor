@@ -15,7 +15,7 @@ public class EvaluateExpressionRemoveFromList
         Assert.Empty(scopeErrors.Item2);
         var scope = scopeErrors.Item1;
         var result = scope.vTable.LookUp("listNum")?.ActualValue as FinalList;
-        var expected = new FinalList(new List<object> {2f, 3f, 4f, 5f}, scope);
+        var expected = new FinalList(new List<object> {2f, 3f, 4f, 5f});
 
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
@@ -46,7 +46,7 @@ public class EvaluateExpressionRemoveFromList
                 new FinalColor(255, 0, 0, 1),
                 new FinalColor(0, 255, 0, 1)
             )
-        }, scope);
+        });
 
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);

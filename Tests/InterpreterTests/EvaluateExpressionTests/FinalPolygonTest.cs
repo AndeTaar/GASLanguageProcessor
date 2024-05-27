@@ -19,7 +19,7 @@ public class FinalPolygonTest
         var variable = scope.vTable.LookUp("one");
         var result = variable?.ActualValue as FinalPolygon;
         var expected = new FinalPolygon(
-            new FinalList([ new FinalPoint(10, 2), new FinalPoint(20, 30), new FinalPoint(40, 50) ], scope),
+            new FinalList([ new FinalPoint(10, 2), new FinalPoint(20, 30), new FinalPoint(40, 50) ]),
             10,
             new FinalColor(255, 0, 255, 1),
             new FinalColor(255, 255, 0, 1)

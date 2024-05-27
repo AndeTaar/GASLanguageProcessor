@@ -6,10 +6,13 @@ namespace GASLanguageProcessor.FinalTypes;
 public class FinalGroup
 {
     public FinalPoint Point { get; set; }
-    public List<object> Values { get; set; }
-    public FinalGroup(FinalPoint point, List<object>? values = null)
+    public VarEnv EnvV { get; set; }
+    public Store Sto { get; set; }
+
+    public FinalGroup(FinalPoint point, VarEnv envV, Store sto)
     {
         Point = point;
-        Values = values ?? new List<object>();
+        EnvV = envV;
+        Sto = sto;
     }
 }
