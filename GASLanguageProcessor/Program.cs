@@ -45,7 +45,7 @@ static void Main(string[] args)
         return;
     }
     SvgGenerator svgGenerator = new SvgGenerator();
-    var lines = svgGenerator.GenerateSvg(scope.vTable);
+    var lines = svgGenerator.GenerateSvg(scope.vTable, scope.stoTable);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);
     Console.WriteLine("SVG file generated at: " + FilePath);

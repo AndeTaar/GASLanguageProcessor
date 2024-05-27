@@ -8,17 +8,19 @@ public class SvgGenerator
 {
     public ArrayList<string> SvgLines = new();
 
-    public ArrayList<string> GenerateSvg(VariableTable vTable)
+    public ArrayList<string> GenerateSvg(VariableTable vTable, Store sto)
     {
         if (vTable.Variables.ContainsKey("canvas"))
         {
-            var canvas = vTable.Variables["canvas"];
+            var canvasIndex = vTable.Variables["canvas"];
+            var canvas = sto.LookUp(canvasIndex.Value);
             vTable.Variables.Remove("canvas");
             GenerateLine(canvas.ActualValue, canvas);
         }
 
-        foreach (Variable variable in vTable.Variables.Values)
+        foreach (int index in vTable.Variables.Values)
         {
+            var variable = sto.LookUp(index);
             GenerateLine(variable.ActualValue, variable);
         }
 
@@ -64,7 +66,7 @@ public class SvgGenerator
 
         case FinalGroup group:
             SvgLines.Add($"<g id=\"{variable?.Identifier}\" transform=\"translate({group.Point.X}, {group.Point.Y})\">");
-            GenerateSvg(group.Scope.vTable);
+            GenerateSvg(group.Scope.vTable, group.Scope.stoTable);
             SvgLines.Add("</g>");
             return;
         case FinalList list:

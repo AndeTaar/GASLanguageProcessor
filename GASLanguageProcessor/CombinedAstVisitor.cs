@@ -69,8 +69,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         {
             errors.Add("Invalid type for canvas background color: expected: Color, got: " + backgroundColorType);
         }
-
-        var bound = scope.vTable.Bind("canvas", new Variable("canvas", node));
+        var vTable = scope.vTable;
+        var bound = vTable.Bind("canvas");
 
         if (!bound)
         {
@@ -248,7 +248,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         node.Scope = scope;
         var identifier = node.Identifier;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variableIndex = scope.vTable.LookUp(identifier.Name);
+        var variable = scope.stoTable.LookUp(variableIndex.Value);
         if (variable == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found");
@@ -308,7 +309,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var bound = scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
+        var storeIndex = scope.stoTable.AddNewValue(new Variable(identifier.Name, node.Scope, type, node.Expression));
+        var bound = scope.vTable.Bind(identifier.Name, storeIndex);
 
         if (!bound)
         {
@@ -329,7 +331,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         var identifier = increment.Identifier;
         var op = increment.Operator;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variableIndex = scope.vTable.LookUp(identifier.Name);
+        var variable = scope.stoTable.LookUp(variableIndex.Value);
 
         if(variable == null)
         {
@@ -367,7 +370,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         {
             var name = para.Identifier.Name;
             var type = para.Type.Accept(this, scope);
-            var bound = scope.vTable.Bind(name, new Variable(name, scope, type, null));
+            var bound = scope.vTable.Bind(name);
             if (!bound)
             {
                 errors.Add("Line: " + node.LineNum + " Variable name: " + name + " already exists");
@@ -447,7 +450,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     public GasType VisitIdentifier(Identifier node, Scope scope)
     {
         node.Scope = scope;
-        var variable = scope.vTable.LookUp(node.Name);
+        var variableIndex = scope.vTable.LookUp(node.Name);
+        var variable = scope.stoTable.LookUp(variableIndex.Value);
         if(variable == null){
             errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
             return GasType.Error;

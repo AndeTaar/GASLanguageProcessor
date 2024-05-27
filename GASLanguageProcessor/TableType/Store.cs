@@ -20,10 +20,11 @@ public class Store
         return true;
     }
 
-    public void AddNewValue(Variable value)
+    public int AddNewValue(Variable value)
     {
         int maxIndex = Values.Keys.Max();
         Values.Add(maxIndex, value);
+        return maxIndex;
     }
 
     public Variable LookUp(int index)
