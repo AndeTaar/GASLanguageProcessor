@@ -15,7 +15,7 @@ public class VisitFunctionDeclaration
             "}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -28,7 +28,7 @@ public class VisitFunctionDeclaration
             "num test() {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -44,7 +44,7 @@ public class VisitFunctionDeclaration
             "if(test()) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -59,7 +59,7 @@ public class VisitFunctionDeclaration
             "list<num> nus = test(List<num>{1, 2, 3, 4, 5});"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -76,7 +76,7 @@ public class VisitFunctionDeclaration
             "}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -91,7 +91,7 @@ public class VisitFunctionDeclaration
             "num test() {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 

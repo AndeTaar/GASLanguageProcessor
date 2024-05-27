@@ -18,7 +18,7 @@ public class VisitFunctionCall
             "text text1 = Text(\"Hello World\", Point(10, 10), \"Arial\", 12, 400, Color(255, 255, 255, 1));"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -34,7 +34,7 @@ public class VisitFunctionCall
             "text text1 = Text(\"Hello World\", Point(10, 10), \"Arial\", 12, 400, color1);" +
             "canvas (250 * 2, 10 * 50, color1);");
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -46,7 +46,7 @@ public class VisitFunctionCall
             "color color1 = Color(255, 255, 255);"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 }

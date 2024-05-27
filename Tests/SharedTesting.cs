@@ -29,36 +29,26 @@ public static class SharedTesting
         return context.Accept(new ToAstVisitor());
     }
 
-    public static (Scope, List<string>) GetInterpretedScope(string input)
+    public static (VarEnv, Store, TypeEnv, FuncEnv, List<string>) RunInterpreter(string input)
     {
+        var envV = new VarEnv();
+        var sto = new Store();
+        var envT = new TypeEnv();
+        var envF = new FuncEnv(sto, envV, null);
         var ast = GetAst(input);
         var combinedAstVisitor = new CombinedAstVisitor();
-        var scope = new Scope(null, null);
-        ast.Accept(combinedAstVisitor, scope);
+        ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
-        interpreter.EvaluateStatement(ast as Statement, scope);
-        return (scope, interpreter.errors);
+        interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        return (envV, sto, envT, envF, interpreter.errors);
     }
 
     public static ArrayList<string> GetSvgLines(string input)
     {
-        var scopeErrors = GetInterpretedScope(input);
-        var scope = scopeErrors.Item1;
+        var env = RunInterpreter(input); 
         var svgGenerator = new SvgGenerator();
-        var lines = svgGenerator.GenerateSvg(scope.vTable);
+        var lines = svgGenerator.GenerateSvg(env.Item1, env.Item2);
         lines.Add("</svg>");
         return lines;
-    }
-
-    public static AstNode FindFirstNodeType(AstNode ast, Type type)
-    {
-        if(type == typeof(Compound)) throw new Exception("Cannot search for Compound type, because of how the AST is structured.");
-        if(ast.GetType() == type) return ast; // Kind of redundant, but here to cover all bases.
-        if(ast.GetType() != typeof(Compound)) return null;
-
-        Compound firstCompound = (Compound) ast;
-
-        if(firstCompound.Statement1.GetType() == type) return firstCompound.Statement1;
-        return FindFirstNodeType(firstCompound.Statement2, type);
     }
 }
