@@ -4,5 +4,32 @@ canvas (205, 120, white);
 
 color black = Color(0, 0, 0, 1);
 
-num x;
-x = 10;
+rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black, 0);
+rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black, 0);
+rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black, 0);
+
+text var = Text("Var", Point(17, 18), "Arial", 12, 900, black);
+text x = Text("x", Point(20, 45), "Arial", 12, 400,black);
+text y = Text("y", Point(20, 70), "Arial", 12, 400,black);
+text z = Text("z", Point(20, 95), "Arial", 12, 400,black);
+
+text loc = Text("Loc", Point(87, 18), "Arial", 12, 900,black);
+text l1 = Text("L1", Point(90, 45), "Arial", 12, 400,black);
+text l2 = Text("L2", Point(90, 70), "Arial", 12, 400,black);
+text l3 = Text("L3", Point(90, 95), "Arial", 12, 400,black);
+
+text V = Text("V", Point(162, 18), "Arial", 12, 400,black);
+text z1 = Text("14", Point(160, 45), "Arial", 12, 400,black);
+text z2 = Text("32", Point(160, 70), "Arial", 12, 400,black);
+
+segLine arrowfromxtoL1 = SegLine(Point(40, 40), Point(87, 40), 1, black);
+segLine arrowfromytoL2 = SegLine(Point(40, 65), Point(87, 65), 1, black);
+segLine arrowfromztoL3 = SegLine(Point(40, 90), Point(87, 90), 1, black);
+
+segLine arrowfromL1toz1 = SegLine(Point(115, 40), Point(155, 40), 1, black);
+segLine arrowfromL2toz1 = SegLine(Point(115, 65), Point(155, 40), 1, black);
+segLine arrowfromL3toz2 = SegLine(Point(115, 90), Point(155, 65), 1, black);
+
+text env = Text("Env", Point(55, 35), "Arial", 8, 400, black);
+text v = Text("v", Point(69, 38), "Arial", 8, 400, black);
+text store = Text("Sto", Point(127, 35), "Arial", 8, 400, black);
