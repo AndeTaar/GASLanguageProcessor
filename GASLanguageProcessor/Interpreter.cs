@@ -33,8 +33,14 @@ public class Interpreter
                     ? new FinalColor(255, 255, 255, 1)
                     : (FinalColor)EvaluateExpression(canvas.BackgroundColor, scope);
                 var finalCanvas = new FinalCanvas(width, height, backgroundColor);
-                var canvasVariable = scope.vTable.LookUp("canvas");
-                canvasVariable.ActualValue = finalCanvas;
+                var canvasIndex = scope.vTable.LookUp("canvas");
+                if(canvasIndex == null)
+                {
+                    errors.Add("Canvas value not found.");
+                    return null;
+                }
+                var value = scope.stoTable.LookUp(canvasIndex.Value);
+                value.ActualValue = finalCanvas;
                 return null;
 
             case Compound compound:
@@ -85,13 +91,13 @@ public class Interpreter
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, declaration.Scope ?? scope);
                 var declIdentifier = declaration.Identifier.Name;
-                var variable = scope.vTable.LookUp(declIdentifier);
-                if (variable == null)
+                var variableIndex = scope.vTable.LookUp(declIdentifier);
+                if (variableIndex == null)
                 {
                     errors.Add($"Variable {declIdentifier} not found");
                     return null;
                 }
-
+                var variable = scope.stoTable.LookUp(variableIndex.Value);
                 variable.ActualValue = val;
                 return null;
 
@@ -109,16 +115,18 @@ public class Interpreter
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
-                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
-                    if (var != null)
+                    var functionParameterVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
+                    var varIndex = functionScope.vTable.LocalLookUp(parameter.Identifier);
+                    var var = functionScope.stoTable.LookUp(varIndex.Value);
+
+                    if (var != null) // IDE Says this is always true, but i dont see how that is possible.
                     {
-                        var.ActualValue = functionCallVal;
+                        var.ActualValue = functionParameterVal;
                     }
                     else
                     {
                         functionScope.vTable.Bind(parameter.Identifier,
-                            new Variable(parameter.Identifier, functionCallVal));
+                            varIndex.Value);
                     }
                 }
 
@@ -128,12 +136,15 @@ public class Interpreter
             case Assignment assignment:
                 var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
                 var assignIdentifier = assignment.Identifier.Name;
-                var assignVariable = scope.vTable.LookUp(assignIdentifier);
-                if (assignVariable == null)
+                var assignIndex = scope.vTable.LookUp(assignIdentifier);
+
+                if (assignIndex == null)
                 {
                     errors.Add($"Variable {assignIdentifier} not found");
                     return null;
                 }
+                var assignVariable = scope.stoTable.LookUp(assignIndex.Value);
+
 
                 switch (assignment.Operator)
                 {
@@ -158,7 +169,13 @@ public class Interpreter
 
             case Increment increment:
                 var incrementIdentifier = increment.Identifier.Name;
-                var incrementVariable = scope.vTable.LookUp(incrementIdentifier);
+                var incrementVariableIndex = scope.vTable.LookUp(incrementIdentifier);
+                if (incrementVariableIndex == null)
+                {
+                    errors.Add($"Variable {incrementIdentifier} not found");
+                    return null;
+                }
+                var incrementVariable = scope.stoTable.LookUp(incrementVariableIndex.Value);
                 var op = increment.Operator;
 
                 switch (op)
@@ -205,15 +222,20 @@ public class Interpreter
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
-                    var var = functionScope.vTable.LocalLookUp(parameter.Identifier);
+                    var varIndex = functionScope.vTable.LocalLookUp(parameter.Identifier);
+                    if(varIndex == null)
+                    {
+                        errors.Add($"Variable {parameter.Identifier} not found");
+                        return null;
+                    }
+                    var var = functionScope.stoTable.LookUp(varIndex.Value);
                     if (var != null)
                     {
                         var.ActualValue = functionCallVal;
                     }
                     else
                     {
-                        functionScope.vTable.Bind(parameter.Identifier,
-                            new Variable(parameter.Identifier, functionCallVal));
+                        functionScope.vTable.Bind(parameter.Identifier, varIndex.Value);
                     }
                 }
 
@@ -237,7 +259,7 @@ public class Interpreter
                 {
                     throw new Exception("Division by zero is not allowed.");
                 }
-                
+
                 return binaryOp.Op switch
                 {
                     "+" => binaryOp.Type switch
@@ -267,7 +289,8 @@ public class Interpreter
                     errors.Add("Scope, VariableTable, Identifier or Identifier Name is null");
                 }
 
-                var variable = scope.vTable.LookUp(identifier.Name);
+                var variableIndex = scope.vTable.LookUp(identifier.Name);
+                var variable = scope.stoTable.LookUp(variableIndex.Value);
 
                 if (variable == null)
                 {
@@ -390,7 +413,8 @@ public class Interpreter
                 return new FinalGroup(finalPoint, group.Scope ?? scope);
 
             case AddToList addToList:
-                var listVariable = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+                var listVariableIndex = scope.vTable.LookUp(addToList.ListIdentifier.Name);
+                var listVariable = scope.stoTable.LookUp(listVariableIndex.Value);
 
                 if (listVariable == null)
                 {
@@ -415,7 +439,8 @@ public class Interpreter
                 return null;
 
             case RemoveFromList removeFromList:
-                var listToRemoveFrom = scope.vTable.LookUp(removeFromList.ListIdentifier.Name);
+                var listToRemoveFromIndex = scope.vTable.LookUp(removeFromList.ListIdentifier.Name);
+                var listToRemoveFrom = scope.stoTable.LookUp(listToRemoveFromIndex.Value);
                 var indexToRemove =
                     Convert.ToInt32(EvaluateExpression(removeFromList.Index, removeFromList.Scope ?? scope));
 
@@ -442,7 +467,8 @@ public class Interpreter
 
 
             case GetFromList getFromList:
-                var listToGetFrom = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
+                var listToGetFromIndex = scope.vTable.LookUp(getFromList.ListIdentifier.Name);
+                var listToGetFrom = scope.stoTable.LookUp(listToGetFromIndex.Value);
                 var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, getFromList.Scope ?? scope));
 
                 if (listToGetFrom == null)
@@ -468,7 +494,8 @@ public class Interpreter
                 return valueToGet;
 
             case LengthOfList lengthOfList:
-                var listToCheck = scope.vTable.LookUp(lengthOfList.ListIdentifier.Name);
+                var listToCheckIndex = scope.vTable.LookUp(lengthOfList.ListIdentifier.Name);
+                var listToCheck = scope.stoTable.LookUp(listToCheckIndex.Value);
 
                 if (listToCheck == null)
                 {

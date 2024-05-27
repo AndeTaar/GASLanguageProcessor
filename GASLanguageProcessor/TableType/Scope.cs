@@ -11,6 +11,7 @@ namespace GASLanguageProcessor.TableType;
 public class Scope
 {
     public Scope? ParentScope { get; set; }
+
     public AstNode? ScopeNode { get; set; }
 
     public List<Scope> Scopes { get; set; } = new();
@@ -19,12 +20,16 @@ public class Scope
 
     public VariableTable vTable { get; set; }
 
-    public CollectionTable cTable { get; set; }
+    public TypeTable tTable { get; set; }
+
+    public Store stoTable { get; set; }
 
     public Scope(Scope? parentScope, AstNode? node)
     {
         fTable = new FunctionTable(this);
         vTable = new VariableTable(this);
+        stoTable = new Store(this);
+        tTable = new TypeTable(this);
 
         ParentScope = parentScope;
 
@@ -244,4 +249,5 @@ public class Scope
     {
         return ParentScope ?? throw new Exception("Cannot exit global scope");;
     }
+
 }
