@@ -25,7 +25,7 @@ public class TypeEnv
         this.FBind("Color", new List<GasType>() { GasType.Num, GasType.Num, GasType.Num, GasType.Num } ,GasType.Color);
         this.FBind("Point", new List<GasType>() { GasType.Num, GasType.Num }, GasType.Point);
         this.FBind("Rectangle", new List<GasType>() { GasType.Point, GasType.Point, GasType.Num, GasType.Color, GasType.Color, GasType.Num }, GasType.Rectangle);
-        this.FBind("Circle", new List<GasType>() { GasType.Point, GasType.Num, GasType.Color, GasType.Color, GasType.Num }, GasType.Circle);
+        this.FBind("Circle", new List<GasType>() { GasType.Point, GasType.Num, GasType.Num, GasType.Color, GasType.Color }, GasType.Circle);
         this.FBind("Ellipse", new List<GasType>() { GasType.Point, GasType.Num, GasType.Num, GasType.Color, GasType.Color, GasType.Num }, GasType.Ellipse);
         this.FBind("Triangle", new List<GasType>() { GasType.Point, GasType.Point, GasType.Point, GasType.Color, GasType.Color, GasType.Num }, GasType.Triangle);
         this.FBind("Polygon", new List<GasType>() { GasType.List, GasType.Color, GasType.Color, GasType.Num }, GasType.Polygon);
