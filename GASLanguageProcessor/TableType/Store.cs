@@ -2,47 +2,21 @@
 
 public class Store
 {
-    public Dictionary<int, Variable> Values { get; set; } = new();
-    public Scope Scope { get; set; }
+    public Store? Parent { get; set; }
+    public Dictionary<int, object> Values { get; set; } = new();
 
-    public Store(Scope scope)
+    public Store(Store? parent = null)
     {
-        this.Scope = scope;
+        Parent = parent;
     }
 
-    public bool Bind(int index, Variable value)
+    public void Bind(int key, object value)
     {
-        if (Values.ContainsKey(index))
-        {
-            return false;
-        }
-        Values.Add(index, value);
-        return true;
+        Values[key] = value;
     }
 
-    public int AddNewValue(Variable value)
+    public object? LookUp(int key)
     {
-        int maxIndex = Values.Keys.Max();
-        Values.Add(maxIndex, value);
-        return maxIndex;
-    }
-
-    public Variable LookUp(int index)
-    {
-        if (Values.ContainsKey(index))
-        {
-            return Values[index];
-        }
-
-        return null;
-    }
-
-    public Variable? LocalLookUp(int index)
-    {
-        if (Values.ContainsKey(index))
-        {
-            return Values[index];
-        }
-        return null;
+        return Values[key];
     }
 }

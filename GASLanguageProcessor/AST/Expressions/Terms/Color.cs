@@ -18,8 +18,8 @@ public class Color: Expression
         Alpha = alpha;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitColor(this, scope);
+        return visitor.VisitColor(this, envT);
     }
 }

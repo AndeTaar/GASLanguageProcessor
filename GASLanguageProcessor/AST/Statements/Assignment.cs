@@ -17,8 +17,8 @@ public class Assignment : Statement
         Operator = op;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitAssignment(this, scope);
+        return visitor.VisitAssignment(this, envT);
     }
 }

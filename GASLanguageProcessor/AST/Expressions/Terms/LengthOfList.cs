@@ -12,9 +12,9 @@ public class LengthOfList : Term
         ListIdentifier = listIdentifier;
     }
     
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitLengthOfList(this, scope);
+        return visitor.VisitLengthOfList(this, envT);
     }
     
 }

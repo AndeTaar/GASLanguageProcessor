@@ -13,8 +13,8 @@ public class GetFromList : Term
         ListIdentifier = listIdentifier;
     }
     
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitGetFromList(this, scope);
+        return visitor.VisitGetFromList(this, envT);
     }
 }

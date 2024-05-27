@@ -13,8 +13,8 @@ public class UnaryOp :  Expression
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitUnaryOp(this, scope);
+        return visitor.VisitUnaryOp(this, envT);
     }
 }

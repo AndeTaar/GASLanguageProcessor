@@ -23,5 +23,6 @@ public enum GasType
     Polygon,
     Arrow,
     Triangle,
-    Ok
+    Ok,
+    Canvas
 }

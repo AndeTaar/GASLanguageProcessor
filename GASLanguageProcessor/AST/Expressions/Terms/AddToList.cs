@@ -14,8 +14,8 @@ public class AddToList: Term
         ListIdentifier = listIdentifier;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitAddToList(this, scope);
+        return visitor.VisitAddToList(this, envT);
     }
 }

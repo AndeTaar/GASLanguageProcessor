@@ -29,8 +29,7 @@ static void Main(string[] args)
     errorListener.StopIfErrors();
     AstNode ast = parseTree.Accept(new ToAstVisitor());
     var combinedAstVisitor = new CombinedAstVisitor();
-    var scope = new Scope(null, null);
-    ast.Accept(combinedAstVisitor, scope);
+    ast.Accept(combinedAstVisitor, new TypeEnv());
     combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
     if(combinedAstVisitor.errors.Count > 0)
     {
@@ -38,14 +37,17 @@ static void Main(string[] args)
     }
 
     Interpreter interpreter = new Interpreter();
-    interpreter.EvaluateStatement(ast as Statement, scope);
+    var envV = new VarEnv();
+    var sto = new Store();
+    var envF = new FuncEnv(sto, envV, null);
+    interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
     interpreter.errors.ForEach(Console.Error.WriteLine);
     if(interpreter.errors.Count > 0)
     {
         return;
     }
     SvgGenerator svgGenerator = new SvgGenerator();
-    var lines = svgGenerator.GenerateSvg(scope.vTable, scope.stoTable);
+    var lines = svgGenerator.GenerateSvg(envV, sto);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);
     Console.WriteLine("SVG file generated at: " + FilePath);

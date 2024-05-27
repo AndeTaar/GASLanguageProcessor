@@ -15,8 +15,8 @@ public class FunctionCallStatement: Statement
         Arguments = arguments;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitFunctionCallStatement(this, scope);
+        return visitor.VisitFunctionCallStatement(this, envT);
     }
 }

@@ -22,8 +22,8 @@ public class Ellipse: Term
         StrokeColor = strokeColor;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitEllipse(this, scope);
+        return visitor.VisitEllipse(this, envT);
     }
 }

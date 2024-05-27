@@ -2,15 +2,15 @@
 
 namespace GASLanguageProcessor.TableType;
 
-public class VariableTable
+public class VarEnv
 {
-    public Dictionary<string, int?> Variables { get; set; } = new();
+    public Dictionary<string, int> Variables { get; set; } = new();
+    public VarEnv? Parent { get; set; }
+    public int next = 0;
 
-    public Scope Scope { get; set; }
-
-    public VariableTable(Scope scope)
+    public VarEnv(VarEnv? parent = null)
     {
-        this.Scope = scope;
+        this.Parent = parent;
     }
 
     public bool Bind(string key, int index)
@@ -22,14 +22,10 @@ public class VariableTable
         Variables.Add(key, index);
         return true;
     }
-    public bool Bind(string key)
+
+    public string GetIdentifier(int key)
     {
-        if (Variables.ContainsKey(key))
-        {
-            return false;
-        }
-        Variables.Add(key, null);
-        return true;
+        return Variables.FirstOrDefault(x => x.Value == key).Key ?? "";
     }
 
     public int? LookUp(string key)
@@ -38,7 +34,7 @@ public class VariableTable
         {
             return Variables[key];
         }
-        return this.Scope.ParentScope?.vTable.LookUp(key);
+        return this.Parent?.LookUp(key);
     }
 
     public int? LocalLookUp(string key)
