@@ -13,8 +13,8 @@ public class RemoveFromList : Term
         ListIdentifier = listIdentifier;
     }
     
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitRemoveFromList(this, scope);
+        return visitor.VisitRemoveFromList(this, envT);
     }
 }

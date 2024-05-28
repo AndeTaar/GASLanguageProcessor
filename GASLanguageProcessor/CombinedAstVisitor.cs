@@ -19,19 +19,18 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the program node
     /// </summary>
     /// <param name="program"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitProgram(AST.Expressions.Terms.Program program, Scope scope)
+    public GasType VisitProgram(AST.Expressions.Terms.Program program, TypeEnv envT)
     {
-        program.Scope = scope;
-        var returnType = program.Statements.Accept(this, scope);
+        var returnType = program.Statements.Accept(this, envT);
         if(returnType != GasType.Ok)
         {
             errors.Add("Invalid return type for program: expected: Ok, got: " + returnType);
             return GasType.Error;
         }
 
-        if (scope.vTable.LocalLookUp("canvas") == null)
+        if (envT.VLookUp("canvas") == null)
         {
             errors.Add("Program missing canvas");
             return GasType.Error;
@@ -44,33 +43,31 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the canvas node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitCanvas(Canvas node, Scope scope)
+    public GasType VisitCanvas(Canvas node, TypeEnv envT)
     {
-        node.Scope = scope;
-        var widthType = node.Width.Accept(this, scope);
+        var widthType = node.Width.Accept(this, envT);
 
         if(widthType != GasType.Num)
         {
             errors.Add("Invalid type for canvas width: expected: Num, got: " + widthType);
         }
 
-        var heightType = node.Height.Accept(this, scope);
+        var heightType = node.Height.Accept(this, envT);
 
         if(heightType != GasType.Num)
         {
             errors.Add("Invalid type for canvas height: expected: Num, got: " + heightType);
         }
 
-        var backgroundColorType = node.BackgroundColor?.Accept(this, scope);
+        var backgroundColorType = node.BackgroundColor?.Accept(this, envT);
 
         if(backgroundColorType != GasType.Color)
         {
             errors.Add("Invalid type for canvas background color: expected: Color, got: " + backgroundColorType);
         }
-
-        var bound = scope.vTable.Bind("canvas", new Variable("canvas", node));
+        var bound = envT.VBind("canvas", GasType.Canvas);
 
         if (!bound)
         {
@@ -85,13 +82,12 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the compound node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitCompound(Compound node, Scope scope)
+    public GasType VisitCompound(Compound node, TypeEnv envT)
     {
-        node.Scope = scope;
-        var returnType = node.Statement1?.Accept(this, scope);
-        var returnType2 = node.Statement2?.Accept(this, scope);
+        var returnType = node.Statement1?.Accept(this, envT);
+        var returnType2 = node.Statement2?.Accept(this, envT);
         return (returnType != GasType.Ok ? returnType : returnType2) ?? GasType.Ok;
     }
 
@@ -99,11 +95,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the if node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitIfStatement(If node, Scope scope)
+    public GasType VisitIfStatement(If node, TypeEnv envT)
     {
-        var conditionType = node.Condition.Accept(this, scope);
+        var conditionType = node.Condition.Accept(this, envT);
 
         if(conditionType != GasType.Bool)
         {
@@ -111,22 +107,21 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        scope = scope.EnterScope(node);
+        envT = envT.EnterScope();
+        var returnType = node.Statements?.Accept(this, envT);
 
-        var returnType = node.Statements?.Accept(this, scope);
-
-        scope = scope.ExitScope();
+        envT = envT.ExitScope();
 
         var @else = node.Else;
 
         if (@else is If @if)
         {
-            returnType = @if.Accept(this, scope);
+            returnType = @if.Accept(this, envT);
         }
         else if (@else != null)
         {
-            scope = scope.EnterScope(@else);
-            returnType = @else?.Accept(this, scope);
+            envT = envT.EnterScope();
+            returnType = @else?.Accept(this, envT);
         }
 
         return returnType ?? GasType.Ok;
@@ -136,37 +131,39 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the function call statement node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitFunctionCallStatement(FunctionCallStatement node, Scope scope)
+    public GasType VisitFunctionCallStatement(FunctionCallStatement node, TypeEnv envT)
     {
-        node.Scope = scope;
         var identifier = node.Identifier;
-        var function = scope.fTable.LookUp(identifier.Name);
+        var parametersAndReturn = envT.FLookUp(identifier.Name);
 
-        if (function == null)
+        if(parametersAndReturn == null)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name + " not found");
             return GasType.Error;
         }
 
-        var parameters = node.Arguments.Select(expression => expression.Accept(this, scope)).ToList();
+        var expectedParameterTypes = parametersAndReturn.Value.Item1;
+        var returnType = parametersAndReturn.Value.Item2;
 
-        if (parameters.Count != function?.Parameters.Count)
+        var parameterTypes = node.Arguments.Select(expression => expression.Accept(this, envT)).ToList();
+
+        if (expectedParameterTypes.Count != parameterTypes.Count)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
-                       " expecting arguments: \n" + function?.ParametersToString() +
-                       "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
+                       " expecting arguments: \n" + expectedParameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
+                       "\n got arguments: \n" + parameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             return GasType.Error;
         }
 
-        for (int i = 0; i < function?.Parameters.Count; i++)
+        for (int i = 0; i < expectedParameterTypes.Count; i++)
         {
-            if (function.Parameters[i].Type != parameters[i] && parameters[i] != GasType.Any && function.Parameters[i].Type != GasType.Any)
+            if (parameterTypes[i] != expectedParameterTypes[i] && parameterTypes[i] != GasType.Any && expectedParameterTypes[i] != GasType.Any)
             {
                 errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
-                           " expecting arguments: \n" + function?.ParametersToString() +
-                           "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
+                           " expecting arguments: \n" + expectedParameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
+                           "\n got arguments: \n" + parameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             }
         }
 
@@ -177,17 +174,17 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the while node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitWhile(While node, Scope scope)
+    public GasType VisitWhile(While node, TypeEnv envT)
     {
-        scope = scope.EnterScope(node);
-        var conditionType = node.Condition.Accept(this, scope);
+        envT = envT.EnterScope();
+        var conditionType = node.Condition.Accept(this, envT);
         if(conditionType != GasType.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + conditionType);
         }
-        var returnType = node.Statements?.Accept(this, scope);
+        var returnType = node.Statements?.Accept(this, envT);
         return returnType ?? GasType.Ok;
     }
 
@@ -195,33 +192,33 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the for node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitFor(For node, Scope scope)
+    public GasType VisitFor(For node, TypeEnv envT)
     {
-        scope = scope.EnterScope(node);
-        var initializer = node.Initializer?.Accept(this, scope);
+        envT = envT.EnterScope();
+        var initializer = node.Initializer?.Accept(this, envT);
 
         if (initializer != GasType.Ok && initializer != GasType.Error)
         {
             errors.Add("Invalid type for initializer: expected: Ok, got: " + initializer);
         }
 
-        var incrementer = node.Incrementer.Accept(this, scope);
+        var incrementer = node.Incrementer.Accept(this, envT);
 
         if (incrementer != GasType.Ok && incrementer != GasType.Error)
         {
             errors.Add("Invalid type for incrementer: expected: Ok, got: " + incrementer);
         }
 
-        var condition = node.Condition.Accept(this, scope);
+        var condition = node.Condition.Accept(this, envT);
 
         if(condition != GasType.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
         }
 
-        var returnType = node.Statements?.Accept(this, scope);
+        var returnType = node.Statements?.Accept(this, envT);
 
         return returnType ?? GasType.Ok;
     }
@@ -230,31 +227,31 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the return node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitReturn(Return node, Scope scope)
+    public GasType VisitReturn(Return node, TypeEnv envT)
     {
-        node.Scope = scope;
-        return node.Expression.Accept(this, scope);
+        return node.Expression.Accept(this, envT);
     }
 
     /// <summary>
     /// Visits the assignment node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-     public GasType VisitAssignment(Assignment node, Scope scope)
+     public GasType VisitAssignment(Assignment node, TypeEnv envT)
     {
-        node.Scope = scope;
         var identifier = node.Identifier;
-        var variable = scope.vTable.LookUp(identifier.Name);
-        if (variable == null)
+        var variableType = envT.VLookUp(identifier.Name);
+
+        if (variableType == null)
         {
-            errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found");
+            errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found in scope");
             return GasType.Error;
         }
-        var expressionType = node.Expression.Accept(this, scope);
+
+        var expressionType = node.Expression.Accept(this, envT);
 
         switch (node.Operator)
         {
@@ -262,15 +259,15 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             case "-=":
             case "*=":
             case "/=":
-                if (variable.Type != expressionType || variable.Type != GasType.Num)
+                if (variableType != expressionType || variableType != GasType.Num)
                 {
-                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expressionType);
+                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType + " got: " + expressionType);
                 }
                 break;
             case "=":
-                if (variable.Type != expressionType)
+                if (variableType != expressionType)
                 {
-                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variable.Type + " got: " + expressionType);
+                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType + " got: " + expressionType);
                 }
                 break;
             default:
@@ -285,22 +282,21 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visits the declaration node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitDeclaration(Declaration node, Scope scope)
+    public GasType VisitDeclaration(Declaration node, TypeEnv envT)
     {
-        node.Scope = scope;
         var identifier = node.Identifier;
-        var variable = scope.vTable.LookUp(identifier.Name);
-        var type = node.Type.Accept(this, scope);
+        var variableType = envT.VLookUp(identifier.Name);
+        var type = node.Type.Accept(this, envT);
 
-        if(variable != null)
+        if(variableType != null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " Can not redeclare variable");
             return GasType.Error;
         }
 
-        var expression = node.Expression?.Accept(this, scope);
+        var expression = node.Expression?.Accept(this, envT);
 
         if (expression != null && expression != GasType.Any && type != expression)
         {
@@ -308,7 +304,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var bound = scope.vTable.Bind(identifier.Name, new Variable(identifier.Name, node.Scope, type, node.Expression));
+        var bound = envT.VBind(identifier.Name, type);
 
         if (!bound)
         {
@@ -323,17 +319,17 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the increment node
     /// </summary>
     /// <param name="increment"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitIncrement(Increment increment, Scope scope)
+    public GasType VisitIncrement(Increment increment, TypeEnv envT)
     {
         var identifier = increment.Identifier;
         var op = increment.Operator;
-        var variable = scope.vTable.LookUp(identifier.Name);
+        var variableType = envT.VLookUp(identifier.Name);
 
-        if(variable == null)
+        if(variableType == null)
         {
-            errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found");
+            errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found in scope");
             return GasType.Error;
         }
 
@@ -341,9 +337,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         {
             case "++":
             case "--":
-                if (variable.Type != GasType.Num)
+                if (variableType != GasType.Num)
                 {
-                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: Num, got: " + variable.Type);
+                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: Num, got: " + variableType);
                 }
 
                 break;
@@ -356,29 +352,23 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the function declaration node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitFunctionDeclaration(FunctionDeclaration node, Scope scope)
+    public GasType VisitFunctionDeclaration(FunctionDeclaration node, TypeEnv envT)
     {
         var identifier = node.Identifier.Name;
-        scope = scope.EnterScope(node);
+        envT = envT.EnterScope();
 
-        var parameters = node.Parameters.Select(para =>
+        var expectedParameterTypes = node.Parameters.Select(parameter =>
         {
-            var name = para.Identifier.Name;
-            var type = para.Type.Accept(this, scope);
-            var bound = scope.vTable.Bind(name, new Variable(name, scope, type, null));
-            if (!bound)
-            {
-                errors.Add("Line: " + node.LineNum + " Variable name: " + name + " already exists");
-            }
-            var variable = new Variable(name, scope, type,null);
-            return variable;
+            var type = parameter.Type.Accept(this, envT);
+            envT.VBind(parameter.Identifier.Name, type);
+            return parameter.Type.Accept(this, envT);
         }).ToList();
 
-        var statements = node.Statements;
-        var returnType = node.Statements?.Accept(this, scope);
-        var expectedReturnType = node.ReturnType.Accept(this, scope);
+        var expectedReturnType = node.ReturnType.Accept(this, envT);
+
+        var returnType = node.Statements?.Accept(this, envT);
 
         if(expectedReturnType != returnType && expectedReturnType != GasType.Void)
         {
@@ -386,8 +376,10 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var bound = scope.ParentScope?.fTable.Bind(identifier, new Function(parameters, expectedReturnType, statements, scope));
-        if (bound == null || bound == false)
+        envT = envT.ExitScope();
+
+        var bound = envT.FBind(identifier, expectedParameterTypes, expectedReturnType);
+        if (bound == false)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier + " already exists");
             return GasType.Error;
@@ -406,11 +398,10 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the num node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitNum(Num node, Scope scope)
+    public GasType VisitNum(Num node, TypeEnv envT)
     {
-        node.Scope = scope;
         return GasType.Num;
     }
 
@@ -418,11 +409,10 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the boolean node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitBoolean(Boolean node, Scope scope)
+    public GasType VisitBoolean(Boolean node, TypeEnv envT)
     {
-        node.Scope = scope;
         return GasType.Bool;
     }
 
@@ -430,11 +420,10 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the string node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitString(String node, Scope scope)
+    public GasType VisitString(String node, TypeEnv envT)
     {
-        node.Scope = scope;
         return GasType.String;
     }
 
@@ -442,29 +431,27 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the identifier node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitIdentifier(Identifier node, Scope scope)
+    public GasType VisitIdentifier(Identifier node, TypeEnv envT)
     {
-        node.Scope = scope;
-        var variable = scope.vTable.LookUp(node.Name);
-        if(variable == null){
+        var variableType = envT.VLookUp(node.Name);
+        if(variableType == null){
             errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
             return GasType.Error;
         }
-        return variable.Type;
+        return variableType ?? GasType.Error;
     }
 
     /// <summary>
     /// Visit the unary operation node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitUnaryOp(UnaryOp node, Scope scope)
+    public GasType VisitUnaryOp(UnaryOp node, TypeEnv envT)
     {
-        node.Scope = scope;
-        var expression = node.Expression?.Accept(this, scope);
+        var expression = node.Expression?.Accept(this, envT);
         var op = node.Op;
 
         switch (op)
@@ -493,14 +480,13 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the binary operation node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitBinaryOp(BinaryOp node, Scope scope)
+    public GasType VisitBinaryOp(BinaryOp node, TypeEnv envT)
     {
-        node.Scope = scope;
         var @operator = node.Op;
-        var left = node.Left.Accept(this, scope);
-        var right = node.Right.Accept(this, scope);
+        var left = node.Left.Accept(this, envT);
+        var right = node.Right.Accept(this, envT);
 
         switch (@operator)
         {
@@ -577,9 +563,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the type node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitType(Type node, Scope scope)
+    public GasType VisitType(Type node, TypeEnv envT)
     {
         node.Value = node.Value.Replace("list<", "").Replace(">", "");
         switch (node.Value)
@@ -627,52 +613,55 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the function call term node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitFunctionCallTerm(FunctionCallTerm node, Scope scope)
+    public GasType VisitFunctionCallTerm(FunctionCallTerm node, TypeEnv envT)
     {
-        node.Scope = scope;
         var identifier = node.Identifier;
-        var function = scope.fTable.LookUp(identifier.Name);
+        var parametersAndReturnType = envT.FLookUp(identifier.Name);
 
-        if (function == null)
+        if (parametersAndReturnType == null)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name + " not found");
             return GasType.Error;
         }
 
-        var parameters = node.Arguments.Select(expression => expression.Accept(this, scope)).ToList();
-        if (parameters.Count != function?.Parameters.Count)
+        var expectedParameters = parametersAndReturnType?.Item1;
+        var returnType = parametersAndReturnType?.Item2;
+
+        var parameters = node.Arguments.Select(expression => expression.Accept(this, envT)).ToList();
+
+
+
+        if (parameters.Count != expectedParameters?.Count)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
-                       " expecting arguments: \n" + function?.ParametersToString() +
+                       " expecting arguments: \n" + expectedParameters?.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
                        "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
             return GasType.Error;
         }
 
-        for (int i = 0; i < function?.Parameters.Count; i++)
+        for (int i = 0; i < expectedParameters.Count; i++)
         {
-            if (function.Parameters[i].Type != GasType.Any && parameters[i] != GasType.Any && function.Parameters[i].Type != parameters[i])
+            if (expectedParameters[i] != GasType.Any && parameters[i] != GasType.Any && expectedParameters[i] != parameters[i])
             {
                 errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
-                           " expecting arguments: \n" + function?.ParametersToString() +
+                           " expecting arguments: \n" + expectedParameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
                            "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
-
             }
         }
 
-        return function?.ReturnType ?? GasType.Error;
+        return returnType ?? GasType.Error;
     }
 
     /// <summary>
     /// Visit the null node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitNull(Null node, Scope scope)
+    public GasType VisitNull(Null node, TypeEnv envT)
     {
-        node.Scope = scope;
         return GasType.Null;
     }
 
@@ -680,19 +669,18 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the group node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitGroup(Group node, Scope scope)
-    {
-        scope = scope.EnterScope(node);
-        var point = node.Point.Accept(this, scope);
+    public GasType VisitGroup(Group node, TypeEnv envT)
+    { ;
+        var point = node.Point.Accept(this, envT);
         if (point != GasType.Point)
         {
             errors.Add("Invalid type for point: expected: Point, got: " + point);
             return GasType.Error;
         }
-
-        node.Statements?.Accept(this, scope);
+        envT = envT.EnterScope();
+        node.Statements?.Accept(this, envT);
         return GasType.Group;
     }
 
@@ -700,102 +688,101 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// Visit the list node
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="scope"></param>
+    /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitList(List node, Scope scope)
+    public GasType VisitList(List node, TypeEnv envT)
     {
-        scope = scope.EnterScope(node);
-        var list = node.Expressions.Select(expression => expression.Accept(this, scope)).ToList();
-        var listType = node.Type.Accept(this,scope);
+        var list = node.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
+        var listType = node.Type.Accept(this,envT);
         return list.All(l => l == listType) ? listType : GasType.Error;
     }
 
-    public GasType VisitSkip(Skip node, Scope scope)
+    public GasType VisitSkip(Skip node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitAddToList(AddToList addToList, Scope scope)
+    public GasType VisitAddToList(AddToList addToList, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitLine(SegLine node, Scope scope)
+    public GasType VisitLine(SegLine node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitText(Text node, Scope scope)
+    public GasType VisitText(Text node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitCircle(Circle node, Scope scope)
+    public GasType VisitCircle(Circle node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitRectangle(Rectangle node, Scope scope)
+    public GasType VisitRectangle(Rectangle node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitPoint(Point node, Scope scope)
+    public GasType VisitPoint(Point node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitColor(Color node, Scope scope)
+    public GasType VisitColor(Color node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitSquare(Square node, Scope scope)
+    public GasType VisitSquare(Square node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitEllipse(Ellipse node, Scope scope)
+    public GasType VisitEllipse(Ellipse node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitSegLine(SegLine node, Scope scope)
+    public GasType VisitSegLine(SegLine node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitLine(Line node, Scope scope)
+    public GasType VisitLine(Line node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitGetFromList(GetFromList node, Scope scope)
+    public GasType VisitGetFromList(GetFromList node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitRemoveFromList(RemoveFromList node, Scope scope)
+    public GasType VisitRemoveFromList(RemoveFromList node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitArrow(Arrow node, Scope scope)
+    public GasType VisitArrow(Arrow node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitLengthOfList(LengthOfList node, Scope scope)
+    public GasType VisitLengthOfList(LengthOfList node, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitPolygon(Polygon polygon, Scope scope)
+    public GasType VisitPolygon(Polygon polygon, TypeEnv envT)
     {
         throw new NotImplementedException();
     }
 
-    public GasType VisitTriangle(Triangle triangle, Scope scope)
+    public GasType VisitTriangle(Triangle triangle, TypeEnv envT)
     {
         throw new NotImplementedException();
     }

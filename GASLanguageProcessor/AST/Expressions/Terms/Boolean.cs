@@ -11,8 +11,8 @@ public class Boolean : Term
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitBoolean(this, scope);
+        return visitor.VisitBoolean(this, envT);
     }
 }

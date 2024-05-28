@@ -20,8 +20,8 @@ public class Line : Term
         Color = color;
     }
     
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitLine(this, scope);
+        return visitor.VisitLine(this, envT);
     }
 }

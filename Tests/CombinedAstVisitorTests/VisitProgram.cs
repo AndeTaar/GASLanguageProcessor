@@ -34,7 +34,7 @@ public class VisitProgram
             "});\n"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -160,7 +160,7 @@ public class VisitProgram
             ""
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
 
 

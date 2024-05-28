@@ -15,14 +15,19 @@ public class FunctionCallTest
     [Fact]
     public void PassEvaluateExpressionFunctionCall()
     {
-        var scopeErrors = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
             "num Func(num x) {return x+20*5;}" +
             "num funcCallVal = Func(0);");
 
-        Assert.Empty(scopeErrors.Item2);
-        var scope = scopeErrors.Item1;
-        var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var result = sto.LookUp(envV.LookUp("funcCallVal").Value);
 
         Assert.NotNull(result);
         Assert.Equal(100f, result);
@@ -31,7 +36,7 @@ public class FunctionCallTest
     [Fact]
     public void PassEvaluateExpressionFunctionCallWithMultipleArguments()
     {
-        var scopeErrors = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "canvas (125, 50, Color(255, 255, 255, 1)); " +
             "num Func(num x, num y) {return x+y;}" +
             "num funcCallVal = Func(10, 20);" +
@@ -39,15 +44,20 @@ public class FunctionCallTest
             "point p = Point(10, 20);" +
             "square s = Square(p, 10, 20, white, white,1);");
 
-        Assert.Empty(scopeErrors.Item2);
-        var scope = scopeErrors.Item1;
-        var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var result = sto.LookUp(envV.LookUp("funcCallVal").Value);
 
         Assert.NotNull(result);
 
         Assert.Equal(30f, result);
 
-        var square = scope.vTable.LookUp("s")?.ActualValue;
+        var square = sto.LookUp(envV.LookUp("s").Value);
         Assert.IsAssignableFrom<FinalSquare>(square);
         var finalSquare = (FinalSquare)square;
         Assert.Equal(10f, finalSquare.Length.Value);
@@ -61,7 +71,7 @@ public class FunctionCallTest
         Assert.IsAssignableFrom<FinalColor>(finalSquare.FillColor);
         Assert.IsAssignableFrom<FinalColor>(finalSquare.StrokeColor);
 
-        var white = scope.vTable.LookUp("white")?.ActualValue;
+        var white = sto.LookUp(envV.LookUp("white").Value);
         Assert.IsAssignableFrom<FinalColor>(white);
         var finalColor = (FinalColor)white;
         Assert.Equal(255, finalColor.Red.Value);

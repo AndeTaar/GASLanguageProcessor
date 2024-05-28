@@ -14,7 +14,7 @@ public class VisitBinaryExpression
             "x = 1 + 1;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -26,7 +26,7 @@ public class VisitBinaryExpression
             "num x = 1 + 1 + 1;"
             );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -38,7 +38,7 @@ public class VisitBinaryExpression
             "num x = 1 * 1 + 1 / 1;"
             );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -50,7 +50,7 @@ public class VisitBinaryExpression
             "if(true && false) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -62,7 +62,7 @@ public class VisitBinaryExpression
             "if(true || false) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -74,7 +74,7 @@ public class VisitBinaryExpression
             "if(2 + 5 != 7) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -86,7 +86,7 @@ public class VisitBinaryExpression
             "if(10 / 2 == 2) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 }

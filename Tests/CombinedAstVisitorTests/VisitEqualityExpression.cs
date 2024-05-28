@@ -14,7 +14,7 @@ public class VisitEqualityExpression
             "if (x == 1) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -26,7 +26,7 @@ public class VisitEqualityExpression
             "if (x == 1) {}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 

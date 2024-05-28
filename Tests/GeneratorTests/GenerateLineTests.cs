@@ -197,10 +197,10 @@ public class GenerateLineTests
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
                      " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
-        Assert.Equal("<circle id=\"l\" cx=\"10\" cy=\"20\" r=\"30\"" +
+        Assert.Equal("<circle id=\"\" cx=\"10\" cy=\"20\" r=\"30\"" +
                      " fill=\"rgb(255, 0, 0)\" fill-opacity=\"1\"" +
                      " stroke=\"rgb(0, 255, 0)\" stroke-width=\"10\" />", svgLines[1]);
-        Assert.Equal("<circle id=\"l\" cx=\"100\" cy=\"200\" r=\"30\"" +
+        Assert.Equal("<circle id=\"\" cx=\"100\" cy=\"200\" r=\"30\"" +
                      " fill=\"rgb(0, 255, 0)\" fill-opacity=\"1\"" +
                      " stroke=\"rgb(0, 0, 255)\" stroke-width=\"10\" />", svgLines[2]);
         Assert.Equal("</svg>", svgLines[3]);

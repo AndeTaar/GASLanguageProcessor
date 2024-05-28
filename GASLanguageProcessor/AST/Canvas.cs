@@ -20,8 +20,8 @@ public class Canvas : Statement
         BackgroundColor = backgroundColor;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitCanvas(this, scope);
+        return visitor.VisitCanvas(this, envT);
     }
 }

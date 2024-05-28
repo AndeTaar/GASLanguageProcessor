@@ -12,9 +12,9 @@ public class Program : AstNode
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitProgram(this, scope);
+        return visitor.VisitProgram(this, envT);
     }
 
 }

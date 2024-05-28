@@ -11,8 +11,8 @@ public class Num : Term
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitNum(this, scope);
+        return visitor.VisitNum(this, envT);
     }
 }
