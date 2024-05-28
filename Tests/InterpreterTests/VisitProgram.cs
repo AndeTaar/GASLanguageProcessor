@@ -219,43 +219,35 @@ public class VisitProgram
         Assert.Equal(GasType.Bool, getBoolFuncType.Value.Item2);
 
         var grMousLoc = envV.LookUp("mouse");
-
         Assert.NotNull(grMousLoc);
 
         var groupMouse = sto.LookUp(grMousLoc.Value) as FinalGroup;
         Assert.NotNull(groupMouse);
 
         envV = groupMouse.EnvV;
-
         var grMousEarsLoc = envV.LookUp("mousEars");
-
+        var grMousFaceLoc = envV.LookUp("mouseFace");
         Assert.NotNull(grMousEarsLoc);
-
-        var groupMouseEars = sto.LookUp(grMousLoc.Value) as FinalGroup;
+        Assert.NotNull(grMousFaceLoc);
+        
+        var groupMouseEars = sto.LookUp(grMousEarsLoc.Value) as FinalGroup;
+        var groupMouseFace = sto.LookUp(grMousFaceLoc.Value) as FinalGroup;
         Assert.NotNull(groupMouseEars);
-
-        envV = groupMouseEars.EnvV;
-
-        var circleLeftEar = sto.LookUp(envV.LookUp("leftEar").Value) as FinalCircle;
-        var circleRightEar = sto.LookUp(envV.LookUp("rightEar").Value) as FinalCircle;
+        Assert.NotNull(groupMouseFace);
+        
+        var mouseEarsEnvV = groupMouseEars.EnvV;
+        var circleLeftEar = sto.LookUp(mouseEarsEnvV.LookUp("leftEar").Value) as FinalCircle;
+        var circleRightEar = sto.LookUp(mouseEarsEnvV.LookUp("rightEar").Value) as FinalCircle;
         Assert.NotNull(circleLeftEar);
         Assert.NotNull(circleRightEar);
-
-        var grMousFaceLoc = envV.LookUp("mouseFace");
-
-        Assert.NotNull(grMousFaceLoc);
-
-        var groupMouseFace = sto.LookUp(grMousFaceLoc.Value) as FinalGroup;
-        Assert.NotNull(groupMouseFace);
-
-        envV = groupMouseFace.EnvV;
-
-        var circleFace = sto.LookUp(envV.LookUp("face").Value) as FinalCircle;
-        var circleEye = sto.LookUp(envV.LookUp("eye").Value) as FinalCircle;
-        var circleEye2 = sto.LookUp(envV.LookUp("eye2").Value) as FinalCircle;
-        var ellipseEyeball = sto.LookUp(envV.LookUp("eyeball").Value) as FinalEllipse;
-        var ellipseEyeball2 = sto.LookUp(envV.LookUp("eyeball2").Value) as FinalEllipse;
-        var segLineMouth = sto.LookUp(envV.LookUp("mouth").Value) as FinalSegLine;
+        
+        var mouseFaceEnvV = groupMouseFace.EnvV;
+        var circleFace = sto.LookUp(mouseFaceEnvV.LookUp("face").Value) as FinalCircle;
+        var circleEye = sto.LookUp(mouseFaceEnvV.LookUp("eye").Value) as FinalCircle;
+        var circleEye2 = sto.LookUp(mouseFaceEnvV.LookUp("eye2").Value) as FinalCircle;
+        var ellipseEyeball = sto.LookUp(mouseFaceEnvV.LookUp("eyeball").Value) as FinalEllipse;
+        var ellipseEyeball2 = sto.LookUp(mouseFaceEnvV.LookUp("eyeball2").Value) as FinalEllipse;
+        var segLineMouth = sto.LookUp(mouseFaceEnvV.LookUp("mouth").Value) as FinalSegLine;
 
         Assert.NotNull(circleFace);
         Assert.NotNull(circleEye);
