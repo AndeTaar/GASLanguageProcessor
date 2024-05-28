@@ -7,12 +7,10 @@ public class FinalGroup
 {
     public FinalPoint Point { get; set; }
     public VarEnv EnvV { get; set; }
-    public Store Sto { get; set; }
 
-    public FinalGroup(FinalPoint point, VarEnv envV, Store sto)
+    public FinalGroup(FinalPoint point, VarEnv envV)
     {
         Point = point;
         EnvV = envV;
-        Sto = sto;
     }
 }

@@ -33,24 +33,25 @@ public static class SharedTesting
     {
         var ast = GetAst(input);
         var combinedAstVisitor = new CombinedAstVisitor();
-        
+
         var envV = new VarEnv();
         var sto = new Store();
         var envT = new TypeEnv();
         var envF = new FuncEnv(sto, envV, null);
-        
+
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
-        
+
         return (envV, sto, envT, envF, interpreter.errors);
     }
 
     public static ArrayList<string> GetSvgLines(string input)
     {
-        var env = RunInterpreter(input); 
-        var svgGenerator = new SvgGenerator();
-        var lines = svgGenerator.GenerateSvg(env.Item1, env.Item2);
+        var env = RunInterpreter(input);
+        var sto = env.Item2;
+        var svgGenerator = new SvgGenerator(sto);
+        var lines = svgGenerator.GenerateSvg(env.Item1);
         lines.Add("</svg>");
         return lines;
     }

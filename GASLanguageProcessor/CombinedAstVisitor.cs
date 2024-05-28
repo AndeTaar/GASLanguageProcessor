@@ -247,7 +247,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         if (variableType == null)
         {
-            errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found");
+            errors.Add("Line: " + node.LineNum + " Variable name: " + identifier + " not found in scope");
             return GasType.Error;
         }
 
@@ -329,7 +329,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         if(variableType == null)
         {
-            errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found");
+            errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found in scope");
             return GasType.Error;
         }
 
@@ -359,9 +359,12 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var identifier = node.Identifier.Name;
         envT = envT.EnterScope();
 
-        var parameterTypes = node.Parameters.Select(p => p.Type.Accept(this, envT)).ToList();
-
-        node.Parameters.All(p => new Declaration(p.Type, p.Identifier, null).Accept(this, envT) == GasType.Ok);
+        var expectedParameterTypes = node.Parameters.Select(parameter =>
+        {
+            var type = parameter.Type.Accept(this, envT);
+            envT.VBind(parameter.Identifier.Name, type);
+            return parameter.Type.Accept(this, envT);
+        }).ToList();
 
         var expectedReturnType = node.ReturnType.Accept(this, envT);
 
@@ -375,7 +378,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         envT = envT.ExitScope();
 
-        var bound = envT.FBind(identifier, parameterTypes, expectedReturnType);
+        var bound = envT.FBind(identifier, expectedParameterTypes, expectedReturnType);
         if (bound == false)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier + " already exists");
@@ -627,9 +630,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var returnType = parametersAndReturnType?.Item2;
 
         var parameters = node.Arguments.Select(expression => expression.Accept(this, envT)).ToList();
-        
-        
-        
+
+
+
         if (parameters.Count != expectedParameters?.Count)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +

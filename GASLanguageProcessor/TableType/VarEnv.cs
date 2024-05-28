@@ -6,11 +6,16 @@ public class VarEnv
 {
     public Dictionary<string, int> Variables { get; set; } = new();
     public VarEnv? Parent { get; set; }
-    public int next = 0;
+    public static int next { get; set; } = 0;
 
     public VarEnv(VarEnv? parent = null)
     {
         this.Parent = parent;
+    }
+
+    public int GetNext()
+    {
+        return ++next;
     }
 
     public VarEnv EnterScope()

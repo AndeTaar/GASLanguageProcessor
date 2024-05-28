@@ -2,23 +2,7 @@
 
 public class Store
 {
-    public Store? Parent { get; set; }
     public Dictionary<int, object> Values { get; set; } = new();
-
-    public Store EnterScope()
-    {
-        return new Store(this);
-    }
-
-    public void ExitScope()
-    {
-        Parent = Parent?.Parent;
-    }
-
-    public Store(Store? parent = null)
-    {
-        Parent = parent;
-    }
 
     public void Bind(int key, object value)
     {
@@ -31,6 +15,6 @@ public class Store
         {
             return Values[key];
         }
-        return this.Parent?.LookUp(key);
+        return null;
     }
 }

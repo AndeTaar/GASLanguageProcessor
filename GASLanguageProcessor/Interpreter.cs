@@ -28,9 +28,9 @@ public class Interpreter
                 var backgroundColor = (FinalColor) EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
                 var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
 
-                varEnv.Bind("canvas", varEnv.next );
-                store.Bind(varEnv.next, finalCanvas);
-                varEnv.next++;
+                int next = varEnv.GetNext();
+                varEnv.Bind("canvas",  next);
+                store.Bind(next, finalCanvas);
                 return null;
 
             case Compound compound:
@@ -65,14 +65,13 @@ public class Interpreter
                 var whileCondition = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
 
                 varEnv = varEnv.EnterScope();
-                store = store.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
                 while ((bool)whileCondition)
                 {
                     var eval = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
                     if (eval != null) return eval;
-                    whileCondition = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store.Parent);
+                    whileCondition = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
                 }
                 return null;
 
@@ -80,7 +79,6 @@ public class Interpreter
                 var ifCondition = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
 
                 varEnv = varEnv.EnterScope();
-                store = store.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
                 if ((bool)ifCondition)
@@ -97,15 +95,15 @@ public class Interpreter
             case FunctionDeclaration functionDeclaration:
                 var parameters = functionDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
                 var statements = functionDeclaration.Statements;
-                var functionDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), new Store(store));
+                var functionDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), store);
                 funcEnv.Bind(functionDeclaration.Identifier.Name, functionDecl);
                 return null;
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
                 var declIdentifier = declaration.Identifier.Name;
-                varEnv.Bind(declIdentifier, varEnv.next);
-                store.Bind(varEnv.next, val);
-                varEnv.next++;
+                next = varEnv.GetNext();
+                varEnv.Bind(declIdentifier, next);
+                store.Bind(next, val);
                 return null;
 
             case FunctionCallStatement functionCall:
@@ -129,10 +127,9 @@ public class Interpreter
                     var varIndex = function.VarEnv.LocalLookUp(parameter);
                     if (varIndex == null)
                     {
-                        varIndex = function.VarEnv.next;
-                        function.VarEnv.Bind(parameter, varIndex.Value);
-                        function.Store.Bind(varIndex.Value, functionCallVal);
-                        function.VarEnv.next++;
+                        next = varEnv.GetNext();
+                        function.VarEnv.Bind(parameter, next);
+                        function.Store.Bind(next, functionCallVal);
                     }
                     else
                     {
@@ -237,10 +234,9 @@ public class Interpreter
                     var varIndex = function.VarEnv.LocalLookUp(parameter);
                     if (varIndex == null)
                     {
-                        varIndex = function.VarEnv.next;
-                        function.VarEnv.Bind(parameter, varIndex.Value);
-                        function.Store.Bind(varIndex.Value, functionCallVal);
-                        function.VarEnv.next++;
+                        int next = varEnv.GetNext();
+                        function.VarEnv.Bind(parameter, next);
+                        function.Store.Bind(next, functionCallVal);
                     }
                     else
                     {
@@ -422,11 +418,10 @@ public class Interpreter
             case Group group:
                 var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
                 varEnv = varEnv.EnterScope();
-                store = store.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
                 EvaluateStatement(group.Statements, varEnv, funcEnv, store);
-                return new FinalGroup(finalPoint, varEnv, store);
+                return new FinalGroup(finalPoint, varEnv);
 
             case AddToList addToList:
                 var listVariableIndex = varEnv.LookUp(addToList.ListIdentifier.Name);
