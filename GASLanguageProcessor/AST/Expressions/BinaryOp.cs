@@ -18,8 +18,8 @@ public class BinaryOp : Expression
         Type = type;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitBinaryOp(this);
+        return visitor.VisitBinaryOp(this, envT);
     }
 }

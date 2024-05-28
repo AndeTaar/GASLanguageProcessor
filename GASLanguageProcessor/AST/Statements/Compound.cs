@@ -13,8 +13,8 @@ public class Compound : Statement
         Statement2 = statement2;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitCompound(this);
+        return visitor.VisitCompound(this, envT);
     }
 }

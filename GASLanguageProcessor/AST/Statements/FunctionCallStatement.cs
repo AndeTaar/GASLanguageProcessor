@@ -1,5 +1,6 @@
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
@@ -14,8 +15,8 @@ public class FunctionCallStatement: Statement
         Arguments = arguments;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitFunctionCallStatement(this);
+        return visitor.VisitFunctionCallStatement(this, envT);
     }
 }

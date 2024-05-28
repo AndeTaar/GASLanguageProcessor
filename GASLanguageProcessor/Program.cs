@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime ;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
+using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.Frontend;
 using GASLanguageProcessor.TableType;
 
@@ -27,24 +28,26 @@ static void Main(string[] args)
     var parseTree = parser.program();
     errorListener.StopIfErrors();
     AstNode ast = parseTree.Accept(new ToAstVisitor());
-    var typeCheckingVisitor = new TypeCheckingAstVisitor();
-    var scopeCheckingVisitor = new ScopeCheckingAstVisitor();
-    ast.Accept(scopeCheckingVisitor);
-    scopeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
-    if(scopeCheckingVisitor.errors.Count > 0)
+    var combinedAstVisitor = new CombinedAstVisitor();
+    ast.Accept(combinedAstVisitor, new TypeEnv());
+    combinedAstVisitor.errors.ForEach(Console.Error.WriteLine);
+    if(combinedAstVisitor.errors.Count > 0)
     {
         return;
     }
-    ast.Accept(typeCheckingVisitor);
-    typeCheckingVisitor.errors.ForEach(Console.Error.WriteLine);
-    if(typeCheckingVisitor.errors.Count > 0)
-    {
-        return;
-    }
+
     Interpreter interpreter = new Interpreter();
-    interpreter.EvaluateStatement(ast as Statement, scopeCheckingVisitor.scope);
-    SvgGenerator svgGenerator = new SvgGenerator();
-    var lines = svgGenerator.GenerateSvg(scopeCheckingVisitor.scope.vTable);
+    var envV = new VarEnv();
+    var sto = new Store();
+    var envF = new FuncEnv(sto, envV, null);
+    interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+    interpreter.errors.ForEach(Console.Error.WriteLine);
+    if(interpreter.errors.Count > 0)
+    {
+        return;
+    }
+    SvgGenerator svgGenerator = new SvgGenerator(sto);
+    var lines = svgGenerator.GenerateSvg(envV);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);
     Console.WriteLine("SVG file generated at: " + FilePath);

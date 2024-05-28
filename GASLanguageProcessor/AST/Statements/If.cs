@@ -16,8 +16,8 @@ public class If : Statement
         Else = @else;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitIfStatement(this);
+        return visitor.VisitIfStatement(this, envT);
     }
 }

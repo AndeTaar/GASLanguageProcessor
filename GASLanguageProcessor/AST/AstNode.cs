@@ -4,7 +4,6 @@ namespace GASLanguageProcessor.AST;
 
 public abstract class AstNode
 {
-    public abstract T Accept<T>(IAstVisitor<T> visitor);
-    public Scope? Scope { get; set; }
-    public int LineNumber { get; set; }
+    public abstract T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT);
+    public int LineNum { get; set; }
 }

@@ -1,12 +1,14 @@
 ﻿using System.Globalization;
+using Antlr4.Runtime;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
+using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
-using Number = GASLanguageProcessor.AST.Expressions.Terms.Number;
+using Num = GASLanguageProcessor.AST.Expressions.Terms.Num;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 
 namespace GASLanguageProcessor;
@@ -15,163 +17,267 @@ public class Interpreter
 {
     public float canvasWidth;
     public float canvasHeight;
+    public List<string> errors = new();
 
-    public object EvaluateStatement(Statement statement, Scope scope)
-    {
+    public object? EvaluateStatement(Statement statement, VarEnv varEnv, FuncEnv funcEnv, Store store) {
         switch (statement)
         {
             case Canvas canvas:
-                var width = (float)EvaluateExpression(canvas.Width, scope);
-                var height = (float)EvaluateExpression(canvas.Height, scope);
-                canvasHeight = height;
-                canvasWidth = width;
-                var backgroundColor = canvas.BackgroundColor == null
-                    ? new FinalColor(255, 255, 255, 1)
-                    : (FinalColor)EvaluateExpression(canvas.BackgroundColor, scope);
-                var finalCanvas = new FinalCanvas(width, height, backgroundColor);
-                var canvasVariable = scope.vTable.LookUp("canvas");
-                canvasVariable.ActualValue = finalCanvas;
-                return finalCanvas;
-            case Compound compound:
-                EvaluateStatement(compound.Statement1, compound.Scope ?? scope);
-                EvaluateStatement(compound.Statement2, compound.Scope ?? scope);
+                canvasWidth = (float)EvaluateExpression(canvas.Width, varEnv, funcEnv, store);
+                canvasHeight = (float)EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
+                var backgroundColor = (FinalColor) EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
+                var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
+
+                int next = varEnv.GetNext();
+                varEnv.Bind("canvas",  next);
+                store.Bind(next, finalCanvas);
                 return null;
+
+            case Compound compound:
+                var eval1 = EvaluateStatement(compound.Statement1, varEnv, funcEnv, store);
+                if (eval1 != null)
+                {
+                    return eval1;
+                }
+
+                var eval2 = EvaluateStatement(compound.Statement2, varEnv, funcEnv, store);
+                return eval2;
 
             // Currently allows infinite loops.
             case For @for:
-                EvaluateStatement(@for.Declaration, @for.Scope ?? scope);
-                var condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
+                EvaluateStatement(@for.Initializer, varEnv, funcEnv, store);
+                var condition = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
                 while ((bool)condition)
                 {
-                    EvaluateStatement(@for.Statements, @for.Scope ?? scope);
-                    EvaluateStatement(@for.Increment, @for.Scope ?? scope);
-                    condition = EvaluateExpression(@for.Condition, @for.Scope ?? scope);
+                    var eval = EvaluateStatement(@for.Statements, varEnv, funcEnv, store);
+                    if (eval != null)
+                    {
+                        return eval;
+                    }
+                    EvaluateStatement(@for.Incrementer, varEnv, funcEnv, store);
+                    condition = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
                 }
 
                 return null;
 
             // Currently allows infinite loops.
             case While @while:
-                var whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
-                while ((bool) whileCondition)
+                var whileCondition = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
+
+                varEnv = varEnv.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+
+                while ((bool)whileCondition)
                 {
-                    EvaluateStatement(@while.Statements, @while.Scope ?? scope);
-                    whileCondition = EvaluateExpression(@while.Condition, @while.Scope ?? scope);
+                    var eval = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
+                    if (eval != null) return eval;
+                    whileCondition = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
                 }
+                return null;
+
+            case If @if:
+                var ifCondition = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
+
+                varEnv = varEnv.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+
+                if ((bool)ifCondition)
+                {
+                    return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
+                }
+
+                if (@if.Else != null)
+                {
+                    return EvaluateStatement(@if.Else, varEnv, funcEnv, store);
+                }
+
                 return null;
             case FunctionDeclaration functionDeclaration:
+                var parameters = functionDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
+                var statements = functionDeclaration.Statements;
+                var functionDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), store);
+                funcEnv.Bind(functionDeclaration.Identifier.Name, functionDecl);
                 return null;
             case Declaration declaration:
-                var val = EvaluateExpression(declaration.Expression, declaration.Scope ?? scope);
+                var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
                 var declIdentifier = declaration.Identifier.Name;
-                var variable = scope.vTable.LookUp(declIdentifier);
-                if (variable == null)
-                {
-                    Console.WriteLine($"Variable {declIdentifier} not found");
-                    return null;
-                }
+                next = varEnv.GetNext();
+                varEnv.Bind(declIdentifier, next);
+                store.Bind(next, val);
+                return null;
 
-                variable.ActualValue = val;
-                return val;
-
-            case CollectionDeclaration collectionDeclaration:
-                var collectionDeclarationVal = EvaluateExpression(collectionDeclaration.Expression, collectionDeclaration.Scope ?? scope);
-                var collectionDeclIdentifier = collectionDeclaration.Identifier.Name;
-                var collectionVariable = scope.vTable.LookUp(collectionDeclIdentifier);
-                if (collectionVariable == null)
-                {
-                    Console.WriteLine($"Variable {collectionDeclIdentifier} not found");
-                    return null;
-                }
-                collectionVariable.ActualValue = collectionDeclarationVal;
-                return collectionDeclarationVal;
-
-            case FunctionCallStatement functionCallStatement:
-                var identifierAndFunction =
-                    scope.LookupMethod(functionCallStatement.Identifier, scope, scope, new List<string>());
-                string identifier = identifierAndFunction.Item1.Name;
-                Function function = identifierAndFunction.Item2;
+            case FunctionCallStatement functionCall:
+                var function = funcEnv.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {
-                    throw new Exception($"Function {identifier} not found");
+                    errors.Add($"Function {functionCall.Identifier.Name} not found in the FunctionTable");
+                    return null;
                 }
 
-                var functionCallScope = functionCallStatement.Scope ?? scope;
-                var functionScope = function.Scope;
-                functionScope.vTable.Variables.Clear();
+                if (function.Parameters.Count != functionCall.Arguments.Count)
+                {
+                    errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
+                    return null;
+                }
+
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var functionCallVal = EvaluateExpression(functionCallStatement.Arguments[i], functionCallScope);
-                    functionScope.vTable.Bind(parameter.Identifier,
-                        new Variable(parameter.Identifier, functionCallVal));
+                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
+                    var varIndex = function.VarEnv.LocalLookUp(parameter);
+                    if (varIndex == null)
+                    {
+                        next = varEnv.GetNext();
+                        function.VarEnv.Bind(parameter, next);
+                        function.Store.Bind(next, functionCallVal);
+                    }
+                    else
+                    {
+                        function.Store.Bind(varIndex.Value, functionCallVal);
+                    }
                 }
 
-                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
-                return functionCallRes;
+                EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, function.Store);
+
+                return null;
 
             case Assignment assignment:
-                var assignExpression = EvaluateExpression(assignment.Expression, assignment.Scope ?? scope);
+                var assignExpression = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
                 var assignIdentifier = assignment.Identifier.Name;
-                var assignVariable = scope.vTable.LookUp(assignIdentifier);
-                if (assignVariable == null)
+                var assignIndex = varEnv.LookUp(assignIdentifier);
+
+                if (assignIndex == null)
                 {
-                    Console.WriteLine($"Variable {assignIdentifier} not found");
+                    errors.Add($"Variable {assignIdentifier} not found");
                     return null;
                 }
+                var assignVariable = store.LookUp(assignIndex.Value);
 
-                assignVariable.ActualValue = assignExpression;
-                return assignExpression;
+
+                switch (assignment.Operator)
+                {
+                    case "+=":
+                        assignVariable = (float)assignVariable! + (float)assignExpression;
+                        break;
+                    case "-=":
+                        assignVariable = (float)assignVariable! - (float)assignExpression;
+                        break;
+                    case "*=":
+                        assignVariable = (float)assignVariable! * (float)assignExpression;
+                        break;
+                    case "/=":
+                        assignVariable = (float)assignVariable! / (float)assignExpression;
+                        break;
+                    case "=":
+                        assignVariable = assignExpression;
+                        break;
+                }
+
+                store.Bind(assignIndex.Value, assignVariable);
+
+                return null;
+
+            case Increment increment:
+                var incrementIdentifier = increment.Identifier.Name;
+                var incrementVariableIndex = varEnv.LookUp(incrementIdentifier);
+                if (incrementVariableIndex == null)
+                {
+                    errors.Add($"Variable {incrementIdentifier} not found in the VariableTable");
+                    return null;
+                }
+                var incrementVariable = store.LookUp(incrementVariableIndex.Value);
+                var op = increment.Operator;
+
+                switch (op)
+                {
+                    case "++":
+                        incrementVariable = (float)incrementVariable! + 1;
+                        break;
+                    case "--":
+                        incrementVariable = (float)incrementVariable! - 1;
+                        break;
+                }
+
+                store.Bind(incrementVariableIndex.Value, incrementVariable);
+
+                return null;
 
             case Return returnStatement:
-                return EvaluateExpression(returnStatement.Expression, returnStatement.Scope ?? scope);
+                return EvaluateExpression(returnStatement.Expression, varEnv, funcEnv, store);
         }
+
         return null;
     }
 
-    public object EvaluateExpression(Expression expression, Scope scope)
+    public object EvaluateExpression(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         switch (expression)
         {
             case FunctionCallTerm functionCall:
-                Function function = scope.fTable.LookUp(functionCall.Identifier.Name);
+                var function = funcEnv.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {
-                    throw new Exception($"Function {functionCall.Identifier.Name} not found");
+                    errors.Add($"Function {functionCall.Identifier.Name} not found in the FunctionTable");
+                    return null;
                 }
 
-                var functionCallScope = functionCall.Scope ?? scope;
-                var functionScope = function.Scope;
-                functionScope.vTable.Variables.Clear();
+                if (function.Parameters.Count != functionCall.Arguments.Count)
+                {
+                    errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
+                    return null;
+                }
+
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var val = EvaluateExpression(functionCall.Arguments[i], functionCallScope);
-                    functionScope.vTable.Bind(parameter.Identifier, new Variable(parameter.Identifier, val));
+                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
+                    var varIndex = function.VarEnv.LocalLookUp(parameter);
+                    if (varIndex == null)
+                    {
+                        int next = varEnv.GetNext();
+                        function.VarEnv.Bind(parameter, next);
+                        function.Store.Bind(next, functionCallVal);
+                    }
+                    else
+                    {
+                        function.Store.Bind(varIndex.Value, functionCallVal);
+                    }
                 }
-                var functionCallRes = EvaluateStatement(function.Statements, functionScope);
+
+                var functionCallRes = EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, function.Store);
+
+                if (functionCallRes == null)
+                {
+                    throw new Exception($"Function {functionCall.Identifier.Name} did not return a value");
+                }
+
                 return functionCallRes;
 
             case UnaryOp unaryOp:
-                var unaryOpExpression = EvaluateExpression(unaryOp.Expression, scope);
+                var unaryOpExpression = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, store);
                 return unaryOp.Op switch
                 {
-                    "-" => -(float) unaryOpExpression,
-                    "!" => !(bool) unaryOpExpression,
+                    "-" => -(float)unaryOpExpression,
+                    "!" => !(bool)unaryOpExpression,
                     _ => throw new NotImplementedException()
                 };
 
             case BinaryOp binaryOp:
-                var left = EvaluateExpression(binaryOp.Left, scope);
-                var right = EvaluateExpression(binaryOp.Right, scope);
+                var left = EvaluateExpression(binaryOp.Left, varEnv, funcEnv, store);
+                var right = EvaluateExpression(binaryOp.Right, varEnv, funcEnv, store);
+
+                if((binaryOp.Op == "/" || binaryOp.Op == "%") && (float)right == 0)
+                {
+                    throw new Exception("Division by zero is not allowed.");
+                }
 
                 return binaryOp.Op switch
                 {
                     "+" => binaryOp.Type switch
                     {
-                        GasType.Number => (float)left + (float)right,
+                        GasType.Num => (float)left + (float)right,
                         GasType.String => (string)left + (string)right,
-                        _ => (float) left + (float) right
+                        _ => (float)left + (float)right
                     },
                     "-" => (float)left - (float)right,
                     "*" => (float)left * (float)right,
@@ -181,121 +287,272 @@ public class Interpreter
                     ">" => (float)left > (float)right,
                     "<=" => (float)left <= (float)right,
                     ">=" => (float)left >= (float)right,
-                    "!=" => left != right,
-                    "==" => left == right,
+                    "!=" => !left.Equals(right),
+                    "==" => left.Equals(right),
                     "&&" => (bool)left && (bool)right,
                     "||" => (bool)left || (bool)right,
                     _ => throw new NotImplementedException()
                 };
 
             case Identifier identifier:
-                if (scope == null || scope.vTable == null || identifier == null || identifier.Name == null)
-                {
-                    throw new Exception("Scope, VariableTable, Identifier or Identifier Name is null");
-                }
+                var variableIndex = varEnv.LookUp(identifier.Name);
 
-                var variable = scope.vTable.LookUp(identifier.Name);
+                if (variableIndex == null)
+                {
+                    errors.Add($"Variable {identifier.Name} not found in the VariableTable");
+                    return null;
+                }
+                var variable = store.LookUp(variableIndex.Value);
 
                 if (variable == null)
                 {
-                    throw new Exception($"Variable {identifier.Name} not found in the VariableTable");
+                    errors.Add($"Variable {identifier.Name} not found in the Store");
+                    return null;
                 }
 
-                if(variable.FormalValue == null && variable.ActualValue == null)
-                {
-                    throw new Exception($"Variable {identifier.Name} has no value");
-                }
+                return variable;
 
-                if (variable.ActualValue != null)
-                {
-                    return variable.ActualValue;
-                }
-                return EvaluateExpression(variable.FormalValue, scope);
+            case Num num: // Num is a float; CultureInfo is used to ensure that the decimal separator is a dot
+                return float.Parse(num.Value, CultureInfo.InvariantCulture);
 
-            case Number number: // Number is a float; CultureInfo is used to ensure that the decimal separator is a dot
-                return float.Parse(number.Value, CultureInfo.InvariantCulture);
+            case Boolean boolean:
+                return bool.Parse(boolean.Value);
 
             case String stringTerm:
                 return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
 
             case Color color:
-                var red = (float) EvaluateExpression(color.Red, scope);
-                var green = (float) EvaluateExpression(color.Green, scope);
-                var blue = (float) EvaluateExpression(color.Blue, scope);
-                var alpha = (float) EvaluateExpression(color.Alpha, scope);
+                var red = (float)EvaluateExpression(color.Red, varEnv, funcEnv, store);
+                var green = (float)EvaluateExpression(color.Green, varEnv, funcEnv, store);
+                var blue = (float)EvaluateExpression(color.Blue, varEnv, funcEnv, store);
+                var alpha = (float)EvaluateExpression(color.Alpha, varEnv, funcEnv, store);
+
                 return new FinalColor(red, green, blue, alpha);
 
             case Point point:
-                var x = (float)EvaluateExpression(point.X, scope);
-                var y = (float)EvaluateExpression(point.Y, scope);
+                var x = (float)EvaluateExpression(point.X, varEnv, funcEnv, store);
+                var y = (float)EvaluateExpression(point.Y, varEnv, funcEnv, store);
                 return new FinalPoint(x, y);
 
             case Square square:
-                var topLeft = (FinalPoint) EvaluateExpression(square.TopLeft, scope);
-                var length = (float) EvaluateExpression(square.Length, scope);
-                var strokeSize = (float) EvaluateExpression(square.Stroke, scope);
-                var squareFillColor = (FinalColor) EvaluateExpression(square.Color, scope);
-                var squareStrokeColor =(FinalColor) EvaluateExpression(square.StrokeColor, scope);
-                return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor);
+                var topLeft = (FinalPoint)EvaluateExpression(square.TopLeft, varEnv, funcEnv, store);
+                var length = (float)EvaluateExpression(square.Length, varEnv, funcEnv, store);
+                var strokeSize = (float)EvaluateExpression(square.Stroke, varEnv, funcEnv, store);
+                var squareFillColor = (FinalColor)EvaluateExpression(square.Color, varEnv, funcEnv, store);
+                var squareStrokeColor = (FinalColor)EvaluateExpression(square.StrokeColor, varEnv, funcEnv, store);
+                var cornerRounding = (float)EvaluateExpression(square.CornerRounding, varEnv, funcEnv, store);
+                return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor, cornerRounding);
 
             case Ellipse ellipse:
-                var ellipseCentre = (FinalPoint) EvaluateExpression(ellipse.Center, scope);
-                var ellipseRadiusX = (float) EvaluateExpression(ellipse.RadiusX, scope);
-                var ellipseRadiusY = (float) EvaluateExpression(ellipse.RadiusY, scope);
-                var ellipseFillColor = (FinalColor) EvaluateExpression(ellipse.Color, scope);
-                var ellipseBorderColor = (FinalColor) EvaluateExpression(ellipse.BorderColor, scope);
-                var ellipseStroke = (float) EvaluateExpression(ellipse.Stroke, scope);
-                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor, ellipseBorderColor);
+                var ellipseCentre = (FinalPoint)EvaluateExpression(ellipse.Center, varEnv, funcEnv, store);
+                var ellipseRadiusX = (float)EvaluateExpression(ellipse.RadiusX, varEnv, funcEnv, store);
+                var ellipseRadiusY = (float)EvaluateExpression(ellipse.RadiusY, varEnv, funcEnv, store);
+                var ellipseStroke = (float)EvaluateExpression(ellipse.Stroke, varEnv, funcEnv, store);
+                var ellipseFillColor = (FinalColor)EvaluateExpression(ellipse.Color, varEnv, funcEnv, store);
+                var ellipseStrokeColor = (FinalColor)EvaluateExpression(ellipse.StrokeColor, varEnv, funcEnv, store);
+                return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor,
+                    ellipseStrokeColor);
 
             case Text text:
-                var value = (string) EvaluateExpression(text.Value, scope);
-                var position = (FinalPoint) EvaluateExpression(text.Position, scope);
-                var font = (string) EvaluateExpression(text.Font, scope);
-                var fontSize = (float) EvaluateExpression(text.FontSize, scope);
-                var textColor = (FinalColor) EvaluateExpression(text.Color, scope);
-                return new FinalText(value, position, font, fontSize, textColor);
+                var value = (string)EvaluateExpression(text.Value, varEnv, funcEnv, store);
+                var position = (FinalPoint)EvaluateExpression(text.Position, varEnv, funcEnv, store);
+                var font = (string)EvaluateExpression(text.Font, varEnv, funcEnv, store);
+                var fontSize = (float)EvaluateExpression(text.FontSize, varEnv, funcEnv, store);
+                var fontWeight = (float)EvaluateExpression(text.FontWeight, varEnv, funcEnv, store);
+                var textColor = (FinalColor)EvaluateExpression(text.Color, varEnv, funcEnv, store);
+                return new FinalText(value, position, font, fontSize, fontWeight, textColor);
 
             case Circle circle:
-                var centre = (FinalPoint) EvaluateExpression(circle.Center, scope);
-                var radius = (float) EvaluateExpression(circle.Radius, scope);
-                var stroke = (float) EvaluateExpression(circle.Stroke, scope);
-                var fillColor = (FinalColor) EvaluateExpression(circle.Color, scope);
-                var strokeColor = (FinalColor) EvaluateExpression(circle.StrokeColor, scope);
+                var centre = (FinalPoint)EvaluateExpression(circle.Center, varEnv, funcEnv, store);
+                var radius = (float)EvaluateExpression(circle.Radius, varEnv, funcEnv, store);
+                var stroke = (float)EvaluateExpression(circle.Stroke, varEnv, funcEnv, store);
+                var fillColor = (FinalColor)EvaluateExpression(circle.Color, varEnv, funcEnv, store);
+                var strokeColor = (FinalColor)EvaluateExpression(circle.StrokeColor, varEnv, funcEnv, store);
                 return new FinalCircle(centre, radius, stroke, fillColor, strokeColor);
 
             case Rectangle rectangle:
-                var rectTopLeft = (FinalPoint) EvaluateExpression(rectangle.TopLeft, scope);
-                var rectBottomRight = (FinalPoint) EvaluateExpression(rectangle.BottomRight, scope);
-                var rectStroke = (float) EvaluateExpression(rectangle.Stroke, scope);
-                var rectFillColor = (FinalColor) EvaluateExpression(rectangle.Color, scope);
-                var rectStrokeColor = (FinalColor) EvaluateExpression(rectangle.StrokeColor, scope);
-                return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor);
+                var rectTopLeft = (FinalPoint)EvaluateExpression(rectangle.TopLeft, varEnv, funcEnv, store);
+                var rectBottomRight = (FinalPoint)EvaluateExpression(rectangle.BottomRight, varEnv, funcEnv, store);
+                var rectStroke = (float)EvaluateExpression(rectangle.Stroke, varEnv, funcEnv, store);
+                var rectFillColor = (FinalColor)EvaluateExpression(rectangle.Color, varEnv, funcEnv, store);
+                var rectStrokeColor = (FinalColor)EvaluateExpression(rectangle.StrokeColor, varEnv, funcEnv, store);
+                var rectCornerRounding = (float)EvaluateExpression(rectangle.CornerRounding, varEnv, funcEnv, store);
+                return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor, rectCornerRounding);
 
             case Line line:
-                var lineIntercept = (float) EvaluateExpression(line.Intercept, scope);
-                var lineStart = new FinalPoint(0, lineIntercept);
-                var lineGradient = (float) EvaluateExpression(line.Gradient, scope);
+                var lineIntercept = (float)EvaluateExpression(line.Intercept, varEnv, funcEnv, store);
+                var lineGradient = (float)EvaluateExpression(line.Gradient, varEnv, funcEnv, store);
+                var lineStart = new FinalPoint(-1, lineIntercept-lineGradient);
 
-                float lineEndX = lineGradient < 0 ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
+                float lineEndX = lineGradient < 0
+                    ? canvasWidth - Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1
                     : Math.Abs((canvasHeight - lineIntercept) / lineGradient) + 1;
                 float lineEndY = lineGradient * lineEndX + lineIntercept;
-                var lineEnd = new FinalPoint(lineEndX,lineEndY);
+                var lineEnd = new FinalPoint(lineEndX, lineEndY);
 
-                var lineStroke = (float) EvaluateExpression(line.Stroke, scope);
-                var lineColor = (FinalColor) EvaluateExpression(line.Color, scope);
+                var lineStroke = (float)EvaluateExpression(line.Stroke, varEnv, funcEnv, store);
+                var lineColor = (FinalColor)EvaluateExpression(line.Color, varEnv, funcEnv, store);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColor);
 
             case SegLine segLine:
-                var segLineStart = (FinalPoint) EvaluateExpression(segLine.Start, scope);
-                var segLineEnd = (FinalPoint) EvaluateExpression(segLine.End, scope);
-                var segLineStroke = (float) EvaluateExpression(segLine.Stroke, scope);
-                var segLineColor = (FinalColor) EvaluateExpression(segLine.Color, scope);
+                var segLineStart = (FinalPoint)EvaluateExpression(segLine.Start, varEnv, funcEnv, store);
+                var segLineEnd = (FinalPoint)EvaluateExpression(segLine.End, varEnv, funcEnv, store);
+                var segLineStroke = (float)EvaluateExpression(segLine.Stroke, varEnv, funcEnv, store);
+                var segLineColor = (FinalColor)EvaluateExpression(segLine.Color, varEnv, funcEnv, store);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
 
+            case Arrow arrow:
+                var arrowStart = (FinalPoint)EvaluateExpression(arrow.Start, varEnv, funcEnv, store);
+                var arrowEnd = (FinalPoint)EvaluateExpression(arrow.End, varEnv, funcEnv, store);
+                var arrowStroke = (float)EvaluateExpression(arrow.Stroke, varEnv, funcEnv, store);
+                var arrowColor = (FinalColor)EvaluateExpression(arrow.Color, varEnv, funcEnv, store);
+                return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
+
+            case Polygon polygon:
+                var polygonPoints = (FinalList)EvaluateExpression(polygon.Points, varEnv, funcEnv, store);
+                var polygonColor = (FinalColor)EvaluateExpression(polygon.Color, varEnv, funcEnv, store);
+                var polygonStroke = (float)EvaluateExpression(polygon.Stroke, varEnv, funcEnv, store);
+                var polygonStrokeColor = (FinalColor)EvaluateExpression(polygon.StrokeColor, varEnv, funcEnv, store);
+                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor);
+
             case Group group:
-                var finalPoint = (FinalPoint) EvaluateExpression(group.Point, scope);
-                EvaluateStatement(group.Statements, group.Scope ?? scope);
-                return new FinalGroup(finalPoint, group.Scope ?? scope);
+                var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
+                varEnv = varEnv.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+
+                EvaluateStatement(group.Statements, varEnv, funcEnv, store);
+                return new FinalGroup(finalPoint, varEnv);
+
+            case AddToList addToList:
+                var listVariableIndex = varEnv.LookUp(addToList.ListIdentifier.Name);
+
+                if (listVariableIndex == null)
+                {
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} not found in the VariableTable");
+                    return null;
+                }
+
+                var listVariable = store.LookUp(listVariableIndex.Value);
+
+                if (listVariable == null)
+                {
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} not found in the Store");
+                    return null;
+                }
+
+                if(listVariable is not FinalList destinedList1)
+                {
+                    errors.Add($"Variable {addToList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                var valueToAdd = EvaluateExpression(addToList.Value, varEnv, funcEnv, store);
+                destinedList1?.Values.Add(valueToAdd);
+                return null;
+
+            case RemoveFromList removeFromList:
+                var listToRemoveFromIndex = varEnv.LookUp(removeFromList.ListIdentifier.Name);
+
+                if (listToRemoveFromIndex == null)
+                {
+                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} not found in the VariableTable");
+                    return null;
+                }
+
+                var listToRemoveFrom = store.LookUp(listToRemoveFromIndex.Value);
+
+                if (listToRemoveFrom == null)
+                {
+                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} not found in the Store");
+                    return null;
+                }
+
+                if (listToRemoveFrom is not FinalList destinedList)
+                {
+                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, varEnv, funcEnv, store));
+
+                if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Count)
+                {
+                    errors.Add($"Index {indexToRemove} out of range for list {removeFromList.ListIdentifier.Name}");
+                    return null;
+                }
+
+                destinedList.Values.RemoveAt(indexToRemove);
+                return null;
+
+
+            case GetFromList getFromList:
+                var listToGetFromIndex = varEnv.LookUp(getFromList.ListIdentifier.Name);
+
+                if (listToGetFromIndex == null)
+                {
+                    errors.Add($"Variable {getFromList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                var listToGetFrom = store.LookUp(listToGetFromIndex.Value);
+
+                if (listToGetFrom == null)
+                {
+                    errors.Add($"Variable {getFromList.ListIdentifier.Name} not found in the Store");
+                    return null;
+                }
+
+                if (listToGetFrom is not FinalList sourceList)
+                {
+                    errors.Add($"Variable {getFromList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, varEnv, funcEnv, store));
+
+                if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count)
+                {
+                    errors.Add($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
+                    return null;
+                }
+
+                var valueToGet = sourceList.Values[indexOfValue];
+
+                return valueToGet;
+
+            case LengthOfList lengthOfList:
+                var listToCheckIndex = varEnv.LookUp(lengthOfList.ListIdentifier.Name);
+
+                if (listToCheckIndex == null)
+                {
+                    errors.Add($"Variable {lengthOfList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                var listToCheck = store.LookUp(listToCheckIndex.Value);
+
+                if (listToCheck == null)
+                {
+                    errors.Add($"Variable {lengthOfList.ListIdentifier.Name} not found");
+                    return null;
+                }
+
+                if (listToCheck is not FinalList listToCheckLength)
+                {
+                    errors.Add($"Variable {lengthOfList.ListIdentifier.Name} is not a list");
+                    return null;
+                }
+
+                return (float)listToCheckLength.Values.Count;
+
+            case List list:
+                var values = new List<object>();
+                foreach (var expr in list.Expressions)
+                {
+                    values.Add(EvaluateExpression(expr, varEnv, funcEnv, store));
+                }
+
+                return new FinalList(values);
         }
 
         return null;

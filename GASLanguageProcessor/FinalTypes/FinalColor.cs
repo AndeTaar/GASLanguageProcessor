@@ -2,21 +2,21 @@
 
 public class FinalColor
 {
-    public float Red { get; set; }
-    public float Green { get; set; }
-    public float Blue { get; set; }
-    public float Alpha { get; set; }
+    public FinalNum Red { get; set; }
+    public FinalNum Green { get; set; }
+    public FinalNum Blue { get; set; }
+    public FinalNum Alpha { get; set; }
 
     public FinalColor(float red, float green, float blue, float alpha)
     {
-        Red = red;
-        Green = green;
-        Blue = blue;
-        Alpha = alpha;
+        Red = new FinalNum(red);
+        Green = new FinalNum(green);
+        Blue = new FinalNum(blue);
+        Alpha = new FinalNum(alpha);
     }
 
     public string ColorToString()
     {
-        return $"rgba({Red}, {Green}, {Blue}, {Alpha})";
+        return $"rgb({Red}, {Green}, {Blue})";
     }
 }

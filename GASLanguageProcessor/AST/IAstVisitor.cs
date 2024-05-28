@@ -10,69 +10,83 @@ namespace GASLanguageProcessor.AST;
 
 public interface IAstVisitor<T>
 {
-    T VisitBinaryOp(BinaryOp node);
+    T VisitProgram(Expressions.Terms.Program node, TypeEnv envT);
 
-    T VisitGroup(Group node);
+    T VisitBinaryOp(BinaryOp node, TypeEnv envT);
 
-    T VisitList(List node);
+    T VisitGroup(Group node, TypeEnv envT);
 
-    T VisitNumber(Number node);
+    T VisitList(List node, TypeEnv envT);
 
-    T VisitIfStatement(If node);
+    T VisitNum(Num node, TypeEnv envT);
 
-    T VisitBoolean(Boolean node);
+    T VisitIfStatement(If node, TypeEnv envT);
 
-    T VisitIdentifier(Identifier node);
+    T VisitBoolean(Boolean node, TypeEnv envT);
 
-    T VisitCompound(Compound node);
+    T VisitIdentifier(Identifier node, TypeEnv envT);
 
-    T VisitAssignment(Assignment node);
+    T VisitCompound(Compound node, TypeEnv envT);
 
-    T VisitDeclaration(Declaration node);
+    T VisitAssignment(Assignment node, TypeEnv envT);
 
-    T VisitCanvas(Canvas node);
+    T VisitDeclaration(Declaration node, TypeEnv envT);
 
-    T VisitWhile(While node);
+    T VisitCanvas(Canvas node, TypeEnv envT);
 
-    T VisitFor(For node);
+    T VisitWhile(While node, TypeEnv envT);
 
-    T VisitSkip(Skip node);
+    T VisitFor(For node, TypeEnv envT);
 
-    T VisitUnaryOp(UnaryOp node);
+    T VisitSkip(Skip node, TypeEnv envT);
 
-    T VisitString(String s);
+    T VisitUnaryOp(UnaryOp node, TypeEnv envT);
 
-    T VisitType(Type type);
+    T VisitString(String node, TypeEnv envT);
 
-    T VisitFunctionDeclaration(FunctionDeclaration functionDeclaration);
+    T VisitType(Type node, TypeEnv envT);
 
-    T VisitFunctionCallStatement(FunctionCallStatement functionCallStatement);
+    T VisitFunctionDeclaration(FunctionDeclaration node, TypeEnv envT);
 
-    T VisitFunctionCallTerm(FunctionCallTerm functionCallTerm);
+    T VisitFunctionCallStatement(FunctionCallStatement node, TypeEnv envT);
 
-    T VisitReturn(Return @return);
+    T VisitFunctionCallTerm(FunctionCallTerm node, TypeEnv envT);
 
-    T VisitNull(Null @null);
+    T VisitReturn(Return node, TypeEnv envT);
 
-    T VisitText(Text text);
+    T VisitNull(Null node, TypeEnv envT);
 
-    T VisitCircle(Circle circle);
+    T VisitText(Text node, TypeEnv envT);
 
-    T VisitRectangle(Rectangle rectangle);
+    T VisitCircle(Circle node, TypeEnv envT);
 
-    T VisitPoint(Point point);
+    T VisitRectangle(Rectangle node, TypeEnv envT);
 
-    T VisitColor(Color color);
+    T VisitPoint(Point node, TypeEnv envT);
 
-    T VisitSquare(Square square);
+    T VisitColor(Color node, TypeEnv envT);
 
-    T VisitAddToList(AddToList addToList);
+    T VisitSquare(Square node, TypeEnv envT);
 
-    T VisitCollectionDeclaration(CollectionDeclaration collectionDeclaration);
+    T VisitAddToList(AddToList node, TypeEnv envT);
 
-    T VisitEllipse(Ellipse ellipse);
+    T VisitEllipse(Ellipse node, TypeEnv envT);
 
-    T VisitSegLine(SegLine segLine);
+    T VisitSegLine(SegLine node, TypeEnv envT);
 
-    T VisitLine(Line line);
+    T VisitLine(Line node, TypeEnv envT);
+
+    T VisitGetFromList(GetFromList node, TypeEnv envT);
+
+    T VisitRemoveFromList(RemoveFromList node, TypeEnv envT);
+
+    T VisitArrow(Arrow node, TypeEnv envT);
+
+    T VisitLengthOfList(LengthOfList node, TypeEnv envT);
+
+    T VisitPolygon(Polygon node, TypeEnv envT);
+
+    T VisitTriangle(Triangle node, TypeEnv envT);
+
+    T VisitIncrement(Increment node, TypeEnv envT);
 }

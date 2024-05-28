@@ -1,4 +1,5 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Statements;
 
@@ -13,8 +14,8 @@ public class While : Statement
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitWhile(this);
+        return visitor.VisitWhile(this, envT);
     }
 }

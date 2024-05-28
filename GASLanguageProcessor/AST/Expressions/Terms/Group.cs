@@ -15,8 +15,8 @@ public class Group: Term
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitGroup(this);
+        return visitor.VisitGroup(this, envT);
     }
 }

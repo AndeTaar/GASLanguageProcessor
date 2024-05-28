@@ -13,8 +13,8 @@ public class Point : Term
         Y = y;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitPoint(this);
+        return visitor.VisitPoint(this, envT);
     }
 }

@@ -13,8 +13,8 @@ public class FunctionCallTerm: Term
         Arguments = arguments;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitFunctionCallTerm(this);
+        return visitor.VisitFunctionCallTerm(this, envT);
     }
 }

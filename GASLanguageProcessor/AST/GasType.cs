@@ -2,13 +2,12 @@
 
 public enum GasType
 {
-    Number,
+    Num,
     Text,
     Null,
     Void,
     String,
-    Boolean,
-    Canvas,
+    Bool,
     Circle,
     Rectangle,
     Group,
@@ -20,5 +19,10 @@ public enum GasType
     Color,
     Error,
     Ellipse,
-    Any
+    Any,
+    Polygon,
+    Arrow,
+    Triangle,
+    Ok,
+    Canvas
 }

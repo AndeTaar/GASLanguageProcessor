@@ -2,12 +2,17 @@
 
 public class FinalPoint
 {
-    public float X { get; set; }
-    public float Y { get; set; }
+    public FinalNum X { get; set; }
+    public FinalNum Y { get; set; }
 
     public FinalPoint(float x, float y)
     {
-        X = x;
-        Y = y;
+        X = new FinalNum(x);
+        Y = new FinalNum(y);
+    }
+
+    public override string ToString()
+    {
+        return $"{X},{Y}";
     }
 }

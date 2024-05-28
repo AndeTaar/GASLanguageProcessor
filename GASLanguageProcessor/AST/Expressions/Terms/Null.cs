@@ -8,8 +8,8 @@ public class Null: Term
     {
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitNull(this);
+        return visitor.VisitNull(this, envT);
     }
 }

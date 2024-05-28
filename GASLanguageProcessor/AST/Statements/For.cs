@@ -5,30 +5,46 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class For : Statement
 {
-    public Declaration? Declaration { get; protected set; }
-    public Assignment? Assignment { get; protected set; }
+    public Statement Initializer { get; protected set; }
     public Expression Condition { get; protected set; }
-    public Assignment Increment { get; protected set; }
+    public Statement Incrementer { get; protected set; }
     public Statement Statements { get; protected set; }
 
-    public For(Assignment assignment, Expression condition, Assignment increment, Statement statements)
+    public For(Assignment assignment1, Expression condition, Assignment assignment2, Statement statements)
     {
-        Assignment = assignment;
+        Initializer = assignment1;
         Condition = condition;
-        Increment = increment;
+        Incrementer = assignment2;
         Statements = statements;
     }
 
-    public For(Declaration declaration, Expression condition, Assignment increment, Statement statements)
+    public For(Assignment assignment, Expression condition, Increment increment, Statement statements)
     {
-        Declaration = declaration;
+        Initializer = assignment;
         Condition = condition;
-        Increment = increment;
+        Incrementer = increment;
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor)
+    public For(Declaration declaration, Expression condition, Assignment assignment, Statement statements)
     {
-        return visitor.VisitFor(this);
+        Initializer = declaration;
+        Condition = condition;
+        Incrementer = assignment;
+        Statements = statements;
+    }
+
+    public For(Declaration declaration, Expression condition, Increment increment, Statement statements)
+    {
+        Initializer = declaration;
+        Condition = condition;
+        Incrementer = increment;
+        Statements = statements;
+    }
+
+
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
+    {
+        return visitor.VisitFor(this, envT);
     }
 }
