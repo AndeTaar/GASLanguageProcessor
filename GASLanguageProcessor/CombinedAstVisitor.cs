@@ -360,6 +360,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         envT = envT.EnterScope();
 
         var parameterTypes = node.Parameters.Select(p => p.Type.Accept(this, envT)).ToList();
+
+        node.Parameters.All(p => new Declaration(p.Type, p.Identifier, null).Accept(this, envT) == GasType.Ok);
+
         var expectedReturnType = node.ReturnType.Accept(this, envT);
 
         var returnType = node.Statements?.Accept(this, envT);
@@ -369,6 +372,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             errors.Add("Line: " + node.LineNum + " Invalid return type for function: " + identifier + " expected: " + expectedReturnType + " got: " + returnType);
             return GasType.Error;
         }
+
+        envT = envT.ExitScope();
 
         var bound = envT.FBind(identifier, parameterTypes, expectedReturnType);
         if (bound == false)
@@ -622,6 +627,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var returnType = parametersAndReturnType?.Item2;
 
         var parameters = node.Arguments.Select(expression => expression.Accept(this, envT)).ToList();
+        
+        
+        
         if (parameters.Count != expectedParameters?.Count)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
@@ -668,7 +676,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             errors.Add("Invalid type for point: expected: Point, got: " + point);
             return GasType.Error;
         }
-
+        envT = envT.EnterScope();
         node.Statements?.Accept(this, envT);
         return GasType.Group;
     }

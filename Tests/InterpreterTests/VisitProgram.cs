@@ -87,6 +87,11 @@ public class VisitProgram
             "    return result;\n" +
             "}\n" +
             "\n" +
+            "color white = Color(255, 255, 255, 1);\n" +
+            "color green = Color(0, 255, 0, 1);\n" +
+            "color red = Color(255, 0, 0, 1);\n" +
+            "color pink = Color(255, 100, 100, 1);\n" +
+            "color black = Color(0, 0, 0, 1);\n" +
             "\n" +
             "circle CircleCreator(point Center, num Width, num Stroke, color Fill, color StrokeColor)\n" +
             "{\n" +
@@ -123,11 +128,6 @@ public class VisitProgram
             "\n" +
             "square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1), 10);\n" +
             "\n" +
-            "color white = Color(255, 255, 255, 1);\n" +
-            "color green = Color(0, 255, 0, 1);\n" +
-            "color red = Color(255, 0, 0, 1);\n" +
-            "color pink = Color(255, 100, 100, 1);\n" +
-            "color black = Color(0, 0, 0, 1);\n" +
             "\nlist<circle> circles = List<circle> {\n" +
             "    Circle(Point(0, 0), 1, 1, red, black)\n" +
             "};\n" +
@@ -157,7 +157,7 @@ public class VisitProgram
             "    group mousEars = Group(Point(0, 0),\n" +
             "    {\n " +
             "       circle leftEar = CircleCreator(Point(-30, 0), 30, 10, white, pink);\n" +
-            "        circle rightEar = CircleCreator(Point(30, 0), 30, 10, white, pink);\n" +
+            "       circle rightEar = CircleCreator(Point(30, 0), 30, 10, white, pink);\n" +
             "    });\n" +
             "\n    group mouseFace = Group(Point(0, 0),\n" +
             "    {\n" +
@@ -166,7 +166,7 @@ public class VisitProgram
             "        circle eye2 = CircleCreator(Point(20, 20), 10, 3, white, black);\n" +
             "        ellipse eyeball = Ellipse(Point(-20, 21), 5, 2, 2, black, black);\n" +
             "        ellipse eyeball2 = Ellipse(Point(20, 21), 5, 9, 2, black, black);\n" +
-            "\n        segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);\n" +
+            "\n      segLine mouth = SegLine(Point(-20, 50), Point(20, 40), 3, black);\n" +
             "    });\n" +
             "});\n" +
             "\n" +

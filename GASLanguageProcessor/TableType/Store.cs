@@ -27,6 +27,10 @@ public class Store
 
     public object? LookUp(int key)
     {
-        return Values[key];
+        if (Values.ContainsKey(key))
+        {
+            return Values[key];
+        }
+        return this.Parent?.LookUp(key);
     }
 }

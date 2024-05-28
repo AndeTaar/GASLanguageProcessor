@@ -31,15 +31,18 @@ public static class SharedTesting
 
     public static (VarEnv, Store, TypeEnv, FuncEnv, List<string>) RunInterpreter(string input)
     {
+        var ast = GetAst(input);
+        var combinedAstVisitor = new CombinedAstVisitor();
+        
         var envV = new VarEnv();
         var sto = new Store();
         var envT = new TypeEnv();
         var envF = new FuncEnv(sto, envV, null);
-        var ast = GetAst(input);
-        var combinedAstVisitor = new CombinedAstVisitor();
+        
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        
         return (envV, sto, envT, envF, interpreter.errors);
     }
 

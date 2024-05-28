@@ -20,7 +20,7 @@
     &lt;TestId&gt;xUnit::5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58::net8.0::Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests.EvaluateFunctionDeclarationAndCall.VisitPassVisitFunctionDeclarationWithLists2&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8b04bc17_002D81ab_002D4320_002D9dd2_002D98cacc1c4ad0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8b04bc17_002D81ab_002D4320_002D9dd2_002D98cacc1c4ad0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b47efe89_002D6584_002D457f_002D841c_002Dd4b77320ba06/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="VisitPassVisitFunctionDeclarationWithLists2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

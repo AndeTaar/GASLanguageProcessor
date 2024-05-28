@@ -40,26 +40,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Daniel\\.nuget\\packages\\": {}
+    "C:\\Users\\v\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "projectUniqueName": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
       "projectName": "GASLanguageProcessor",
-      "projectPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
-      "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Daniel\\RiderProjects\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
+      "projectPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj",
+      "packagesPath": "C:\\Users\\v\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\v\\Documents\\GitHub\\GASLanguageProcessor\\GASLanguageProcessor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\v\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -72,11 +70,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
