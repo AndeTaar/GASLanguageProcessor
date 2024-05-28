@@ -66,16 +66,16 @@ public class Scope
                     new Variable("topLeft", this, GasType.Point),
                     new Variable("bottomRight", this, GasType.Point),
                     new Variable("stroke", this, GasType.Num),
-                    new Variable("color", this, GasType.Color),
-                    new Variable("strokeColor", this, GasType.Color),
+                    new Variable("colors", this, GasType.Color),
+                    new Variable("strokeColors", this, GasType.Color),
                     new Variable("cornerRounding", this, GasType.Num)
                 },
                 new Return(new Rectangle(
                     new Identifier("topLeft"),
                     new Identifier("bottomRight"),
                     new Identifier("stroke"),
-                    new Identifier("color"),
-                    new Identifier("strokeColor"),
+                    new Identifier("colors"),
+                    new Identifier("strokeColors"),
                     new Identifier("cornerRounding"))),
                 new Scope(this, null)));
 
@@ -86,14 +86,14 @@ public class Scope
                 new Variable("font", this, GasType.String),
                 new Variable("fontSize", this, GasType.Num),
                 new Variable("fontWeight", this, GasType.Num),
-                new Variable("color", this, GasType.Color)
+                new Variable("colors", this, GasType.Color)
             }, new Return(new Text(
                 new Identifier("value"),
                 new Identifier("position"),
                 new Identifier("font"),
                 new Identifier("fontSize"),
                 new Identifier("fontWeight"),
-                new Identifier("color")
+                new Identifier("colors")
             )), new Scope(this, null)));
 
             fTable.Bind("Line", new Function(GasType.Line, new List<Variable>()
@@ -101,12 +101,12 @@ public class Scope
                 new Variable("intercept", this, GasType.Num),
                 new Variable("gradient", this, GasType.Num),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color)
+                new Variable("colors", this, GasType.Color)
             }, new Return(new Line(
                 new Identifier("intercept"),
                 new Identifier("gradient"),
                 new Identifier("stroke"),
-                new Identifier("color")
+                new Identifier("colors")
             )), new Scope(this, null)));
 
             fTable.Bind("SegLine", new Function(GasType.SegLine, new List<Variable>()
@@ -114,12 +114,12 @@ public class Scope
                 new Variable("start", this, GasType.Point),
                 new Variable("end", this, GasType.Point),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color)
+                new Variable("colors", this, GasType.Color)
             }, new Return(new SegLine(
                 new Identifier("start"),
                 new Identifier("end"),
                 new Identifier("stroke"),
-                new Identifier("color")
+                new Identifier("colors")
             )), new Scope(this, null)));
 
             fTable.Bind("Arrow", new Function(GasType.Arrow, new List<Variable>()
@@ -127,12 +127,12 @@ public class Scope
                 new Variable("start", this, GasType.Point),
                 new Variable("end", this, GasType.Point),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color)
+                new Variable("colors", this, GasType.Color)
             }, new Return(new Arrow(
                 new Identifier("start"),
                 new Identifier("end"),
                 new Identifier("stroke"),
-                new Identifier("color")
+                new Identifier("colors")
             )), new Scope(this, null)));
 
             fTable.Bind("Square", new Function(GasType.Square, new List<Variable>()
@@ -140,15 +140,15 @@ public class Scope
                 new Variable("topLeft", this, GasType.Point),
                 new Variable("length", this, GasType.Num),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color),
-                new Variable("strokeColor", this, GasType.Color),
+                new Variable("colors", this, GasType.Color),
+                new Variable("strokeColors", this, GasType.Color),
                 new Variable("cornerRounding", this, GasType.Num)
             }, new Return(new Square(
                 new Identifier("topLeft"),
                 new Identifier("length"),
                 new Identifier("stroke"),
-                new Identifier("color"),
-                new Identifier("strokeColor"),
+                new Identifier("colors"),
+                new Identifier("strokeColors"),
                 new Identifier("cornerRounding")
             )), new Scope(this, null)));
 
@@ -157,14 +157,14 @@ public class Scope
                 new Variable("center", this, GasType.Point),
                 new Variable("radius", this, GasType.Num),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color),
-                new Variable("strokeColor", this, GasType.Color)
+                new Variable("colors", this, GasType.Color),
+                new Variable("strokeColors", this, GasType.Color)
             }, new Return(new Circle(
                 new Identifier("center"),
                 new Identifier("radius"),
                 new Identifier("stroke"),
-                new Identifier("color"),
-                new Identifier("strokeColor")
+                new Identifier("colors"),
+                new Identifier("strokeColors")
             )), new Scope(this, null)));
 
             fTable.Bind("Ellipse", new Function(GasType.Ellipse, new List<Variable>()
@@ -173,15 +173,15 @@ public class Scope
                 new Variable("xRadius", this, GasType.Num),
                 new Variable("yRadius", this, GasType.Num),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color),
-                new Variable("strokeColor", this, GasType.Color)
+                new Variable("colors", this, GasType.Color),
+                new Variable("strokeColors", this, GasType.Color)
             }, new Return(new Ellipse(
                 new Identifier("center"),
                 new Identifier("xRadius"),
                 new Identifier("yRadius"),
                 new Identifier("stroke"),
-                new Identifier("color"),
-                new Identifier("strokeColor")
+                new Identifier("colors"),
+                new Identifier("strokeColors")
             )), new Scope(this, null)));
 
             fTable.Bind("AddToList", new Function(GasType.Void, new List<Variable>()
@@ -222,13 +222,26 @@ public class Scope
             {
                 new Variable("points", this, GasType.Any),
                 new Variable("stroke", this, GasType.Num),
-                new Variable("color", this, GasType.Color),
-                new Variable("strokeColor", this, GasType.Color)
+                new Variable("colors", this, GasType.Color),
+                new Variable("strokeColors", this, GasType.Color)
             }, new Return(new Polygon(
                 new Identifier("points"),
                 new Identifier("stroke"),
-                new Identifier("color"),
-                new Identifier("strokeColor")
+                new Identifier("colors"),
+                new Identifier("strokeColors")
+            )), new Scope(this, null)));
+
+            fTable.Bind("LinearGradient", new Function(GasType.Color, new List<Variable>()
+            {
+                new Variable("rotation", this, GasType.Num),
+                new Variable("alpha", this, GasType.Num),
+                new Variable("percentages", this, GasType.Any),
+                new Variable("colors", this, GasType.Any)
+            }, new Return(new LinearGradient(
+                new Identifier("rotation"),
+                new Identifier("alpha"),
+                new Identifier("percentages"),
+                new Identifier("colors")
             )), new Scope(this, null)));
         }
     }

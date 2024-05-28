@@ -8,7 +8,7 @@ public class EvaluateExpressionRemoveFromList
     public void EvaluateExpressionRemoveFromListNumPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "list<num> listNum = List<num>{1, 2, 3, 4, 5};" +
             "RemoveFromList(0, listNum);"
         );
@@ -24,11 +24,11 @@ public class EvaluateExpressionRemoveFromList
     public void EvaluateExpressionRemoveFromListCirclePass()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "list<circle> listCircle = List<circle>" +
             "{" +
-            "   Circle(Point(10, 20), 30, 10, Color(255, 0, 0, 1), Color(0, 255, 0, 1)), " + 
-            "   Circle(Point(100, 200), 30, 10, Color(0, 0, 255, 1), Color(0, 255, 0, 1)) " +
+            "   Circle(Point(10, 20), 30, 10, Colors(255, 0, 0, 1), Colors(0, 255, 0, 1)), " + 
+            "   Circle(Point(100, 200), 30, 10, Colors(0, 0, 255, 1), Colors(0, 255, 0, 1)) " +
             "};" +
             "RemoveFromList(1, listCircle);"
         );
@@ -39,8 +39,8 @@ public class EvaluateExpressionRemoveFromList
                 new FinalPoint(10, 20),
                 30,
                 10,
-                new FinalColor(255, 0, 0, 1),
-                new FinalColor(0, 255, 0, 1)
+                new FinalColors(255, 0, 0, 1),
+                new FinalColors(0, 255, 0, 1)
             )
         }, scope);
 

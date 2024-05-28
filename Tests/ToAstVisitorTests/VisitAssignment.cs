@@ -11,7 +11,7 @@ public class VisitAssignment
     public void PassVisitAssignment()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255));" +
+            "canvas(250, 250, Colors(255, 255, 255));" +
             "x = 1;"
             );
         Assert.NotNull(ast);

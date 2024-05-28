@@ -16,7 +16,7 @@ public class FunctionCallTest
     public void PassEvaluateExpressionFunctionCall()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (125, 50, Color(255, 255, 255, 1)); " +
+            "canvas (125, 50, Colors(255, 255, 255, 1)); " +
             "num Func(num x) {return x+20*5;}" +
             "num funcCallVal = Func(0);");
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
@@ -29,10 +29,10 @@ public class FunctionCallTest
     public void PassEvaluateExpressionFunctionCallWithMultipleArguments()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (125, 50, Color(255, 255, 255, 1)); " +
+            "canvas (125, 50, Colors(255, 255, 255, 1)); " +
             "num Func(num x, num y) {return x+y;}" +
             "num funcCallVal = Func(10, 20);" +
-            "color white = Color(255, 255, 255, 1);" +
+            "colors white = Colors(255, 255, 255, 1);" +
             "point p = Point(10, 20);" +
             "square s = Square(p, 10, 20, white, white,1);");
         var result = scope.vTable.LookUp("funcCallVal")?.ActualValue;
@@ -52,12 +52,12 @@ public class FunctionCallTest
         Assert.Equal(10f, topLeft.X.Value);
         Assert.Equal(20f, topLeft.Y.Value);
 
-        Assert.IsAssignableFrom<FinalColor>(finalSquare.FillColor);
-        Assert.IsAssignableFrom<FinalColor>(finalSquare.StrokeColor);
+        Assert.IsAssignableFrom<FinalColors>(finalSquare.FillColors);
+        Assert.IsAssignableFrom<FinalColors>(finalSquare.StrokeColors);
 
         var white = scope.vTable.LookUp("white")?.ActualValue;
-        Assert.IsAssignableFrom<FinalColor>(white);
-        var finalColor = (FinalColor)white;
+        Assert.IsAssignableFrom<FinalColors>(white);
+        var finalColor = (FinalColors)white;
         Assert.Equal(255, finalColor.Red.Value);
         Assert.Equal(255, finalColor.Green.Value);
         Assert.Equal(255, finalColor.Blue.Value);

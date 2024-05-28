@@ -89,4 +89,6 @@ public interface IAstVisitor<T>
     T VisitTriangle(Triangle triangle, Scope scope);
 
     T VisitIncrement(Increment increment, Scope scope);
+
+    T VisitLinearGradient(LinearGradient linearGradient, Scope scope);
 }

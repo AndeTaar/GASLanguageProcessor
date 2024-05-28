@@ -9,7 +9,7 @@ public class EvaluateReturnStatement
     public void PassReturnStopsCompound()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num test1;" +
             "void testFunction() {" +
             "test1 = 10;" +

@@ -13,7 +13,7 @@ public class VisitRelationExpression
     public void PassVisitRelationExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "bool x = 1 < 2;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

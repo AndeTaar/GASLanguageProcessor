@@ -30,8 +30,8 @@ public class Interpreter
                 canvasHeight = height;
                 canvasWidth = width;
                 var backgroundColor = canvas.BackgroundColor == null
-                    ? new FinalColor(255, 255, 255, 1)
-                    : (FinalColor)EvaluateExpression(canvas.BackgroundColor, scope);
+                    ? new FinalRGB(255, 255, 255, 1)
+                    : (FinalColors)EvaluateExpression(canvas.BackgroundColor, scope);
                 var finalCanvas = new FinalCanvas(width, height, backgroundColor);
                 var canvasVariable = scope.vTable.LookUp("canvas");
                 canvasVariable.ActualValue = finalCanvas;
@@ -69,7 +69,7 @@ public class Interpreter
                 return null;
             case If @if:
                 var ifCondition = EvaluateExpression(@if.Condition, @if.Scope ?? scope);
-                
+
                 if ((bool)ifCondition)
                 {
                     return EvaluateStatement(@if.Statements, @if.Scope ?? scope);
@@ -306,7 +306,7 @@ public class Interpreter
                 var green = (float)EvaluateExpression(color.Green, scope);
                 var blue = (float)EvaluateExpression(color.Blue, scope);
                 var alpha = (float)EvaluateExpression(color.Alpha, scope);
-                return new FinalColor(red, green, blue, alpha);
+                return new FinalRGB(red, green, blue, alpha);
 
             case Point point:
                 var x = (float)EvaluateExpression(point.X, scope);
@@ -317,8 +317,8 @@ public class Interpreter
                 var topLeft = (FinalPoint)EvaluateExpression(square.TopLeft, scope);
                 var length = (float)EvaluateExpression(square.Length, scope);
                 var strokeSize = (float)EvaluateExpression(square.Stroke, scope);
-                var squareFillColor = (FinalColor)EvaluateExpression(square.Color, scope);
-                var squareStrokeColor = (FinalColor)EvaluateExpression(square.StrokeColor, scope);
+                var squareFillColor = (FinalColors)EvaluateExpression(square.Color, scope);
+                var squareStrokeColor = (FinalColors)EvaluateExpression(square.StrokeColor, scope);
                 var cornerRounding = (float)EvaluateExpression(square.CornerRounding, scope);
                 return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor, cornerRounding);
 
@@ -327,8 +327,8 @@ public class Interpreter
                 var ellipseRadiusX = (float)EvaluateExpression(ellipse.RadiusX, scope);
                 var ellipseRadiusY = (float)EvaluateExpression(ellipse.RadiusY, scope);
                 var ellipseStroke = (float)EvaluateExpression(ellipse.Stroke, scope);
-                var ellipseFillColor = (FinalColor)EvaluateExpression(ellipse.Color, scope);
-                var ellipseStrokeColor = (FinalColor)EvaluateExpression(ellipse.StrokeColor, scope);
+                var ellipseFillColor = (FinalColors)EvaluateExpression(ellipse.Color, scope);
+                var ellipseStrokeColor = (FinalColors)EvaluateExpression(ellipse.StrokeColor, scope);
                 return new FinalEllipse(ellipseCentre, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseFillColor,
                     ellipseStrokeColor);
 
@@ -338,23 +338,23 @@ public class Interpreter
                 var font = (string)EvaluateExpression(text.Font, scope);
                 var fontSize = (float)EvaluateExpression(text.FontSize, scope);
                 var fontWeight = (float)EvaluateExpression(text.FontWeight, scope);
-                var textColor = (FinalColor)EvaluateExpression(text.Color, scope);
+                var textColor = (FinalColors)EvaluateExpression(text.Color, scope);
                 return new FinalText(value, position, font, fontSize, fontWeight, textColor);
 
             case Circle circle:
                 var centre = (FinalPoint)EvaluateExpression(circle.Center, scope);
                 var radius = (float)EvaluateExpression(circle.Radius, scope);
                 var stroke = (float)EvaluateExpression(circle.Stroke, scope);
-                var fillColor = (FinalColor)EvaluateExpression(circle.Color, scope);
-                var strokeColor = (FinalColor)EvaluateExpression(circle.StrokeColor, scope);
+                var fillColor = (FinalColors)EvaluateExpression(circle.Color, scope);
+                var strokeColor = (FinalColors)EvaluateExpression(circle.StrokeColor, scope);
                 return new FinalCircle(centre, radius, stroke, fillColor, strokeColor);
 
             case Rectangle rectangle:
                 var rectTopLeft = (FinalPoint)EvaluateExpression(rectangle.TopLeft, scope);
                 var rectBottomRight = (FinalPoint)EvaluateExpression(rectangle.BottomRight, scope);
                 var rectStroke = (float)EvaluateExpression(rectangle.Stroke, scope);
-                var rectFillColor = (FinalColor)EvaluateExpression(rectangle.Color, scope);
-                var rectStrokeColor = (FinalColor)EvaluateExpression(rectangle.StrokeColor, scope);
+                var rectFillColor = (FinalColors)EvaluateExpression(rectangle.Color, scope);
+                var rectStrokeColor = (FinalColors)EvaluateExpression(rectangle.StrokeColor, scope);
                 var rectCornerRounding = (float)EvaluateExpression(rectangle.CornerRounding, scope);
                 return new FinalRectangle(rectTopLeft, rectBottomRight, rectStroke, rectFillColor, rectStrokeColor, rectCornerRounding);
 
@@ -370,28 +370,28 @@ public class Interpreter
                 var lineEnd = new FinalPoint(lineEndX, lineEndY);
 
                 var lineStroke = (float)EvaluateExpression(line.Stroke, scope);
-                var lineColor = (FinalColor)EvaluateExpression(line.Color, scope);
+                var lineColor = (FinalColors)EvaluateExpression(line.Color, scope);
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColor);
 
             case SegLine segLine:
                 var segLineStart = (FinalPoint)EvaluateExpression(segLine.Start, scope);
                 var segLineEnd = (FinalPoint)EvaluateExpression(segLine.End, scope);
                 var segLineStroke = (float)EvaluateExpression(segLine.Stroke, scope);
-                var segLineColor = (FinalColor)EvaluateExpression(segLine.Color, scope);
+                var segLineColor = (FinalColors)EvaluateExpression(segLine.Color, scope);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
 
             case Arrow arrow:
                 var arrowStart = (FinalPoint)EvaluateExpression(arrow.Start, scope);
                 var arrowEnd = (FinalPoint)EvaluateExpression(arrow.End, scope);
                 var arrowStroke = (float)EvaluateExpression(arrow.Stroke, scope);
-                var arrowColor = (FinalColor)EvaluateExpression(arrow.Color, scope);
+                var arrowColor = (FinalColors)EvaluateExpression(arrow.Color, scope);
                 return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
 
             case Polygon polygon:
                 var polygonPoints = (FinalList)EvaluateExpression(polygon.Points, scope);
-                var polygonColor = (FinalColor)EvaluateExpression(polygon.Color, scope);
+                var polygonColor = (FinalColors)EvaluateExpression(polygon.Color, scope);
                 var polygonStroke = (float)EvaluateExpression(polygon.Stroke, scope);
-                var polygonStrokeColor = (FinalColor)EvaluateExpression(polygon.StrokeColor, scope);
+                var polygonStrokeColor = (FinalColors)EvaluateExpression(polygon.StrokeColor, scope);
                 return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor);
 
             case Group group:
@@ -502,6 +502,20 @@ public class Interpreter
                 }
 
                 return new FinalList(values, list.Scope ?? scope);
+
+            case LinearGradient linearGradient:
+                var lgRotation = (float)EvaluateExpression(linearGradient.Rotation, scope);
+                var lgAlpha = (float)EvaluateExpression(linearGradient.Alpha, scope);
+                var colorList = (FinalList)EvaluateExpression(linearGradient.ColorList, scope);
+                var percentagesList = (FinalList)EvaluateExpression(linearGradient.PercentagesList, scope);
+
+                if (colorList.Values.Count != percentagesList.Values.Count)
+                {
+                    errors.Add("Colors list and percentages list must have the same length");
+                    return null;
+                }
+
+                return new FinalLinearGradient(lgAlpha, lgRotation, colorList, percentagesList);
         }
 
         return null;

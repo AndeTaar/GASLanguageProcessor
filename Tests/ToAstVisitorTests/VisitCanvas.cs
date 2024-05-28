@@ -12,7 +12,7 @@ public class VisitCanvas
     public void PassVisitCanvasWithColor()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));");
+            "canvas(250, 250, Colors(255, 255, 255, 1));");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound) ast;

@@ -9,7 +9,7 @@ public class VisitTerm
     public void VisitPassVisitTerm()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x = 10;" +
             "num y = x * 10;"
         );
@@ -22,7 +22,7 @@ public class VisitTerm
     public void VisitPassVisitTerm1()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x = 10;" +
             "num y = x / 10;"
         );

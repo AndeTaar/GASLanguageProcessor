@@ -9,7 +9,7 @@ public class VisitFunctionDeclaration
     public void VisitPassVisitFunctionDeclaration()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num test() {}"
         );
         var visitor = new CombinedAstVisitor();
@@ -21,7 +21,7 @@ public class VisitFunctionDeclaration
     public void VisitFailVisitFunctionDeclaration()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num test() {}" +
             "num test() {}"
         );
@@ -34,7 +34,7 @@ public class VisitFunctionDeclaration
     public void VisitPassVisitFunctionDeclaration1()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "bool test() {" +
             "   num x = 10;" +
             "   return x > 0;" +
@@ -50,7 +50,7 @@ public class VisitFunctionDeclaration
     public void VisitPassVisitFunctionDeclarationWithLists()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "list<num> test(list<num> nums) {" +
             "   return nums;" +
             "}" +
@@ -65,11 +65,11 @@ public class VisitFunctionDeclaration
     public void VisitPassVisitFunctionDeclaration2()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num test(num x, point y, circle f) {" +
             "  x = 1;" +
             "  y = Point(1, 1);" +
-            "  f = Circle(y, 10, 10, Color(255,255,255,1), Color(255,255,255,1));" +
+            "  f = Circle(y, 10, 10, Colors(255,255,255,1), Colors(255,255,255,1));" +
             "}"
         );
         var visitor = new CombinedAstVisitor();
@@ -81,7 +81,7 @@ public class VisitFunctionDeclaration
     public void VisitFailVisitFunctionDeclaration2()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num test() {}" +
             "for (num x = 0; x < test(); x += 1) {}" +
             "for (num x = 0; x < test(); x += 1) {}" +

@@ -12,7 +12,7 @@ public class VisitMultExpression
     public void PassVisitMultExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num x = 10 * 10;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

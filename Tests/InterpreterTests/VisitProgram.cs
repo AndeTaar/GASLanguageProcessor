@@ -44,8 +44,8 @@ public class VisitProgram
             "    num y = 100 + radius * Sin(theta);\n" +
             "    AddToList(Point(x2, y), points);\n" +
             "}\n" +
-            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
-            "canvas (250, 250, Color(255, 255, 255, 1));\n");
+            "polygon poly = Polygon(points, 10, Colors(0, 255, 255, 1), Colors(255, 255, 255, 1));\n" +
+            "canvas (250, 250, Colors(255, 255, 255, 1));\n");
 
         var cosFunc = ast.fTable.LookUp("Cos");
         var sinFunc = ast.fTable.LookUp("Sin");
@@ -81,9 +81,9 @@ public class VisitProgram
             "}\n" +
             "\n" +
             "\n" +
-            "circle CircleCreator(point Center, num Width, num Stroke, color Fill, color StrokeColor)\n" +
+            "circle CircleCreator(point Center, num Width, num Stroke, colors Fill, colors StrokeColors)\n" +
             "{\n" +
-            "    return Circle(Center, Width, Stroke, Fill, StrokeColor);\n" +
+            "    return Circle(Center, Width, Stroke, Fill, StrokeColors);\n" +
             "}\n" +
             "\nlist<circle> circles2 = List<circle> {\n" +
             "    CircleCreator(Point(50, 10), 40, 10, red, black),\n " +
@@ -98,8 +98,8 @@ public class VisitProgram
             "    num y = 100 + radius * Sin(theta);\n" +
             "    AddToList(Point(x2, y), points);\n" +
             "}\n" +
-            "polygon poly = Polygon(points, 10, Color(0, 255, 255, 1), Color(255, 255, 255, 1));\n" +
-            "canvas (250, 250, Color(255, 255, 255, 1));\n" +
+            "polygon poly = Polygon(points, 10, Colors(0, 255, 255, 1), Colors(255, 255, 255, 1));\n" +
+            "canvas (250, 250, Colors(255, 255, 255, 1));\n" +
             "\n" +
             "\n" +
             "\n" +
@@ -114,13 +114,13 @@ public class VisitProgram
             "\n" +
             "num x = 0;\n" +
             "\n" +
-            "square firkant = Square(Point(10,10), 230, 10, Color(255, 255, 255, 1), Color(255, 255, 255, 1), 10);\n" +
+            "square firkant = Square(Point(10,10), 230, 10, Colors(255, 255, 255, 1), Colors(255, 255, 255, 1), 10);\n" +
             "\n" +
-            "color white = Color(255, 255, 255, 1);\n" +
-            "color green = Color(0, 255, 0, 1);\n" +
-            "color red = Color(255, 0, 0, 1);\n" +
-            "color pink = Color(255, 100, 100, 1);\n" +
-            "color black = Color(0, 0, 0, 1);\n" +
+            "colors white = Colors(255, 255, 255, 1);\n" +
+            "colors green = Colors(0, 255, 0, 1);\n" +
+            "colors red = Colors(255, 0, 0, 1);\n" +
+            "colors pink = Colors(255, 100, 100, 1);\n" +
+            "colors black = Colors(0, 0, 0, 1);\n" +
             "\nlist<circle> circles = List<circle> {\n" +
             "    Circle(Point(0, 0), 1, 1, red, black)\n" +
             "};\n" +
@@ -163,7 +163,7 @@ public class VisitProgram
             "    });\n" +
             "});\n" +
             "\n" +
-            "color reds = Color(255, 0, 0, 1);\n" +
+            "colors reds = Colors(255, 0, 0, 1);\n" +
             "point xy = Point(0, 0);\n" +
             "\n" +
             "num start = 180-40;\n" +
@@ -172,8 +172,8 @@ public class VisitProgram
             "string s2 = \" for mouses!\";\n" +
             "text txt = Text(s1+s2, Point(29,200), \"Arial\", 16, 400, black);\n" +
             "\n" +
-            "line l1 = Line (0, 1, 2, Color(0, 0, 0, 1));\n" +
-            "line l2 = Line (250, -1, 2, Color(0, 0, 0, 1));\n" +
+            "line l1 = Line (0, 1, 2, Colors(0, 0, 0, 1));\n" +
+            "line l2 = Line (250, -1, 2, Colors(0, 0, 0, 1));\n" +
             "\nstring j = \"a\" + \"b\" + \"c\";\n" +
             "bool k = true == false != true;\nbool l = 5<3 || 5>3 && 5<=5;\n" +
             ""

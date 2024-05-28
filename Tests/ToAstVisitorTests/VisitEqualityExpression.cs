@@ -13,7 +13,7 @@ public class VisitEqualityExpression
     public void PassVisitEqualityExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "bool c = true == false;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -42,7 +42,7 @@ public class VisitEqualityExpression
     public void PassVisitEqualityExpressionWithOneChild()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "bool c = true == false == true;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

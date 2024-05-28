@@ -14,7 +14,7 @@ public class UnaryOpTest
     public void PassEvaluateExpressionUnaryOpNegation()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (-125, -50, Color(255, 255, 255, 1));" +
+            "canvas (-125, -50, Colors(255, 255, 255, 1));" +
                 "num x = 20;" +
                 "num y = -x;");
         var result = scope.vTable.LookUp("y")?.ActualValue;
@@ -27,7 +27,7 @@ public class UnaryOpTest
     public void PassEvaluateExpressionUnaryOpNot()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (125, 50, Color(255, 255, 255, 1)); " +
+            "canvas (125, 50, Colors(255, 255, 255, 1)); " +
                 "bool x = !true;");
         var result = scope.vTable.LookUp("x")?.ActualValue;
 

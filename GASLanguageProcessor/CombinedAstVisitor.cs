@@ -228,7 +228,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
         if(width != GasType.Num || height != GasType.Num || backgroundColor != GasType.Color)
         {
-            errors.Add("Invalid types for canvas: expected: Num, Num, Color, got: " + width + ", " + height + ", " + backgroundColor);
+            errors.Add("Invalid types for canvas: expected: Num, Num, Colors, got: " + width + ", " + height + ", " + backgroundColor);
             return GasType.Error;
         }
         return GasType.Canvas;
@@ -313,6 +313,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             case "text":
                 return GasType.Text;
             case "color":
+                return GasType.Color;
+            case "linearGradient":
                 return GasType.Color;
             case "boolean":
                 return GasType.Bool;
@@ -530,7 +532,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         throw new NotImplementedException();
     }
-    
+
     public GasType VisitIncrement(Increment increment, Scope scope)
     {
         var identifier = increment.Identifier;
@@ -557,6 +559,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         }
 
         return GasType.Error;
+    }
+
+    public GasType VisitLinearGradient(LinearGradient linearGradient, Scope scope)
+    {
+        throw new NotImplementedException();
     }
 
     public GasType VisitBinaryOp(BinaryOp node, Scope scope)

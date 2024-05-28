@@ -9,7 +9,7 @@ public class VisitDeclaration
     public void VisitPassVisitDeclaration()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x;"
         );
         var visitor = new CombinedAstVisitor();
@@ -21,7 +21,7 @@ public class VisitDeclaration
     public void VisitFailVisitDeclaration1()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x;" +
             "num x;"
         );
@@ -34,7 +34,7 @@ public class VisitDeclaration
     public void VisitPassVisitDeclaration2()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x;" +
             "for (x = 0; x < 10; x += 1) {}"
         );
@@ -47,7 +47,7 @@ public class VisitDeclaration
     public void VisitPassVisitDeclaration3()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "for (num x = 0; x < 10; x += 1) {}" +
             "for (num x = 0; x < 10; x += 1) {}"
         );
@@ -60,7 +60,7 @@ public class VisitDeclaration
     public void VisitFailVisitDeclaration3()
     {
         var ast = SharedTesting.GetAst(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x;" +
             "if (true) { num x; }"
         );

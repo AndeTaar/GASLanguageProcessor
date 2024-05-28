@@ -1,34 +1,61 @@
-﻿canvas (205, 120, Color(255, 255, 255, 1));
+﻿num cheight = 400;
 
-color black = Color(0, 0, 0, 1);
+color red = Color(255, 0, 0, 1);
 color white = Color(255, 255, 255, 1);
+color blue = Color(0, 0, 255, 1);
+color black = Color(0, 0, 0, 1);
 
-rectangle leftSide = Rectangle(Point(10,20), Point(50,110), 1 , white, black, 0);
-rectangle middle = Rectangle(Point(80,20), Point(120,110), 1 , white, black, 0);
-rectangle rightSide = Rectangle(Point(150,20), Point(190,110), 1 , white, black, 0);
+num amount = 5;
+num offset = 10;
+num gradualOffset = 100;
+num width = 380;
+num height = 100;
+num starty = 10;
+num startx = 80;
+list<polygon> l = List<polygon>{};
+list<text> t = List<text>{};
+list<string> s = List<string>{"Source Code", "Lexer", "Parser", "Semantic Analysis", "Result", "Interpreter"};
+list<arrow> a = List<arrow>{};
 
-text var = Text("Var", Point(17, 18), "Arial", 12, 900, black);
-text x = Text("x", Point(20, 45), "Arial", 12, 400,black);
-text y = Text("y", Point(20, 70), "Arial", 12, 400,black);
-text z = Text("z", Point(20, 95), "Arial", 12, 400,black);
+for (num i = 0; i < 6; i+=1) {
+    num x = offset + width * i + startx;
+    num awidth = width;
+    if(i == 0) {
+        awidth = width/2+40;
+        x -= (width*i)/2+40;
+    }
+    if(i < 3 && i > 0) {
+        awidth = width/2;
+    }
+    if(i != 0 && i != 4) {
+        x -= (width*i)/2;
+    }
+    point start = Point(x, cheight/2-height/2);
+    point end = Point(x + awidth, cheight/2+height/2);
+    offset += gradualOffset;
+    if(i==0) {
+        AddToList(Rectangle(start, end, 5, white, black, 10), l);
+    }else{
+        AddToList(Rectangle(start, end, 0, red, white, 10), l);
+    }
 
-text loc = Text("Loc", Point(87, 18), "Arial", 12, 900,black);
-text l1 = Text("L1", Point(90, 45), "Arial", 12, 400,black);
-text l2 = Text("L2", Point(90, 70), "Arial", 12, 400,black);
-text l3 = Text("L3", Point(90, 95), "Arial", 12, 400,black);
+    if(i == 0) {
+        AddToList(Text(GetFromList(i, s), Point(x+20, cheight/2+13), "", 40, 600, black), t);
+        AddToList(Arrow(Point(x+awidth+10,cheight/2), Point(x+awidth+gradualOffset-10, cheight/2), 10, black), a);
 
-text V = Text("V", Point(162, 18), "Arial", 12, 400,black);
-text z1 = Text("14", Point(160, 45), "Arial", 12, 400,black);
-text z2 = Text("32", Point(160, 70), "Arial", 12, 400,black);
+    }else if(i == 5){
+        AddToList(Text(GetFromList(i, s), Point(x+20, cheight/2+13), "", 40, 600, black), t);
+    }
+    else if(i < 3) {
+        AddToList(Text(GetFromList(i, s), Point(x+40, cheight/2+13), "", 40, 600, white), t);
+        AddToList(Arrow(Point(x+awidth+10,cheight/2), Point(x+awidth+gradualOffset-10, cheight/2), 10, black), a);
+    }else{
+        AddToList(Text(GetFromList(i, s), Point(x+10, cheight/2+13), "", 40, 600, white), t);
+        AddToList(Arrow(Point(x+awidth+10,cheight/2), Point(x+awidth+gradualOffset-10, cheight/2), 10, black), a);
+    }
 
-segLine arrowfromxtoL1 = SegLine(Point(40, 40), Point(87, 40), 1, black);
-segLine arrowfromytoL2 = SegLine(Point(40, 65), Point(87, 65), 1, black);
-segLine arrowfromztoL3 = SegLine(Point(40, 90), Point(87, 90), 1, black);
+}
 
-segLine arrowfromL1toz1 = SegLine(Point(115, 40), Point(155, 40), 1, black);
-segLine arrowfromL2toz1 = SegLine(Point(115, 65), Point(155, 40), 1, black);
-segLine arrowfromL3toz2 = SegLine(Point(115, 90), Point(155, 65), 1, black);
+num cwidth = width * amount + offset;
 
-text env = Text("Env", Point(55, 35), "Arial", 8, 400, black);
-text v = Text("v", Point(69, 38), "Arial", 8, 400, black);
-text store = Text("Sto", Point(127, 35), "Arial", 8, 400, black);
+canvas (cwidth, cheight, Color(255, 255, 255, 1));

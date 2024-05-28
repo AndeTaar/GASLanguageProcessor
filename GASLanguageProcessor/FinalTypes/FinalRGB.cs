@@ -1,13 +1,12 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalColor
+public class FinalRGB: FinalColors
 {
     public FinalNum Red { get; set; }
     public FinalNum Green { get; set; }
     public FinalNum Blue { get; set; }
-    public FinalNum Alpha { get; set; }
 
-    public FinalColor(float red, float green, float blue, float alpha)
+    public FinalRGB(float red, float green, float blue, float alpha)
     {
         Red = new FinalNum(red);
         Green = new FinalNum(green);
@@ -15,8 +14,9 @@ public class FinalColor
         Alpha = new FinalNum(alpha);
     }
 
-    public string ColorToString()
+    public override string ColorToString()
     {
-        return $"rgb({Red}, {Green}, {Blue})";
+        return $"rgb({Red}, {Green}, {Blue}, {Alpha})";
     }
+
 }

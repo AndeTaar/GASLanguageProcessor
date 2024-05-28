@@ -11,7 +11,7 @@ public class VisitorTests
     public void PassVisitFunctionDeclaration()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(100, 200, Color(0, 0, 0, 1));" +
+            "canvas(100, 200, Colors(0, 0, 0, 1));" +
             "void test(point x, point y, circle C){" +
             "    x = Point(10, 20);" +
             "    y = Point(30, 40);" +

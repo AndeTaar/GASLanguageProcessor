@@ -12,7 +12,7 @@ public class VisitNotExpression
     public void PassVisitNotExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "bool x = !true;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

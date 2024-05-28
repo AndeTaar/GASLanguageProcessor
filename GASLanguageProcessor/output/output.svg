@@ -1,25 +1,24 @@
-<svg width="205" height="120" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
-<rect id="leftSide" x="10" y="20" width="40" height="90" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<rect id="middle" x="80" y="20" width="40" height="90" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<rect id="rightSide" x="150" y="20" width="40" height="90" fill="rgb(255, 255, 255)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="var" x="17" y="18" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="900" font-size="12">Var</text>
-<text id="x" x="20" y="45" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">x</text>
-<text id="y" x="20" y="70" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">y</text>
-<text id="z" x="20" y="95" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">z</text>
-<text id="loc" x="87" y="18" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="900" font-size="12">Loc</text>
-<text id="l1" x="90" y="45" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">L1</text>
-<text id="l2" x="90" y="70" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">L2</text>
-<text id="l3" x="90" y="95" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">L3</text>
-<text id="V" x="162" y="18" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">V</text>
-<text id="z1" x="160" y="45" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">14</text>
-<text id="z2" x="160" y="70" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="12">32</text>
-<line id="arrowfromxtoL1" x1="40" y1="40" x2="87" y2="40" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="arrowfromytoL2" x1="40" y1="65" x2="87" y2="65" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="arrowfromztoL3" x1="40" y1="90" x2="87" y2="90" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="arrowfromL1toz1" x1="115" y1="40" x2="155" y2="40" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="arrowfromL2toz1" x1="115" y1="65" x2="155" y2="40" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="arrowfromL3toz2" x1="115" y1="90" x2="155" y2="65" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="env" x="55" y="35" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="8">Env</text>
-<text id="v" x="69" y="38" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="8">v</text>
-<text id="store" x="127" y="35" fill="rgb(0, 0, 0)" font-family="Arial" font-weight="400" font-size="8">Sto</text>
+<svg width="2510" height="400" style="background-color: rgb(255, 255, 255, 1)" xmlns="http://www.w3.org/2000/svg">
+<rect id="l" x="50" y="150" width="230" height="100" fill="rgb(255, 255, 255, 1)" fill-opacity="1" rx="10" stroke="rgb(0, 0, 0, 1)" stroke-width="5" />
+<rect id="l" x="380" y="150" width="190" height="100" fill="rgb(255, 0, 0, 1)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255, 1)" stroke-width="0" />
+<rect id="l" x="670" y="150" width="190" height="100" fill="rgb(255, 0, 0, 1)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255, 1)" stroke-width="0" />
+<rect id="l" x="960" y="150" width="380" height="100" fill="rgb(255, 0, 0, 1)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255, 1)" stroke-width="0" />
+<rect id="l" x="2010" y="150" width="380" height="100" fill="rgb(255, 0, 0, 1)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255, 1)" stroke-width="0" />
+<rect id="l" x="1540" y="150" width="380" height="100" fill="rgb(255, 0, 0, 1)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255, 1)" stroke-width="0" />
+<text id="t" x="70" y="213" fill="rgb(0, 0, 0, 1)" font-family="" font-weight="600" font-size="40">Source Code</text>
+<text id="t" x="420" y="213" fill="rgb(255, 255, 255, 1)" font-family="" font-weight="600" font-size="40">Lexer</text>
+<text id="t" x="710" y="213" fill="rgb(255, 255, 255, 1)" font-family="" font-weight="600" font-size="40">Parser</text>
+<text id="t" x="970" y="213" fill="rgb(255, 255, 255, 1)" font-family="" font-weight="600" font-size="40">Semantic Analysis</text>
+<text id="t" x="2020" y="213" fill="rgb(255, 255, 255, 1)" font-family="" font-weight="600" font-size="40">Result</text>
+<text id="t" x="1560" y="213" fill="rgb(0, 0, 0, 1)" font-family="" font-weight="600" font-size="40">Interpreter</text>
+<line id="a" x1="290" y1="200" x2="370" y2="200" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<polygon id="a" points="370,200 360,210 360,190" fill="rgb(0, 0, 0, 1)" fill-opacity="1" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<line id="a" x1="580" y1="200" x2="660" y2="200" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<polygon id="a" points="660,200 650,210 650,190" fill="rgb(0, 0, 0, 1)" fill-opacity="1" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<line id="a" x1="870" y1="200" x2="950" y2="200" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<polygon id="a" points="950,200 940,210 940,190" fill="rgb(0, 0, 0, 1)" fill-opacity="1" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<line id="a" x1="1350" y1="200" x2="1430" y2="200" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<polygon id="a" points="1430,200 1420,210 1420,190" fill="rgb(0, 0, 0, 1)" fill-opacity="1" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<line id="a" x1="2400" y1="200" x2="2480" y2="200" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
+<polygon id="a" points="2480,200 2470,210 2470,190" fill="rgb(0, 0, 0, 1)" fill-opacity="1" stroke="rgb(0, 0, 0, 1)" stroke-width="10" />
 </svg>

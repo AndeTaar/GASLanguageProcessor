@@ -11,7 +11,7 @@ public class VisitWhileStatement
     public void PassVisitWhileStatement()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "while (true) {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

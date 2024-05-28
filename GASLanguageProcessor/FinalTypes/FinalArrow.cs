@@ -7,15 +7,15 @@ public class FinalArrow
     public FinalPoint Start { get; set; }
     public FinalPoint End { get; set; }
     public FinalNum Stroke { get; set; }
-    public FinalColor StrokeColor { get; set; }
+    public FinalColors StrokeColors { get; set; }
     public FinalTriangle ArrowHead { get; set; }
 
-    public FinalArrow(FinalPoint start, FinalPoint end, float stroke, FinalColor strokeColor)
+    public FinalArrow(FinalPoint start, FinalPoint end, float stroke, FinalColors strokeColors)
     {
         Start = start;
         End = end;
         Stroke = new FinalNum(stroke);
-        StrokeColor = strokeColor;
+        StrokeColors = strokeColors;
         ArrowHead = GetArrowHead();
     }
 
@@ -36,6 +36,6 @@ public class FinalArrow
         var point2y = basePointY + orthoVector.Y * Stroke.Value;
         var point2 = new FinalPoint(point2x , point2y);
 
-        return new FinalTriangle(new FinalPoint(End.X.Value, End.Y.Value), [point1, point2], Stroke.Value, StrokeColor, StrokeColor);
+        return new FinalTriangle(new FinalPoint(End.X.Value, End.Y.Value), [point1, point2], Stroke.Value, StrokeColors, StrokeColors);
     }
 }

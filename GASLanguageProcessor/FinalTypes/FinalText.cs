@@ -9,15 +9,15 @@ public class FinalText
     public FinalNum FontSize { get; set; }
     public FinalNum FontWeight { get; set; }
 
-    public FinalColor TextColor { get; set; }
+    public FinalColors TextColors { get; set; }
 
-    public FinalText(string text, FinalPoint position, string font, float fontSize, float fontWeight, FinalColor textColor)
+    public FinalText(string text, FinalPoint position, string font, float fontSize, float fontWeight, FinalColors textColors)
     {
         Text = text;
         Position = position;
         Font = font;
         FontSize = new FinalNum(fontSize);
         FontWeight = new FinalNum(fontWeight == 0 ? 400 : fontWeight ) ;
-        TextColor = textColor;
+        TextColors = textColors;
     }
 }

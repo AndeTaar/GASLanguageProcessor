@@ -12,7 +12,7 @@ public class VisitDeclaration
     public void PassVisitDeclaration()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(100, 200, Color(0, 0, 0, 1));" +
+            "canvas(100, 200, Colors(0, 0, 0, 1));" +
             "num x = 100 + 200;");
 
         Assert.NotNull(ast);

@@ -15,7 +15,7 @@ public class VisitTerm
     public void PassVisitTermNum()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num x = 1;"
             );
         float i = 10;
@@ -43,7 +43,7 @@ public class VisitTerm
     public void PassVisitTermIdentifier()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num x = y;"
         );
 
@@ -69,7 +69,7 @@ public class VisitTerm
     public void PassVisitTermFunctionCallStatement()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "test(50);"
         );
 
@@ -92,7 +92,7 @@ public class VisitTerm
     public void PassVisitTermFunctionCallTerm()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num x = test(10, 40);"
         );
 
@@ -118,7 +118,7 @@ public class VisitTerm
     public void PassVisitTermString()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "string x = \"test\";");
 
         Assert.NotNull(ast);
@@ -143,7 +143,7 @@ public class VisitTerm
     public void PassVisitTermExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "if(a || b){}");
 
         Assert.NotNull(ast);
@@ -167,7 +167,7 @@ public class VisitTerm
     public void PassVisitTermBoolean()
     {
         var ast = SharedTesting.GetAst(
-                "canvas(250, 250, Color(255, 255, 255, 1));" +
+                "canvas(250, 250, Colors(255, 255, 255, 1));" +
                 "if(true){}");
 
         Assert.NotNull(ast);
@@ -192,7 +192,7 @@ public class VisitTerm
     public void PassVisitTermNull()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num x = null;"
         );
 

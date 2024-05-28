@@ -10,7 +10,7 @@ public class VisitIfStatement
     public void PassVisitIfStatement()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "if (true) {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -30,7 +30,7 @@ public class VisitIfStatement
     public void PassVisitIfStatementWithElse()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "if (true) {} else {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -53,7 +53,7 @@ public class VisitIfStatement
     public void PassVisitIfStatementWithElseIf()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "if (true) {} else if (false) {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

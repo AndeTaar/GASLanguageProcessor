@@ -10,7 +10,7 @@ public class AddToListTest
     public void EvaluateExpressionAddToListPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x = 10;" +
             "list<num> l = List<num>{1, 2, 3, 4, 5};" +
             "AddToList(5, l);"
@@ -27,7 +27,7 @@ public class AddToListTest
     public void EvaluateExpressionAddToListWithEmptyListPass()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "num x = 10;" +
             "list<num> l = List<num>{};" +
             "AddToList(5, l);"

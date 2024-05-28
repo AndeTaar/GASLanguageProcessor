@@ -9,7 +9,7 @@ public class EvaluateFunctionDeclarationAndCall
     public void VisitPassVisitFunctionDeclarationWithLists()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1));" +
             "list<num> test(list<num> nums) {" +
             "   return nums;" +
             "}" +
@@ -26,11 +26,11 @@ public class EvaluateFunctionDeclarationAndCall
     public void VisitPassVisitFunctionDeclarationWithLists2()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1)); \n" +
+            "canvas (250 * 2, 10 * 50, Colors(255, 255, 255, 1)); \n" +
             "list<circle> test(list<point> nums) { \n" +
             "   list<circle> circles = List<circle>{};\n" +
             "   for (num i = 0; i < LengthOfList(nums); i++) {\n" +
-            "       AddToList(Circle(GetFromList(i, nums), 10, 10, Color(255,255,255,1), Color(255,255,255,1)), circles);\n" +
+            "       AddToList(Circle(GetFromList(i, nums), 10, 10, Colors(255,255,255,1), Colors(255,255,255,1)), circles);\n" +
             "   }\n" +
             "   return circles;\n" +
             "}" +

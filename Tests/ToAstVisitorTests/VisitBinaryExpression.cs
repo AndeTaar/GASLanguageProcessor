@@ -13,7 +13,7 @@ public class VisitBinaryExpression
     public void PassVisitBinaryExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num c = 10 + 10;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -42,7 +42,7 @@ public class VisitBinaryExpression
     public void PassVisitBinaryExpressionWithOneChild()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "num c = 10 + 10 + 10 + 10 * 100 / 50;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);

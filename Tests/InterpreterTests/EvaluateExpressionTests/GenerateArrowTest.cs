@@ -8,8 +8,8 @@ public class GenerateArrowTest
 public void PassEvaluateGenerateArrow()
     {
         var scope = SharedTesting.GetInterpretedScope(
-            "canvas (150, 150, Color(255, 255, 255, 1));" +
-            "arrow one = Arrow(Point(10,2), Point(20, 30), 10, Color(0,0,0,1));"
+            "canvas (150, 150, Colors(255, 255, 255, 1));" +
+            "arrow one = Arrow(Point(10,2), Point(20, 30), 10, Colors(0,0,0,1));"
             );
 
         var variable = scope.vTable.LookUp("one");
@@ -18,7 +18,7 @@ public void PassEvaluateGenerateArrow()
             new FinalPoint(10, 2),
             new FinalPoint(20, 30),
             10,
-            new FinalColor(0, 0, 0, 1)
+            new FinalColors(0, 0, 0, 1)
         );
 
         Assert.NotNull(result);
@@ -28,10 +28,10 @@ public void PassEvaluateGenerateArrow()
         Assert.Equal(expected.End.Y.Value, result.End.Y.Value);
         Assert.Equal(expected.End.X.Value, result.End.X.Value);
         Assert.Equal(expected.Stroke.Value, result.Stroke.Value);
-        Assert.Equal(expected.StrokeColor.Alpha.Value, result.StrokeColor.Alpha.Value);
-        Assert.Equal(expected.StrokeColor.Red.Value, result.StrokeColor.Red.Value);
-        Assert.Equal(expected.StrokeColor.Green.Value, result.StrokeColor.Green.Value);
-        Assert.Equal(expected.StrokeColor.Blue.Value, result.StrokeColor.Blue.Value);
+        Assert.Equal(expected.StrokeColors.Alpha.Value, result.StrokeColors.Alpha.Value);
+        Assert.Equal(expected.StrokeColors.Red.Value, result.StrokeColors.Red.Value);
+        Assert.Equal(expected.StrokeColors.Green.Value, result.StrokeColors.Green.Value);
+        Assert.Equal(expected.StrokeColors.Blue.Value, result.StrokeColors.Blue.Value);
         
         var triangleResult = result.ArrowHead;
         var triangleExpected = expected.ArrowHead;
@@ -43,14 +43,14 @@ public void PassEvaluateGenerateArrow()
         Assert.Equal(triangleExpected.Points[1].X.Value, triangleResult.Points[1].X.Value);
         Assert.Equal(triangleExpected.Points[1].Y.Value, triangleResult.Points[1].Y.Value);
         Assert.Equal(triangleExpected.Stroke.Value, triangleResult.Stroke.Value);
-        Assert.Equal(triangleExpected.Color.Alpha.Value, triangleResult.Color.Alpha.Value);
-        Assert.Equal(triangleExpected.Color.Red.Value, triangleResult.Color.Red.Value);
-        Assert.Equal(triangleExpected.Color.Green.Value, triangleResult.Color.Green.Value);
-        Assert.Equal(triangleExpected.Color.Blue.Value, triangleResult.Color.Blue.Value);
-        Assert.Equal(triangleExpected.StrokeColor.Alpha.Value, triangleResult.StrokeColor.Alpha.Value);
-        Assert.Equal(triangleExpected.StrokeColor.Red.Value, triangleResult.StrokeColor.Red.Value);
-        Assert.Equal(triangleExpected.StrokeColor.Green.Value, triangleResult.StrokeColor.Green.Value);
-        Assert.Equal(triangleExpected.StrokeColor.Blue.Value, triangleResult.StrokeColor.Blue.Value);
+        Assert.Equal(triangleExpected.Colors.Alpha.Value, triangleResult.Colors.Alpha.Value);
+        Assert.Equal(triangleExpected.Colors.Red.Value, triangleResult.Colors.Red.Value);
+        Assert.Equal(triangleExpected.Colors.Green.Value, triangleResult.Colors.Green.Value);
+        Assert.Equal(triangleExpected.Colors.Blue.Value, triangleResult.Colors.Blue.Value);
+        Assert.Equal(triangleExpected.StrokeColors.Alpha.Value, triangleResult.StrokeColors.Alpha.Value);
+        Assert.Equal(triangleExpected.StrokeColors.Red.Value, triangleResult.StrokeColors.Red.Value);
+        Assert.Equal(triangleExpected.StrokeColors.Green.Value, triangleResult.StrokeColors.Green.Value);
+        Assert.Equal(triangleExpected.StrokeColors.Blue.Value, triangleResult.StrokeColors.Blue.Value);
     }
     
 }

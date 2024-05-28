@@ -11,7 +11,7 @@ public class VisitCollectionDeclaration
     public void PassVisitCollectionDeclarationListWithoutExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "list<circle> c;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -32,7 +32,7 @@ public class VisitCollectionDeclaration
     public void PassVisitCollectionDeclarationGroupWithoutExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "group g;");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -53,7 +53,7 @@ public class VisitCollectionDeclaration
     public void PassVisitCollectionDeclarationListWithExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "list<point> points = List<point>{Point(10,10), Point(20,20), Point(30,30)};");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
@@ -77,7 +77,7 @@ public class VisitCollectionDeclaration
     public void PassVisitCollectionDeclarationGroupWithExpression()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "group g = Group(Point(10,10),{" +
             "   circle c = Circle(x, 10, 20);" +
             "   circle c1 = Circle(y, 20, 30);" +
@@ -111,7 +111,7 @@ public class VisitCollectionDeclaration
     public void PassVisitCollectionDeclarationGroupWithChildGroup()
     {
         var ast = SharedTesting.GetAst(
-            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "canvas(250, 250, Colors(255, 255, 255, 1));" +
             "group g = Group(Point(10,10),{" +
             "   group g1 = Group(Point(20,20),{" +
             "       circle c = Circle(x, 10, 20);" +
