@@ -26,8 +26,8 @@ public class VisitCollectionDeclaration
             
         var astVisitor = new ToAstVisitor();
             
-        var collectionDeclarationContext = parser.collectionDeclaration();
-        var collectionDeclaration = (CollectionDeclaration) astVisitor.VisitCollectionDeclaration(collectionDeclarationContext);
+        var collectionDeclarationContext = parser.declaration();
+        var collectionDeclaration = (Declaration) astVisitor.VisitDeclaration(collectionDeclarationContext);
         
         Assert.NotNull(collectionDeclaration);
         Assert.Equal("x", collectionDeclaration.Identifier.Name);

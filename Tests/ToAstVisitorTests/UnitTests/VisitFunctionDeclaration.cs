@@ -32,8 +32,8 @@ public class VisitFunctionDeclaration
         
         Assert.NotNull(functionDeclaration);
         Assert.Equal("xFunc", functionDeclaration.Identifier.Name);
-        Assert.Equal("num", functionDeclaration.Declarations[0].Type.Value);
-        Assert.Equal("y", functionDeclaration.Declarations[0].Identifier.Name);
+        Assert.Equal("num", functionDeclaration.Parameters[0].Type.Value);
+        Assert.Equal("y", functionDeclaration.Parameters[0].Identifier.Name);
         Assert.Equal("void", functionDeclaration.ReturnType.Value);
         Assert.IsType<Assignment>(functionDeclaration.Statements);
         

@@ -35,10 +35,10 @@ public class VisitExpression
         Assert.Equal("==", binaryOp.Op);
         Assert.IsType<Identifier>(binaryOp.Left);
         Assert.IsType<Identifier>(binaryOp.Right);
-        var left = binaryOp.Left as Num;
-        var right = binaryOp.Right as Num;
-        Assert.Equal("x", left.Value);
-        Assert.Equal("y", right.Value);
+        var left = binaryOp.Left as Identifier;
+        var right = binaryOp.Right as Identifier;
+        Assert.Equal("x", left.Name);
+        Assert.Equal("y", right.Name);
     }
 
 
