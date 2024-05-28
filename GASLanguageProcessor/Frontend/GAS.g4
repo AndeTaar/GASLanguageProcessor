@@ -6,11 +6,10 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | collectionDeclaration | increment | canvas) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
 
-declaration : type IDENTIFIER ('=' expression)?;
-collectionDeclaration : collectionType IDENTIFIER ('=' expression)?;
+declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
 increment : IDENTIFIER ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;

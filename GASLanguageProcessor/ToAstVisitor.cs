@@ -12,6 +12,7 @@ using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 namespace GASLanguageProcessor;
 
 public class ToAstVisitor : GASBaseVisitor<AstNode> {
+
     public override AstNode VisitProgram ( GASParser.ProgramContext context )
     {
         var lines =  context.children
@@ -130,21 +131,17 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitDeclaration(GASParser.DeclarationContext context)
     {
         var type = context.type()?.Accept(this) as Type;
+
+        if (type == null)
+        {
+            type = context.collectionType().Accept(this) as Type;
+        }
+
         Identifier identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
 
         Expression value = context.expression()?.Accept(this) as Expression;
 
         return new Declaration(type, identifier, value) {LineNum = context.Start.Line};
-    }
-
-    public override AstNode VisitCollectionDeclaration(GASParser.CollectionDeclarationContext context)
-    {
-        var type = context.collectionType()?.Accept(this) as Type;
-        Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-
-        var expressions = context.expression()?.Accept(this) as Expression;
-
-        return new CollectionDeclaration(type, identifier, expressions) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitType(GASParser.TypeContext context)
@@ -217,8 +214,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
             var type = typeNode.Accept(this) as Type;
-            var identif = new Identifier(identifierNode.GetText()) {LineNum = context.Start.Line};
-            return new Declaration(type, identif, null) {LineNum = context.Start.Line};
+            var identifier = new Identifier(identifierNode.GetText()) {LineNum = context.Start.Line};
+            return new Parameter(type, identifier);
         }).ToList();
 
         var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();

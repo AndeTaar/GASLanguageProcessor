@@ -14,7 +14,7 @@ public class VisitReturnStatement
             "return x;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
     [Fact]
@@ -29,7 +29,7 @@ public class VisitReturnStatement
             "return 10;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -42,7 +42,7 @@ public class VisitReturnStatement
             "return y;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 }

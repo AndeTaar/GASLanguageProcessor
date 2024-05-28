@@ -8,7 +8,6 @@ public enum GasType
     Void,
     String,
     Bool,
-    Canvas,
     Circle,
     Rectangle,
     Group,
@@ -23,5 +22,7 @@ public enum GasType
     Any,
     Polygon,
     Arrow,
-    Triangle
+    Triangle,
+    Ok,
+    Canvas
 }

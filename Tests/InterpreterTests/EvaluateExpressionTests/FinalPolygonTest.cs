@@ -8,15 +8,21 @@ public class FinalPolygonTest
     [Fact]
     public void PassEvaluateFinalPolygon()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "canvas (150, 150, Color(255, 255, 255, 1));" +
             "polygon one = Polygon(List<point>{Point(10,2), Point(20, 30), Point(40, 50)}, 10, Color(255,0,255,1), Color(255,255,0,1));"
             );
 
-        var variable = scope.vTable.LookUp("one");
-        var result = variable?.ActualValue as FinalPolygon;
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var result = sto.LookUp(envV.LookUp("one").Value) as FinalPolygon;
         var expected = new FinalPolygon(
-            new FinalList([ new FinalPoint(10, 2), new FinalPoint(20, 30), new FinalPoint(40, 50) ], scope),
+            new FinalList([ new FinalPoint(10, 2), new FinalPoint(20, 30), new FinalPoint(40, 50) ]),
             10,
             new FinalColor(255, 0, 255, 1),
             new FinalColor(255, 255, 0, 1)

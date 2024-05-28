@@ -15,7 +15,7 @@ public class VisitForStatement
             "}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -29,7 +29,7 @@ public class VisitForStatement
             "}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -47,7 +47,7 @@ public class VisitForStatement
                 "}"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -59,7 +59,7 @@ public class VisitForStatement
             "for (i = 0; i < 10; i = i + 1) { num i = 1; }"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -71,7 +71,7 @@ public class VisitForStatement
             "for (num i = 0; x < 10; i = i + 1) { num x; }"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 
@@ -83,7 +83,7 @@ public class VisitForStatement
             "for (num i = 0; i < 10; i = x + 1) { x = 1; }"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
 }

@@ -14,8 +14,8 @@ public class While : Statement
         Statements = statements;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitWhile(this, scope);
+        return visitor.VisitWhile(this, envT);
     }
 }

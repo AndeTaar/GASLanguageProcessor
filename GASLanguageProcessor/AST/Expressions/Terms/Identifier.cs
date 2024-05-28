@@ -14,17 +14,8 @@ public class Identifier : Term
         ChildAttribute = childAttribute;
     }
 
-    public string ToCompoundIdentifierName()
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        if (ChildAttribute == null)
-        {
-            return Name;
-        }
-        return $"{Name}.{ChildAttribute.ToCompoundIdentifierName()}";
-    }
-
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
-    {
-        return visitor.VisitIdentifier(this, scope);
+        return visitor.VisitIdentifier(this, envT);
     }
 }

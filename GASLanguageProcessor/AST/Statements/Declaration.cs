@@ -18,8 +18,8 @@ public class Declaration : Statement
         Expression = expression;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitDeclaration(this, scope);
+        return visitor.VisitDeclaration(this, envT);
     }
 }

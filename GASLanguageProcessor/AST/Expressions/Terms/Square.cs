@@ -26,8 +26,8 @@ public class Square: Term
         CornerRounding = cornerRounding;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitSquare(this, scope);
+        return visitor.VisitSquare(this, envT);
     }
 }

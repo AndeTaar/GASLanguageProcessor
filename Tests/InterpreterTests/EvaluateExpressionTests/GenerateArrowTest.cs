@@ -5,15 +5,21 @@ namespace Tests.InterpreterTests.EvaluateExpressionTests;
 public class GenerateArrowTest
 {
     [Fact]
-public void PassEvaluateGenerateArrow()
+    public void PassEvaluateGenerateArrow()
     {
-        var scope = SharedTesting.GetInterpretedScope(
+        var env = SharedTesting.RunInterpreter(
             "canvas (150, 150, Color(255, 255, 255, 1));" +
             "arrow one = Arrow(Point(10,2), Point(20, 30), 10, Color(0,0,0,1));"
-            );
+        );
 
-        var variable = scope.vTable.LookUp("one");
-        var result = variable?.ActualValue as FinalArrow;
+        var envV = env.Item1;
+        var sto = env.Item2;
+        var envT = env.Item3;
+        var envF = env.Item4;
+        var errors = env.Item5;
+        Assert.Empty(errors);
+        
+        var result = sto.LookUp(envV.LookUp("one").Value) as FinalArrow;
         var expected = new FinalArrow(
             new FinalPoint(10, 2),
             new FinalPoint(20, 30),
@@ -32,10 +38,10 @@ public void PassEvaluateGenerateArrow()
         Assert.Equal(expected.StrokeColor.Red.Value, result.StrokeColor.Red.Value);
         Assert.Equal(expected.StrokeColor.Green.Value, result.StrokeColor.Green.Value);
         Assert.Equal(expected.StrokeColor.Blue.Value, result.StrokeColor.Blue.Value);
-        
+
         var triangleResult = result.ArrowHead;
         var triangleExpected = expected.ArrowHead;
-        
+
         Assert.Equal(triangleExpected.TrianglePeak.X.Value, triangleResult.TrianglePeak.X.Value);
         Assert.Equal(triangleExpected.TrianglePeak.Y.Value, triangleResult.TrianglePeak.Y.Value);
         Assert.Equal(triangleExpected.Points[0].X.Value, triangleResult.Points[0].X.Value);
@@ -52,5 +58,5 @@ public void PassEvaluateGenerateArrow()
         Assert.Equal(triangleExpected.StrokeColor.Green.Value, triangleResult.StrokeColor.Green.Value);
         Assert.Equal(triangleExpected.StrokeColor.Blue.Value, triangleResult.StrokeColor.Blue.Value);
     }
-    
+
 }

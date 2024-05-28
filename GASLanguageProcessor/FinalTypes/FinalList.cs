@@ -7,12 +7,10 @@ namespace GASLanguageProcessor.FinalTypes;
 public class FinalList
 {
     public List<object> Values { get; set; }
-    public Scope Scope { get; set; }
 
-    public FinalList(List<object> values, Scope scope)
+    public FinalList(List<object> values)
     {
         Values = values;
-        Scope = scope;
     }
 
     public override string ToString()

@@ -11,9 +11,9 @@ public class String: Term
         Value = value;
     }
 
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitString(this, scope);
+        return visitor.VisitString(this, envT);
     }
 
 }

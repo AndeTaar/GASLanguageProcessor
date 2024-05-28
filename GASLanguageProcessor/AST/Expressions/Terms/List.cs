@@ -15,8 +15,8 @@ public class List : Term
         Type = type;
     }
  
-    public override T Accept<T>(IAstVisitor<T> visitor, Scope scope)
+    public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitList(this, scope);
+        return visitor.VisitList(this, envT);
     }
 }

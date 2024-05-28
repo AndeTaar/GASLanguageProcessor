@@ -27,10 +27,10 @@ public class VisitorTests
         Assert.IsType<Canvas>(canvas);
         Assert.NotNull(canvas);
         Assert.Equal("test", functionDeclaration.Identifier.Name);
-        Assert.Equal(3, functionDeclaration.Declarations.Count);
-        Assert.Equal("x", functionDeclaration.Declarations[0].Identifier.Name);
-        Assert.Equal("y", functionDeclaration.Declarations[1].Identifier.Name);
-        Assert.Equal("C", functionDeclaration.Declarations[2].Identifier.Name);
+        Assert.Equal(3, functionDeclaration.Parameters.Count);
+        Assert.Equal("x", functionDeclaration.Parameters[0].Identifier.Name);
+        Assert.Equal("y", functionDeclaration.Parameters[1].Identifier.Name);
+        Assert.Equal("C", functionDeclaration.Parameters[2].Identifier.Name);
         Assert.IsAssignableFrom<Statement>(functionDeclaration.Statements);
         var compound2 = (Compound) functionDeclaration.Statements;
         var assignment1 = (Assignment) compound2.Statement1;

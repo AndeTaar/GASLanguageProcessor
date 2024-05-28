@@ -20,7 +20,7 @@ public class VisitCollectionDeclaration
         var canvas = (Canvas) compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
         var compound1 = (Compound) compound.Statement2;
-        var collectionDeclaration = (CollectionDeclaration) compound1.Statement1;
+        var collectionDeclaration = (Declaration) compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(collectionDeclaration);
@@ -41,7 +41,7 @@ public class VisitCollectionDeclaration
         var canvas = (Canvas) compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
         var compound1 = (Compound)compound.Statement2;
-        var collectionDeclaration = (CollectionDeclaration) compound1.Statement1;
+        var collectionDeclaration = (Declaration) compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(collectionDeclaration);
@@ -62,7 +62,7 @@ public class VisitCollectionDeclaration
         var canvas = (Canvas) compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
         var compound1 = (Compound) compound.Statement2;
-        var collectionDeclaration = (CollectionDeclaration) compound1.Statement1;
+        var collectionDeclaration = (Declaration) compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(collectionDeclaration);
@@ -89,7 +89,7 @@ public class VisitCollectionDeclaration
         var canvas = (Canvas) compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
         var compound1 = (Compound) compound.Statement2;
-        var collectionDeclaration = (CollectionDeclaration) compound1.Statement1;
+        var collectionDeclaration = (Declaration) compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(collectionDeclaration);
@@ -125,7 +125,7 @@ public class VisitCollectionDeclaration
         var canvas = (Canvas) compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
         var compound1 = (Compound) compound.Statement2;
-        var collectionDeclaration = (CollectionDeclaration) compound1.Statement1;
+        var collectionDeclaration = (Declaration) compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(collectionDeclaration);
@@ -133,8 +133,8 @@ public class VisitCollectionDeclaration
         Assert.Equal("g", collectionDeclaration.Identifier.Name);
         Assert.IsType<Group>(collectionDeclaration.Expression);
         var group = (Group) collectionDeclaration.Expression;
-        Assert.IsType<CollectionDeclaration>(group.Statements);
-        var statements = (CollectionDeclaration) group.Statements;
+        Assert.IsType<Declaration>(group.Statements);
+        var statements = (Declaration) group.Statements;
         Assert.Equal("g1", statements.Identifier.Name);
         Assert.IsType<Group>(statements.Expression);
         var innerGroup = (Group) statements.Expression;

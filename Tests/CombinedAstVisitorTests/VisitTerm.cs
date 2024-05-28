@@ -14,7 +14,7 @@ public class VisitTerm
             "num y = x * 10;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 
@@ -27,7 +27,7 @@ public class VisitTerm
             "num y = x / 10;"
         );
         var visitor = new CombinedAstVisitor();
-        ast.Accept(visitor, new Scope(null, null));
+        ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
 }

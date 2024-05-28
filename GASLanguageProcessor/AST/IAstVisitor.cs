@@ -10,83 +10,83 @@ namespace GASLanguageProcessor.AST;
 
 public interface IAstVisitor<T>
 {
-    T VisitBinaryOp(BinaryOp node, Scope scope);
+    T VisitProgram(Expressions.Terms.Program node, TypeEnv envT);
 
-    T VisitGroup(Group node, Scope scope);
+    T VisitBinaryOp(BinaryOp node, TypeEnv envT);
 
-    T VisitList(List node, Scope scope);
+    T VisitGroup(Group node, TypeEnv envT);
 
-    T VisitNum(Num node, Scope scope);
+    T VisitList(List node, TypeEnv envT);
 
-    T VisitIfStatement(If node, Scope scope);
+    T VisitNum(Num node, TypeEnv envT);
 
-    T VisitBoolean(Boolean node, Scope scope);
+    T VisitIfStatement(If node, TypeEnv envT);
 
-    T VisitIdentifier(Identifier node, Scope scope);
+    T VisitBoolean(Boolean node, TypeEnv envT);
 
-    T VisitCompound(Compound node, Scope scope);
+    T VisitIdentifier(Identifier node, TypeEnv envT);
 
-    T VisitAssignment(Assignment node, Scope scope);
+    T VisitCompound(Compound node, TypeEnv envT);
 
-    T VisitDeclaration(Declaration node, Scope scope);
+    T VisitAssignment(Assignment node, TypeEnv envT);
 
-    T VisitCanvas(Canvas node, Scope scope);
+    T VisitDeclaration(Declaration node, TypeEnv envT);
 
-    T VisitWhile(While node, Scope scope);
+    T VisitCanvas(Canvas node, TypeEnv envT);
 
-    T VisitFor(For node, Scope scope);
+    T VisitWhile(While node, TypeEnv envT);
 
-    T VisitSkip(Skip node, Scope scope);
+    T VisitFor(For node, TypeEnv envT);
 
-    T VisitUnaryOp(UnaryOp node, Scope scope);
+    T VisitSkip(Skip node, TypeEnv envT);
 
-    T VisitString(String node, Scope scope);
+    T VisitUnaryOp(UnaryOp node, TypeEnv envT);
 
-    T VisitType(Type node, Scope scope);
+    T VisitString(String node, TypeEnv envT);
 
-    T VisitFunctionDeclaration(FunctionDeclaration node, Scope scope);
+    T VisitType(Type node, TypeEnv envT);
 
-    T VisitFunctionCallStatement(FunctionCallStatement node, Scope scope);
+    T VisitFunctionDeclaration(FunctionDeclaration node, TypeEnv envT);
 
-    T VisitFunctionCallTerm(FunctionCallTerm node, Scope scope);
+    T VisitFunctionCallStatement(FunctionCallStatement node, TypeEnv envT);
 
-    T VisitReturn(Return node, Scope scope);
+    T VisitFunctionCallTerm(FunctionCallTerm node, TypeEnv envT);
 
-    T VisitNull(Null node, Scope scope);
+    T VisitReturn(Return node, TypeEnv envT);
 
-    T VisitText(Text node, Scope scope);
+    T VisitNull(Null node, TypeEnv envT);
 
-    T VisitCircle(Circle node, Scope scope);
+    T VisitText(Text node, TypeEnv envT);
 
-    T VisitRectangle(Rectangle node, Scope scope);
+    T VisitCircle(Circle node, TypeEnv envT);
 
-    T VisitPoint(Point node, Scope scope);
+    T VisitRectangle(Rectangle node, TypeEnv envT);
 
-    T VisitColor(Color node, Scope scope);
+    T VisitPoint(Point node, TypeEnv envT);
 
-    T VisitSquare(Square node, Scope scope);
+    T VisitColor(Color node, TypeEnv envT);
 
-    T VisitAddToList(AddToList node, Scope scope);
+    T VisitSquare(Square node, TypeEnv envT);
 
-    T VisitCollectionDeclaration(CollectionDeclaration node, Scope scope);
+    T VisitAddToList(AddToList node, TypeEnv envT);
 
-    T VisitEllipse(Ellipse node, Scope scope);
+    T VisitEllipse(Ellipse node, TypeEnv envT);
 
-    T VisitSegLine(SegLine node, Scope scope);
+    T VisitSegLine(SegLine node, TypeEnv envT);
 
-    T VisitLine(Line node, Scope scope);
+    T VisitLine(Line node, TypeEnv envT);
 
-    T VisitGetFromList(GetFromList node, Scope scope);
+    T VisitGetFromList(GetFromList node, TypeEnv envT);
 
-    T VisitRemoveFromList(RemoveFromList node, Scope scope);
+    T VisitRemoveFromList(RemoveFromList node, TypeEnv envT);
 
-    T VisitArrow(Arrow node, Scope scope);
+    T VisitArrow(Arrow node, TypeEnv envT);
 
-    T VisitLengthOfList(LengthOfList node, Scope scope);
+    T VisitLengthOfList(LengthOfList node, TypeEnv envT);
 
-    T VisitPolygon(Polygon polygon, Scope scope);
+    T VisitPolygon(Polygon node, TypeEnv envT);
 
-    T VisitTriangle(Triangle triangle, Scope scope);
+    T VisitTriangle(Triangle node, TypeEnv envT);
 
-    T VisitIncrement(Increment increment, Scope scope);
+    T VisitIncrement(Increment node, TypeEnv envT);
 }
