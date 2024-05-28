@@ -12,7 +12,7 @@ static void Main(string[] args)
 {
     var outputDirectory = Path.Combine(Directory.GetCurrentDirectory().Split("bin")[0], "output");
     Directory.CreateDirectory(outputDirectory); // Create directory if it doesn't exist
-    string FilePath = Path.Combine(outputDirectory, "output.svg");
+    string FilePath = Path.Combine(outputDirectory, "CircleByPolygon.svg");
 
     var fileContents = File.ReadAllText(args[0]);
 
