@@ -4,6 +4,7 @@ num canvasHeight = 250;
 color white = Color(255, 255, 255, 1);
 color red = Color(220, 57, 29, 1);
 color blue = Color(0, 0, 255, 1);
+color white2 = *white;
 
 num Cos(num angle) {
     num result = 1;

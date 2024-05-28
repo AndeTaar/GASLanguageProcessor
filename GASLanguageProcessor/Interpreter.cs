@@ -312,6 +312,17 @@ public class Interpreter
 
                 return variable;
 
+            case Reference reference:
+                var referenceIndex = varEnv.LookUp(reference.Identifier.Name);
+
+                if (referenceIndex == null)
+                {
+                    errors.Add($"Variable {reference.Identifier.Name} not found in the VariableTable");
+                    return null;
+                }
+
+                return referenceIndex.Value;
+
             case Num num: // Num is a float; CultureInfo is used to ensure that the decimal separator is a dot
                 return float.Parse(num.Value, CultureInfo.InvariantCulture);
 

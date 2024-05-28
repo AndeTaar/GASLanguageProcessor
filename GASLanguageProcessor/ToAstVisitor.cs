@@ -285,11 +285,21 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         else if (context.IDENTIFIER() != null)
         {
             return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        }else if (context.referenceTerm() != null)
+        {
+            var reference = context.referenceTerm().Accept(this) as Reference;
+            return reference;
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
+    }
+
+    public override AstNode VisitReferenceTerm(GASParser.ReferenceTermContext context)
+    {
+        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line}; ;
+        return new Reference(identifier);
     }
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)

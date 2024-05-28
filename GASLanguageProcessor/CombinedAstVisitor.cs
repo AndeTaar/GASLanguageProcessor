@@ -444,6 +444,25 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     }
 
     /// <summary>
+    /// Visit the reference node
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="envT"></param>
+    /// <returns></returns>
+    public GasType VisitReference(Reference node, TypeEnv envT)
+    {
+        var identifierType = node.Identifier.Accept(this, envT);
+
+        if (identifierType == GasType.Error)
+        {
+            errors.Add("Invalid type for reference: expected: Identifier, got: " + identifierType);
+            return GasType.Error;
+        }
+
+        return identifierType;
+    }
+
+    /// <summary>
     /// Visit the unary operation node
     /// </summary>
     /// <param name="node"></param>

@@ -26,6 +26,7 @@ type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' |
 collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
+pointerExpression : '*' IDENTIFIER;
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
 equalityExpression : relationExpression (('==' | '!=') (relationExpression | equalityExpression))? ;
 relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
