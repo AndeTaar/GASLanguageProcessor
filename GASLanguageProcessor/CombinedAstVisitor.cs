@@ -348,37 +348,6 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         return GasType.Ok;
     }
 
-    /// <summary>
-    /// Visit the the struct declaration node
-    /// </summary>
-    /// <param name="node"></param>
-    /// <param name="envT"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public GasType VisitStructDeclaration(StructDeclaration node, TypeEnv envT)
-    {
-        var identifier = node.Identifier.Name;
-        var structIdentifier = node.StructIdentifier.Name;
-        var fieldTypes = envT.SLookUpFieldTypes(structIdentifier);
-
-        if (fieldTypes == null)
-        {
-            errors.Add("Line: " + node.LineNum + " Struct name: " + structIdentifier + " not found");
-            return GasType.Error;
-        }
-
-        envT.VBind(identifier, fieldTypes.Values.ToList());
-        var bound = envT.SBind(identifier, fieldTypes);
-
-        if (!bound)
-        {
-            errors.Add("Line: " + node.LineNum + " Struct name: " + identifier + " already exists");
-            return GasType.Error;
-        }
-
-        return GasType.Ok;
-    }
-
     public GasType VisitStructCreation(StructCreation node, TypeEnv envT)
     {
         var identifier = node.Identifier.Name;
@@ -394,22 +363,16 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         return GasType.Ok;
     }
 
-    /// <summary>
-    /// Visit the struct Assignment node
-    /// </summary>
-    /// <param name="structAssignment"></param>
-    /// <param name="envT"></param>
-    /// <returns></returns>
-    public GasType VisitStructAssignment(StructAssignment structAssignment, TypeEnv envT)
+    public GasType VisitStructTerm(StructTerm structTerm, TypeEnv envT)
     {
-        var identifier = structAssignment.Identifier;
-        var fieldTypes = envT.SLookUpFieldTypes(identifier.Name);
+        var structIdentifier = structTerm.StructName;
+        var fieldTypes = envT.SLookUpFieldTypes(structIdentifier.Name);
 
-        var assignments = structAssignment.Assignments;
+        var assignments = structTerm.Assignments;
 
         if (assignments == null)
         {
-            return GasType.Struct;
+            return GasType.Single;
         }
 
         foreach (var assignment in assignments)
@@ -417,7 +380,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             var fieldType = fieldTypes?.GetValueOrDefault(assignment.Identifier.Name);
             if (fieldType == null)
             {
-                errors.Add("Line: " + structAssignment.LineNum + " Field name: " + assignment.Identifier.Name + " not found in struct: " + identifier.Name);
+                errors.Add("Line: " + structTerm.LineNum + " Field name: " + assignment.Identifier.Name + " not found in struct: " + structIdentifier.Name);
                 return GasType.Error;
             }
 
@@ -425,12 +388,12 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
 
             if (fieldType != expressionType)
             {
-                errors.Add("Line: " + structAssignment.LineNum + " Invalid type for field: " + assignment.Identifier.Name + " expected: " + fieldType + " got: " + expressionType);
+                errors.Add("Line: " + structTerm.LineNum + " Invalid type for field: " + assignment.Identifier.Name + " expected: " + fieldType + " got: " + expressionType);
                 return GasType.Error;
             }
         }
 
-        return GasType.Ok;
+        return GetTypeFromCount(assignments.Count);
     }
 
     /// <summary>
@@ -677,8 +640,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.String;
             case "text":
                 return GasType.Text;
-            case "color":
-                return GasType.Color;
+            case "col":
+                return GasType.Quadruple;
             case "boolean":
                 return GasType.Bool;
             case "square":
@@ -890,5 +853,20 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     public GasType VisitTriangle(Triangle triangle, TypeEnv envT)
     {
         throw new NotImplementedException();
+    }
+
+    public GasType GetTypeFromCount(int count)
+    {
+        return count switch
+        {
+            1 => GasType.Single,
+            2 => GasType.Double,
+            3 => GasType.Triple,
+            4 => GasType.Quadruple,
+            5 => GasType.Quintuple,
+            6 => GasType.Sextuple,
+            7 => GasType.Septuple,
+            _ => GasType.Error
+        };
     }
 }

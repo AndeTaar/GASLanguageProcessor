@@ -90,9 +90,7 @@ public interface IAstVisitor<T>
 
     T VisitIncrement(Increment node, TypeEnv envT);
 
-    T VisitStructDeclaration(StructDeclaration node, TypeEnv envT);
-
-    T VisitStructAssignment(StructAssignment node, TypeEnv envT);
-
     T VisitStructCreation(StructCreation node, TypeEnv envT);
+
+    T VisitStructTerm(StructTerm structTerm, TypeEnv envT);
 }

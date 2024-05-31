@@ -282,6 +282,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return VisitListTerm(context.listTerm());
         }
+        else if (context.structTerm() != null)
+        {
+            return context.structTerm().Accept(this);
+        }
         else if (context.IDENTIFIER() != null)
         {
             var identifiers = context.IDENTIFIER().ToList();
@@ -300,16 +304,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
     }
 
-    public override AstNode VisitStructAssignment(GASParser.StructAssignmentContext context)
-    {
-        var identifier = new Identifier(context.IDENTIFIER()[0].GetText()) {LineNum = context.Start.Line};
-        var structIdentifier = new Identifier(context.IDENTIFIER()[1].GetText()) {LineNum = context.Start.Line};
-
-        var assignments = context.assignment().Select(a => a.Accept(this) as Assignment).ToList();
-
-        return new StructAssignment(identifier, structIdentifier, assignments) {LineNum = context.Start.Line};
-    }
-
     public override AstNode VisitStructCreation(GASParser.StructCreationContext context)
     {
         var structIdentifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
@@ -319,13 +313,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new StructCreation(structIdentifier, declarations) {LineNum = context.Start.Line};
     }
 
-    public override AstNode VisitStructDeclaration(GASParser.StructDeclarationContext context)
+    public override AstNode VisitStructTerm(GASParser.StructTermContext context)
     {
-        var identifier = context.IDENTIFIER().Select(i => new Identifier(i.GetText())).ToList();
+        var structIdentifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
 
-        var assignments = context.assignment().Select(f => f.Accept(this) as Assignment).ToList();
+        var assignments = context.assignment().Select(a => a.Accept(this) as Assignment).ToList();
 
-        return new StructDeclaration(identifier[0], identifier[1], assignments) {LineNum = context.Start.Line};
+        return new StructTerm(structIdentifier, assignments) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)

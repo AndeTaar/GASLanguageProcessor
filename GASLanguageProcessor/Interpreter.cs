@@ -99,20 +99,6 @@ public class Interpreter
                 funcEnv.Bind(functionDeclaration.Identifier.Name, functionDecl);
                 return null;
 
-            case StructDeclaration structDeclaration:
-                var name = structDeclaration.Identifier.Name;
-                var structName = structDeclaration.StructIdentifier;
-                var structValues = structDeclaration.Assignments?.Select(x =>
-                {
-                    var value = EvaluateExpression(x.Expression, varEnv, funcEnv, store);
-                    return new KeyValuePair<string, object>(x.Identifier.Name, value);
-                }).ToDictionary();
-                var structDecl = new Struct(structValues);
-                next = varEnv.GetNext();
-                varEnv.Bind(name, next);
-                store.Bind(next, structDecl);
-                return null;
-
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
                 var declIdentifier = declaration.Identifier.Name;
