@@ -98,6 +98,21 @@ public class Interpreter
                 var functionDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), store);
                 funcEnv.Bind(functionDeclaration.Identifier.Name, functionDecl);
                 return null;
+
+            case StructDeclaration structDeclaration:
+                var name = structDeclaration.Identifier.Name;
+                var structName = structDeclaration.StructIdentifier;
+                var structValues = structDeclaration.Assignments?.Select(x =>
+                {
+                    var value = EvaluateExpression(x.Expression, varEnv, funcEnv, store);
+                    return new KeyValuePair<string, object>(x.Identifier.Name, value);
+                }).ToDictionary();
+                var structDecl = new Struct(structValues);
+                next = varEnv.GetNext();
+                varEnv.Bind(name, next);
+                store.Bind(next, structDecl);
+                return null;
+
             case Declaration declaration:
                 var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
                 var declIdentifier = declaration.Identifier.Name;
@@ -310,6 +325,11 @@ public class Interpreter
                     return null;
                 }
 
+                if (identifier.ChildAttribute != null)
+                {
+                    variable = ((Struct)variable).Values[identifier.ChildAttribute];
+                }
+
                 return variable;
 
             case Num num: // Num is a float; CultureInfo is used to ensure that the decimal separator is a dot
@@ -335,7 +355,7 @@ public class Interpreter
                 return new FinalPoint(x, y);
 
             case Square square:
-                var topLeft = (FinalPoint)EvaluateExpression(square.TopLeft, varEnv, funcEnv, store);
+                var topLeft = new FinalPoint(EvaluateExpression(square.TopLeft, varEnv, funcEnv, store));
                 var length = (float)EvaluateExpression(square.Length, varEnv, funcEnv, store);
                 var strokeSize = (float)EvaluateExpression(square.Stroke, varEnv, funcEnv, store);
                 var squareFillColor = (FinalColor)EvaluateExpression(square.Color, varEnv, funcEnv, store);
@@ -344,7 +364,7 @@ public class Interpreter
                 return new FinalSquare(topLeft, length, strokeSize, squareFillColor, squareStrokeColor, cornerRounding);
 
             case Ellipse ellipse:
-                var ellipseCentre = (FinalPoint)EvaluateExpression(ellipse.Center, varEnv, funcEnv, store);
+                var ellipseCentre = new FinalPoint(EvaluateExpression(ellipse.Center, varEnv, funcEnv, store));
                 var ellipseRadiusX = (float)EvaluateExpression(ellipse.RadiusX, varEnv, funcEnv, store);
                 var ellipseRadiusY = (float)EvaluateExpression(ellipse.RadiusY, varEnv, funcEnv, store);
                 var ellipseStroke = (float)EvaluateExpression(ellipse.Stroke, varEnv, funcEnv, store);
@@ -355,7 +375,7 @@ public class Interpreter
 
             case Text text:
                 var value = (string)EvaluateExpression(text.Value, varEnv, funcEnv, store);
-                var position = (FinalPoint)EvaluateExpression(text.Position, varEnv, funcEnv, store);
+                var position = new FinalPoint(EvaluateExpression(text.Position, varEnv, funcEnv, store));
                 var font = (string)EvaluateExpression(text.Font, varEnv, funcEnv, store);
                 var fontSize = (float)EvaluateExpression(text.FontSize, varEnv, funcEnv, store);
                 var fontWeight = (float)EvaluateExpression(text.FontWeight, varEnv, funcEnv, store);
@@ -363,7 +383,7 @@ public class Interpreter
                 return new FinalText(value, position, font, fontSize, fontWeight, textColor);
 
             case Circle circle:
-                var centre = (FinalPoint)EvaluateExpression(circle.Center, varEnv, funcEnv, store);
+                var centre = new FinalPoint(EvaluateExpression(circle.Center, varEnv, funcEnv, store));
                 var radius = (float)EvaluateExpression(circle.Radius, varEnv, funcEnv, store);
                 var stroke = (float)EvaluateExpression(circle.Stroke, varEnv, funcEnv, store);
                 var fillColor = (FinalColor)EvaluateExpression(circle.Color, varEnv, funcEnv, store);
@@ -371,8 +391,8 @@ public class Interpreter
                 return new FinalCircle(centre, radius, stroke, fillColor, strokeColor);
 
             case Rectangle rectangle:
-                var rectTopLeft = (FinalPoint)EvaluateExpression(rectangle.TopLeft, varEnv, funcEnv, store);
-                var rectBottomRight = (FinalPoint)EvaluateExpression(rectangle.BottomRight, varEnv, funcEnv, store);
+                var rectTopLeft = new FinalPoint(EvaluateExpression(rectangle.TopLeft, varEnv, funcEnv, store));
+                var rectBottomRight = new FinalPoint(EvaluateExpression(rectangle.BottomRight, varEnv, funcEnv, store));
                 var rectStroke = (float)EvaluateExpression(rectangle.Stroke, varEnv, funcEnv, store);
                 var rectFillColor = (FinalColor)EvaluateExpression(rectangle.Color, varEnv, funcEnv, store);
                 var rectStrokeColor = (FinalColor)EvaluateExpression(rectangle.StrokeColor, varEnv, funcEnv, store);
@@ -395,15 +415,15 @@ public class Interpreter
                 return new FinalLine(lineStart, lineEnd, lineStroke, lineColor);
 
             case SegLine segLine:
-                var segLineStart = (FinalPoint)EvaluateExpression(segLine.Start, varEnv, funcEnv, store);
-                var segLineEnd = (FinalPoint)EvaluateExpression(segLine.End, varEnv, funcEnv, store);
+                var segLineStart = new FinalPoint(EvaluateExpression(segLine.Start, varEnv, funcEnv, store));
+                var segLineEnd = new FinalPoint(EvaluateExpression(segLine.End, varEnv, funcEnv, store));
                 var segLineStroke = (float)EvaluateExpression(segLine.Stroke, varEnv, funcEnv, store);
                 var segLineColor = (FinalColor)EvaluateExpression(segLine.Color, varEnv, funcEnv, store);
                 return new FinalSegLine(segLineStart, segLineEnd, segLineStroke, segLineColor);
 
             case Arrow arrow:
-                var arrowStart = (FinalPoint)EvaluateExpression(arrow.Start, varEnv, funcEnv, store);
-                var arrowEnd = (FinalPoint)EvaluateExpression(arrow.End, varEnv, funcEnv, store);
+                var arrowStart = new FinalPoint(EvaluateExpression(arrow.Start, varEnv, funcEnv, store));
+                var arrowEnd = new FinalPoint(EvaluateExpression(arrow.End, varEnv, funcEnv, store));
                 var arrowStroke = (float)EvaluateExpression(arrow.Stroke, varEnv, funcEnv, store);
                 var arrowColor = (FinalColor)EvaluateExpression(arrow.Color, varEnv, funcEnv, store);
                 return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
@@ -416,7 +436,7 @@ public class Interpreter
                 return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor);
 
             case Group group:
-                var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
+                var finalPoint = new FinalPoint(EvaluateExpression(group.Point, varEnv, funcEnv, store));
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 

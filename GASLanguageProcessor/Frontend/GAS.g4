@@ -6,11 +6,14 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
-complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
+simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas | structDeclaration | structAssignment) ';';
+complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | structCreation;
 
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
+structCreation : IDENTIFIER ':' 'Struct''{' (declaration ';')* '}';
+structDeclaration : 'struct' IDENTIFIER '=' IDENTIFIER '{' (assignment (',' assignment)*) '}';
+structAssignment : IDENTIFIER '=' IDENTIFIER '(' (assignment (',' assignment)*) ')';
 increment : IDENTIFIER ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
@@ -34,7 +37,7 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+term : IDENTIFIER ('.' IDENTIFIER)? | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | groupTerm;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';

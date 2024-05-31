@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from GAS.g4 by ANTLR 4.13.1
+// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -73,6 +73,24 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAssignment([NotNull] GASParser.AssignmentContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.structCreation"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStructCreation([NotNull] GASParser.StructCreationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.structDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStructDeclaration([NotNull] GASParser.StructDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.structAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStructAssignment([NotNull] GASParser.StructAssignmentContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.increment"/>.
 	/// </summary>
