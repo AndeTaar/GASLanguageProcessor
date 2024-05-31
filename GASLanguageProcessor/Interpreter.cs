@@ -429,7 +429,9 @@ public class Interpreter
                 return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor);
 
             case Polygon polygon:
-                var polygonPoints = (FinalList)EvaluateExpression(polygon.Points, varEnv, funcEnv, store);
+                var finalList = (FinalList)EvaluateExpression(polygon.Points, varEnv, funcEnv, store);
+                var polygonPoints = new FinalList(finalList.Values.Select(x => new FinalPoint(x)).ToList());
+
                 var polygonColor = (FinalColor)EvaluateExpression(polygon.Color, varEnv, funcEnv, store);
                 var polygonStroke = (float)EvaluateExpression(polygon.Stroke, varEnv, funcEnv, store);
                 var polygonStrokeColor = (FinalColor)EvaluateExpression(polygon.StrokeColor, varEnv, funcEnv, store);

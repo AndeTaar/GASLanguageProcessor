@@ -707,6 +707,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Arrow;
             case "struct":
                 return GasType.Struct;
+            case "any":
+                return GasType.Any;
         }
         errors.Add(node.Value + " Not implemented");
         return GasType.Error;

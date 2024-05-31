@@ -1,4 +1,4 @@
-﻿num canvasWidth = 500;
+num canvasWidth = 500;
 num canvasHeight = 250;
 
 color white = Color(255, 255, 255, 1);

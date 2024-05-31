@@ -17,7 +17,6 @@ C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.
 C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/ref/GASLanguageProcessor.dll
 C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/test.gas
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor
-/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/test.gas
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.deps.json
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.runtimeconfig.json
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.dll
@@ -150,3 +149,5 @@ C:/Users/Daniel/RiderProjects/GASLanguageProcessor/GASLanguageProcessor/obj/Debu
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.pdb
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.genruntimeconfig.cache
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/ref/GASLanguageProcessor.dll
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/test2.gas
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/test.gas
