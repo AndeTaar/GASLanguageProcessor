@@ -67,7 +67,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         {
             errors.Add("Invalid type for canvas background color: expected: Color, got: " + backgroundColorType);
         }
-        var bound = envT.VBind("canvas", GasType.Canvas);
+        var bound = envT.VBind("canvas", new List<GasType>(){GasType.Canvas});
 
         if (!bound)
         {
@@ -243,7 +243,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
      public GasType VisitAssignment(Assignment node, TypeEnv envT)
     {
         var identifier = node.Identifier;
-        var variableType = envT.VLookUp(identifier.Name);
+        var variableType = envT.VLookUp(identifier.Name)?[0];
 
         if (variableType == null)
         {
@@ -304,7 +304,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        var bound = envT.VBind(identifier.Name, type);
+        var bound = envT.VBind(identifier.Name, new List<GasType>() {type});
 
         if (!bound)
         {
@@ -325,7 +325,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     {
         var identifier = increment.Identifier;
         var op = increment.Operator;
-        var variableType = envT.VLookUp(identifier.Name);
+        var variableType = envT.VLookUp(identifier.Name)?[0];
 
         if(variableType == null)
         {
@@ -349,6 +349,91 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     }
 
     /// <summary>
+    /// Visit the the struct declaration node
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="envT"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public GasType VisitStructDeclaration(StructDeclaration node, TypeEnv envT)
+    {
+        var identifier = node.Identifier.Name;
+        var structIdentifier = node.StructIdentifier.Name;
+        var fieldTypes = envT.SLookUpFieldTypes(structIdentifier);
+
+        if (fieldTypes == null)
+        {
+            errors.Add("Line: " + node.LineNum + " Struct name: " + structIdentifier + " not found");
+            return GasType.Error;
+        }
+
+        envT.VBind(identifier, fieldTypes.Values.ToList());
+        var bound = envT.SBind(identifier, fieldTypes);
+
+        if (!bound)
+        {
+            errors.Add("Line: " + node.LineNum + " Struct name: " + identifier + " already exists");
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
+    }
+
+    public GasType VisitStructCreation(StructCreation node, TypeEnv envT)
+    {
+        var identifier = node.Identifier.Name;
+        var bound = envT.SBind(identifier, node.Fields.ToDictionary(declaration => declaration.Identifier.Name,
+            declaration => declaration.Type.Accept(this, envT)));
+
+        if (!bound)
+        {
+            errors.Add("Line: " + node.LineNum + " Struct name: " + identifier + " already exists");
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
+    }
+
+    /// <summary>
+    /// Visit the struct Assignment node
+    /// </summary>
+    /// <param name="structAssignment"></param>
+    /// <param name="envT"></param>
+    /// <returns></returns>
+    public GasType VisitStructAssignment(StructAssignment structAssignment, TypeEnv envT)
+    {
+        var identifier = structAssignment.Identifier;
+        var fieldTypes = envT.SLookUpFieldTypes(identifier.Name);
+
+        var assignments = structAssignment.Assignments;
+
+        if (assignments == null)
+        {
+            return GasType.Struct;
+        }
+
+        foreach (var assignment in assignments)
+        {
+            var fieldType = fieldTypes?.GetValueOrDefault(assignment.Identifier.Name);
+            if (fieldType == null)
+            {
+                errors.Add("Line: " + structAssignment.LineNum + " Field name: " + assignment.Identifier.Name + " not found in struct: " + identifier.Name);
+                return GasType.Error;
+            }
+
+            var expressionType = assignment.Expression.Accept(this, envT);
+
+            if (fieldType != expressionType)
+            {
+                errors.Add("Line: " + structAssignment.LineNum + " Invalid type for field: " + assignment.Identifier.Name + " expected: " + fieldType + " got: " + expressionType);
+                return GasType.Error;
+            }
+        }
+
+        return GasType.Ok;
+    }
+
+    /// <summary>
     /// Visit the function declaration node
     /// </summary>
     /// <param name="node"></param>
@@ -362,7 +447,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var expectedParameterTypes = node.Parameters.Select(parameter =>
         {
             var type = parameter.Type.Accept(this, envT);
-            envT.VBind(parameter.Identifier.Name, type);
+            envT.VBind(parameter.Identifier.Name, new List<GasType>(){ type });
             return parameter.Type.Accept(this, envT);
         }).ToList();
 
@@ -435,12 +520,28 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitIdentifier(Identifier node, TypeEnv envT)
     {
-        var variableType = envT.VLookUp(node.Name);
-        if(variableType == null){
-            errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
+        var childAttribute = node.ChildAttribute;
+        var variableType = envT.VLookUp(node.Name)?[0];
+
+        if(childAttribute == null)
+        {
+            if (variableType == null)
+            {
+                errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
+                return GasType.Error;
+            }
+            return variableType ?? GasType.Error;
+        }
+
+        var structType = envT.SLookUp(node.Name, childAttribute);
+
+        if ((structType == null || structType == GasType.Error) && variableType == null )
+        {
+            errors.Add("Line: " + node.LineNum + " Struct name: " + node.Name + " not found");
             return GasType.Error;
         }
-        return variableType ?? GasType.Error;
+
+        return structType ?? GasType.Error;
     }
 
     /// <summary>
@@ -604,6 +705,8 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Polygon;
             case "arrow":
                 return GasType.Arrow;
+            case "struct":
+                return GasType.Struct;
         }
         errors.Add(node.Value + " Not implemented");
         return GasType.Error;

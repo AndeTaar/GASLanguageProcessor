@@ -89,4 +89,10 @@ public interface IAstVisitor<T>
     T VisitTriangle(Triangle node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
+
+    T VisitStructDeclaration(StructDeclaration node, TypeEnv envT);
+
+    T VisitStructAssignment(StructAssignment node, TypeEnv envT);
+
+    T VisitStructCreation(StructCreation node, TypeEnv envT);
 }

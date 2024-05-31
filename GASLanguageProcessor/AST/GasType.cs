@@ -20,6 +20,7 @@ public enum GasType
     Error,
     Ellipse,
     Any,
+    Struct,
     Polygon,
     Arrow,
     Triangle,
