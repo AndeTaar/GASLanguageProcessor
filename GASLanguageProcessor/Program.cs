@@ -40,13 +40,13 @@ static void Main(string[] args)
     var envV = new VarEnv();
     var sto = new Store();
     var envF = new FuncEnv(sto, envV, null);
-    interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+    var finalStore = interpreter.EvaluateProgram(ast as GASLanguageProcessor.AST.Expressions.Terms.Program, envV, envF, sto);
     interpreter.errors.ForEach(Console.Error.WriteLine);
     if(interpreter.errors.Count > 0)
     {
         return;
     }
-    SvgGenerator svgGenerator = new SvgGenerator(sto);
+    var svgGenerator = new SvgGenerator(finalStore);
     var lines = svgGenerator.GenerateSvg(envV);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);

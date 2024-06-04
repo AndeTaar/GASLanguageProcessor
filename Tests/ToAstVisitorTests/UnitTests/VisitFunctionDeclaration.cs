@@ -2,6 +2,7 @@
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
 

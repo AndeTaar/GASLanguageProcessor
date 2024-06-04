@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.RecTerms;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -18,7 +20,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         var lines =  context.children
             .Select ( line => line.Accept(this)).ToList();
 
-        return ToCompound(lines);
+        return new AST.Expressions.Terms.Program(ToCompound(lines));
     }
 
     public override AstNode VisitCanvas(GASParser.CanvasContext context)
@@ -73,6 +75,27 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new While(condition, whileBody);
     }
 
+    public override AstNode VisitRecExpression(GASParser.RecExpressionContext context)
+    {
+        var recordType = context.recTypeIdent()?.Accept(this) as RecType;
+        if (recordType != null)
+        {
+            var identifiers = context.ident().Select(i => i.Accept(this) as Identifier).ToList();
+            var expressions = context.allExpression().Select(e => e.Accept(this) as Expression).ToList();
+
+            return new Record(recordType, identifiers, expressions) { LineNum = context.Start.Line };
+        }
+
+        var recList = context.recListTerm()?.Accept(this) as RecList;
+
+        if(recList != null)
+        {
+            return recList;
+        }
+
+        return context.recIdent()?.Accept(this) as RecordIdentifier;
+    }
+
     public override AstNode VisitForStatement(GASParser.ForStatementContext context)
     {
         var declaration = context.declaration()?.Accept(this) as Declaration;
@@ -104,16 +127,16 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitAssignment(GASParser.AssignmentContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = context.varIdent().Accept(this) as VariableIdentifier;
         string op = context.GetChild(1).GetText();
-        Expression value = context.expression().Accept(this) as Expression;
+        var value = context.expression().Accept(this) as Expression;
 
         return new Assignment(identifier, value, op) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitIncrement(GASParser.IncrementContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = context.varIdent().Accept(this) as VariableIdentifier;
         string op = context.GetChild(1).GetText();
 
         return new Increment(identifier, op) {LineNum = context.Start.Line};
@@ -137,9 +160,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
             type = context.collectionType().Accept(this) as Type;
         }
 
-        Identifier identifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        var identifier = context.varIdent().Accept(this) as VariableIdentifier;
 
-        Expression value = context.expression()?.Accept(this) as Expression;
+        var value = context.expression()?.Accept(this) as Expression;
 
         return new Declaration(type, identifier, value) {LineNum = context.Start.Line};
     }
@@ -186,6 +209,72 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
+    public override AstNode VisitRecDefinition(GASParser.RecDefinitionContext context)
+    {
+        var recordType = context.recTypeIdent().Accept(this) as RecType;
+        var types = context.allTypes().Select(t => t.Accept(this) as Type).ToList();
+        var identifiers = context.ident().Select(i => i.Accept(this) as Identifier).ToList();
+
+        return new RecordDefinition(recordType, types, identifiers) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitAllTypes(GASParser.AllTypesContext context)
+    {
+        return new Type(context.GetText()) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecDeclaration(GASParser.RecDeclarationContext context)
+    {
+        var recordIdentifier = context.recIdent().Accept(this) as RecordIdentifier;
+        var recType = context.recTypeIdent()?.Accept(this) as RecType;
+
+        if(recType == null)
+        {
+            recType = context.recCollectionType().Accept(this) as RecType;
+        }
+
+        var recordExpression = context.recExpression().Accept(this);
+
+        if(recordExpression as RecordExpression == null)
+        {
+            Console.Write("error");
+        }
+
+        return new RecordDeclaration(recordIdentifier, recType, recordExpression as RecordExpression) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecCollectionType(GASParser.RecCollectionTypeContext context)
+    {
+        return new RecType(context.GetText().Replace("list<", "").Replace(">", "")) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecAssignment(GASParser.RecAssignmentContext context)
+    {
+        var recordIdentifier = context.recIdent().Accept(this) as RecordIdentifier;
+        var recordType = context.recExpression().Accept(this) as Record;
+        return new RecordAssignment(recordIdentifier, recordType) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecIdent(GASParser.RecIdentContext context)
+    {
+        return new RecordIdentifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecTypeIdent(GASParser.RecTypeIdentContext context)
+    {
+        return new RecType(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitVarIdent(GASParser.VarIdentContext context)
+    {
+        var recordIdentifier = context.recIdent()?.Accept(this) as RecordIdentifier;
+        if (recordIdentifier != null)
+        {
+            return new VariableIdentifier(recordIdentifier.Name, context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+        }
+        return new VariableIdentifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+    }
+
     public override AstNode VisitReturnStatement(GASParser.ReturnStatementContext context)
     {
         Expression expression = context?.expression().Accept(this) as Expression;
@@ -194,8 +283,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var identifier = new Identifier(context.IDENTIFIER().GetText());
-        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
+        var identifier = new FunctionNameIdentifier(context.ident().GetText()) {LineNum = context.Start.Line};
+        var arguments = context.allExpression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
         if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
         {
             return new FunctionCallTerm(identifier, arguments) { LineNum = context.Start.Line };
@@ -206,15 +295,15 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
         var returnType = context.allTypes()[0].Accept(this) as Type;
-        var identifier = new Identifier(context.IDENTIFIER()[0].GetText());
+        var identifier = new FunctionNameIdentifier(context.ident()[0].GetText()) {LineNum = context.Start.Line};
 
         var types = context.allTypes().Skip(1).ToList();
-        var identifiers = context.IDENTIFIER().Skip(1).ToList();
+        var identifiers = context.ident().Skip(1).ToList();
 
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
             var type = typeNode.Accept(this) as Type;
-            var identifier = new Identifier(identifierNode.GetText()) {LineNum = context.Start.Line};
+            var identifier = new VariableIdentifier(identifierNode.GetText()) {LineNum = context.Start.Line};
             return new Parameter(type, identifier);
         }).ToList();
 
@@ -250,6 +339,11 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new BinaryOp(multExpressions[0], context.GetChild(1).GetText(), binaryExpression ?? multExpressions[1]) {LineNum = context.Start.Line};
     }
 
+    public override AstNode VisitIdent(GASParser.IdentContext context)
+    {
+        return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+    }
+
     public override AstNode VisitTerm(GASParser.TermContext context)
     {
         if (context.NUM() != null)
@@ -282,9 +376,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         {
             return VisitListTerm(context.listTerm());
         }
-        else if (context.IDENTIFIER() != null)
+        else if (context.varIdent() != null)
         {
-            return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+            return context.varIdent().Accept(this) as VariableIdentifier;
         }
         else
         {
@@ -294,8 +388,15 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)
     {
-        var type = context.type()?.Accept(this) as Type;
+        var type = context.type()?.Accept(this) as Type ?? context.type().Accept(this) as Type;
         var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
+        return new List(expressions, type) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitRecListTerm(GASParser.RecListTermContext context)
+    {
+        var type = context.recTypeIdent()?.Accept(this) as Type;
+        var expressions = context.recExpression()?.Select(expr => expr.Accept(this) as Expression).ToList();
         return new List(expressions, type) {LineNum = context.Start.Line};
     }
 

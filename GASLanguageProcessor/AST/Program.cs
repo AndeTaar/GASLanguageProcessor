@@ -5,9 +5,9 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Program : AstNode
 {
-    public Compound Statements { get; set; }
+    public Statement Statements { get; set; }
 
-    public Program(Compound statements)
+    public Program(Statement statements)
     {
         Statements = statements;
     }

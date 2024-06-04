@@ -1,5 +1,7 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.RecTerms;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
@@ -23,8 +25,6 @@ public interface IAstVisitor<T>
     T VisitIfStatement(If node, TypeEnv envT);
 
     T VisitBoolean(Boolean node, TypeEnv envT);
-
-    T VisitIdentifier(Identifier node, TypeEnv envT);
 
     T VisitCompound(Compound node, TypeEnv envT);
 
@@ -89,4 +89,26 @@ public interface IAstVisitor<T>
     T VisitTriangle(Triangle node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
+
+    T VisitVariableIdentifier(VariableIdentifier node, TypeEnv envT);
+
+    T VisitRecordIdentifier(RecordIdentifier node, TypeEnv envT);
+
+    T VisitRecordTypeIdentifier(RecordTypeIdentifier node, TypeEnv envT);
+
+    T VisitFunctionNameIdentifier(FunctionNameIdentifier functionNameIdentifier, TypeEnv envT);
+
+    T VisitRecordDefinition(RecordDefinition node, TypeEnv envT);
+
+    T VisitIdentifier(Identifier identifier, TypeEnv envT);
+
+    T VisitRecordDeclaration(RecordDeclaration node, TypeEnv envT);
+
+    T VisitRecordAssignment(RecordAssignment node, TypeEnv envT);
+
+    T VisitRecord(Record record, TypeEnv envT);
+
+    T VisitRecList(RecList recList, TypeEnv envT);
+
+    T VisitRecType(RecType recType, TypeEnv envT);
 }

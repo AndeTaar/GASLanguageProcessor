@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.AST.Expressions.Terms;
+﻿using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
+
+namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Parameter
 {

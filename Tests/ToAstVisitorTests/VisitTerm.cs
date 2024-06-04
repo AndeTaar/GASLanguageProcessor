@@ -3,6 +3,7 @@ using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
