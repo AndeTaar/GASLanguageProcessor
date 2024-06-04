@@ -1,6 +1,6 @@
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalPolygon
+public class FinalPolygon: FinalType
 {
     public FinalList Points { get; set; }
     public FinalNum Stroke { get; set; }

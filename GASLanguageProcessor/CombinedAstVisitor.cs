@@ -447,7 +447,16 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var expectedParameterTypes = node.Parameters.Select(parameter =>
         {
             var type = parameter.Type.Accept(this, envT);
-            envT.VBind(parameter.Identifier.Name, type);
+            var structType = envT.RecTypeLookUp(parameter.Type.Value);
+            if (structType != null)
+            {
+                envT.RecBind(parameter.Identifier.Name, parameter.Type.Value, envT);
+            }
+            else
+            {
+                envT.VBind(parameter.Identifier.Name, type);
+            }
+
             return parameter.Type.Accept(this, envT);
         }).ToList();
 

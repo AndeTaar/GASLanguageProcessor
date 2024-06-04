@@ -1,6 +1,6 @@
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalEllipse
+public class FinalEllipse: FinalType
 {
     public FinalPoint Center { get; set; }
     public FinalNum RadiusX { get; set; }

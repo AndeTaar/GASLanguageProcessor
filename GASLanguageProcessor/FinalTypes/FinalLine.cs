@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalLine
+public class FinalLine: FinalType
 {
     public FinalPoint Start { get; set; }
     public FinalPoint End { get; set; }

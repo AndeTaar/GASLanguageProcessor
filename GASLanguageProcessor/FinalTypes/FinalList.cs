@@ -4,7 +4,7 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalList
+public class FinalList: FinalType
 {
     public List<object> Values { get; set; }
 

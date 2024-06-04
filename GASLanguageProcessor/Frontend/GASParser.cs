@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
+// Generated from GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -1351,8 +1351,8 @@ public partial class GASParser : Parser {
 	}
 
 	public partial class TypeContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
-			return GetRuleContext<IdentifierContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public RecordTypeIdentifierContext recordTypeIdentifier() {
+			return GetRuleContext<RecordTypeIdentifierContext>(0);
 		}
 		public TypeContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1407,7 +1407,7 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 5);
 				{
 				State = 243;
-				identifier();
+				recordTypeIdentifier();
 				}
 				break;
 			default:
@@ -2601,7 +2601,7 @@ public partial class GASParser : Parser {
 		0,229,232,1,0,0,0,230,231,1,0,0,0,230,228,1,0,0,0,231,233,1,0,0,0,232,
 		230,1,0,0,0,233,234,5,9,0,0,234,29,1,0,0,0,235,238,3,32,16,0,236,238,3,
 		34,17,0,237,235,1,0,0,0,237,236,1,0,0,0,238,31,1,0,0,0,239,245,5,21,0,
-		0,240,245,5,22,0,0,241,245,5,23,0,0,242,245,5,24,0,0,243,245,3,60,30,0,
+		0,240,245,5,22,0,0,241,245,5,23,0,0,242,245,5,24,0,0,243,245,3,58,29,0,
 		244,239,1,0,0,0,244,240,1,0,0,0,244,241,1,0,0,0,244,242,1,0,0,0,244,243,
 		1,0,0,0,245,33,1,0,0,0,246,247,5,25,0,0,247,248,5,26,0,0,248,249,3,32,
 		16,0,249,250,5,27,0,0,250,253,1,0,0,0,251,253,5,28,0,0,252,246,1,0,0,0,

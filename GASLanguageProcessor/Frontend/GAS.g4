@@ -23,7 +23,7 @@ functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allType
 //Standard data types
 
 allTypes : type | collectionType ;
-type: 'num' | 'bool' | 'string' | 'void' | identifier;
+type: 'num' | 'bool' | 'string' | 'void' | recordTypeIdentifier;
 collectionType : 'list' '<' (type) '>' | 'group';
 
 // Expressions

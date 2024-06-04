@@ -3,7 +3,7 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalGroup
+public class FinalGroup: FinalType
 {
     public FinalPoint Point { get; set; }
     public VarEnv EnvV { get; set; }

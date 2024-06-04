@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalCanvas
+public class FinalCanvas: FinalType
 {
     public FinalNum Width { get; set; }
     public FinalNum Height { get; set; }

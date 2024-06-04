@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalColor
+public class FinalColor: FinalType
 {
     public FinalNum Red { get; set; }
     public FinalNum Green { get; set; }
@@ -13,6 +13,14 @@ public class FinalColor
         Green = new FinalNum(values["green"]);
         Blue = new FinalNum(values["blue"]);
         Alpha = new FinalNum(values["alpha"]);
+    }
+
+    public FinalColor(float red, float green, float blue, float alpha)
+    {
+        Red = new FinalNum(red);
+        Green = new FinalNum(green);
+        Blue = new FinalNum(blue);
+        Alpha = new FinalNum(alpha);
     }
 
     public string ColorToString()

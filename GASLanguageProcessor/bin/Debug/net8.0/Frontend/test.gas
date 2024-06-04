@@ -1,55 +1,20 @@
 ﻿num canvasWidth = 500;
 num canvasHeight = 250;
 
-Color white = Color{
-    red=255;
-    green=255;
-    blue=255;
-    alpha=255;
-};
+Color white = Color{red=255; green=255; blue=255; alpha=1; };
 
 num g = white.green;
 
-Color red = Color{
-    red=255;
-    green=0;
-    blue=0;
-    alpha=255;
-};
+Color red = Color{red=255; green=0; blue=0; alpha=white.alpha; };
 
-Color blue = Color{
-    red=0;
-    green=0;
-    blue=255;
-    alpha=255;
-};
+Color blue = Color{red=0; green=0; blue=255; alpha=white.alpha; };
 
-TypeDef Circles = {
-    num radius;
-    num centerPointX;
-    num centerPointY;
-    num percentage;
-    Color color1;
-    Color color2;
+TypeDef newShape = {
+    string name;
+    num x;
+    list<Point> points;
+    Color color;
 }
-
-Circles circle1 = Circles{
-    radius=50;
-    centerPointX=canvasWidth/2;
-    centerPointY=canvasHeight/2;
-    percentage=81;
-    color1=red;
-    color2=blue;
-};
-
-circle1 = Circles{
-    radius=50;
-    centerPointX=canvasWidth/2+10;
-    centerPointY=canvasHeight/2+10;
-    percentage=81/2;
-    color1=blue;
-    color2=red;
-};
 
 num Cos(num angle) {
     num result = 1;
@@ -75,23 +40,23 @@ num Sin(num angle) {
 
 list<Polygon> polygons = List<Polygon>{};
 
-void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
+void createCircleDiagram(num radius, Point center, num percentage, color color1, color color2){
     list<Point> points = List<Point>{};
     num entireCircle = 2 * 3.14;
     entireCircle = entireCircle * percentage / 100;
 
     for (num theta = 0; theta <= entireCircle; theta = theta + 3.14 / 180)
     {
-        num x2 = centerPointX + radius * Sin(theta)*-1;
-        num y = centerPointY + radius * Cos(theta)*-1;
+        num x2 = center.x + radius * Sin(theta)*-1;
+        num y = center.y + radius * Cos(theta)*-1;
         AddToList(Point{x=x2; y=y;}, points);
     }
 
-    AddToList(Point{x=centerPointX; y=centerPointY;}, points);
+    AddToList(Point{x=center.x; y=center.y;}, points);
     Circle c = Circle{
         center=Point{
-            x=centerPointX;
-            y=centerPointY;
+            x=center.x;
+            y=center.y;
         };
         radius=50;
         stroke=0;
@@ -102,22 +67,11 @@ void createCircleDiagram(num radius, num centerPointX, num centerPointY, num per
     AddToList(c, polygons);
     Polygon poly = Polygon{points=points; stroke=0; color=color2; strokeColor=white;};
     AddToList(poly, polygons);
-
-    Circle c1 = Circle{
-        center=Point{
-            x=centerPointX;
-            y=centerPointY;
-        };
-        radius=50;
-        stroke=0;
-        color=color2;
-        strokeColor=red;
-    };
-    AddToList(c1, polygons);
 }
-num centerPointX = canvasWidth/2;
+
 num radius = 50;
-num centerPointY = canvasHeight/2;
-createCircleDiagram(circle1.radius, centerPointX, centerPointY, 81, red, blue);
+Point center = Point{x=canvasWidth/2; y=canvasHeight/2;};
+
+createCircleDiagram(radius, center, 81, red, blue);
 
 canvas (canvasWidth, canvasHeight, white);

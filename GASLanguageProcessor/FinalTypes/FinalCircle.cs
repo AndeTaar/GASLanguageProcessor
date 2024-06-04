@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalCircle
+public class FinalCircle: FinalType
 {
     public FinalPoint Center { get; set; }
     public FinalNum Radius { get; set; }

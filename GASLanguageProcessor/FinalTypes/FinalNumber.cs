@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalNum
+public class FinalNum: FinalType
 {
     public float Value { get; set; }
 

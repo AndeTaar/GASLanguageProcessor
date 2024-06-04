@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalArrow
+public class FinalArrow: FinalType
 {
     public FinalPoint Start { get; set; }
     public FinalPoint End { get; set; }

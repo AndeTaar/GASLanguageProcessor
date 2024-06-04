@@ -2,7 +2,7 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalTriangle
+public class FinalTriangle: FinalType
 {
     public FinalPoint TrianglePeak { get; set; }
     public List<FinalPoint> Points { get; set; }

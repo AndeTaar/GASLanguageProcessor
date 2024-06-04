@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalPoint
+public class FinalPoint: FinalType
 {
     public FinalNum X { get; set; }
     public FinalNum Y { get; set; }

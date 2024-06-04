@@ -33,8 +33,7 @@ public class Interpreter
                 canvasWidth = (float) val;
                 val = EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
                 canvasHeight = (float) val;
-                var color = EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store) as FinalRecord;
-                var backgroundColor = new FinalColor(color.Fields);
+                var backgroundColor = (FinalColor) EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
                 var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
 
                 int next = varEnv.GetNext();
@@ -167,11 +166,16 @@ public class Interpreter
     public (VarEnv, Store) EvaluateDeclaration(Declaration declaration, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
-        if (val == null)
-        {
-            Console.WriteLine("Var: " + declaration.Identifier.Name + " is null");
-        }
         var declIdentifier = declaration.Identifier.Name;
+
+        var prevIndex = varEnv.LookUp(declIdentifier);
+
+        if(prevIndex != null)
+        {
+            store.Bind(prevIndex.Value, val);
+            return (varEnv, store);
+        }
+
         int next = varEnv.GetNext();
         varEnv.Bind(declIdentifier, next);
         store.Bind(next, val);
@@ -494,8 +498,82 @@ public class Interpreter
         var identifiers = record.Identifiers;
         var expressions = record.Expressions.Select(expr => EvaluateExpression(expr, varEnv, funcEnv, store)).ToList();
 
-        
+        var dictionary = identifiers.Zip(expressions, (identifier, expression) => new { identifier, expression })
+            .ToDictionary(x => x.identifier.Name, x => x.expression);
+
+        switch (record.RecordType.Value)
+        {
+            case "Circle":
+                var center = (FinalPoint)dictionary["center"];
+                var radius = (float)dictionary["radius"];
+                var stroke = (float)dictionary["stroke"];
+                var color = (FinalColor)dictionary["color"];
+                var strokeColor = (FinalColor)dictionary["strokeColor"];
+                return new FinalCircle(center, radius, stroke, color, strokeColor) {Fields = dictionary};
+
+            case "Rectangle":
+                var topLeft = (FinalPoint)dictionary["topLeft"];
+                var bottomRight = (FinalPoint)dictionary["bottomRight"];
+                stroke = (float)dictionary["stroke"];
+                color = (FinalColor)dictionary["color"];
+                strokeColor = (FinalColor)dictionary["strokeColor"];
+                var rounding = (float)dictionary["rounding"];
+                return new FinalRectangle(topLeft, bottomRight, stroke, color, strokeColor, rounding) {Fields = dictionary};
+
+            case "Point":
+                var x = (float)dictionary["x"];
+                var y = (float)dictionary["y"];
+                return new FinalPoint(x, y){Fields = dictionary};
+
+            case "Color":
+                var red = (float)dictionary["red"];
+                var green = (float)dictionary["green"];
+                var blue = (float)dictionary["blue"];
+                var alpha = (float)dictionary["alpha"];
+                return new FinalColor(red, green, blue, alpha){Fields = dictionary};
+
+            case "Ellipse":
+                var ellipseCenter = (FinalPoint)dictionary["center"];
+                var ellipseRadiusX = (float)dictionary["radiusX"];
+                var ellipseRadiusY = (float)dictionary["radiusY"];
+                var ellipseStroke = (float)dictionary["stroke"];
+                var ellipseColor = (FinalColor)dictionary["color"];
+                var ellipseStrokeColor = (FinalColor)dictionary["strokeColor"];
+                return new FinalEllipse(ellipseCenter, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseColor,
+                    ellipseStrokeColor){Fields = dictionary};
+
+            case "Triangle":
+                var point1 = (FinalPoint)dictionary["point1"];
+                var point2 = (FinalPoint)dictionary["point2"];
+                var point3 = (FinalPoint)dictionary["point3"];
+                var points = new List<FinalPoint> { point1, point2, point3 };
+                var triangleStroke = (float)dictionary["stroke"];
+                var triangleColor = (FinalColor)dictionary["color"];
+                var triangleStrokeColor = (FinalColor)dictionary["strokeColor"];
+                return new FinalTriangle(point1, points, triangleStroke, triangleColor, triangleStrokeColor){Fields = dictionary};
+
+            case "Polygon":
+                var polygonPoints = (FinalList)dictionary["points"];
+                var polygonStroke = (float)dictionary["stroke"];
+                var polygonColor = (FinalColor)dictionary["color"];
+                var polygonStrokeColor = (FinalColor)dictionary["strokeColor"];
+                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor){Fields = dictionary};
+
+            case "Line":
+                var linePoint1 = (FinalPoint)dictionary["start"];
+                var linePoint2 = (FinalPoint)dictionary["end"];
+                var lineStroke = (float)dictionary["stroke"];
+                var lineColor = (FinalColor)dictionary["color"];
+                return new FinalLine(linePoint1, linePoint2, lineStroke, lineColor){Fields = dictionary};
+
+            default:
+                return new FinalRecord(dictionary);
+        }
+
+        throw new Exception("FinalType: " + record.RecordType.Value +" not found");
     }
+
+
 
     public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
@@ -523,18 +601,19 @@ public class Interpreter
                     return null;
                 }
 
-                var record = variable as FinalRecord;
-                if(record == null)
+                var finalType = variable as FinalType;
+
+                if (finalType == null)
                 {
                     return variable;
                 }
 
-                if(identifier.Attribute == null)
+                if(finalType != null && identifier.Attribute != null)
                 {
-                    return record;
+                    return finalType.Fields[identifier.Attribute];
                 }
 
-                return record.Fields[identifier.Attribute];
+                return finalType;
             default:
                 throw new NotImplementedException();
         }

@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalSquare
+public class FinalSquare: FinalType
 {
     public FinalPoint TopLeft { get; set; }
     public FinalNum Length { get; set; }

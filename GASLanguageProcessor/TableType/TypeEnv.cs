@@ -58,18 +58,18 @@ public class TypeEnv
             { "center", GasType.Point },
             { "radiusX", GasType.Num },
             { "radiusY", GasType.Num },
-            { "borderWidth", GasType.Num },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color }
         }, GasType.Ellipse);
         this.RecTypeBind("Triangle", new Dictionary<string, GasType>()
         {
             { "point1", GasType.Point },
             { "point2", GasType.Point },
             { "point3", GasType.Point },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color },
-            { "borderWidth", GasType.Num }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color }
         }, GasType.Triangle);
         this.RecTypeBind("Polygon", new Dictionary<string, GasType>()
         {
@@ -87,27 +87,27 @@ public class TypeEnv
         }, GasType.Line);
         this.RecTypeBind("SegLine", new Dictionary<string, GasType>()
         {
-            { "startPoint", GasType.Point },
-            { "endPoint", GasType.Point },
-            { "width", GasType.Num },
+            { "start", GasType.Point },
+            { "end", GasType.Point },
+            { "stroke", GasType.Num },
             { "color", GasType.Color }
         }, GasType.SegLine);
         this.RecTypeBind("Arrow", new Dictionary<string, GasType>()
         {
             { "startPoint", GasType.Point },
             { "endPoint", GasType.Point },
-            { "width", GasType.Num },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color }
         }, GasType.Arrow);
         this.RecTypeBind("Square", new Dictionary<string, GasType>()
         {
             { "topLeft", GasType.Point },
             { "sideLength", GasType.Num },
-            { "borderWidth", GasType.Num },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color },
-            { "rotation", GasType.Num }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color },
+            { "rounding", GasType.Num }
         }, GasType.Square);
         this.RecTypeBind("Text", new Dictionary<string, GasType>()
         {
