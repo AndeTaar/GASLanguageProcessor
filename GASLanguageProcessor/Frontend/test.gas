@@ -2,26 +2,26 @@
 num canvasHeight = 250;
 
 Color white = Color{
-    r=255;
-    g=255;
-    b=255;
-    a=255;
+    red=255;
+    green=255;
+    blue=255;
+    alpha=255;
 };
 
-num g = white.g;
+num g = white.green;
 
 Color red = Color{
-    r=255;
-    g=0;
-    b=0;
-    a=255;
+    red=255;
+    green=0;
+    blue=0;
+    alpha=255;
 };
 
 Color blue = Color{
-    r=0;
-    g=0;
-    b=255;
-    a=255;
+    red=0;
+    green=0;
+    blue=255;
+    alpha=255;
 };
 
 TypeDef Circles = {

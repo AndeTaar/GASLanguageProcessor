@@ -13,7 +13,11 @@ public class Identifier : Term
         Name = name;
     }
 
-    public Identifier(){}
+    public Identifier(string name, string attribute)
+    {
+        Name = name;
+        Attribute = attribute;
+    }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

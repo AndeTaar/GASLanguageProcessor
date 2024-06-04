@@ -37,16 +37,16 @@ public class FuncEnv
         }
 
         this.Bind("AddToList", new Function(new List<String>() {"list", "element"},
-            new Return(new AddToList(new VariableIdentifier("list"), new VariableIdentifier("element"))), new VarEnv(parentEnv), this, store));
+            new Return(new AddToList(new Identifier("list"), new Identifier("element"))), new VarEnv(parentEnv), this, store));
 
         this.Bind("RemoveFromList", new Function(new List<String>() {"list", "index"},
-            new Return(new RemoveFromList(new VariableIdentifier("list"), new VariableIdentifier("index"))), new VarEnv(parentEnv), this, store));
+            new Return(new RemoveFromList(new Identifier("list"), new Identifier("index"))), new VarEnv(parentEnv), this, store));
 
         this.Bind("GetFromList", new Function(new List<String>() {"list", "index"},
-            new Return(new GetFromList(new VariableIdentifier("list"), new VariableIdentifier("index"))), new VarEnv(parentEnv), this, store));
+            new Return(new GetFromList(new Identifier("list"), new Identifier("index"))), new VarEnv(parentEnv), this, store));
 
         this.Bind("LengthOfList", new Function(new List<String>() {"list"},
-            new Return(new LengthOfList(new VariableIdentifier("list"))), new VarEnv(parentEnv), this, store));
+            new Return(new LengthOfList(new Identifier("list"))), new VarEnv(parentEnv), this, store));
 
 
     }

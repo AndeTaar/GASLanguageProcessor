@@ -6,29 +6,25 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas | recDeclaration | recAssignment) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
-recDefinition : 'TypeDef' recTypeIdent '=' '{' (allTypes ident ';')* '}';
-recDeclaration : (recTypeIdent | recCollectionType) recIdent '=' recExpression;
-recAssignment : recIdent '=' recExpression;
+recDefinition : 'TypeDef' recordTypeIdentifier '=' '{' (allTypes identifier ';')* '}';
 
-declaration : (type | collectionType) varIdent ('=' expression)?;
-assignment : varIdent ('=' | '+=' | '-=' | '*=' | '/=') expression;
-increment : varIdent ('++' | '--');
+declaration : (type | collectionType) (attributeIdentifier | identifier) ('=' expression)?;
+assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
+increment : (attributeIdentifier | identifier) ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
-functionDeclaration : allTypes ident '(' (allTypes ident  (',' allTypes ident)*)? ')' '{' (statement)* ? '}';
+functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
 //Standard data types
 
-allTypes : type | collectionType | recTypeIdent;
-type: 'num' | 'bool' | 'string' | 'void';
+allTypes : type | collectionType ;
+type: 'num' | 'bool' | 'string' | 'void' | identifier;
 collectionType : 'list' '<' (type) '>' | 'group';
-
-recCollectionType : 'list' '<' (recTypeIdent) '>';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
@@ -38,24 +34,19 @@ binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpressio
 multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
 unaryExpression : ('!' | '-')* term;
 
-recExpression : recIdent | recTypeIdent '{' (ident '=' allExpression ';')* '}' | recListTerm;
-
-recListTerm : 'List' '<' recTypeIdent '>' '{' (recExpression (',' recExpression)*)? '}';
-allExpression : expression | recExpression;
-
 //Terms
 term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | groupTerm | varIdent;
+ functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm;
 
+recordTerm: recordTypeIdentifier '{' ( identifier '=' expression ';')* '}';
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-functionCall : ident '(' (allExpression (',' allExpression)*)? ')';
+functionCall : identifier '(' (expression (',' expression)*)? ')';
 
-recTypeIdent : IDENTIFIER;
-recIdent : IDENTIFIER;
-varIdent : IDENTIFIER | recIdent '.' IDENTIFIER;
-ident : IDENTIFIER;
+recordTypeIdentifier : IDENTIFIER;
+identifier : IDENTIFIER;
+attributeIdentifier : identifier '.' identifier;
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

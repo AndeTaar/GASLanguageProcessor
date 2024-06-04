@@ -29,12 +29,12 @@ public class Interpreter
         switch (statement)
         {
             case Canvas canvas:
-                var duple = EvaluateExpression(canvas.Width, varEnv, funcEnv, store);
-                canvasWidth = (float) duple;
-                duple = EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
-                canvasHeight = (float) duple;
-                duple = EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
-                var backgroundColor = (FinalColor) duple;
+                var val = EvaluateExpression(canvas.Width, varEnv, funcEnv, store);
+                canvasWidth = (float) val;
+                val = EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
+                canvasHeight = (float) val;
+                var color = EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store) as FinalRecord;
+                var backgroundColor = new FinalColor(color.Fields);
                 var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
 
                 int next = varEnv.GetNext();
@@ -55,8 +55,8 @@ public class Interpreter
             // Currently allows infinite loops.
             case For @for:
                 EvaluateStatement(@for.Initializer, varEnv, funcEnv, store);
-                duple = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
-                while ((bool) duple)
+                val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
+                while ((bool) val)
                 {
                     tuple = EvaluateStatement(@for.Statements, varEnv, funcEnv, store);
                     if (tuple.Item1 != null)
@@ -64,33 +64,33 @@ public class Interpreter
                         return tuple;
                     }
                     EvaluateStatement(@for.Incrementer, varEnv, funcEnv, store);
-                    duple = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
+                    val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
                 }
 
                 return (null, varEnv, funcEnv, store);
 
             // Currently allows infinite loops.
             case While @while:
-                duple = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
+                val = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                while ((bool) duple)
+                while ((bool) val)
                 {
                     tuple = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
                     if (tuple.Item1 != null) return tuple;
-                    duple = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
+                    val = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
                 }
                 return (null, varEnv, funcEnv, store);
 
             case If @if:
-                duple = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
+                val = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                if ((bool)duple)
+                if ((bool)val)
                 {
                     return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
                 }
@@ -167,6 +167,10 @@ public class Interpreter
     public (VarEnv, Store) EvaluateDeclaration(Declaration declaration, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
+        if (val == null)
+        {
+            Console.WriteLine("Var: " + declaration.Identifier.Name + " is null");
+        }
         var declIdentifier = declaration.Identifier.Name;
         int next = varEnv.GetNext();
         varEnv.Bind(declIdentifier, next);
@@ -254,6 +258,18 @@ public class Interpreter
     {
         switch (expression)
         {
+            case Num num:
+                return EvaluateLiterals(num, varEnv, funcEnv, store);
+            case Boolean boolean:
+                return EvaluateLiterals(boolean, varEnv, funcEnv, store);
+            case String stringTerm:
+                return EvaluateLiterals(stringTerm, varEnv, funcEnv, store);
+            case Identifier identifier:
+                return EvaluateLiterals(identifier, varEnv, funcEnv, store);
+
+            case Record record:
+                return EvaluateRecords(record, varEnv, funcEnv, store);
+
             case FunctionCallTerm functionCall:
                 var function = funcEnv.LookUp(functionCall.Identifier.Name);
                 if (function == null)
@@ -292,14 +308,14 @@ public class Interpreter
                     throw new Exception($"Function {functionCall.Identifier.Name} did not return a value");
                 }
 
-                return (tuple, store);
+                return tuple.Item1;
 
             case UnaryOp unaryOp:
-                var duple = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, store);
+                var val = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, store);
                 return unaryOp.Op switch
                 {
-                    "-" => (-(float) duple, duple),
-                    "!" => (!(bool) duple, duple),
+                    "-" => -(float) val,
+                    "!" => !(bool) val,
                     _ => throw new NotImplementedException()
                 };
 
@@ -313,19 +329,19 @@ public class Interpreter
 
                 return binaryOp.Op switch
                 {
-                    "+" => ((float)left + (float)right, left),
-                    "-" => ((float)left - (float)right, left),
-                    "*" => ((float)left * (float)right, left),
-                    "/" => ((float)left / (float)right, left),
-                    "%" => ((float)left % (float)right, left),
-                    "==" => ((float)left == (float)right, left),
-                    "!=" => ((float)left != (float)right, left),
-                    "<" => ((float)left < (float)right, left),
-                    ">" => ((float)left > (float)right, left),
-                    "<=" => ((float)left <= (float)right, left),
-                    ">=" => ((float)left >= (float)right, left),
-                    "&&" => ((bool)left && (bool)right, left),
-                    "||" => ((bool)left || (bool)right, left),
+                    "+" => (float)left + (float)right,
+                    "-" => (float)left - (float)right,
+                    "*" => (float)left * (float)right,
+                    "/" => (float)left / (float)right,
+                    "%" => (float)left % (float)right,
+                    "==" => (float)left == (float)right,
+                    "!=" => (float)left != (float)right,
+                    "<" => (float)left < (float)right,
+                    ">" => (float)left > (float)right,
+                    "<=" => (float)left <= (float)right,
+                    ">=" => (float)left >= (float)right,
+                    "&&" => (bool)left && (bool)right,
+                    "||" => (bool)left || (bool)right,
                     _ => throw new NotImplementedException()
                 };
 
@@ -336,7 +352,7 @@ public class Interpreter
                 funcEnv = funcEnv.EnterScope();
 
                 EvaluateStatement(group.Statements, varEnv, funcEnv, store);
-                return (new FinalGroup(finalPoint, varEnv), store);
+                return new FinalGroup(finalPoint, varEnv);
 
             case AddToList addToList:
                 var listVariableIndex = varEnv.LookUp(addToList.ListIdentifier.Name);
@@ -473,16 +489,24 @@ public class Interpreter
         return null;
     }
 
+    public object? EvaluateRecords(Record record, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    {
+        var identifiers = record.Identifiers;
+        var expressions = record.Expressions.Select(expr => EvaluateExpression(expr, varEnv, funcEnv, store)).ToList();
+
+        
+    }
+
     public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         switch (expression)
         {
             case Num num:
-                return (float.Parse(num.Value, CultureInfo.InvariantCulture), store);
+                return float.Parse(num.Value, CultureInfo.InvariantCulture);
             case Boolean boolean:
-                return (bool.Parse(boolean.Value), store);
+                return bool.Parse(boolean.Value);
             case String stringTerm:
-                return (stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' '), store);
+                return stringTerm.Value.TrimStart('"').TrimEnd('"').Replace('\\', ' ');
             case Identifier identifier:
                 var variableIndex = varEnv.LookUp(identifier.Name);
 
@@ -499,7 +523,18 @@ public class Interpreter
                     return null;
                 }
 
-                return (variable, store);
+                var record = variable as FinalRecord;
+                if(record == null)
+                {
+                    return variable;
+                }
+
+                if(identifier.Attribute == null)
+                {
+                    return record;
+                }
+
+                return record.Fields[identifier.Attribute];
             default:
                 throw new NotImplementedException();
         }

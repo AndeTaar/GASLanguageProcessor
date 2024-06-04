@@ -1,16 +1,17 @@
-using GASLanguageProcessor.AST.Expressions.RecTerms;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.TableType;
+using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor.AST.Expressions;
 
-public class Record: RecTerm
+public class Record: Term
 {
-    public RecType RecordType { get; protected set; }
+    public Type RecordType { get; protected set; }
     public List<Identifier> Identifiers { get; protected set; }
     public List<Expression> Expressions { get; protected set; }
 
-    public Record(RecType recordType, List<Identifier> identifiers, List<Expression> expressions)
+    public Record(Type recordType, List<Identifier> identifiers, List<Expression> expressions)
     {
         RecordType = recordType;
         Identifiers = identifiers;

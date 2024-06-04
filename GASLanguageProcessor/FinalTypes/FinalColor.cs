@@ -7,12 +7,12 @@ public class FinalColor
     public FinalNum Blue { get; set; }
     public FinalNum Alpha { get; set; }
 
-    public FinalColor(float red, float green, float blue, float alpha)
+    public FinalColor(Dictionary<string, object> values)
     {
-        Red = new FinalNum(red);
-        Green = new FinalNum(green);
-        Blue = new FinalNum(blue);
-        Alpha = new FinalNum(alpha);
+        Red = new FinalNum(values["red"]);
+        Green = new FinalNum(values["green"]);
+        Blue = new FinalNum(values["blue"]);
+        Alpha = new FinalNum(values["alpha"]);
     }
 
     public string ColorToString()

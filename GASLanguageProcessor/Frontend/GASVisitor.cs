@@ -68,18 +68,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRecDefinition([NotNull] GASParser.RecDefinitionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRecDeclaration([NotNull] GASParser.RecDeclarationContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRecAssignment([NotNull] GASParser.RecAssignmentContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -152,12 +140,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCollectionType([NotNull] GASParser.CollectionTypeContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recCollectionType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRecCollectionType([NotNull] GASParser.RecCollectionTypeContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -194,29 +176,17 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitUnaryExpression([NotNull] GASParser.UnaryExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRecExpression([NotNull] GASParser.RecExpressionContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recListTerm"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitRecListTerm([NotNull] GASParser.RecListTermContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.allExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitAllExpression([NotNull] GASParser.AllExpressionContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.term"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitTerm([NotNull] GASParser.TermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.recordTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRecordTerm([NotNull] GASParser.RecordTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.listTerm"/>.
 	/// </summary>
@@ -236,27 +206,21 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFunctionCall([NotNull] GASParser.FunctionCallContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recTypeIdent"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.recordTypeIdentifier"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRecTypeIdent([NotNull] GASParser.RecTypeIdentContext context);
+	Result VisitRecordTypeIdentifier([NotNull] GASParser.RecordTypeIdentifierContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.recIdent"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.identifier"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRecIdent([NotNull] GASParser.RecIdentContext context);
+	Result VisitIdentifier([NotNull] GASParser.IdentifierContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.varIdent"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.attributeIdentifier"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitVarIdent([NotNull] GASParser.VarIdentContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.ident"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitIdent([NotNull] GASParser.IdentContext context);
+	Result VisitAttributeIdentifier([NotNull] GASParser.AttributeIdentifierContext context);
 }

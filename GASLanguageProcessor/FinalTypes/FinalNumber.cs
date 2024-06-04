@@ -6,9 +6,9 @@ public class FinalNum
 {
     public float Value { get; set; }
 
-    public FinalNum(float value)
+    public FinalNum(object value)
     {
-        Value = value;
+        Value = (float) value;
     }
 
     public override string ToString()

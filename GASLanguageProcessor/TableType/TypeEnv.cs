@@ -49,9 +49,9 @@ public class TypeEnv
         {
             { "center", GasType.Point },
             { "radius", GasType.Num },
-            { "borderWidth", GasType.Num },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color }
         }, GasType.Circle);
         this.RecTypeBind("Ellipse", new Dictionary<string, GasType>()
         {
@@ -74,9 +74,9 @@ public class TypeEnv
         this.RecTypeBind("Polygon", new Dictionary<string, GasType>()
         {
             { "points", GasType.Any },
-            { "borderWidth", GasType.Num },
-            { "borderColor", GasType.Color },
-            { "fillColor", GasType.Color }
+            { "stroke", GasType.Num },
+            { "color", GasType.Color },
+            { "strokeColor", GasType.Color }
         }, GasType.Polygon);
         this.RecTypeBind("Line", new Dictionary<string, GasType>()
         {
@@ -197,13 +197,13 @@ public class TypeEnv
         return this.TypeEnvParent?.RecTypeLookUp(key);
     }
 
-    public (Dictionary<string, GasType>, TypeEnv)? RecLookUp(string key)
+    public ((Dictionary<string, GasType>, GasType)?, TypeEnv)? RecLookUp(string key)
     {
         if (Records.ContainsKey(key))
         {
             var record = Records[key];
             var recordType = this.RecTypeLookUp(record.Item1);
-            return (recordType?.Item1, record.Item2);
+            return (recordType, record.Item2);
         }
 
         return this.TypeEnvParent?.RecLookUp(key);

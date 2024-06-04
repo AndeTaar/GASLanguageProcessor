@@ -1,6 +1,5 @@
 ﻿using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
-using GASLanguageProcessor.AST.Expressions.RecTerms;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
@@ -8,7 +7,6 @@ using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Assignment = GASLanguageProcessor.AST.Statements.Assignment;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
-using Expression = System.Linq.Expressions.Expression;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
@@ -248,6 +246,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var identifier = node.Identifier;
         var variableType = envT.VLookUp(identifier.Name);
 
+        if(node.Expression as Record != null)
+        {
+            return RecordAssignment(node, envT);
+        }
+
         if (variableType == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " not found in scope");
@@ -281,6 +284,30 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         return GasType.Ok;
     }
 
+    public GasType RecordAssignment(Assignment node, TypeEnv envT)
+    {
+        var identifier = node.Identifier;
+        var recordType = envT.RecLookUp(identifier.Name);
+        var expectedType = recordType?.Item1?.Item2;
+        envT = recordType?.Item2;
+
+        if (expectedType == null)
+        {
+            errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " not declared");
+            return GasType.Error;
+        }
+        var type = node.Expression?.Accept(this, envT);
+
+        if (expectedType != type)
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
+                       expectedType + " got: " + type);
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
+    }
+
     /// <summary>
     /// Visits the declaration node
     /// </summary>
@@ -289,6 +316,11 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitDeclaration(Declaration node, TypeEnv envT)
     {
+        if(node.Expression as Record != null)
+        {
+            return RecordDeclaration(node, envT);
+        }
+
         var identifier = node.Identifier;
         var variableType = envT.VLookUp(identifier.Name);
         var type = node.Type.Accept(this, envT);
@@ -310,6 +342,46 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         var bound = envT.VBind(identifier.Name, type);
 
         if (!bound)
+        {
+            errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
+    }
+
+    /// <summary>
+    /// Record declaration
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="envT"></param>
+    /// <returns></returns>
+    public GasType RecordDeclaration(Declaration node, TypeEnv envT)
+    {
+        var identifier = node.Identifier;
+        var variableType = envT.RecLookUp(identifier.Name);
+        var expectedType = node.Type.Accept(this, envT);
+
+        if(variableType != null)
+        {
+            errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " Can not redeclare record");
+            return GasType.Error;
+        }
+
+        envT = envT.EnterScope();
+
+        var type = node.Expression?.Accept(this, envT);
+
+
+        if (expectedType != type)
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " + expectedType + " got: " + type);
+            return GasType.Error;
+        }
+
+        var bound = envT.TypeEnvParent?.RecBind(identifier.Name, node.Type.Value, envT);
+
+        if (!bound ?? false)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
             return GasType.Error;
@@ -349,33 +421,6 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         }
 
         return GasType.Ok;
-    }
-
-    public GasType VisitVariableIdentifier(VariableIdentifier node, TypeEnv envT)
-    {
-        var recordTypeAnEnv = envT.RecLookUp(node.Name);
-        var typeEnv = recordTypeAnEnv?.Item2;
-        if (typeEnv == null)
-        {
-            return envT.VLookUp(node.Name) ?? GasType.Error;
-        }
-
-        return node?.Attribute != null ? typeEnv.VLookUp(node?.Attribute) ?? GasType.Error: GasType.Any;
-    }
-
-    public GasType VisitRecordIdentifier(RecordIdentifier node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitRecordTypeIdentifier(RecordTypeIdentifier node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitFunctionNameIdentifier(FunctionNameIdentifier functionNameIdentifier, TypeEnv envT)
-    {
-        throw new NotImplementedException();
     }
 
     public GasType VisitRecordDefinition(RecordDefinition node, TypeEnv envT)
@@ -475,50 +520,42 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitIdentifier(Identifier node, TypeEnv envT)
     {
+        var record = envT.RecLookUp(node.Name);
+        var recordType = record?.Item1;
+        var returnType = recordType?.Item2;
+        var recordFieldTypes = recordType?.Item1;
+        if (node.Attribute != null)
+        {
+            if (record == null)
+            {
+                errors.Add("Line: " + node.LineNum + " Record name: " + node.Name + " not found");
+                return GasType.Error;
+            }
+
+            var field = recordFieldTypes?[node.Attribute];
+
+            if (field == null)
+            {
+                errors.Add("Line: " + node.LineNum + " Record name: " + node.Name + " does not contain field: " + node.Attribute);
+                return GasType.Error;
+            }
+
+            return field ?? GasType.Error;
+        }
+
+        if (record != null)
+        {
+            return returnType ?? GasType.Error;
+        }
+
         var variableType = envT.VLookUp(node.Name);
+
         if(variableType == null){
             errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
             return GasType.Error;
         }
+
         return variableType ?? GasType.Error;
-    }
-
-    public GasType VisitRecordDeclaration(RecordDeclaration node, TypeEnv envT)
-    {
-        var recordType = envT.RecTypeLookUp(node.RecType.Value);
-        if(recordType == null)
-        {
-            errors.Add("Line: " + node.LineNum + " Record type: " + node.RecType.Value + " does not exist");
-            return GasType.Error;
-        }
-
-        envT = envT.EnterScope();
-
-        var expressionType = node.RecordExpression.Accept(this, envT);
-
-        if(expressionType != recordType?.Item2)
-        {
-            errors.Add("Line: " + node.LineNum + " Invalid type for record: " + node.RecordIdentifier.Name + " expected: " + recordType?.Item2 + " got: " + expressionType);
-            return GasType.Error;
-        }
-
-        return GasType.Ok;
-    }
-
-    public GasType VisitRecordAssignment(RecordAssignment node, TypeEnv envT)
-    {
-        var recordTypeAndEnv = envT.RecLookUp(node.RecordIdentifier.Name);
-        var recordType = recordTypeAndEnv?.Item1;
-        envT = recordTypeAndEnv?.Item2;
-
-        if(recordType == null)
-        {
-            errors.Add("Line: " + node.LineNum + " Record type: " + node.RecordIdentifier.Name + " not found");
-            return GasType.Error;
-        }
-
-        var record = node.Record.Accept(this, envT);
-        return record;
     }
 
     public GasType VisitRecord(Record record, TypeEnv envT)
@@ -539,46 +576,25 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
         bool error = false;
         for (int i = 0; i < identifiers.Count; i++)
         {
-            if (expectedTypes[identifiers[i].Name] != expressions[i] && expectedTypes[identifiers[i].Name] != GasType.Any && expressions[i] != GasType.Any)
+            var contains = expectedTypes.TryGetValue(identifiers[i].Name, out var type);
+
+            if (!contains)
+            {
+                errors.Add("Line: " + record.LineNum + " Record type: " + record.RecordType.Value + " does not contain field: " + identifiers[i].Name);
+                error = true;
+                continue;
+            }
+
+            if (type != expressions[i] && type != GasType.Any && expressions[i] != GasType.Any)
             {
                 errors.Add("Line: " + record.LineNum + " Invalid type for record: " + identifiers[i].Name + " expected: " + expectedTypes[identifiers[i].Name] + " got: " + expressions[i]);
                 error = true;
             }
         }
 
+        if(error) return GasType.Error;
+
         return returnType ?? GasType.Error;
-    }
-
-    public GasType VisitRecList(RecList recList, TypeEnv envT)
-    {
-        var expectedTypesAndReturnType = envT.RecTypeLookUp(recList.RecType.Value);
-        var expectedTypes = expectedTypesAndReturnType?.Item1;
-        var returnType = expectedTypesAndReturnType?.Item2;
-
-        if(expectedTypes == null)
-        {
-            errors.Add("Line: " + recList.LineNum + " Record type: " + recList.RecType.Value + " not found");
-            return GasType.Error;
-        }
-
-        var expressions = recList.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
-
-        bool error = false;
-        for (int i = 0; i < expressions.Count; i++)
-        {
-            if (expectedTypes[recList.Expressions[i].ToString()] != expressions[i])
-            {
-                errors.Add("Line: " + recList.LineNum + " Invalid type for record: " + recList.Expressions[i].ToString() + " expected: " + expectedTypes[recList.Expressions[i].ToString()] + " got: " + expressions[i]);
-                error = true;
-            }
-        }
-
-        return error ? GasType.Error : GasType.Ok;
-    }
-
-    public GasType VisitRecType(RecType recType, TypeEnv envT)
-    {
-        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -718,7 +734,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Color;
             case "boolean":
                 return GasType.Bool;
-            case "square":
+            case "Square":
                 return GasType.Square;
             case "rectangle":
                 return GasType.Rectangle;
@@ -726,9 +742,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Point;
             case "line":
                 return GasType.Line;
-            case "segLine":
+            case "SegLine":
                 return GasType.SegLine;
-            case "circle":
+            case "Circle":
                 return GasType.Circle;
             case "bool":
                 return GasType.Bool;
@@ -742,9 +758,9 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
                 return GasType.Polygon;
             case "arrow":
                 return GasType.Arrow;
+            default:
+                return GasType.AnyStruct;
         }
-        errors.Add(node.Value + " Not implemented");
-        return GasType.Error;
     }
 
     /// <summary>
