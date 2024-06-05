@@ -4,14 +4,14 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class Point : Term
 {
-    public Expression X { get; protected set; }
-    public Expression Y { get; protected set; }
-
     public Point(Expression x, Expression y)
     {
         X = x;
         Y = y;
     }
+
+    public Expression X { get; protected set; }
+    public Expression Y { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

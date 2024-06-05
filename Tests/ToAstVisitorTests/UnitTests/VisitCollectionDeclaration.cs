@@ -15,7 +15,7 @@ public class VisitCollectionDeclaration
 
         var inputStream = CharStreams.fromString(fileContents);
         var lexer = new GASLexer(inputStream);
-        ParserErrorListener errorListener = new ParserErrorListener();
+        var errorListener = new ParserErrorListener();
 
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
@@ -23,12 +23,12 @@ public class VisitCollectionDeclaration
         parser.AddErrorListener(errorListener);
         errorListener.StopIfErrors();
         Assert.NotNull(parser);
-            
+
         var astVisitor = new ToAstVisitor();
-            
+
         var collectionDeclarationContext = parser.declaration();
-        var collectionDeclaration = (Declaration) astVisitor.VisitDeclaration(collectionDeclarationContext);
-        
+        var collectionDeclaration = (Declaration)astVisitor.VisitDeclaration(collectionDeclarationContext);
+
         Assert.NotNull(collectionDeclaration);
         Assert.Equal("x", collectionDeclaration.Identifier.Name);
         Assert.Equal("list<num>", collectionDeclaration.Type.Value);
@@ -36,13 +36,12 @@ public class VisitCollectionDeclaration
         var list = collectionDeclaration.Expression as List;
         Assert.Equal(5, list.Expressions.Count);
         Assert.All(list.Expressions, x => Assert.IsType<Num>(x));
-        Assert.Collection(list.Expressions, 
+        Assert.Collection(list.Expressions,
             x => Assert.Equal("13", (x as Num)?.Value),
             x => Assert.Equal("25", (x as Num)?.Value),
             x => Assert.Equal("39", (x as Num)?.Value),
             x => Assert.Equal("41", (x as Num)?.Value),
             x => Assert.Equal("55", (x as Num)?.Value));
         Assert.Equal("num", list.Type.Value);
-        
     }
 }

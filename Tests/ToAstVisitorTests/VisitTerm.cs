@@ -1,6 +1,4 @@
-using Antlr4.Runtime;
 using GASLanguageProcessor;
-using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
@@ -18,25 +16,25 @@ public class VisitTerm
         var ast = SharedTesting.GetAst(
             "canvas(250, 250, Color(255, 255, 255, 1));" +
             "num x = 1;"
-            );
+        );
         float i = 10;
-        float x = (i++);
+        var x = i++;
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var declaration = (Declaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(declaration);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
-        var term = (Term) declaration.Expression;
+        var term = (Term)declaration.Expression;
         Assert.IsType<Num>(term);
     }
 
@@ -50,19 +48,19 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var declaration = (Declaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(declaration);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
-        var term = (Term) declaration.Expression;
+        var term = (Term)declaration.Expression;
         Assert.IsType<Identifier>(term);
     }
 
@@ -76,12 +74,12 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var functionCallStatement = (FunctionCallStatement) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var functionCallStatement = (FunctionCallStatement)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.IsType<FunctionCallStatement>(functionCallStatement);
@@ -99,19 +97,19 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var declaration = (Declaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(declaration);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
-        var functionCallTerm = (FunctionCallTerm) declaration.Expression;
+        var functionCallTerm = (FunctionCallTerm)declaration.Expression;
         Assert.IsType<FunctionCallTerm>(functionCallTerm);
     }
 
@@ -124,19 +122,19 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var declaration = (Declaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(declaration);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
-        var term = (Term) declaration.Expression;
+        var term = (Term)declaration.Expression;
         Assert.IsType<String>(term);
     }
 
@@ -149,18 +147,18 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var ifStatement = (If) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var ifStatement = (If)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
         Assert.IsType<BinaryOp>(ifStatement.Condition);
-        var binaryOp = (BinaryOp) ifStatement.Condition;
+        var binaryOp = (BinaryOp)ifStatement.Condition;
         Assert.NotNull(binaryOp);
     }
 
@@ -168,23 +166,23 @@ public class VisitTerm
     public void PassVisitTermBoolean()
     {
         var ast = SharedTesting.GetAst(
-                "canvas(250, 250, Color(255, 255, 255, 1));" +
-                "if(true){}");
+            "canvas(250, 250, Color(255, 255, 255, 1));" +
+            "if(true){}");
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var ifStatement = (If) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var ifStatement = (If)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
         Assert.IsType<Boolean>(ifStatement.Condition);
-        var boolean = (Boolean) ifStatement.Condition;
+        var boolean = (Boolean)ifStatement.Condition;
         Assert.NotNull(boolean);
         Assert.Equal("true", boolean.Value);
     }
@@ -199,19 +197,19 @@ public class VisitTerm
 
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Statement>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var declaration = (Declaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var declaration = (Declaration)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(declaration);
         Assert.NotNull(canvas);
         Assert.Equal("x", declaration.Identifier.Name);
         Assert.IsAssignableFrom<Term>(declaration.Expression);
-        var term = (Term) declaration.Expression;
+        var term = (Term)declaration.Expression;
         Assert.IsType<Null>(term);
     }
 }

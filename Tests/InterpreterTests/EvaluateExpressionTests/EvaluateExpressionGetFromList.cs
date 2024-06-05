@@ -1,7 +1,4 @@
-using GASLanguageProcessor;
-using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.FinalTypes;
-using GASLanguageProcessor.TableType;
 
 namespace Tests.InterpreterTests.EvaluateExpressionTests;
 
@@ -21,7 +18,7 @@ public class EvaluateExpressionGetFromList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("fromList").Value);
         var expected = 1f;
 
@@ -48,7 +45,7 @@ public class EvaluateExpressionGetFromList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("fromList").Value) as FinalCircle;
 
         var expected =
@@ -58,7 +55,7 @@ public class EvaluateExpressionGetFromList
                 10f,
                 new FinalColor(0f, 0f, 255f, 1f),
                 new FinalColor(0f, 255f, 0f, 1f)
-        );
+            );
 
         Assert.NotNull(result);
         Assert.IsType<FinalCircle>(result);
@@ -77,8 +74,5 @@ public class EvaluateExpressionGetFromList
         Assert.Equal(expected.StrokeColor.Green.Value, result.StrokeColor.Green.Value);
         Assert.Equal(expected.StrokeColor.Blue.Value, result.StrokeColor.Blue.Value);
         Assert.Equal(expected.StrokeColor.Alpha.Value, result.StrokeColor.Alpha.Value);
-
     }
-
-
 }

@@ -14,8 +14,8 @@ namespace GASLanguageProcessor;
 
 public class Interpreter
 {
-    public float canvasWidth;
     public float canvasHeight;
+    public float canvasWidth;
     public List<string> errors = new();
 
     public Store EvaluateProgram(AST.Expressions.Terms.Program program, VarEnv varEnv, FuncEnv funcEnv, Store store)
@@ -25,28 +25,27 @@ public class Interpreter
         return store;
     }
 
-    public (object?, VarEnv, FuncEnv, Store) EvaluateStatement(Statement statement, VarEnv varEnv, FuncEnv funcEnv, Store store) {
+    public (object?, VarEnv, FuncEnv, Store) EvaluateStatement(Statement statement, VarEnv varEnv, FuncEnv funcEnv,
+        Store store)
+    {
         switch (statement)
         {
             case Canvas canvas:
                 var val = EvaluateExpression(canvas.Width, varEnv, funcEnv, store);
-                canvasWidth = (float) val;
+                canvasWidth = (float)val;
                 val = EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
-                canvasHeight = (float) val;
-                var backgroundColor = (FinalColor) EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
+                canvasHeight = (float)val;
+                var backgroundColor = (FinalColor)EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
                 var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
 
-                int next = varEnv.GetNext();
-                varEnv.Bind("canvas",  next);
+                var next = varEnv.GetNext();
+                varEnv.Bind("canvas", next);
                 store.Bind(next, finalCanvas);
                 return (null, varEnv, funcEnv, store);
 
             case Compound compound:
                 var tuple = EvaluateStatement(compound.Statement1, varEnv, funcEnv, store);
-                if (tuple.Item1 != null)
-                {
-                    return tuple;
-                }
+                if (tuple.Item1 != null) return tuple;
 
                 tuple = EvaluateStatement(compound.Statement2, varEnv, funcEnv, store);
                 return tuple;
@@ -55,13 +54,11 @@ public class Interpreter
             case For @for:
                 EvaluateStatement(@for.Initializer, varEnv, funcEnv, store);
                 val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
-                while ((bool) val)
+                while ((bool)val)
                 {
                     tuple = EvaluateStatement(@for.Statements, varEnv, funcEnv, store);
-                    if (tuple.Item1 != null)
-                    {
-                        return tuple;
-                    }
+                    if (tuple.Item1 != null) return tuple;
+
                     EvaluateStatement(@for.Incrementer, varEnv, funcEnv, store);
                     val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
                 }
@@ -75,12 +72,13 @@ public class Interpreter
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                while ((bool) val)
+                while ((bool)val)
                 {
                     tuple = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
                     if (tuple.Item1 != null) return tuple;
                     val = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
                 }
+
                 return (null, varEnv, funcEnv, store);
 
             case If @if:
@@ -89,15 +87,9 @@ public class Interpreter
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                if ((bool)val)
-                {
-                    return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
-                }
+                if ((bool)val) return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
 
-                if (@if.Else != null)
-                {
-                    return EvaluateStatement(@if.Else, varEnv, funcEnv, store);
-                }
+                if (@if.Else != null) return EvaluateStatement(@if.Else, varEnv, funcEnv, store);
 
                 return (null, varEnv, funcEnv, store);
             case FunctionDeclaration functionDeclaration:
@@ -114,11 +106,12 @@ public class Interpreter
 
                 if (function.Parameters.Count != functionCall.Arguments.Count)
                 {
-                    errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
+                    errors.Add(
+                        $"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
                     return (null, varEnv, funcEnv, store);
                 }
 
-                for (int i = 0; i < function.Parameters.Count; i++)
+                for (var i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
@@ -170,13 +163,13 @@ public class Interpreter
 
         var prevIndex = varEnv.LookUp(declIdentifier);
 
-        if(prevIndex != null)
+        if (prevIndex != null)
         {
             store.Bind(prevIndex.Value, val);
             return (varEnv, store);
         }
 
-        int next = varEnv.GetNext();
+        var next = varEnv.GetNext();
         varEnv.Bind(declIdentifier, next);
         store.Bind(next, val);
         return (varEnv, store);
@@ -184,6 +177,12 @@ public class Interpreter
 
     public Store EvaluateAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
+
+        if (assignment.Identifier.Attribute != null)
+        {
+            return EvaluateAttributeAssignment(assignment, varEnv, funcEnv, store);
+        }
+
         var expresEval = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
         var assignExpression = expresEval;
         var assignIdentifier = assignment.Identifier.Name;
@@ -221,6 +220,33 @@ public class Interpreter
         return store;
     }
 
+    public Store EvaluateAttributeAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    {
+        var attribute = assignment.Identifier.Attribute;
+        var identifier = assignment.Identifier.Name;
+        var index = varEnv.LookUp(identifier);
+        if (index == null)
+        {
+            errors.Add($"Variable {identifier} not found in the VariableTable");
+            return store;
+        }
+
+        var variable = store.LookUp(index.Value);
+
+        if (variable is not FinalType finalType)
+        {
+            errors.Add($"Variable {identifier} is not a FinalType");
+            return store;
+        }
+
+        var attributeValue = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
+
+        finalType.Fields[attribute] = attributeValue;
+        store.Bind(index.Value, UpdateFinalType(finalType, attribute, attributeValue));
+
+        return store;
+    }
+
     public Store EvaluateIncrement(Increment increment, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         var incrementIdentifier = increment.Identifier.Name;
@@ -249,7 +275,8 @@ public class Interpreter
         return store;
     }
 
-    public (VarEnv, FuncEnv) EvaluateFunctionDeclaration(FunctionDeclaration functionDeclaration, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public (VarEnv, FuncEnv) EvaluateFunctionDeclaration(FunctionDeclaration functionDeclaration, VarEnv varEnv,
+        FuncEnv funcEnv, Store store)
     {
         var parameters = functionDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
         var statements = functionDeclaration.Statements;
@@ -284,18 +311,19 @@ public class Interpreter
 
                 if (function.Parameters.Count != functionCall.Arguments.Count)
                 {
-                    errors.Add($"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
+                    errors.Add(
+                        $"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
                     return null;
                 }
 
-                for (int i = 0; i < function.Parameters.Count; i++)
+                for (var i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
                     var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
                     var varIndex = function.VarEnv.LocalLookUp(parameter);
                     if (varIndex == null)
                     {
-                        int next = varEnv.GetNext();
+                        var next = varEnv.GetNext();
                         function.VarEnv.Bind(parameter, next);
                         function.Store.Bind(next, functionCallVal);
                     }
@@ -308,9 +336,7 @@ public class Interpreter
                 var tuple = EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, function.Store);
 
                 if (tuple.Item1 == null)
-                {
                     throw new Exception($"Function {functionCall.Identifier.Name} did not return a value");
-                }
 
                 return tuple.Item1;
 
@@ -318,18 +344,16 @@ public class Interpreter
                 var val = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, store);
                 return unaryOp.Op switch
                 {
-                    "-" => -(float) val,
-                    "!" => !(bool) val,
+                    "-" => -(float)val,
+                    "!" => !(bool)val,
                     _ => throw new NotImplementedException()
                 };
 
             case BinaryOp binaryOp:
                 var left = EvaluateExpression(binaryOp.Left, varEnv, funcEnv, store);
                 var right = EvaluateExpression(binaryOp.Right, varEnv, funcEnv, store);
-                if((binaryOp.Op == "/" || binaryOp.Op == "%") && (float)right == 0)
-                {
+                if ((binaryOp.Op == "/" || binaryOp.Op == "%") && (float)right == 0)
                     throw new Exception("Division by zero is not allowed.");
-                }
 
                 return binaryOp.Op switch
                 {
@@ -350,7 +374,7 @@ public class Interpreter
                 };
 
             case Group group:
-                var finalPoint = (FinalPoint) EvaluateExpression(group.Point, varEnv, funcEnv, store);
+                var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
@@ -375,7 +399,7 @@ public class Interpreter
                     return null;
                 }
 
-                if(listVariable is not FinalList destinedList1)
+                if (listVariable is not FinalList destinedList1)
                 {
                     errors.Add($"Variable {addToList.ListIdentifier.Name} is not a list");
                     return null;
@@ -482,10 +506,7 @@ public class Interpreter
 
             case List list:
                 var values = new List<object>();
-                foreach (var expr in list.Expressions)
-                {
-                    values.Add(EvaluateExpression(expr, varEnv, funcEnv, store));
-                }
+                foreach (var expr in list.Expressions) values.Add(EvaluateExpression(expr, varEnv, funcEnv, store));
 
                 return new FinalList(values);
         }
@@ -504,75 +525,175 @@ public class Interpreter
         switch (record.RecordType.Value)
         {
             case "Circle":
-                var center = (FinalPoint)dictionary["center"];
-                var radius = (float)dictionary["radius"];
-                var stroke = (float)dictionary["stroke"];
-                var color = (FinalColor)dictionary["color"];
-                var strokeColor = (FinalColor)dictionary["strokeColor"];
-                return new FinalCircle(center, radius, stroke, color, strokeColor) {Fields = dictionary};
+                dictionary.TryGetValue("center", out var centerObj);
+                dictionary.TryGetValue("radius", out var radiusObj);
+                dictionary.TryGetValue("stroke", out var strokeObj);
+                dictionary.TryGetValue("color", out var colorObj);
+                dictionary.TryGetValue("strokeColor", out var strokeColorObj);
+                var center = centerObj != null ? (FinalPoint)centerObj : new FinalPoint(0, 0);
+                var radius = radiusObj != null ? (float)radiusObj : 1.0f;
+                var stroke = strokeObj != null ? (float)strokeObj : 1.0f;
+                var color = colorObj != null ? (FinalColor)colorObj : new FinalColor(0, 0, 0, 1);
+                var strokeColor = strokeColorObj != null ? (FinalColor)strokeColorObj : new FinalColor(0, 0, 0, 1);
+                return new FinalCircle(center, radius, stroke, color, strokeColor) { Fields = dictionary };
 
             case "Rectangle":
-                var topLeft = (FinalPoint)dictionary["topLeft"];
-                var bottomRight = (FinalPoint)dictionary["bottomRight"];
-                stroke = (float)dictionary["stroke"];
-                color = (FinalColor)dictionary["color"];
-                strokeColor = (FinalColor)dictionary["strokeColor"];
-                var rounding = (float)dictionary["rounding"];
-                return new FinalRectangle(topLeft, bottomRight, stroke, color, strokeColor, rounding) {Fields = dictionary};
+                dictionary.TryGetValue("topLeft", out var topLeftObj);
+                dictionary.TryGetValue("bottomRight", out var bottomRightObj);
+                dictionary.TryGetValue("stroke", out strokeObj);
+                dictionary.TryGetValue("color", out colorObj);
+                dictionary.TryGetValue("strokeColor", out strokeColorObj);
+                dictionary.TryGetValue("rounding", out var roundingObj);
+                var topLeft = topLeftObj != null ? (FinalPoint)topLeftObj : new FinalPoint(0, 0);
+                var bottomRight = bottomRightObj != null ? (FinalPoint)bottomRightObj : new FinalPoint(1, 1);
+                stroke = strokeObj != null ? (float)strokeObj : 1.0f;
+                color = colorObj != null ? (FinalColor)colorObj : new FinalColor(0, 0, 0, 1);
+                strokeColor = strokeColorObj != null ? (FinalColor)strokeColorObj : new FinalColor(0, 0, 0, 1);
+                var rounding = roundingObj != null ? (float)roundingObj : 0.0f;
+                return new FinalRectangle(topLeft, bottomRight, stroke, color, strokeColor, rounding)
+                    { Fields = dictionary };
 
             case "Point":
-                var x = (float)dictionary["x"];
-                var y = (float)dictionary["y"];
-                return new FinalPoint(x, y){Fields = dictionary};
+                dictionary.TryGetValue("x", out var xObj);
+                dictionary.TryGetValue("y", out var yObj);
+                var x = xObj != null ? (float)xObj : 0.0f;
+                var y = yObj != null ? (float)yObj : 0.0f;
+                return new FinalPoint(x, y) { Fields = dictionary };
 
             case "Color":
-                var red = (float)dictionary["red"];
-                var green = (float)dictionary["green"];
-                var blue = (float)dictionary["blue"];
-                var alpha = (float)dictionary["alpha"];
-                return new FinalColor(red, green, blue, alpha){Fields = dictionary};
+                dictionary.TryGetValue("red", out var redObj);
+                dictionary.TryGetValue("green", out var greenObj);
+                dictionary.TryGetValue("blue", out var blueObj);
+                dictionary.TryGetValue("alpha", out var alphaObj);
+                var red = redObj != null ? (float)redObj : 0.0f;
+                var green = greenObj != null ? (float)greenObj : 0.0f;
+                var blue = blueObj != null ? (float)blueObj : 0.0f;
+                var alpha = alphaObj != null ? (float)alphaObj : 1.0f;
+                return new FinalColor(red, green, blue, alpha) { Fields = dictionary };
 
             case "Ellipse":
-                var ellipseCenter = (FinalPoint)dictionary["center"];
-                var ellipseRadiusX = (float)dictionary["radiusX"];
-                var ellipseRadiusY = (float)dictionary["radiusY"];
-                var ellipseStroke = (float)dictionary["stroke"];
-                var ellipseColor = (FinalColor)dictionary["color"];
-                var ellipseStrokeColor = (FinalColor)dictionary["strokeColor"];
+                dictionary.TryGetValue("center", out var ellipseCenterObj);
+                dictionary.TryGetValue("radiusX", out var ellipseRadiusXObj);
+                dictionary.TryGetValue("radiusY", out var ellipseRadiusYObj);
+                dictionary.TryGetValue("stroke", out var ellipseStrokeObj);
+                dictionary.TryGetValue("color", out var ellipseColorObj);
+                dictionary.TryGetValue("strokeColor", out var ellipseStrokeColorObj);
+                var ellipseCenter = ellipseCenterObj != null ? (FinalPoint)ellipseCenterObj : new FinalPoint(0, 0);
+                var ellipseRadiusX = ellipseRadiusXObj != null ? (float)ellipseRadiusXObj : 1.0f;
+                var ellipseRadiusY = ellipseRadiusYObj != null ? (float)ellipseRadiusYObj : 1.0f;
+                var ellipseStroke = ellipseStrokeObj != null ? (float)ellipseStrokeObj : 1.0f;
+                var ellipseColor = ellipseColorObj != null ? (FinalColor)ellipseColorObj : new FinalColor(0, 0, 0, 1);
+                var ellipseStrokeColor = ellipseStrokeColorObj != null
+                    ? (FinalColor)ellipseStrokeColorObj
+                    : new FinalColor(0, 0, 0, 1);
                 return new FinalEllipse(ellipseCenter, ellipseRadiusX, ellipseRadiusY, ellipseStroke, ellipseColor,
-                    ellipseStrokeColor){Fields = dictionary};
+                    ellipseStrokeColor) { Fields = dictionary };
 
             case "Triangle":
-                var point1 = (FinalPoint)dictionary["point1"];
-                var point2 = (FinalPoint)dictionary["point2"];
-                var point3 = (FinalPoint)dictionary["point3"];
+                dictionary.TryGetValue("point1", out var point1Obj);
+                dictionary.TryGetValue("point2", out var point2Obj);
+                dictionary.TryGetValue("point3", out var point3Obj);
+                var point1 = point1Obj != null ? (FinalPoint)point1Obj : new FinalPoint(0, 0);
+                var point2 = point2Obj != null ? (FinalPoint)point2Obj : new FinalPoint(0, 0);
+                var point3 = point3Obj != null ? (FinalPoint)point3Obj : new FinalPoint(0, 0);
                 var points = new List<FinalPoint> { point1, point2, point3 };
-                var triangleStroke = (float)dictionary["stroke"];
-                var triangleColor = (FinalColor)dictionary["color"];
-                var triangleStrokeColor = (FinalColor)dictionary["strokeColor"];
-                return new FinalTriangle(point1, points, triangleStroke, triangleColor, triangleStrokeColor){Fields = dictionary};
+                dictionary.TryGetValue("stroke", out var triangleStrokeObj);
+                dictionary.TryGetValue("color", out var triangleColorObj);
+                dictionary.TryGetValue("strokeColor", out var triangleStrokeColorObj);
+                var triangleStroke = triangleStrokeObj != null ? (float)triangleStrokeObj : 1.0f;
+                var triangleColor =
+                    triangleColorObj != null ? (FinalColor)triangleColorObj : new FinalColor(0, 0, 0, 1);
+                var triangleStrokeColor = triangleStrokeColorObj != null
+                    ? (FinalColor)triangleStrokeColorObj
+                    : new FinalColor(0, 0, 0, 1);
+                return new FinalTriangle(point1, points, triangleStroke, triangleColor, triangleStrokeColor)
+                    { Fields = dictionary };
 
             case "Polygon":
-                var polygonPoints = (FinalList)dictionary["points"];
-                var polygonStroke = (float)dictionary["stroke"];
-                var polygonColor = (FinalColor)dictionary["color"];
-                var polygonStrokeColor = (FinalColor)dictionary["strokeColor"];
-                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor){Fields = dictionary};
+                dictionary.TryGetValue("points", out var polygonPointsObj);
+                dictionary.TryGetValue("stroke", out var polygonStrokeObj);
+                dictionary.TryGetValue("color", out var polygonColorObj);
+                dictionary.TryGetValue("strokeColor", out var polygonStrokeColorObj);
+                var polygonPoints = polygonPointsObj != null ? (FinalList)polygonPointsObj : null;
+                var polygonStroke = polygonStrokeObj != null ? (float)polygonStrokeObj : 1.0f;
+                var polygonColor = polygonColorObj != null ? (FinalColor)polygonColorObj : new FinalColor(0, 0, 0, 1);
+                var polygonStrokeColor = polygonStrokeColorObj != null
+                    ? (FinalColor)polygonStrokeColorObj
+                    : new FinalColor(0, 0, 0, 1);
+                return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor)
+                    { Fields = dictionary };
 
             case "Line":
-                var linePoint1 = (FinalPoint)dictionary["start"];
-                var linePoint2 = (FinalPoint)dictionary["end"];
-                var lineStroke = (float)dictionary["stroke"];
-                var lineColor = (FinalColor)dictionary["color"];
-                return new FinalLine(linePoint1, linePoint2, lineStroke, lineColor){Fields = dictionary};
+                dictionary.TryGetValue("start", out var linePoint1Obj);
+                dictionary.TryGetValue("end", out var linePoint2Obj);
+                dictionary.TryGetValue("stroke", out var lineStrokeObj);
+                dictionary.TryGetValue("color", out var lineColorObj);
+                var linePoint1 = linePoint1Obj != null ? (FinalPoint)linePoint1Obj : new FinalPoint(0, 0);
+                var linePoint2 = linePoint2Obj != null ? (FinalPoint)linePoint2Obj : new FinalPoint(1, 1);
+                var lineStroke = lineStrokeObj != null ? (float)lineStrokeObj : 1.0f;
+                var lineColor = lineColorObj != null ? (FinalColor)lineColorObj : new FinalColor(0, 0, 0, 1);
+                return new FinalLine(linePoint1, linePoint2, lineStroke, lineColor) { Fields = dictionary };
+
+            case "Arrow":
+                dictionary.TryGetValue("start", out var arrowStartObj);
+                dictionary.TryGetValue("end", out var arrowEndObj);
+                dictionary.TryGetValue("stroke", out var arrowStrokeObj);
+                dictionary.TryGetValue("color", out var arrowColorObj);
+                var arrowStart = arrowStartObj != null ? (FinalPoint)arrowStartObj : new FinalPoint(0, 0);
+                var arrowEnd = arrowEndObj != null ? (FinalPoint)arrowEndObj : new FinalPoint(1, 1);
+                var arrowStroke = arrowStrokeObj != null ? (float)arrowStrokeObj : 1.0f;
+                var arrowColor = arrowColorObj != null ? (FinalColor)arrowColorObj : new FinalColor(0, 0, 0, 1);
+                return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor) { Fields = dictionary };
+
+            case "Text":
+                dictionary.TryGetValue("point", out var textPositionObj);
+                dictionary.TryGetValue("content", out var contentObj);
+                dictionary.TryGetValue("color", out var textColorObj);
+                dictionary.TryGetValue("font", out var fontObj);
+                dictionary.TryGetValue("fontSize", out var fontSizeObj);
+                dictionary.TryGetValue("fontWeight", out var fontWeightObj);
+                var textPosition = textPositionObj != null ? (FinalPoint)textPositionObj : new FinalPoint(0, 0);
+                var content = contentObj != null ? (string)contentObj : string.Empty;
+                var textColor = textColorObj != null ? (FinalColor)textColorObj : new FinalColor(0, 0, 0, 1);
+                var font = fontObj != null ? (string)fontObj : "Arial";
+                var fontSize = fontSizeObj != null ? (float)fontSizeObj : 12.0f;
+                var fontWeight = fontWeightObj != null ? (float)fontWeightObj : 400.0f;
+                return new FinalText(content, textPosition, font, fontSize, fontWeight, textColor)
+                    { Fields = dictionary };
+
+            case "Square":
+                dictionary.TryGetValue("topLeft", out var squareTopLeftObj);
+                dictionary.TryGetValue("side", out var squareLengthObj);
+                dictionary.TryGetValue("stroke", out var squareStrokeObj);
+                dictionary.TryGetValue("color", out var squareColorObj);
+                dictionary.TryGetValue("strokeColor", out var squareStrokeColorObj);
+                dictionary.TryGetValue("rounding", out var squareRoundingObj);
+                var squareTopLeft = squareTopLeftObj != null ? (FinalPoint)squareTopLeftObj : new FinalPoint(0, 0);
+                var squareLength = squareLengthObj != null ? (float)squareLengthObj : 1.0f;
+                var squareStroke = squareStrokeObj != null ? (float)squareStrokeObj : 1.0f;
+                var squareColor = squareColorObj != null ? (FinalColor)squareColorObj : new FinalColor(0, 0, 0, 1);
+                var squareStrokeColor = squareStrokeColorObj != null
+                    ? (FinalColor)squareStrokeColorObj
+                    : new FinalColor(0, 0, 0, 1);
+                var squareRounding = squareRoundingObj != null ? (float)squareRoundingObj : 0.0f;
+                return new FinalSquare(squareTopLeft, squareLength, squareStroke, squareColor, squareStrokeColor,
+                    squareRounding) { Fields = dictionary };
 
             default:
-                return new FinalRecord(dictionary);
+                List<FinalType> finalTypes = new();
+                foreach (var expr in record.Expressions)
+                {
+                    if (expr is Record record1)
+                    {
+                        finalTypes.Add((FinalType)EvaluateRecords(record1, varEnv, funcEnv, store));
+                    }
+                }
+                return new FinalRecord(finalTypes) { Fields = dictionary };
         }
 
-        throw new Exception("FinalType: " + record.RecordType.Value +" not found");
-    }
 
+        throw new Exception("FinalType: " + record.RecordType.Value + " not found");
+    }
 
 
     public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
@@ -593,6 +714,7 @@ public class Interpreter
                     errors.Add($"Variable {identifier.Name} not found in the VariableTable");
                     return null;
                 }
+
                 var variable = store.LookUp(variableIndex.Value);
 
                 if (variable == null)
@@ -603,19 +725,78 @@ public class Interpreter
 
                 var finalType = variable as FinalType;
 
-                if (finalType == null)
-                {
-                    return variable;
-                }
+                if (finalType == null) return variable;
 
-                if(finalType != null && identifier.Attribute != null)
-                {
-                    return finalType.Fields[identifier.Attribute];
-                }
+                if (finalType != null && identifier.Attribute != null) return finalType.Fields[identifier.Attribute];
 
                 return finalType;
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    public object UpdateFinalType(FinalType finalType, string key, object value)
+    {
+        switch (finalType)
+        {
+            case FinalPoint finalPoint:
+                switch (key)
+                {
+                    case "x":
+                        finalPoint.X = new FinalNum((float)value);
+                        break;
+                    case "y":
+                        finalPoint.Y = new FinalNum((float)value);
+                        break;
+                }
+
+                return finalPoint;
+
+            case FinalColor finalColor:
+                switch (key)
+                {
+                    case "red":
+                        finalColor.Red = new FinalNum((float)value);
+                        break;
+                    case "green":
+                        finalColor.Green = new FinalNum((float)value);
+                        break;
+                    case "blue":
+                        finalColor.Blue = new FinalNum((float)value);
+                        break;
+                    case "alpha":
+                        finalColor.Alpha = new FinalNum((float)value);
+                        break;
+                }
+
+                return finalColor;
+
+            case FinalCircle finalCircle:
+                switch (key)
+                {
+                    case "center":
+                        finalCircle.Center = (FinalPoint)value;
+                        break;
+                    case "radius":
+                        finalCircle.Radius = new FinalNum((float)value);
+                        break;
+                    case "stroke":
+                        finalCircle.Stroke = new FinalNum((float)value);
+                        break;
+                    case "color":
+                        finalCircle.FillColor = (FinalColor)value;
+                        break;
+                    case "strokeColor":
+                        finalCircle.StrokeColor = (FinalColor)value;
+                        break;
+
+                }
+
+                return finalCircle;
+
+        }
+
+        return finalType;
+
     }
 }

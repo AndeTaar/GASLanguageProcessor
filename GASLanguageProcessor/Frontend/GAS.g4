@@ -9,7 +9,7 @@ statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
-recDefinition : 'TypeDef' recordTypeIdentifier '=' '{' (allTypes identifier ';')* '}';
+recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
 
 declaration : (type | collectionType) (attributeIdentifier | identifier) ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
@@ -38,7 +38,7 @@ unaryExpression : ('!' | '-')* term;
 term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
  functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm;
 
-recordTerm: recordTypeIdentifier '{' ( identifier '=' expression ';')* '}';
+recordTerm: recordTypeIdentifier '{' (identifier '=' expression (',' identifier '=' expression)* )? '}';
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 

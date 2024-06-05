@@ -4,10 +4,6 @@ namespace GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 
 public class Identifier : Term
 {
-    public string Name { get; protected set; }
-
-    public string? Attribute { get; set; }
-
     public Identifier(string name)
     {
         Name = name;
@@ -18,6 +14,10 @@ public class Identifier : Term
         Name = name;
         Attribute = attribute;
     }
+
+    public string Name { get; protected set; }
+
+    public string? Attribute { get; set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

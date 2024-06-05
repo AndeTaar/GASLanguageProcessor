@@ -15,5 +15,4 @@ public class VisitCanvas
         ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
-
 }

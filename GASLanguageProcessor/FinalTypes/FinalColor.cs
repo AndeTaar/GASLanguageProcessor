@@ -1,12 +1,7 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalColor: FinalType
+public class FinalColor : FinalType
 {
-    public FinalNum Red { get; set; }
-    public FinalNum Green { get; set; }
-    public FinalNum Blue { get; set; }
-    public FinalNum Alpha { get; set; }
-
     public FinalColor(Dictionary<string, object> values)
     {
         Red = new FinalNum(values["red"]);
@@ -22,6 +17,11 @@ public class FinalColor: FinalType
         Blue = new FinalNum(blue);
         Alpha = new FinalNum(alpha);
     }
+
+    public FinalNum Red { get; set; }
+    public FinalNum Green { get; set; }
+    public FinalNum Blue { get; set; }
+    public FinalNum Alpha { get; set; }
 
     public string ColorToString()
     {

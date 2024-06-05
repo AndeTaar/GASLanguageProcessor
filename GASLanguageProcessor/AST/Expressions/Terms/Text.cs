@@ -2,16 +2,10 @@
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Text: Term
+public class Text : Term
 {
-    public Expression Value { get; protected set; }
-    public Expression Position { get; protected set; }
-    public Expression Font { get; protected set; }
-    public Expression FontSize { get; protected set; }
-    public Expression? FontWeight { get; protected set; }
-    public Expression Color { get; protected set; }
-
-    public Text(Expression value, Expression position, Expression font, Expression fontSize, Expression fontWeight, Expression color)
+    public Text(Expression value, Expression position, Expression font, Expression fontSize, Expression fontWeight,
+        Expression color)
     {
         Value = value;
         Position = position;
@@ -20,6 +14,13 @@ public class Text: Term
         FontWeight = fontWeight;
         Color = color;
     }
+
+    public Expression Value { get; protected set; }
+    public Expression Position { get; protected set; }
+    public Expression Font { get; protected set; }
+    public Expression FontSize { get; protected set; }
+    public Expression? FontWeight { get; protected set; }
+    public Expression Color { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

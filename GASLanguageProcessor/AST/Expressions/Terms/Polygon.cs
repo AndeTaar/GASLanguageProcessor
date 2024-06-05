@@ -1,18 +1,9 @@
-using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class Polygon: Term
+public class Polygon : Term
 {
-    public Expression Points { get; protected set; }
-
-    public Expression Stroke { get; protected set; }
-
-    public Expression Color { get; protected set; }
-
-    public Expression StrokeColor { get; protected set; }
-
     public Polygon(Expression points, Expression stroke, Expression color, Expression strokeColor)
     {
         Points = points;
@@ -20,6 +11,14 @@ public class Polygon: Term
         Color = color;
         StrokeColor = strokeColor;
     }
+
+    public Expression Points { get; protected set; }
+
+    public Expression Stroke { get; protected set; }
+
+    public Expression Color { get; protected set; }
+
+    public Expression StrokeColor { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

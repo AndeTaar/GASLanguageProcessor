@@ -1,12 +1,10 @@
 using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.FinalTypes;
-using GASLanguageProcessor.TableType;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
 public class VisitProgram
 {
-
     [Fact]
     public void VisitPassVisitProgramSemiLarge()
     {
@@ -229,18 +227,18 @@ public class VisitProgram
         var grMousFaceLoc = envV.LookUp("mouseFace");
         Assert.NotNull(grMousEarsLoc);
         Assert.NotNull(grMousFaceLoc);
-        
+
         var groupMouseEars = sto.LookUp(grMousEarsLoc.Value) as FinalGroup;
         var groupMouseFace = sto.LookUp(grMousFaceLoc.Value) as FinalGroup;
         Assert.NotNull(groupMouseEars);
         Assert.NotNull(groupMouseFace);
-        
+
         var mouseEarsEnvV = groupMouseEars.EnvV;
         var circleLeftEar = sto.LookUp(mouseEarsEnvV.LookUp("leftEar").Value) as FinalCircle;
         var circleRightEar = sto.LookUp(mouseEarsEnvV.LookUp("rightEar").Value) as FinalCircle;
         Assert.NotNull(circleLeftEar);
         Assert.NotNull(circleRightEar);
-        
+
         var mouseFaceEnvV = groupMouseFace.EnvV;
         var circleFace = sto.LookUp(mouseFaceEnvV.LookUp("face").Value) as FinalCircle;
         var circleEye = sto.LookUp(mouseFaceEnvV.LookUp("eye").Value) as FinalCircle;

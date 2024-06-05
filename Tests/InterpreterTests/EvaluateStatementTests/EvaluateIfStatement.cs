@@ -15,7 +15,7 @@ public class EvaluateIfStatement
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);
@@ -36,7 +36,7 @@ public class EvaluateIfStatement
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);
@@ -57,7 +57,7 @@ public class EvaluateIfStatement
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);
@@ -77,11 +77,10 @@ public class EvaluateIfStatement
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);
         Assert.Equal(50f, result);
     }
-
 }

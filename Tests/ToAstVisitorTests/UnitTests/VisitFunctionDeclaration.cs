@@ -17,7 +17,7 @@ public class VisitFunctionDeclaration
 
         var inputStream = CharStreams.fromString(fileContents);
         var lexer = new GASLexer(inputStream);
-        ParserErrorListener errorListener = new ParserErrorListener();
+        var errorListener = new ParserErrorListener();
 
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
@@ -25,19 +25,19 @@ public class VisitFunctionDeclaration
         parser.AddErrorListener(errorListener);
         errorListener.StopIfErrors();
         Assert.NotNull(parser);
-        
+
         var astVisitor = new ToAstVisitor();
-        
+
         var functionDeclarationContext = parser.functionDeclaration();
-        var functionDeclaration = (FunctionDeclaration) astVisitor.VisitFunctionDeclaration(functionDeclarationContext);
-        
+        var functionDeclaration = (FunctionDeclaration)astVisitor.VisitFunctionDeclaration(functionDeclarationContext);
+
         Assert.NotNull(functionDeclaration);
         Assert.Equal("xFunc", functionDeclaration.Identifier.Name);
         Assert.Equal("num", functionDeclaration.Parameters[0].Type.Value);
         Assert.Equal("y", functionDeclaration.Parameters[0].Identifier.Name);
         Assert.Equal("void", functionDeclaration.ReturnType.Value);
         Assert.IsType<Assignment>(functionDeclaration.Statements);
-        
+
         var assignment = functionDeclaration.Statements as Assignment;
         Assert.Equal("z", assignment.Identifier.Name);
         var assignmentVal = assignment.Expression;

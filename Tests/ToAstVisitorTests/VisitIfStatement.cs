@@ -1,4 +1,3 @@
-using Antlr4.Runtime;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Statements;
 
@@ -14,12 +13,12 @@ public class VisitIfStatement
             "if (true) {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var ifStatement = (If) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var ifStatement = (If)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
@@ -34,13 +33,13 @@ public class VisitIfStatement
             "if (true) {} else {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var ifStatement = (Compound) compound.Statement2;
+        var ifStatement = (Compound)compound.Statement2;
         Assert.IsAssignableFrom<If>(ifStatement.Statement1);
-        var ifStatement1 = (If) ifStatement.Statement1;
+        var ifStatement1 = (If)ifStatement.Statement1;
         var eofNull = ifStatement.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(ifStatement1);
@@ -57,20 +56,20 @@ public class VisitIfStatement
             "if (true) {} else if (false) {}");
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
-        var compound = (Compound) ast;
+        var compound = (Compound)ast;
         Assert.IsAssignableFrom<Statement>(compound.Statement1);
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsAssignableFrom<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
+        var compound1 = (Compound)compound.Statement2;
         Assert.IsAssignableFrom<If>(compound1.Statement1);
-        var ifStatement = (If) compound1.Statement1;
+        var ifStatement = (If)compound1.Statement1;
         var eofNull = compound1.Statement2;
         Assert.Null(eofNull);
         Assert.NotNull(ifStatement);
         Assert.NotNull(canvas);
 
         Assert.IsAssignableFrom<If>(ifStatement.Else);
-        var elseIf = (If) ifStatement.Else;
+        var elseIf = (If)ifStatement.Else;
         Assert.NotNull(elseIf);
 
         Assert.Null(elseIf.Else);

@@ -1,5 +1,4 @@
-﻿using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
 
@@ -22,11 +21,11 @@ public class EvaluateFunctionDeclarationAndCall
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("nus").Value);
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
-        var finalList = (FinalList) result;
+        var finalList = (FinalList)result;
         Assert.Equal(5, finalList.Values.Count);
     }
 
@@ -51,11 +50,11 @@ public class EvaluateFunctionDeclarationAndCall
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("nus").Value);
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
-        var finalList = (FinalList) result;
+        var finalList = (FinalList)result;
         Assert.Equal(3, finalList.Values.Count);
     }
 }

@@ -8,17 +8,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+        <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Frontend\test.gas">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="Frontend\test.gas">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="output\" />
+        <Folder Include="output\"/>
     </ItemGroup>
 
 </Project>
