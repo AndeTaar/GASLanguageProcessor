@@ -7,23 +7,24 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 //Statements
 statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
-complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
+complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
-declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
-assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
-increment : IDENTIFIER ('++' | '--');
+recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
+
+declaration : (type | collectionType) identifier ('=' expression)?;
+assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
+increment : (attributeIdentifier | identifier) ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
-functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* ? '}';
+functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
 //Standard data types
 
-allTypes : type | collectionType;
-type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line'
-| 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
-collectionType : 'list' '<' type '>' | 'group';
+allTypes : type | collectionType ;
+type: 'num' | 'bool' | 'string' | 'void' | recordTypeIdentifier;
+collectionType : 'list' '<' (type) '>' | 'group';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
@@ -34,13 +35,18 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | groupTerm;
+term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+ functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm;
 
+recordTerm: recordTypeIdentifier '{' (identifier '=' expression (',' identifier '=' expression)* )? '}';
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCall : identifier '(' (expression (',' expression)*)? ')';
+
+recordTypeIdentifier : IDENTIFIER;
+identifier : IDENTIFIER;
+attributeIdentifier : identifier '.' identifier;
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

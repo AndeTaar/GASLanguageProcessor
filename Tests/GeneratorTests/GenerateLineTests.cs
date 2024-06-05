@@ -74,8 +74,9 @@ public class GenerateLineTests
         Assert.Equal("<svg width=\"500\" height=\"500\"" +
                      " style=\"background-color: rgb(255, 255, 255)\"" +
                      " xmlns=\"http://www.w3.org/2000/svg\">", svgLines[0]);
-        Assert.Equal($"<line id=\"l\" x1=\"-1\" y1=\"{lineIntercept-lineGradient}\" x2=\"{expectedLineEndX}\" y2=\"{expectedLineEndY}\"" +
-                     " stroke=\"rgb(255, 0, 0)\" stroke-width=\"10\" />", svgLines[1]);
+        Assert.Equal(
+            $"<line id=\"l\" x1=\"-1\" y1=\"{lineIntercept - lineGradient}\" x2=\"{expectedLineEndX}\" y2=\"{expectedLineEndY}\"" +
+            " stroke=\"rgb(255, 0, 0)\" stroke-width=\"10\" />", svgLines[1]);
         Assert.Equal("</svg>", svgLines[2]);
     }
 

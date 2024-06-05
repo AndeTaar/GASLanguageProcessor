@@ -1,7 +1,4 @@
-﻿using Xunit;
-using Antlr4.Runtime;
-using GASLanguageProcessor;
-using GASLanguageProcessor.AST;
+﻿using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Statements;
 using Tests;
 
@@ -20,10 +17,10 @@ public class VisitorTests
         Assert.NotNull(ast);
         Assert.IsType<Compound>(ast);
         var compound = (Compound)ast;
-        var canvas = (Canvas) compound.Statement1;
+        var canvas = (Canvas)compound.Statement1;
         Assert.IsType<Compound>(compound.Statement2);
-        var compound1 = (Compound) compound.Statement2;
-        var functionDeclaration = (FunctionDeclaration) compound1.Statement1;
+        var compound1 = (Compound)compound.Statement2;
+        var functionDeclaration = (FunctionDeclaration)compound1.Statement1;
         Assert.IsType<Canvas>(canvas);
         Assert.NotNull(canvas);
         Assert.Equal("test", functionDeclaration.Identifier.Name);
@@ -32,11 +29,11 @@ public class VisitorTests
         Assert.Equal("y", functionDeclaration.Parameters[1].Identifier.Name);
         Assert.Equal("C", functionDeclaration.Parameters[2].Identifier.Name);
         Assert.IsAssignableFrom<Statement>(functionDeclaration.Statements);
-        var compound2 = (Compound) functionDeclaration.Statements;
-        var assignment1 = (Assignment) compound2.Statement1;
-        var compound3 = (Compound) compound2.Statement2;
-        var assignment2 = (Assignment) compound3.Statement1;
-        var assignment3 = (Assignment) compound3.Statement2;
+        var compound2 = (Compound)functionDeclaration.Statements;
+        var assignment1 = (Assignment)compound2.Statement1;
+        var compound3 = (Compound)compound2.Statement2;
+        var assignment2 = (Assignment)compound3.Statement1;
+        var assignment3 = (Assignment)compound3.Statement2;
         Assert.Equal("x", assignment1.Identifier.Name);
         Assert.Equal("y", assignment2.Identifier.Name);
         Assert.Equal("C", assignment3.Identifier.Name);

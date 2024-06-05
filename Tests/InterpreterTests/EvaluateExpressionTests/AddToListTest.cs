@@ -1,6 +1,4 @@
-﻿using GASLanguageProcessor;
-using GASLanguageProcessor.FinalTypes;
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.FinalTypes;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
@@ -16,18 +14,17 @@ public class AddToListTest
             "AddToList(5, l);"
         );
 
-        
-        
+
         var envV = env.Item1;
         var sto = env.Item2;
         var envT = env.Item3;
         var envF = env.Item4;
         var errors = env.Item5;
-        
+
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("l").Value) as FinalList;
-        var expected = new FinalList(new List<object> { 1f,2f,3f,4f,5f,5f });
+        var expected = new FinalList(new List<object> { 1f, 2f, 3f, 4f, 5f, 5f });
 
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
@@ -48,9 +45,9 @@ public class AddToListTest
         var envT = env.Item3;
         var envF = env.Item4;
         var errors = env.Item5;
-        
+
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("l").Value) as FinalList;
         var expected = new FinalList(new List<object> { 5f });
         Assert.NotNull(result);

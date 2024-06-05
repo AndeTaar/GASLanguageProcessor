@@ -22,7 +22,7 @@ public class VisitMultExpression
             "num y = 10 * 2 * 30;" +
             "num i = 10 * 2 * 30 + y * 20;" +
             "num x = 10 * 2 * 30 + y * 20 - i;"
-            );
+        );
         var visitor = new CombinedAstVisitor();
         ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);

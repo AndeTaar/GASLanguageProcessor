@@ -1,14 +1,7 @@
 ﻿namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalCircle
+public class FinalCircle : FinalType
 {
-    public FinalPoint Center { get; set; }
-    public FinalNum Radius { get; set; }
-    public FinalNum Stroke { get; set; }
-    public FinalColor FillColor { get; set; }
-    public FinalColor StrokeColor { get; set; }
-
-
     public FinalCircle(FinalPoint center, float radius, float stroke, FinalColor fillColor, FinalColor strokeColor)
     {
         Center = center;
@@ -17,4 +10,10 @@ public class FinalCircle
         FillColor = fillColor;
         StrokeColor = strokeColor;
     }
+
+    public FinalPoint Center { get; set; }
+    public FinalNum Radius { get; set; }
+    public FinalNum Stroke { get; set; }
+    public FinalColor FillColor { get; set; }
+    public FinalColor StrokeColor { get; set; }
 }

@@ -5,16 +5,16 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class If : Statement
 {
-    public Expression Condition { get; protected set; }
-    public Statement Statements { get; protected set; }
-    public Statement? Else { get; protected set; }
-
     public If(Expression condition, Statement statements, Statement @else)
     {
         Condition = condition;
         Statements = statements;
         Else = @else;
     }
+
+    public Expression Condition { get; protected set; }
+    public Statement Statements { get; protected set; }
+    public Statement? Else { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {

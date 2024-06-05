@@ -68,5 +68,4 @@ public class VisitDeclaration
         ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
-
 }

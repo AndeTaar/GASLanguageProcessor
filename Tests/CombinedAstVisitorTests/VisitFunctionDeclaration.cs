@@ -94,5 +94,4 @@ public class VisitFunctionDeclaration
         ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
-
 }

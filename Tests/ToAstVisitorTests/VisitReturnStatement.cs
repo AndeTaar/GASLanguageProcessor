@@ -17,7 +17,7 @@ public class VisitReturnStatement
         var parser = new GASParser(tokenStream);
         var context = parser.returnStatement();
         var result = visitor.VisitReturnStatement(context);
-        
+
         Assert.NotNull(result);
         Assert.IsType<Return>(result);
     }

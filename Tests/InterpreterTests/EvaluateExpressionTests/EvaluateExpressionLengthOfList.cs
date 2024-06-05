@@ -17,8 +17,8 @@ public class EvaluateExpressionLengthOfList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
-        var result = (float) sto.LookUp(envV.LookUp("listLength").Value);
+
+        var result = (float)sto.LookUp(envV.LookUp("listLength").Value);
         var expected = 5f;
 
         Assert.NotNull(result);
@@ -44,8 +44,8 @@ public class EvaluateExpressionLengthOfList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
-        var result = (float) sto.LookUp(envV.LookUp("listLength").Value);
+
+        var result = (float)sto.LookUp(envV.LookUp("listLength").Value);
         var expected = 2f;
 
         Assert.NotNull(result);

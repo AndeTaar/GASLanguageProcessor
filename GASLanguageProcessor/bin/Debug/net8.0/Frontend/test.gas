@@ -1,57 +1,193 @@
-﻿num canvasWidth = 500;
-num canvasHeight = 250;
+﻿num canvasWidth = 950;
+num canvasHeight = 950;
 
-color white = Color(255, 255, 255, 1);
-color red = Color(220, 57, 29, 1);
-color blue = Color(0, 0, 255, 1);
+Color white = Color{red=255, green=255, blue=255, alpha=1};
 
-num Cos(num angle) {
-    num result = 1;
-    num term = 1;
-    num factorial = 1;
-    for (num i = 1; i <= 10; i+=1) {
-        term *= -angle * angle / ((2 * i) * (2 * i - 1));
-        result += term;
-    }
-    return result;
+num g = white.green;
+
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+
+TypeDef astNode {
+    square: Rectangle,
+    arrowTop: Arrow,
+    arrowBottom: Arrow,
+    operatorArrow: Arrow,
+    nodeType: Text,
+    operator: Text
 }
 
-num Sin(num angle) {
-    num result = angle;
-    num term = angle;
-    num factorial = 1;
-    for (num i = 1; i <= 10; i+=1) {
-        term *= -angle * angle / ((2 * i + 1) * (2 * i));
-        result += term;
-    }
-    return result;
+num width = 100;
+num height = 60;
+num vertDistance = 40;
+num horDistance = 90;
+
+list<astNode> shapes = List<astNode>{};
+
+astNode DrawNodeWithSingleArrow(Point center, string content){
+    return astNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
 }
 
-list<polygon> polygons = List<polygon>{};
 
-void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
-    list<point> points = List<point>{};
-    num entireCircle = 2 * 3.14;
-    entireCircle = entireCircle * percentage / 100;
-
-    for (num theta = 0; theta <= entireCircle; theta = theta + 3.14 / 180)
-    {
-        num x2 = centerPointX + radius * Sin(theta)*-1;
-        num y = centerPointY + radius * Cos(theta)*-1;
-        AddToList(Point(x2, y), points);
-    }
-
-    AddToList(Point(centerPointX, centerPointY), points);
-    circle c = Circle(Point(centerPointX, centerPointY), 50, 0, color1, red);
-    AddToList(c, polygons);
-    polygon poly = Polygon(points, 0, color2, white);
-    AddToList(poly, polygons);
-    circle c1 = Circle(Point(centerPointX, centerPointY), 30, 0, white, white);
-    AddToList(c1, polygons);
+astNode DrawNode(Point center, string content){
+    return astNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
 }
-num centerPointX = canvasWidth/2;
-num radius = 50;
-num centerPointY = canvasHeight/2;
-createCircleDiagram(radius, centerPointX, centerPointY, 81, red, blue);
+
+astNode DrawNodeWithOperator(Point center, string content, string operator){
+    return astNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        operatorArrow=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        },
+        operator=Text{
+            point=Point{x=center.x, y=center.y+height+20},
+            size=30,
+            content=operator,
+            color=black
+        }
+    };
+}
+
+Point p = Point{x=canvasWidth/2-30, y=100};
+
+AddToList(DrawNodeWithOperator(p, "Expression", "&amp;&amp;"), shapes);
+
+p.y += height + vertDistance+5;
+p.x -= horDistance+30;
+AddToList(DrawNodeWithSingleArrow(p, "EquExpr"), shapes);
+p.x += 2*horDistance+60;
+AddToList(DrawNodeWithSingleArrow(p, "EquExpr"), shapes);
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+100;
+AddToList(DrawNodeWithSingleArrow(p, "RelExpr"), shapes);
+p.x += 2*horDistance+140;
+AddToList(DrawNodeWithSingleArrow(p, "RelExpr"), shapes);
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+180;
+AddToList(DrawNodeWithOperator(p, "BinExpr", "+"), shapes);
+Point leftP = Point{x=p.x, y=p.y};
+
+p.x += 2*horDistance+220;
+AddToList(DrawNodeWithOperator(p, "BinExpr", "-"), shapes);
+Point rightP = Point{x=p.x, y=p.y};
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+310;
+AddToList(DrawNodeWithSingleArrow(rightP, "MultExpr"), shapes);
+rightP.x += 2*horDistance+30;
+AddToList(DrawNodeWithOperator(rightP, "MultExpr", "*"), shapes);
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+30;
+AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+rightP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(rightP, "Number"), shapes);
+rightP.y -= height + vertDistance+5;
+
+rightP.x += 2*horDistance-50;
+AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+rightP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(rightP, "Number"), shapes);
+rightP.y -= height + vertDistance+5;
+rightP.x += 2*horDistance-20;
+AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+rightP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(rightP, "Identifier"), shapes);
+rightP.y -= height + vertDistance+5;
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance-490;
+AddToList(DrawNodeWithSingleArrow(leftP, "MultExpr"), shapes);
+leftP.x += 2*horDistance+20;
+AddToList(DrawNodeWithOperator(leftP, "MultExpr", "/"), shapes);
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance+20;
+AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+leftP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-50;
+AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+leftP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-20;
+AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+leftP.y += height + vertDistance+5;
+AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+leftP.y -= height + vertDistance+5;
+
+Text text = Text{
+    point=Point{x=canvasWidth/2, y=rightP.y+220},
+    size=40,
+    content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
+    color=black
+};
 
 canvas (canvasWidth, canvasHeight, white);
