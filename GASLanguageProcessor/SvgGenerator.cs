@@ -70,7 +70,7 @@ public class SvgGenerator
                 break;
             case FinalText text:
                 SvgLines.Add(
-                    $"<text id=\"{varEnv.GetIdentifier(index)}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" fill=\"{text.TextColor.ColorToString()}\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"{text.Font}\" font-weight=\"{text.FontWeight}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
+                    $"<text id=\"{varEnv.GetIdentifier(index)}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" xml:space=\"preserve\" fill=\"{text.TextColor.ColorToString()}\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"{text.Font}\" font-weight=\"{text.FontWeight}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
                 break;
             case FinalSquare square:
                 SvgLines.Add(

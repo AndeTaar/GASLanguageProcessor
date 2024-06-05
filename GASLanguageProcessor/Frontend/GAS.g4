@@ -11,7 +11,7 @@ complexStatement:  whileStatement | functionDeclaration | forStatement | ifState
 
 recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
 
-declaration : (type | collectionType) (attributeIdentifier | identifier) ('=' expression)?;
+declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
 increment : (attributeIdentifier | identifier) ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;

@@ -239,10 +239,30 @@ public class Interpreter
             return store;
         }
 
-        var attributeValue = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
+        var assignExpression = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
+        var assignVariable = finalType.Fields[attribute];
 
-        finalType.Fields[attribute] = attributeValue;
-        store.Bind(index.Value, UpdateFinalType(finalType, attribute, attributeValue));
+        switch (assignment.Operator)
+        {
+            case "+=":
+                assignVariable = (float)assignVariable! + (float)assignExpression;
+                break;
+            case "-=":
+                assignVariable = (float)assignVariable! - (float)assignExpression;
+                break;
+            case "*=":
+                assignVariable = (float)assignVariable! * (float)assignExpression;
+                break;
+            case "/=":
+                assignVariable = (float)assignVariable! / (float)assignExpression;
+                break;
+            case "=":
+                assignVariable = assignExpression;
+                break;
+        }
+
+        finalType.Fields[attribute] = assignVariable;
+        store.Bind(index.Value, UpdateFinalType(finalType, attribute, assignVariable));
 
         return store;
     }
@@ -650,8 +670,8 @@ public class Interpreter
                 dictionary.TryGetValue("content", out var contentObj);
                 dictionary.TryGetValue("color", out var textColorObj);
                 dictionary.TryGetValue("font", out var fontObj);
-                dictionary.TryGetValue("fontSize", out var fontSizeObj);
-                dictionary.TryGetValue("fontWeight", out var fontWeightObj);
+                dictionary.TryGetValue("size", out var fontSizeObj);
+                dictionary.TryGetValue("weight", out var fontWeightObj);
                 var textPosition = textPositionObj != null ? (FinalPoint)textPositionObj : new FinalPoint(0, 0);
                 var content = contentObj != null ? (string)contentObj : string.Empty;
                 var textColor = textColorObj != null ? (FinalColor)textColorObj : new FinalColor(0, 0, 0, 1);
