@@ -133,8 +133,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
 
         if (type == null) type = context.collectionType().Accept(this) as Type;
 
-        var identifier = context.identifier()?.Accept(this) as Identifier ??
-                         context.attributeIdentifier()?.Accept(this) as Identifier;
+        var identifier = context.identifier()?.Accept(this) as Identifier;
 
         var value = context.expression()?.Accept(this) as Expression;
 
