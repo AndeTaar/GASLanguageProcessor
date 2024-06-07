@@ -4,15 +4,19 @@ namespace GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 
 public class Identifier : Term
 {
-    public Identifier(string name)
+    public bool Local = false;
+
+    public Identifier(string name, bool local)
     {
         Name = name;
+        Local = local;
     }
 
-    public Identifier(string name, string attribute)
+    public Identifier(string name, string attribute, bool local)
     {
         Name = name;
         Attribute = attribute;
+        Local = local;
     }
 
     public string Name { get; protected set; }

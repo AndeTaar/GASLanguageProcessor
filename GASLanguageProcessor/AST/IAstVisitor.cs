@@ -94,4 +94,6 @@ public interface IAstVisitor<T>
     T VisitIdentifier(Identifier identifier, TypeEnv envT);
 
     T VisitRecord(Record record, TypeEnv envT);
+
+    T VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration, TypeEnv envT);
 }

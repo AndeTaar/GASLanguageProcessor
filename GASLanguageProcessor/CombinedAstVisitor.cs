@@ -129,7 +129,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitFunctionCallStatement(FunctionCallStatement node, TypeEnv envT)
     {
         var identifier = node.Identifier;
-        var parametersAndReturn = envT.FLookUp(identifier.Name);
+        var parametersAndReturn = envT.FLookUp(identifier.Name) ?? envT.CLookUp(identifier.Name);
 
         if (parametersAndReturn == null)
         {
@@ -232,8 +232,9 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (node.Identifier.Attribute != null) return AttributeAssignment(node, envT);
 
         var variableType = envT.VLookUp(identifier.Name);
+        var record = envT.RecLookUp(identifier.Name);
 
-        if (node.Expression as Record != null) return RecordAssignment(node, envT);
+        if (node.Expression as Record != null || record != null) return RecordAssignment(node, envT);
 
         if (variableType == null)
         {
@@ -274,6 +275,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitDeclaration(Declaration node, TypeEnv envT)
     {
+        return AcceptDeclaration(node, envT).retunType;
+    }
+
+    public (GasType retunType, (string name, GasType type)?) AcceptDeclaration(Declaration node, TypeEnv envT)
+    {
         if (node.Expression as Record != null) return RecordDeclaration(node, envT);
 
         var identifier = node.Identifier;
@@ -283,7 +289,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (variableType != null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " Can not redeclare variable");
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
         var expression = node.Expression?.Accept(this, envT);
@@ -292,7 +298,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
                        type + " got: " + expression);
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
         var bound = envT.VBind(identifier.Name, type);
@@ -300,10 +306,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (!bound)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
-        return GasType.Ok;
+        return (GasType.Ok, (identifier.Name, type));
     }
 
     /// <summary>
@@ -340,12 +346,37 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitRecordDefinition(RecordDefinition node, TypeEnv envT)
     {
-        var identifiers = node.Identifiers;
-        var types = node.Types;
-        var typeIdentDictionary = identifiers.Zip(types, (i, t) => new { i, t })
-            .ToDictionary(x => x.i.Name, x => x.t.Accept(this, envT));
+        envT = envT.EnterScope();
+        var declarations = node.Declarations.Select(declaration => AcceptDeclaration(declaration, envT).Item2).ToList();
+        Dictionary<string, GasType> typeIdentDictionary = new();
+        for (int i = 0; i < declarations.Count; i++)
+        {
+            var declaration = declarations[i];
 
-        envT.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasType.AnyStruct);
+            if (declaration == null || declaration?.type == null || declaration?.name == null)
+            {
+                errors.Add("Line: " + node.LineNum + " Invalid declaration in record definition: {" + declaration?.name + " " + declaration?.type + "}");
+                return GasType.Error;
+            }
+
+            var type = declaration?.type ?? GasType.Error;
+
+            var name = declaration?.name ?? "";
+
+            typeIdentDictionary.Add(name, type);
+        }
+
+        envT.TypeEnvParent.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasType.AnyStruct);
+
+        var functionDeclarations = node.FunctionDeclaration.Select(constructor => constructor.Accept(this, envT)).ToList();
+        if(functionDeclarations.Any(c => c == GasType.Error))
+            return GasType.Error;
+
+        var constructorDeclarations = node.ConstructorDeclarations.Select(constructor => constructor.Accept(this, envT)).ToList();
+
+        if(constructorDeclarations.Any(c => c == GasType.Error))
+            return GasType.Error;
+
         return GasType.Ok;
     }
 
@@ -386,6 +417,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         envT = envT.ExitScope();
 
         var bound = envT.FBind(identifier, expectedParameterTypes, expectedReturnType);
+
         if (bound == false)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier + " already exists");
@@ -490,6 +522,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var identifiers = record.Identifiers;
         var expressions = record.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
 
+        envT = envT.EnterScope();
         var error = false;
         for (var i = 0; i < identifiers.Count; i++)
         {
@@ -509,11 +542,57 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                            " expected: " + expectedTypes[identifiers[i].Name] + " got: " + expressions[i]);
                 error = true;
             }
+
+            if(record.Expressions[i] as Record != null)
+                envT.RecBind(identifiers[i].Name, expressions[i].ToString(), envT);
+            else
+                envT.VBind(identifiers[i].Name, expressions[i]);
         }
 
         if (error) return GasType.Error;
 
         return returnType ?? GasType.Error;
+    }
+
+    public GasType VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration, TypeEnv envT)
+    {
+        var recordType = envT.RecTypeLookUp(constructorDeclaration.Type.Value);
+
+        if (recordType == null)
+        {
+            errors.Add("Line: " + constructorDeclaration.LineNum + " Record type: " + constructorDeclaration.Type.Value + " not found");
+            return GasType.Error;
+        }
+
+        var expectedParameterTypes = constructorDeclaration.Parameters.Select(parameter =>
+        {
+            var type = parameter.Type.Accept(this, envT);
+            var structType = envT.RecTypeLookUp(parameter.Type.Value);
+            if (structType != null)
+                envT.RecBind(parameter.Identifier.Name, parameter.Type.Value, envT);
+            else
+                envT.VBind(parameter.Identifier.Name, type);
+
+            return parameter.Type.Accept(this, envT);
+        }).ToList();
+
+        var returnType = constructorDeclaration.Statements?.Accept(this, envT);
+
+        if (returnType != GasType.Ok)
+        {
+            errors.Add("Line: " + constructorDeclaration.LineNum + " Invalid return type for constructor: " + constructorDeclaration.Type.Value + " expected: Ok, got: " + returnType);
+            return GasType.Error;
+        }
+
+        var bound = envT.TypeEnvParent.CBind(constructorDeclaration.Type.Value, expectedParameterTypes, recordType.Value.recType);
+
+        if (bound == false)
+        {
+            errors.Add("Line: " + constructorDeclaration.LineNum + " Constructor name: " + constructorDeclaration.Type.Value + " already exists");
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
     }
 
     /// <summary>
@@ -696,7 +775,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitFunctionCallTerm(FunctionCallTerm node, TypeEnv envT)
     {
         var identifier = node.Identifier;
-        var parametersAndReturnType = envT.FLookUp(identifier.Name);
+        var parametersAndReturnType = envT.FLookUp(identifier.Name) ?? envT.CLookUp(identifier.Name);
 
         if (parametersAndReturnType == null)
         {
@@ -931,7 +1010,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <param name="node"></param>
     /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType RecordDeclaration(Declaration node, TypeEnv envT)
+    public (GasType returnType, (string name, GasType type)?) RecordDeclaration(Declaration node, TypeEnv envT)
     {
         var identifier = node.Identifier;
         var variableType = envT.RecLookUp(identifier.Name);
@@ -940,7 +1019,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (variableType != null)
         {
             errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " Can not redeclare record");
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
         envT = envT.EnterScope();
@@ -952,7 +1031,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
                        expectedType + " got: " + type);
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
         var bound = envT.TypeEnvParent?.RecBind(identifier.Name, node.Type.Value, envT);
@@ -960,10 +1039,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (!bound ?? false)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
-            return GasType.Error;
+            return (GasType.Error, null);
         }
 
-        return GasType.Ok;
+        return (GasType.Ok, (identifier.Name, expectedType));
     }
 
     public GasType VisitLine(SegLine node, TypeEnv envT)

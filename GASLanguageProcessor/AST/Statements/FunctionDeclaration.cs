@@ -8,14 +8,16 @@ namespace GASLanguageProcessor.AST.Statements;
 public class FunctionDeclaration : Statement
 {
     public FunctionDeclaration(Identifier identifier, List<Parameter> parameters, Statement? statements,
-        Type returnType)
+        Type returnType, bool isConstructor)
     {
         Identifier = identifier;
         Parameters = parameters;
         Statements = statements;
         ReturnType = returnType;
+        IsConstructor = isConstructor;
     }
 
+    public bool IsConstructor { get; protected set; }
     public Type ReturnType { get; protected set; }
     public Identifier Identifier { get; protected set; }
     public List<Parameter> Parameters { get; protected set; }

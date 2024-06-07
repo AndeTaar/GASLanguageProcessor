@@ -9,7 +9,7 @@ statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
-recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
+recDefinition : 'TypeDef' recordTypeIdentifier '{' ((declaration ';') | constructorDeclaration | functionDeclaration)* '}';
 
 declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
@@ -19,7 +19,8 @@ elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
 whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
-functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
+functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* '}';
+constructorDeclaration : 'constructor' recordTypeIdentifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* '}';
 //Standard data types
 
 allTypes : type | collectionType ;
@@ -45,8 +46,8 @@ groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 functionCall : identifier '(' (expression (',' expression)*)? ')';
 
 recordTypeIdentifier : IDENTIFIER;
-identifier : IDENTIFIER;
-attributeIdentifier : identifier '.' identifier;
+identifier : ('this.')? IDENTIFIER;
+attributeIdentifier : ('this.')? identifier '.' identifier;
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

@@ -35,8 +35,9 @@ static void Main(string[] args)
     var envV = new VarEnv();
     var sto = new Store();
     var envF = new FuncEnv(sto, envV);
+    var recEnv = new RecEnv();
     var finalStore =
-        interpreter.EvaluateProgram(ast as GASLanguageProcessor.AST.Expressions.Terms.Program, envV, envF, sto);
+        interpreter.EvaluateProgram(ast as GASLanguageProcessor.AST.Expressions.Terms.Program, envV, envF, recEnv, sto);
     interpreter.errors.ForEach(Console.Error.WriteLine);
     if (interpreter.errors.Count > 0) return;
     var svgGenerator = new SvgGenerator(finalStore);

@@ -116,8 +116,12 @@ public class TypeEnv
 
     public Dictionary<string, (List<GasType>, GasType)> FTypes { get; set; } = new();
 
+    public Dictionary<string, (List<GasType>, GasType)> ConstructorTypes { get; set; } = new();
+
+    // string is the key to the constructor types
     public Dictionary<string, (Dictionary<string, GasType>, GasType)> RecordTypes { get; set; } = new();
 
+    // string is the key to the record types
     public Dictionary<string, (string, TypeEnv)> Records { get; set; } = new();
 
     public TypeEnv? TypeEnvParent { get; set; }
@@ -146,6 +150,13 @@ public class TypeEnv
         return true;
     }
 
+    public bool CBind(string key, List<GasType> parameters, GasType returnType)
+    {
+        if (ConstructorTypes.ContainsKey(key)) return false;
+        ConstructorTypes.Add(key, (parameters, returnType));
+        return true;
+    }
+
     public bool RecBind(string key, string typeKey, TypeEnv env)
     {
         if (Records.ContainsKey(key)) return false;
@@ -167,14 +178,14 @@ public class TypeEnv
         return TypeEnvParent?.VLookUp(key);
     }
 
-    public (Dictionary<string, GasType>, GasType)? RecTypeLookUp(string key)
+    public (Dictionary<string, GasType> fields, GasType recType)? RecTypeLookUp(string key)
     {
         if (RecordTypes.ContainsKey(key)) return RecordTypes[key];
 
         return TypeEnvParent?.RecTypeLookUp(key);
     }
 
-    public ((Dictionary<string, GasType>, GasType)?, TypeEnv)? RecLookUp(string key)
+    public ((Dictionary<string, GasType> fields, GasType type)?, TypeEnv recEnv)? RecLookUp(string key)
     {
         if (Records.ContainsKey(key))
         {
@@ -191,5 +202,12 @@ public class TypeEnv
         if (FTypes.ContainsKey(key)) return FTypes[key];
 
         return TypeEnvParent?.FLookUp(key);
+    }
+
+    public (List<GasType>, GasType)? CLookUp(string key)
+    {
+        if (ConstructorTypes.ContainsKey(key)) return ConstructorTypes[key];
+
+        return TypeEnvParent?.CLookUp(key);
     }
 }

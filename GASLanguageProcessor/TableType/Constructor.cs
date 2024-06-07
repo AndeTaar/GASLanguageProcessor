@@ -1,22 +1,22 @@
-﻿using String = string;
+using GASLanguageProcessor.AST.Expressions;
 
 namespace GASLanguageProcessor.TableType;
 
-public class Function
+public class Constructor
 {
-    public Function(List<String> parameters, Statement statements, VarEnv varEnv, FuncEnv funcEnv, Store store, bool isConstructor = false)
+    public Constructor(List<String> parameters, List<Expression> arguments, Statement statements, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         Parameters = parameters;
+        Arguments = arguments;
         Statements = statements;
         VarEnv = varEnv;
         FuncEnv = funcEnv;
         Store = store;
-        IsConstructor = isConstructor;
     }
 
     public List<String> Parameters { get; protected set; }
+    public List<Expression> Arguments { get; protected set; }
     public Statement Statements { get; protected set; }
-    public bool IsConstructor { get; protected set; }
     public VarEnv VarEnv { get; set; }
     public FuncEnv FuncEnv { get; set; }
     public Store Store { get; set; }

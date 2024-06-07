@@ -115,7 +115,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
 
     public override AstNode VisitIdentifier(GASParser.IdentifierContext context)
     {
-        return new Identifier(context.GetText()) { LineNum = context.Start.Line };
+        return new Identifier(context.IDENTIFIER().GetText(), context.children[0].GetText() == "this.") { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
@@ -180,10 +180,27 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
     public override AstNode VisitRecDefinition(GASParser.RecDefinitionContext context)
     {
         var recordType = context.recordTypeIdentifier().Accept(this) as Type;
-        var types = context.allTypes().Select(t => t.Accept(this) as Type).ToList();
-        var identifiers = context.identifier().Select(i => i.Accept(this) as Identifier).ToList();
+        var declarations = context.declaration().Select(t => t.Accept(this) as Declaration).ToList();
+        var functionDeclarations = context.functionDeclaration().Select(i => i.Accept(this) as FunctionDeclaration).ToList();
+        var constructor = context.constructorDeclaration().Select(c => c.Accept(this) as ConstructorDeclaration).ToList();
 
-        return new RecordDefinition(recordType, types, identifiers) { LineNum = context.Start.Line };
+        return new RecordDefinition(recordType, declarations, functionDeclarations, constructor) { LineNum = context.Start.Line };
+    }
+
+    public override AstNode VisitConstructorDeclaration(GASParser.ConstructorDeclarationContext context)
+    {
+        var recordType = context.recordTypeIdentifier().Accept(this) as Type;
+
+        var identifiers = context.identifier().Select(t => t.Accept(this) as Identifier).ToList();
+        var types = context.allTypes().Select(t => t.Accept(this) as Type).ToList();
+
+        var parameters = types.Zip(identifiers, (type, identifier) => new Parameter(type, identifier)).ToList();
+
+
+        var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
+        var body = ToCompound(statements);
+
+        return new ConstructorDeclaration(recordType, parameters, body) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRecordTypeIdentifier(GASParser.RecordTypeIdentifierContext context)
@@ -204,7 +221,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
 
     public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
     {
-        var identifier = new Identifier(context.identifier().GetText()) { LineNum = context.Start.Line };
+        var identifier = context.identifier().Accept(this) as Identifier;
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
         if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
             return new FunctionCallTerm(identifier, arguments) { LineNum = context.Start.Line };
@@ -213,8 +230,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
     {
+        return this.FunctionDeclaration(context, false);
+    }
+
+    public FunctionDeclaration FunctionDeclaration(GASParser.FunctionDeclarationContext context, bool isConstructor)
+    {
         var returnType = context.allTypes()[0].Accept(this) as Type;
-        var identifier = new Identifier(context.identifier()[0].GetText()) { LineNum = context.Start.Line };
+        var identifier = context.identifier().First().Accept(this) as Identifier;
 
         var types = context.allTypes().Skip(1).ToList();
         var identifiers = context.identifier().Skip(1).ToList();
@@ -222,13 +244,13 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         var parameters = types.Zip(identifiers, (typeNode, identifierNode) =>
         {
             var type = typeNode.Accept(this) as Type;
-            var identifier = new Identifier(identifierNode.GetText()) { LineNum = context.Start.Line };
+            var identifier = identifierNode.Accept(this) as Identifier;
             return new Parameter(type, identifier);
         }).ToList();
 
         var statements = context.statement().Select(stmt => stmt.Accept(this)).ToList();
         var body = ToCompound(statements);
-        return new FunctionDeclaration(identifier, parameters, body, returnType) { LineNum = context.Start.Line };
+        return new FunctionDeclaration(identifier, parameters, body, returnType, isConstructor) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
@@ -257,7 +279,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
     {
         var parent = context.identifier()[0].GetText();
         var attribute = context.identifier()[1].GetText();
-        return new Identifier(parent, attribute) { LineNum = context.Start.Line };
+        return new Identifier(parent, attribute, context.children[0].GetText() == "this.") { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitTerm(GASParser.TermContext context)

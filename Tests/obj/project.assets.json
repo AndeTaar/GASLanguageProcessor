@@ -5555,34 +5555,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\coolf\\.nuget\\packages\\": {}
+    "/Users/thomas/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\Tests\\Tests.csproj",
+      "projectUniqueName": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\Tests\\Tests.csproj",
-      "packagesPath": "C:\\Users\\coolf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\Tests\\obj\\",
+      "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/Tests.csproj",
+      "packagesPath": "/Users/thomas/.nuget/packages/",
+      "outputPath": "/Users/thomas/Documents/GASLanguageProcessor/Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\coolf\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/thomas/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj": {
-              "projectPath": "C:\\Users\\coolf\\Desktop\\GASLanguageProcessor\\GASLanguageProcessor\\GASLanguageProcessor.csproj"
+            "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj": {
+              "projectPath": "/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/GASLanguageProcessor.csproj"
             }
           }
         }
@@ -5630,7 +5628,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

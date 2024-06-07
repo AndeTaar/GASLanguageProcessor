@@ -18,103 +18,112 @@ public class Interpreter
     public float canvasWidth;
     public List<string> errors = new();
 
-    public Store EvaluateProgram(AST.Expressions.Terms.Program program, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public Store EvaluateProgram(AST.Expressions.Terms.Program program, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
-        EvaluateStatement(program.Statements, varEnv, funcEnv, store);
+        EvaluateStatement(program.Statements, varEnv, funcEnv, recEnv, store);
 
         return store;
     }
 
-    public (object?, VarEnv, FuncEnv, Store) EvaluateStatement(Statement statement, VarEnv varEnv, FuncEnv funcEnv,
-        Store store)
+    public (object?, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store) EvaluateStatement(Statement statement, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         switch (statement)
         {
             case Canvas canvas:
-                var val = EvaluateExpression(canvas.Width, varEnv, funcEnv, store);
+                var val = EvaluateExpression(canvas.Width, varEnv, funcEnv, recEnv, store);
                 canvasWidth = (float)val;
-                val = EvaluateExpression(canvas.Height, varEnv, funcEnv, store);
+                val = EvaluateExpression(canvas.Height, varEnv, funcEnv, recEnv, store);
                 canvasHeight = (float)val;
-                var backgroundColor = (FinalColor)EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, store);
+                var backgroundColor = (FinalColor)EvaluateExpression(canvas.BackgroundColor, varEnv, funcEnv, recEnv, store);
                 var finalCanvas = new FinalCanvas(canvasWidth, canvasHeight, backgroundColor);
 
                 var next = varEnv.GetNext();
                 varEnv.Bind("canvas", next);
                 store.Bind(next, finalCanvas);
-                return (null, varEnv, funcEnv, store);
+                return (null, varEnv, funcEnv, recEnv, store);
+
+            case RecordDefinition recordDefinition:
+                recordDefinition.ConstructorDeclarations.ForEach(constructor =>
+                    EvaluateConstructorDeclaration(constructor, varEnv, funcEnv, recEnv, store));
+
+                recEnv.Bind(recordDefinition.RecordType.Value, (null, varEnv, funcEnv, recEnv, store));
+
+                return (null, varEnv, funcEnv, recEnv, store);
+
 
             case Compound compound:
-                var tuple = EvaluateStatement(compound.Statement1, varEnv, funcEnv, store);
+                var tuple = EvaluateStatement(compound.Statement1, varEnv, funcEnv, recEnv, store);
                 if (tuple.Item1 != null) return tuple;
 
-                tuple = EvaluateStatement(compound.Statement2, varEnv, funcEnv, store);
+                tuple = EvaluateStatement(compound.Statement2, varEnv, funcEnv, recEnv, store);
                 return tuple;
 
             // Currently allows infinite loops.
             case For @for:
-                EvaluateStatement(@for.Initializer, varEnv, funcEnv, store);
-                val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
+                EvaluateStatement(@for.Initializer, varEnv, funcEnv, recEnv, store);
+                val = EvaluateExpression(@for.Condition, varEnv, funcEnv, recEnv, store);
                 while ((bool)val)
                 {
-                    tuple = EvaluateStatement(@for.Statements, varEnv, funcEnv, store);
+                    tuple = EvaluateStatement(@for.Statements, varEnv, funcEnv, recEnv, store);
                     if (tuple.Item1 != null) return tuple;
 
-                    EvaluateStatement(@for.Incrementer, varEnv, funcEnv, store);
-                    val = EvaluateExpression(@for.Condition, varEnv, funcEnv, store);
+                    EvaluateStatement(@for.Incrementer, varEnv, funcEnv, recEnv, store);
+                    val = EvaluateExpression(@for.Condition, varEnv, funcEnv, recEnv, store);
                 }
 
-                return (null, varEnv, funcEnv, store);
+                return (null, varEnv, funcEnv, recEnv, store);
 
             // Currently allows infinite loops.
             case While @while:
-                val = EvaluateExpression(@while.Condition, varEnv, funcEnv, store);
+                val = EvaluateExpression(@while.Condition, varEnv, funcEnv, recEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
                 while ((bool)val)
                 {
-                    tuple = EvaluateStatement(@while.Statements, varEnv, funcEnv, store);
+                    tuple = EvaluateStatement(@while.Statements, varEnv, funcEnv, recEnv, store);
                     if (tuple.Item1 != null) return tuple;
-                    val = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, store);
+                    val = EvaluateExpression(@while.Condition, varEnv.Parent, funcEnv.Parent, recEnv, store);
                 }
 
-                return (null, varEnv, funcEnv, store);
+                return (null, varEnv, funcEnv, recEnv, store);
 
             case If @if:
-                val = EvaluateExpression(@if.Condition, varEnv, funcEnv, store);
+                val = EvaluateExpression(@if.Condition, varEnv, funcEnv, recEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                if ((bool)val) return EvaluateStatement(@if.Statements, varEnv, funcEnv, store);
+                if ((bool)val) return EvaluateStatement(@if.Statements, varEnv, funcEnv, recEnv, store);
 
-                if (@if.Else != null) return EvaluateStatement(@if.Else, varEnv, funcEnv, store);
+                if (@if.Else != null) return EvaluateStatement(@if.Else, varEnv, funcEnv, recEnv, store);
 
-                return (null, varEnv, funcEnv, store);
+                return (null, varEnv, funcEnv, recEnv, store);
+
             case FunctionDeclaration functionDeclaration:
-                var funcDecl = EvaluateFunctionDeclaration(functionDeclaration, varEnv, funcEnv, store);
-                return (null, funcDecl.Item1, funcDecl.Item2, store);
+                var funcDecl = EvaluateFunctionDeclaration(functionDeclaration, varEnv, funcEnv, recEnv, store);
+                return (null, funcDecl.Item1, funcDecl.Item2, recEnv, store);
 
             case FunctionCallStatement functionCall:
                 var function = funcEnv.LookUp(functionCall.Identifier.Name);
                 if (function == null)
                 {
                     errors.Add($"Function {functionCall.Identifier.Name} not found in the FunctionTable");
-                    return (null, varEnv, funcEnv, store);
+                    return (null, varEnv, funcEnv, recEnv, store);
                 }
 
                 if (function.Parameters.Count != functionCall.Arguments.Count)
                 {
                     errors.Add(
                         $"Function {functionCall.Identifier.Name} has {function.Parameters.Count} parameters, but {functionCall.Arguments.Count} arguments were provided");
-                    return (null, varEnv, funcEnv, store);
+                    return (null, varEnv, funcEnv, recEnv, store);
                 }
 
                 for (var i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
+                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, recEnv, store);
                     var varIndex = function.VarEnv.LocalLookUp(parameter);
                     if (varIndex == null)
                     {
@@ -128,37 +137,37 @@ public class Interpreter
                     }
                 }
 
-                EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, function.Store);
+                EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, recEnv, function.Store);
 
-                return (null, varEnv, funcEnv, store);
+                return (null, varEnv, funcEnv, recEnv, store);
 
             case Assignment assignment:
-                var assStore = EvaluateAssignment(assignment, varEnv, funcEnv, store);
-                return (null, varEnv, funcEnv, assStore);
+                var assStore = EvaluateAssignment(assignment, varEnv, funcEnv, recEnv, store);
+                return (null, varEnv, funcEnv, recEnv, assStore);
 
             case Increment increment:
-                var incStore = EvaluateIncrement(increment, varEnv, funcEnv, store);
-                return (null, varEnv, funcEnv, incStore);
+                var incStore = EvaluateIncrement(increment, varEnv, funcEnv, recEnv, store);
+                return (null, varEnv, funcEnv, recEnv, incStore);
 
             case Declaration declaration:
-                var decEval = EvaluateDeclaration(declaration, varEnv, funcEnv, store);
+                var decEval = EvaluateDeclaration(declaration, varEnv, funcEnv, recEnv, store);
                 var decStore = decEval.Item2;
                 var decVarEnv = decEval.Item1;
-                return (null, decVarEnv, funcEnv, decStore);
+                return (null, decVarEnv, funcEnv, recEnv, decStore);
 
             case Return returnStatement:
-                var returnEval = EvaluateExpression(returnStatement.Expression, varEnv, funcEnv, store);
+                var returnEval = EvaluateExpression(returnStatement.Expression, varEnv, funcEnv, recEnv, store);
                 var returnVal = returnEval;
                 var returnStore = returnEval;
-                return (returnVal, varEnv, funcEnv, store);
+                return (returnVal, varEnv, funcEnv, recEnv, store);
         }
 
-        return (null, varEnv, funcEnv, store);
+        return (null, varEnv, funcEnv, recEnv, store);
     }
 
-    public (VarEnv, Store) EvaluateDeclaration(Declaration declaration, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public (VarEnv, Store) EvaluateDeclaration(Declaration declaration, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
-        var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, store);
+        var val = EvaluateExpression(declaration.Expression, varEnv, funcEnv, recEnv, store);
         var declIdentifier = declaration.Identifier.Name;
 
         var prevIndex = varEnv.LookUp(declIdentifier);
@@ -175,15 +184,15 @@ public class Interpreter
         return (varEnv, store);
     }
 
-    public Store EvaluateAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public Store EvaluateAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
 
         if (assignment.Identifier.Attribute != null)
         {
-            return EvaluateAttributeAssignment(assignment, varEnv, funcEnv, store);
+            return EvaluateAttributeAssignment(assignment, varEnv, funcEnv, recEnv, store);
         }
 
-        var expresEval = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
+        var expresEval = EvaluateExpression(assignment.Expression, varEnv, funcEnv, recEnv, store);
         var assignExpression = expresEval;
         var assignIdentifier = assignment.Identifier.Name;
         var assignIndex = varEnv.LookUp(assignIdentifier);
@@ -220,7 +229,7 @@ public class Interpreter
         return store;
     }
 
-    public Store EvaluateAttributeAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public Store EvaluateAttributeAssignment(Assignment assignment, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         var attribute = assignment.Identifier.Attribute;
         var identifier = assignment.Identifier.Name;
@@ -239,8 +248,8 @@ public class Interpreter
             return store;
         }
 
-        var assignExpression = EvaluateExpression(assignment.Expression, varEnv, funcEnv, store);
-        var assignVariable = finalType.Fields[attribute];
+        var assignExpression = EvaluateExpression(assignment.Expression, varEnv, funcEnv, recEnv, store);
+        finalType.Fields.TryGetValue(attribute, out var assignVariable);
 
         switch (assignment.Operator)
         {
@@ -267,7 +276,7 @@ public class Interpreter
         return store;
     }
 
-    public Store EvaluateIncrement(Increment increment, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public Store EvaluateIncrement(Increment increment, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         var incrementIdentifier = increment.Identifier.Name;
         var incrementVariableIndex = varEnv.LookUp(incrementIdentifier);
@@ -295,8 +304,7 @@ public class Interpreter
         return store;
     }
 
-    public (VarEnv, FuncEnv) EvaluateFunctionDeclaration(FunctionDeclaration functionDeclaration, VarEnv varEnv,
-        FuncEnv funcEnv, Store store)
+    public (VarEnv, FuncEnv) EvaluateFunctionDeclaration(FunctionDeclaration functionDeclaration, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         var parameters = functionDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
         var statements = functionDeclaration.Statements;
@@ -305,21 +313,31 @@ public class Interpreter
         return (varEnv, funcEnv);
     }
 
-    public object? EvaluateExpression(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public (RecEnv, FuncEnv) EvaluateConstructorDeclaration(ConstructorDeclaration constructorDeclaration, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
+    {
+        var record = constructorDeclaration.Type.Value;
+        var parameters = constructorDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
+        var statements = constructorDeclaration.Statements;
+        var constructorDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), store, true);
+        funcEnv.Bind(record, constructorDecl);
+        return (recEnv, funcEnv);
+    }
+
+    public object? EvaluateExpression(Expression expression, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         switch (expression)
         {
             case Num num:
-                return EvaluateLiterals(num, varEnv, funcEnv, store);
+                return EvaluateLiterals(num, varEnv, funcEnv, recEnv, store);
             case Boolean boolean:
-                return EvaluateLiterals(boolean, varEnv, funcEnv, store);
+                return EvaluateLiterals(boolean, varEnv, funcEnv, recEnv, store);
             case String stringTerm:
-                return EvaluateLiterals(stringTerm, varEnv, funcEnv, store);
+                return EvaluateLiterals(stringTerm, varEnv, funcEnv, recEnv, store);
             case Identifier identifier:
-                return EvaluateLiterals(identifier, varEnv, funcEnv, store);
+                return EvaluateLiterals(identifier, varEnv, funcEnv, recEnv, store);
 
             case Record record:
-                return EvaluateRecords(record, varEnv, funcEnv, store);
+                return EvaluateRecords(record, varEnv, funcEnv, recEnv, store);
 
             case FunctionCallTerm functionCall:
                 var function = funcEnv.LookUp(functionCall.Identifier.Name);
@@ -339,7 +357,7 @@ public class Interpreter
                 for (var i = 0; i < function.Parameters.Count; i++)
                 {
                     var parameter = function.Parameters[i];
-                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, store);
+                    var functionCallVal = EvaluateExpression(functionCall.Arguments[i], varEnv, funcEnv, recEnv, store);
                     var varIndex = function.VarEnv.LocalLookUp(parameter);
                     if (varIndex == null)
                     {
@@ -353,7 +371,11 @@ public class Interpreter
                     }
                 }
 
-                var tuple = EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, function.Store);
+
+                var tuple = EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, recEnv, function.Store);
+
+                if(function.IsConstructor)
+                    return tuple.recEnv.LookUp("this")?.Item1;
 
                 if (tuple.Item1 == null)
                     throw new Exception($"Function {functionCall.Identifier.Name} did not return a value");
@@ -361,7 +383,7 @@ public class Interpreter
                 return tuple.Item1;
 
             case UnaryOp unaryOp:
-                var val = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, store);
+                var val = EvaluateExpression(unaryOp.Expression, varEnv, funcEnv, recEnv, store);
                 return unaryOp.Op switch
                 {
                     "-" => -(float)val,
@@ -370,8 +392,8 @@ public class Interpreter
                 };
 
             case BinaryOp binaryOp:
-                var left = EvaluateExpression(binaryOp.Left, varEnv, funcEnv, store);
-                var right = EvaluateExpression(binaryOp.Right, varEnv, funcEnv, store);
+                var left = EvaluateExpression(binaryOp.Left, varEnv, funcEnv, recEnv, store);
+                var right = EvaluateExpression(binaryOp.Right, varEnv, funcEnv, recEnv, store);
                 if ((binaryOp.Op == "/" || binaryOp.Op == "%") && (float)right == 0)
                     throw new Exception("Division by zero is not allowed.");
 
@@ -394,12 +416,12 @@ public class Interpreter
                 };
 
             case Group group:
-                var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, store);
+                var finalPoint = (FinalPoint)EvaluateExpression(group.Point, varEnv, funcEnv, recEnv, store);
 
                 varEnv = varEnv.EnterScope();
                 funcEnv = funcEnv.EnterScope();
 
-                EvaluateStatement(group.Statements, varEnv, funcEnv, store);
+                EvaluateStatement(group.Statements, varEnv, funcEnv, recEnv, store);
                 return new FinalGroup(finalPoint, varEnv);
 
             case AddToList addToList:
@@ -425,7 +447,7 @@ public class Interpreter
                     return null;
                 }
 
-                var valueToAdd = EvaluateExpression(addToList.Value, varEnv, funcEnv, store);
+                var valueToAdd = EvaluateExpression(addToList.Value, varEnv, funcEnv, recEnv, store);
                 destinedList1?.Values.Add(valueToAdd);
                 return null;
 
@@ -452,7 +474,7 @@ public class Interpreter
                     return null;
                 }
 
-                var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, varEnv, funcEnv, store));
+                var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, varEnv, funcEnv, recEnv, store));
 
                 if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Count)
                 {
@@ -487,7 +509,7 @@ public class Interpreter
                     return null;
                 }
 
-                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, varEnv, funcEnv, store));
+                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, varEnv, funcEnv, recEnv, store));
 
                 if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Count)
                 {
@@ -526,7 +548,7 @@ public class Interpreter
 
             case List list:
                 var values = new List<object>();
-                foreach (var expr in list.Expressions) values.Add(EvaluateExpression(expr, varEnv, funcEnv, store));
+                foreach (var expr in list.Expressions) values.Add(EvaluateExpression(expr, varEnv, funcEnv, recEnv, store));
 
                 return new FinalList(values);
         }
@@ -534,10 +556,10 @@ public class Interpreter
         return null;
     }
 
-    public object? EvaluateRecords(Record record, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public object? EvaluateRecords(Record record, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         var identifiers = record.Identifiers;
-        var expressions = record.Expressions.Select(expr => EvaluateExpression(expr, varEnv, funcEnv, store)).ToList();
+        var expressions = record.Expressions.Select(expr => EvaluateExpression(expr, varEnv, funcEnv, recEnv, store)).ToList();
 
         var dictionary = identifiers.Zip(expressions, (identifier, expression) => new { identifier, expression })
             .ToDictionary(x => x.identifier.Name, x => x.expression);
@@ -705,7 +727,7 @@ public class Interpreter
                 {
                     if (expr is Record record1)
                     {
-                        finalTypes.Add((FinalType)EvaluateRecords(record1, varEnv, funcEnv, store));
+                        finalTypes.Add((FinalType)EvaluateRecords(record1, varEnv, funcEnv, recEnv, store));
                     }
                 }
                 return new FinalRecord(finalTypes) { Fields = dictionary };
@@ -716,7 +738,7 @@ public class Interpreter
     }
 
 
-    public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, RecEnv recEnv, Store store)
     {
         switch (expression)
         {
