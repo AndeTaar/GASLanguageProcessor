@@ -7,6 +7,7 @@ using GASLanguageProcessor.AST.Terms;
 using GASLanguageProcessor.TableType;
 using Assignment = GASLanguageProcessor.AST.Statements.Assignment;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
@@ -341,9 +342,22 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitRecordDefinition(RecordDefinition node, TypeEnv envT)
     {
         var identifiers = node.Identifiers;
-        var types = node.Types;
-        var typeIdentDictionary = identifiers.Zip(types, (i, t) => new { i, t })
-            .ToDictionary(x => x.i.Name, x => x.t.Accept(this, envT));
+        var types = node.Types.Select(type => type.Accept(this, envT)).ToList();
+        Dictionary<string, (GasType, Expression)> typeIdentDictionary = new();
+
+        var expressionTypes = node.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
+
+        for (int i = 0; i < types.Count; i++)
+        {
+            if(types[i] != expressionTypes[i])
+            {
+                errors.Add("Line: " + node.LineNum + " Invalid type for record: " + identifiers[i].Name + " expected: " + types[i] + " got: " + expressionTypes[i]);
+                return GasType.Error;
+            }
+
+            typeIdentDictionary.Add(identifiers[i].Name, (types[i], node.Expressions[i]));
+        }
+
 
         envT.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasType.AnyStruct);
         return GasType.Ok;
@@ -459,7 +473,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 return GasType.Error;
             }
 
-            return field ?? GasType.Error;
+            return field?.type ?? GasType.Error;
         }
 
         if (record != null) return returnType ?? GasType.Error;
@@ -493,7 +507,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var error = false;
         for (var i = 0; i < identifiers.Count; i++)
         {
-            var contains = expectedTypes.TryGetValue(identifiers[i].Name, out var type);
+            var contains = expectedTypes.TryGetValue(identifiers[i].Name, out var typeAndDefaultValue);
 
             if (!contains)
             {
@@ -503,7 +517,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 continue;
             }
 
-            if (type != expressions[i] && type != GasType.Any && expressions[i] != GasType.Any)
+            if (!expressions.Contains(typeAndDefaultValue.type) && typeAndDefaultValue.type != GasType.Any && expressions[i] != GasType.Any)
             {
                 errors.Add("Line: " + record.LineNum + " Invalid type for record: " + identifiers[i].Name +
                            " expected: " + expectedTypes[identifiers[i].Name] + " got: " + expressions[i]);
@@ -866,7 +880,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var record = envT.RecLookUp(identifier.Name);
         var recordType = record?.Item1;
         var recordFieldTypes = recordType?.Item1;
-        var variableType = recordFieldTypes?[identifier.Attribute];
+        var variableTypeAndDefaultValue = recordFieldTypes?[identifier.Attribute];
         envT = record?.Item2;
 
         if (record == null)
@@ -883,13 +897,13 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             case "-=":
             case "*=":
             case "/=":
-                if (variableType != expressionType || variableType != GasType.Num)
-                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType +
+                if (variableTypeAndDefaultValue?.type != expressionType || variableTypeAndDefaultValue?.type != GasType.Num)
+                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableTypeAndDefaultValue?.type +
                                " got: " + expressionType);
                 break;
             case "=":
-                if (variableType != expressionType)
-                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType +
+                if (variableTypeAndDefaultValue?.type != expressionType)
+                    errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableTypeAndDefaultValue?.type +
                                " got: " + expressionType);
                 break;
             default:

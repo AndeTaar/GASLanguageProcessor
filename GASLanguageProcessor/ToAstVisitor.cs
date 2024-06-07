@@ -182,8 +182,9 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         var recordType = context.recordTypeIdentifier().Accept(this) as Type;
         var types = context.allTypes().Select(t => t.Accept(this) as Type).ToList();
         var identifiers = context.identifier().Select(i => i.Accept(this) as Identifier).ToList();
+        var expressions = context.expression().Select(e => e.Accept(this) as Expression).ToList();
 
-        return new RecordDefinition(recordType, types, identifiers) { LineNum = context.Start.Line };
+        return new RecordDefinition(recordType, types, identifiers, expressions) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRecordTypeIdentifier(GASParser.RecordTypeIdentifierContext context)

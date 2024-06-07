@@ -1,4 +1,7 @@
-﻿using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Expressions;
+using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.FinalTypes;
 
 namespace GASLanguageProcessor.TableType;
 
@@ -10,99 +13,99 @@ public class TypeEnv
 
         if (parent != null) return;
 
-        RecTypeBind("Color", new Dictionary<string, GasType>
+        RecTypeBind("Color", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "red", GasType.Num },
-            { "green", GasType.Num },
-            { "blue", GasType.Num },
-            { "alpha", GasType.Num }
+            { "red", (GasType.Num, new Num("255")) },
+            { "green", (GasType.Num, new Num("255")) },
+            { "blue", (GasType.Num, new Num("255")) },
+            { "alpha", (GasType.Num, new Num("1")) }
         }, GasType.Color);
-        RecTypeBind("Point", new Dictionary<string, GasType>
+        RecTypeBind("Point", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "x", GasType.Num },
-            { "y", GasType.Num }
+            { "x", (GasType.Num, new Num("0")) },
+            { "y", (GasType.Num, new Num("0")) }
         }, GasType.Point);
-        RecTypeBind("Rectangle", new Dictionary<string, GasType>
+        RecTypeBind("Rectangle", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "topLeft", GasType.Point },
-            { "bottomRight", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color },
-            { "rounding", GasType.Num }
+            { "topLeft", (GasType.Point, null) },
+            { "bottomRight", (GasType.Point, null) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) },
+            { "rounding", (GasType.Num, new Num("255")) }
         }, GasType.Rectangle);
-        RecTypeBind("Circle", new Dictionary<string, GasType>
+        RecTypeBind("Circle", new Dictionary<string, (GasType Point, Expression defaultVal)>
         {
-            { "center", GasType.Point },
-            { "radius", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
+            { "center", (GasType.Point, null)},
+            { "radius", (GasType.Num, new Num("10")) },
+            { "stroke", (GasType.Num, new Num("5")) },
+            { "color",  (GasType.Color, null)},
+            { "strokeColor", (GasType.Color, null) }
         }, GasType.Circle);
-        RecTypeBind("Ellipse", new Dictionary<string, GasType>
+        RecTypeBind("Ellipse", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "center", GasType.Point },
-            { "radiusX", GasType.Num },
-            { "radiusY", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
+            { "center", (GasType.Point, null) },
+            { "radiusX", (GasType.Num, new Num("255")) },
+            { "radiusY", (GasType.Num, new Num("255")) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) }
         }, GasType.Ellipse);
-        RecTypeBind("Triangle", new Dictionary<string, GasType>
+        RecTypeBind("Triangle", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "point1", GasType.Point },
-            { "point2", GasType.Point },
-            { "point3", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
+            { "point1", (GasType.Point, null) },
+            { "point2", (GasType.Point, null) },
+            { "point3", (GasType.Point, null) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) }
         }, GasType.Triangle);
-        RecTypeBind("Polygon", new Dictionary<string, GasType>
+        RecTypeBind("Polygon", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "points", GasType.Any },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
+            { "points", (GasType.Any, null) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) }
         }, GasType.Polygon);
-        RecTypeBind("Line", new Dictionary<string, GasType>
+        RecTypeBind("Line", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "startX", GasType.Num },
-            { "startY", GasType.Num },
-            { "endX", GasType.Num },
-            { "color", GasType.Color }
+            { "startX", (GasType.Num, new Num("255")) },
+            { "startY", (GasType.Num, new Num("255")) },
+            { "endX", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) }
         }, GasType.Line);
-        RecTypeBind("SegLine", new Dictionary<string, GasType>
+        RecTypeBind("SegLine", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "start", GasType.Point },
-            { "end", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color }
+            { "start", (GasType.Point, null) },
+            { "end", (GasType.Point, null) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) }
         }, GasType.SegLine);
-        RecTypeBind("Arrow", new Dictionary<string, GasType>
+        RecTypeBind("Arrow", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "start", GasType.Point },
-            { "end", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
+            { "start", (GasType.Point, null) },
+            { "end", (GasType.Point, null) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) }
         }, GasType.Arrow);
-        RecTypeBind("Square", new Dictionary<string, GasType>
+        RecTypeBind("Square", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "topLeft", GasType.Point },
-            { "side", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color },
-            { "rounding", GasType.Num }
+            { "topLeft", (GasType.Point, null) },
+            { "side", (GasType.Num, new Num("255")) },
+            { "stroke", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) },
+            { "strokeColor", (GasType.Color, null) },
+            { "rounding", (GasType.Num, new Num("255")) }
         }, GasType.Square);
-        RecTypeBind("Text", new Dictionary<string, GasType>
+        RecTypeBind("Text", new Dictionary<string, (GasType type, Expression defaultVal)>
         {
-            { "content", GasType.String },
-            { "point", GasType.Point },
-            { "font", GasType.String },
-            { "size", GasType.Num },
-            { "weight", GasType.Num },
-            { "color", GasType.Color }
+            { "content", (GasType.Color, null) },
+            { "point", (GasType.Point, null) },
+            { "font", (GasType.Color, null) },
+            { "size", (GasType.Num, new Num("255")) },
+            { "weight", (GasType.Num, new Num("255")) },
+            { "color", (GasType.Color, null) }
         }, GasType.Text);
 
 
@@ -116,7 +119,7 @@ public class TypeEnv
 
     public Dictionary<string, (List<GasType>, GasType)> FTypes { get; set; } = new();
 
-    public Dictionary<string, (Dictionary<string, GasType>, GasType)> RecordTypes { get; set; } = new();
+    public Dictionary<string, (Dictionary<string, (GasType type, Expression defaultVal)>, GasType recType)> RecordTypes { get; set; } = new();
 
     public Dictionary<string, (string, TypeEnv)> Records { get; set; } = new();
 
@@ -153,7 +156,7 @@ public class TypeEnv
         return true;
     }
 
-    public bool RecTypeBind(string key, Dictionary<string, GasType> value, GasType returnType)
+    public bool RecTypeBind(string key, Dictionary<string, (GasType type, Expression defaultVal)> value, GasType returnType)
     {
         if (RecordTypes.ContainsKey(key)) return false;
         RecordTypes.Add(key, (value, returnType));
@@ -167,14 +170,14 @@ public class TypeEnv
         return TypeEnvParent?.VLookUp(key);
     }
 
-    public (Dictionary<string, GasType>, GasType)? RecTypeLookUp(string key)
+    public (Dictionary<string, (GasType type, Expression defaultVal)> fields, GasType recType)? RecTypeLookUp(string key)
     {
         if (RecordTypes.ContainsKey(key)) return RecordTypes[key];
 
         return TypeEnvParent?.RecTypeLookUp(key);
     }
 
-    public ((Dictionary<string, GasType>, GasType)?, TypeEnv)? RecLookUp(string key)
+    public ((Dictionary<string, (GasType type, Expression defaultVal)> fields, GasType recType)?, TypeEnv)? RecLookUp(string key)
     {
         if (Records.ContainsKey(key))
         {
