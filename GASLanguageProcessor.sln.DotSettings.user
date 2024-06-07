@@ -2,6 +2,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=22cab3e1_002D4497_002D4f1c_002Da49a_002D276bea876272/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from VisitCollectionDeclaration.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=24c28ae8_002D5db7_002D4bda_002D941d_002D9ad6b6ae98e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from VisitAssignment.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;ProjectFile&gt;5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58/d:ToAstVisitorTests/d:UnitTests/f:VisitAssignment.cs&lt;/ProjectFile&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6d813036_002D3206_002D4b0a_002Da9bb_002D26ae4b1dcb14/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="VisitAssignment" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

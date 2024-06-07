@@ -43,10 +43,16 @@ public class Interpreter
                 return (null, varEnv, funcEnv, recEnv, store);
 
             case RecordDefinition recordDefinition:
+                varEnv = varEnv.EnterScope();
+                funcEnv = funcEnv.EnterScope();
+                recEnv = recEnv.EnterScope();
                 recordDefinition.ConstructorDeclarations.ForEach(constructor =>
                     EvaluateConstructorDeclaration(constructor, varEnv, funcEnv, recEnv, store));
 
-                recEnv.Bind(recordDefinition.RecordType.Value, (null, varEnv, funcEnv, recEnv, store));
+                recordDefinition.FunctionDeclaration.ForEach(func =>
+                    EvaluateFunctionDeclaration(func, varEnv, funcEnv, recEnv, store));
+
+                recEnv.TypeBind(recordDefinition.RecordType.Value, (funcEnv, recEnv));
 
                 return (null, varEnv, funcEnv, recEnv, store);
 
@@ -319,7 +325,7 @@ public class Interpreter
         var parameters = constructorDeclaration.Parameters.Select(x => x.Identifier.Name).ToList();
         var statements = constructorDeclaration.Statements;
         var constructorDecl = new Function(parameters, statements, new VarEnv(varEnv), new FuncEnv(funcEnv), store, true);
-        funcEnv.Bind(record, constructorDecl);
+        funcEnv.Parent.Bind(record, constructorDecl);
         return (recEnv, funcEnv);
     }
 
@@ -375,7 +381,7 @@ public class Interpreter
                 var tuple = EvaluateStatement(function.Statements, function.VarEnv, function.FuncEnv, recEnv, function.Store);
 
                 if(function.IsConstructor)
-                    return tuple.recEnv.LookUp("this")?.Item1;
+                    return varEnv.LookUp(functionCall.Identifier.Name);
 
                 if (tuple.Item1 == null)
                     throw new Exception($"Function {functionCall.Identifier.Name} did not return a value");

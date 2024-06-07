@@ -4,6 +4,8 @@ namespace GASLanguageProcessor.TableType;
 
 public class RecEnv
 {
+    public Dictionary<string, (FuncEnv, RecEnv)> RecordTypes { get; set; } = new();
+
     public Dictionary<string, (FinalRecord, VarEnv, FuncEnv, RecEnv, Store)> Records { get; set; } = new();
 
 
@@ -24,17 +26,17 @@ public class RecEnv
         return Parent ?? this;
     }
 
-    public bool Bind(string key, (FinalRecord, VarEnv, FuncEnv, RecEnv, Store) value)
+    public bool TypeBind(string key, (FuncEnv, RecEnv) value)
     {
-        if (Records.ContainsKey(key)) return false;
-        Records.Add(key, value);
+        if (RecordTypes.ContainsKey(key)) return false;
+        RecordTypes.Add(key, value);
         return true;
     }
 
-    public (FinalRecord, VarEnv, FuncEnv, RecEnv, Store)? LookUp(string key)
+    public (FuncEnv, RecEnv)? TypeLookUp(string key)
     {
-        if (Records.ContainsKey(key)) return Records[key];
-        return Parent?.LookUp(key);
+        if (RecordTypes.ContainsKey(key)) return RecordTypes[key];
+        return Parent?.TypeLookUp(key);
     }
 
 
