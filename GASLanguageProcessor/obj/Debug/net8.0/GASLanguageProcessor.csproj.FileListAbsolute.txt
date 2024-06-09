@@ -10,10 +10,10 @@ C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.AssemblyInfo.cs
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.csproj.CoreCompileInputs.cache
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.sourcelink.json
-C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.csproj.CopyComplete
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.dll
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\refint\GASLanguageProcessor.dll
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.pdb
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLanguageProcessor.genruntimeconfig.cache
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\ref\GASLanguageProcessor.dll
 C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\bin\Debug\net8.0\Frontend\test.gas
+C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\obj\Debug\net8.0\GASLangu.89CDF70D.Up2Date
