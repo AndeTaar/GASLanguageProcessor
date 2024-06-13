@@ -39,7 +39,9 @@ static void Main(string[] args)
         interpreter.EvaluateProgram(ast as GASLanguageProcessor.AST.Expressions.Terms.Program, envV, envF, sto);
     interpreter.errors.ForEach(Console.Error.WriteLine);
     if (interpreter.errors.Count > 0) return;
-    var svgGenerator = new SvgGenerator(finalStore);
+    var recordEvaluator = new RecordEvaluator();
+    var recordStore = recordEvaluator.EvaluateRecords(finalStore);
+    var svgGenerator = new SvgGenerator(recordStore);
     var lines = svgGenerator.GenerateSvg(envV);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);

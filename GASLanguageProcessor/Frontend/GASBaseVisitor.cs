@@ -45,16 +45,6 @@ public partial class GASBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// <return>The visitor result.</return>
 	public virtual Result VisitProgram([NotNull] GASParser.ProgramContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.canvas"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitCanvas([NotNull] GASParser.CanvasContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.statement"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -114,6 +104,26 @@ public partial class GASBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitAssignment([NotNull] GASParser.AssignmentContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listDeclaration"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitListDeclaration([NotNull] GASParser.ListDeclarationContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listAssignment"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitListAssignment([NotNull] GASParser.ListAssignmentContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.increment"/>.
 	/// <para>
@@ -295,7 +305,7 @@ public partial class GASBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRecordTerm([NotNull] GASParser.RecordTermContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listTerm"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.arrayTerm"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -303,7 +313,27 @@ public partial class GASBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitListTerm([NotNull] GASParser.ListTermContext context) { return VisitChildren(context); }
+	public virtual Result VisitArrayTerm([NotNull] GASParser.ArrayTermContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listAccessTerm"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitListAccessTerm([NotNull] GASParser.ListAccessTermContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listSizeTerm"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitListSizeTerm([NotNull] GASParser.ListSizeTermContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.groupTerm"/>.
 	/// <para>

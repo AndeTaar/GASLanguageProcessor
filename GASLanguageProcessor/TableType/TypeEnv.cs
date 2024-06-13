@@ -10,11 +10,24 @@ public class TypeEnv
 
         if (parent != null) return;
 
+        RecTypeBind("Canvas", new Dictionary<string, GasType>
+        {
+            { "width", GasType.Num },
+            { "height", GasType.Num },
+            { "backgroundColor", GasType.Color }
+        }, GasType.Canvas);
         RecTypeBind("Color", new Dictionary<string, GasType>
         {
             { "red", GasType.Num },
             { "green", GasType.Num },
             { "blue", GasType.Num },
+            { "alpha", GasType.Num }
+        }, GasType.Color);
+        RecTypeBind("LinearGradient", new Dictionary<string, GasType>
+        {
+            { "colors", GasType.Color },
+            { "stops", GasType.Num },
+            { "rotation", GasType.Num},
             { "alpha", GasType.Num }
         }, GasType.Color);
         RecTypeBind("Point", new Dictionary<string, GasType>
@@ -104,12 +117,6 @@ public class TypeEnv
             { "weight", GasType.Num },
             { "color", GasType.Color }
         }, GasType.Text);
-
-
-        FBind("AddToList", new List<GasType> { GasType.Any, GasType.Any }, GasType.Any);
-        FBind("RemoveFromList", new List<GasType> { GasType.Num, GasType.Any }, GasType.Void);
-        FBind("GetFromList", new List<GasType> { GasType.Num, GasType.Any }, GasType.Num);
-        FBind("LengthOfList", new List<GasType> { GasType.Any }, GasType.Num);
     }
 
     public Dictionary<string, GasType> VTypes { get; set; } = new();

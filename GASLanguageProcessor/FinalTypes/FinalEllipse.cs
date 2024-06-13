@@ -1,9 +1,11 @@
+using GASLanguageProcessor.FinalTypes.Colors;
+
 namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalEllipse : FinalType
 {
-    public FinalEllipse(FinalPoint center, float radiusX, float radiusY, float stroke, FinalColor color,
-        FinalColor? strokeColor)
+    public FinalEllipse(FinalPoint center, float radiusX, float radiusY, float stroke, FinalColors color,
+        FinalColors? strokeColor)
     {
         Center = center;
         RadiusX = new FinalNum(radiusX);
@@ -17,6 +19,6 @@ public class FinalEllipse : FinalType
     public FinalNum RadiusX { get; set; }
     public FinalNum RadiusY { get; set; }
     public FinalNum Stroke { get; set; }
-    public FinalColor Color { get; set; }
-    public FinalColor? StrokeColor { get; set; }
+    public FinalColors Color { get; set; }
+    public FinalColors? StrokeColor { get; set; }
 }

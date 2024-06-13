@@ -1,9 +1,11 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes.Colors;
+
+namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalRectangle : FinalType
 {
-    public FinalRectangle(FinalPoint topLeft, FinalPoint bottomRight, float stroke, FinalColor fillColor,
-        FinalColor strokeColor, float cornerRounding)
+    public FinalRectangle(FinalPoint topLeft, FinalPoint bottomRight, float stroke, FinalColors fillColor,
+        FinalColors strokeColor, float cornerRounding)
     {
         TopLeft = topLeft;
         BottomRight = bottomRight;
@@ -18,8 +20,8 @@ public class FinalRectangle : FinalType
     public FinalPoint TopLeft { get; set; }
     public FinalPoint BottomRight { get; set; }
     public FinalNum Stroke { get; set; }
-    public FinalColor FillColor { get; set; }
-    public FinalColor StrokeColor { get; set; }
+    public FinalColors FillColor { get; set; }
+    public FinalColors StrokeColor { get; set; }
     public FinalNum Width { get; set; }
     public FinalNum Height { get; set; }
     public FinalNum CornerRounding { get; set; }

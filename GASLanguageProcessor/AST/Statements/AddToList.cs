@@ -3,15 +3,17 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class AddToList : Term
+public class AddToList : Statement
 {
-    public AddToList(Expression value, Identifier listIdentifier)
+    public AddToList(Identifier listIdentifier, Expression index, Expression value)
     {
-        Value = value;
         ListIdentifier = listIdentifier;
+        Index = index;
+        Value = value;
     }
 
     public Expression Value { get; protected set; }
+    public Expression Index { get; protected set; }
     public Identifier ListIdentifier { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)

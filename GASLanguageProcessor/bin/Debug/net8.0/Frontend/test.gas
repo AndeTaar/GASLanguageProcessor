@@ -1,7 +1,6 @@
-﻿num canvasWidth = 950;
-num canvasHeight = 950;
+﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
 
-Color white = Color{red=255, green=255, blue=255, alpha=1};
+Canvas canvas = Canvas{width=950, height=950, backgroundColor=white};
 
 num g = white.green;
 
@@ -9,6 +8,13 @@ Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
 
 Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha};
 Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 100],
+    colors=<Color>[black, blue],
+    alpha=1,
+    rotation=90
+};
 
 TypeDef parseTreeNode {
     square: Rectangle,
@@ -24,14 +30,12 @@ num height = 60;
 num vertDistance = 40;
 num horDistance = 90;
 
-list<parseTreeNode> shapes = List<parseTreeNode>{};
-
 parseTreeNode DrawNodeWithSingleArrow(Point center, string content){
     return parseTreeNode{
         square=Rectangle{
             topLeft=Point{x=center.x-width/2, y=center.y-height/2},
             bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blue, strokeColor=white, rounding=10
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
         },
         arrowTop=Arrow{
             start=Point{x=center.x, y=center.y+height/2},
@@ -111,83 +115,107 @@ parseTreeNode DrawNodeWithOperator(Point center, string content, string operator
     };
 }
 
-Point p = Point{x=canvasWidth/2-30, y=100};
+Point p = Point{x=canvas.width/2-30, y=100};
 
-AddToList(DrawNodeWithOperator(p, "Expression", "&amp;&amp;"), shapes);
+List<AnyStruct> shapes = [400];
+num i= 0;
+shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
+i++;
 
 p.y += height + vertDistance+5;
 p.x -= horDistance+30;
-AddToList(DrawNodeWithSingleArrow(p, "EquExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
 p.x += 2*horDistance+60;
-AddToList(DrawNodeWithSingleArrow(p, "EquExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
 
 p.y += height + vertDistance+5;
 p.x -= 2*horDistance+100;
-AddToList(DrawNodeWithSingleArrow(p, "RelExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
 p.x += 2*horDistance+140;
-AddToList(DrawNodeWithSingleArrow(p, "RelExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
 
 p.y += height + vertDistance+5;
 p.x -= 2*horDistance+180;
-AddToList(DrawNodeWithOperator(p, "BinExpr", "+"), shapes);
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "+");
+i++;
 Point leftP = Point{x=p.x, y=p.y};
 
 p.x += 2*horDistance+220;
-AddToList(DrawNodeWithOperator(p, "BinExpr", "-"), shapes);
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "-");
+i++;
 Point rightP = Point{x=p.x, y=p.y};
 
 rightP.y += height + vertDistance+5;
 rightP.x -= 2*horDistance+310;
-AddToList(DrawNodeWithSingleArrow(rightP, "MultExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "MultExpr");
+i++;
 rightP.x += 2*horDistance+30;
-AddToList(DrawNodeWithOperator(rightP, "MultExpr", "*"), shapes);
+shapes[i] = DrawNodeWithOperator(rightP, "MultExpr", "*");
+i++;
 
 rightP.y += height + vertDistance+5;
 rightP.x -= 2*horDistance+30;
-AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
 rightP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(rightP, "Number"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
 rightP.y -= height + vertDistance+5;
 
 rightP.x += 2*horDistance-50;
-AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
 rightP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(rightP, "Number"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
 rightP.y -= height + vertDistance+5;
 rightP.x += 2*horDistance-20;
-AddToList(DrawNodeWithSingleArrow(rightP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
 rightP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(rightP, "Identifier"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Identifier");
+i++;
 rightP.y -= height + vertDistance+5;
 
 leftP.y += height + vertDistance+5;
 leftP.x -= 2*horDistance-490;
-AddToList(DrawNodeWithSingleArrow(leftP, "MultExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "MultExpr");
+i++;
 leftP.x += 2*horDistance+20;
-AddToList(DrawNodeWithOperator(leftP, "MultExpr", "/"), shapes);
+shapes[i] = DrawNodeWithOperator(leftP, "MultExpr", "/");
+i++;
 
 leftP.y += height + vertDistance+5;
 leftP.x -= 2*horDistance+20;
-AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
 leftP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
 leftP.y -= height + vertDistance+5;
 leftP.x += 2*horDistance-50;
-AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
 leftP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
 leftP.y -= height + vertDistance+5;
 leftP.x += 2*horDistance-20;
-AddToList(DrawNodeWithSingleArrow(leftP, "UnaExpr"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
 leftP.y += height + vertDistance+5;
-AddToList(DrawNodeWithSingleArrow(leftP, "Identifier"), shapes);
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
 leftP.y -= height + vertDistance+5;
 
 Text text = Text{
-    point=Point{x=canvasWidth/2, y=rightP.y+220},
+    point=Point{x=canvas.width/2, y=rightP.y+220},
     size=40,
     content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
     color=black
 };
 
-canvas (canvasWidth, canvasHeight, white);

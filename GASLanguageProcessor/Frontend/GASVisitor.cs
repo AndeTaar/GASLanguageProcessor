@@ -38,12 +38,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgram([NotNull] GASParser.ProgramContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.canvas"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitCanvas([NotNull] GASParser.CanvasContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -79,6 +73,18 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAssignment([NotNull] GASParser.AssignmentContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListDeclaration([NotNull] GASParser.ListDeclarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListAssignment([NotNull] GASParser.ListAssignmentContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.increment"/>.
 	/// </summary>
@@ -188,11 +194,23 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRecordTerm([NotNull] GASParser.RecordTermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listTerm"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.arrayTerm"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitListTerm([NotNull] GASParser.ListTermContext context);
+	Result VisitArrayTerm([NotNull] GASParser.ArrayTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listAccessTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListAccessTerm([NotNull] GASParser.ListAccessTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listSizeTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListSizeTerm([NotNull] GASParser.ListSizeTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.groupTerm"/>.
 	/// </summary>

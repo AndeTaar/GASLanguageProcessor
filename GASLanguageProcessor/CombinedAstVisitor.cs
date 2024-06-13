@@ -31,7 +31,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        if (envT.VLookUp("canvas") == null)
+        if (envT.RecLookUp("canvas") == null)
         {
             errors.Add("Program missing canvas");
             return GasType.Error;
@@ -516,6 +516,29 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         return returnType ?? GasType.Error;
     }
 
+    public GasType VisitListDeclaration(ListDeclaration listDeclaration, TypeEnv envT)
+    {
+        var type = listDeclaration.Type.Accept(this, envT);
+        var identifier = listDeclaration.Identifier;
+        var size = listDeclaration.Size.Accept(this, envT);
+
+        if (size != GasType.Num)
+        {
+            errors.Add("Invalid type for list size: expected: Num, got: " + size);
+            return GasType.Error;
+        }
+
+        var bound = envT.VBind(identifier.Name, type);
+
+        if (!bound)
+        {
+            errors.Add("Line: " + listDeclaration.LineNum + " Variable name: " + identifier.Name + " already exists");
+            return GasType.Error;
+        }
+
+        return GasType.Ok;
+    }
+
     /// <summary>
     ///     Visit the unary operation node
     /// </summary>
@@ -664,9 +687,15 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             case "SegLine":
             case "segLine":
                 return GasType.SegLine;
+            case "Canvas":
+            case "canvas":
+                return GasType.Canvas;
             case "Circle":
             case "circle":
                 return GasType.Circle;
+            case "linearGradient":
+            case "LinearGradient":
+                return GasType.Color;
             case "bool":
                 return GasType.Bool;
             case "group":
@@ -783,57 +812,51 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitAddToList(AddToList addToList, TypeEnv envT)
     {
-        throw new NotImplementedException();
-    }
+        var listIdentifier = addToList.ListIdentifier;
+        var listType = envT.VLookUp(listIdentifier.Name);
+        var indexType = addToList.Index.Accept(this, envT);
+        var valueType = addToList.Value.Accept(this, envT);
 
-    public GasType VisitText(Text node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
+        if (listType == null)
+        {
+            errors.Add("Line: " + addToList.LineNum + " List name: " + listIdentifier.Name + " not found");
+            return GasType.Error;
+        }
 
-    public GasType VisitCircle(Circle node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
+        if (indexType != GasType.Num)
+        {
+            errors.Add("Line: " + addToList.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
+            return GasType.Error;
+        }
 
-    public GasType VisitRectangle(Rectangle node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
+        if (valueType != listType)
+        {
+            errors.Add("Line: " + addToList.LineNum + " Invalid type for value: expected: " + listType + ", got: " + valueType);
+            return GasType.Error;
+        }
 
-    public GasType VisitPoint(Point node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitColor(Color node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitSquare(Square node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitEllipse(Ellipse node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitSegLine(SegLine node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitLine(Line node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
+        return GasType.Ok;
     }
 
     public GasType VisitGetFromList(GetFromList node, TypeEnv envT)
     {
-        throw new NotImplementedException();
+        var listIdentifier = node.ListIdentifier;
+        var listType = envT.VLookUp(listIdentifier.Name);
+        var indexType = node.Index.Accept(this, envT);
+
+        if (listType == null)
+        {
+            errors.Add("Line: " + node.LineNum + " List name: " + listIdentifier.Name + " not found");
+            return GasType.Error;
+        }
+
+        if (indexType != GasType.Num)
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
+            return GasType.Error;
+        }
+
+        return listType ?? GasType.Error;
     }
 
     public GasType VisitRemoveFromList(RemoveFromList node, TypeEnv envT)
@@ -841,24 +864,18 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
-    public GasType VisitArrow(Arrow node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
     public GasType VisitLengthOfList(LengthOfList node, TypeEnv envT)
     {
-        throw new NotImplementedException();
-    }
+        var listIdentifier = node.ListIdentifier;
+        var listType = envT.VLookUp(listIdentifier.Name);
 
-    public GasType VisitPolygon(Polygon polygon, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
+        if (listType == null)
+        {
+            errors.Add("Line: " + node.LineNum + " List name: " + listIdentifier.Name + " not found");
+            return GasType.Error;
+        }
 
-    public GasType VisitTriangle(Triangle triangle, TypeEnv envT)
-    {
-        throw new NotImplementedException();
+        return GasType.Num;
     }
 
     public GasType AttributeAssignment(Assignment node, TypeEnv envT){
@@ -947,7 +964,6 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         var type = node.Expression?.Accept(this, envT);
 
-
         if (expectedType != type)
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
@@ -966,8 +982,4 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         return GasType.Ok;
     }
 
-    public GasType VisitLine(SegLine node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
 }

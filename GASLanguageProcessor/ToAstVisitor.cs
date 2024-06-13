@@ -19,17 +19,6 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         return new AST.Expressions.Terms.Program(ToCompound(lines));
     }
 
-    public override AstNode VisitCanvas(GASParser.CanvasContext context)
-    {
-        var width = context.expression()[0].Accept(this) as Expression;
-
-        var height = context.expression()[1].Accept(this) as Expression;
-
-        var backgroundColor = context.expression()[2].Accept(this) as Expression;
-
-        return new Canvas(width, height, backgroundColor) { LineNum = context.Start.Line };
-    }
-
     public override AstNode VisitIfStatement(GASParser.IfStatementContext context)
     {
         var condition = context.expression().Accept(this) as Expression;
@@ -103,6 +92,24 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         var value = context.expression().Accept(this) as Expression;
 
         return new Assignment(identifier, value, op) { LineNum = context.Start.Line };
+    }
+
+    public override AstNode VisitListAssignment(GASParser.ListAssignmentContext context)
+    {
+        var identifier = context.identifier().Accept(this) as Identifier;
+        var index = context.expression()[0].Accept(this) as Expression;
+        var value = context.expression()[1].Accept(this) as Expression;
+
+        return new AddToList(identifier, index, value) { LineNum = context.Start.Line };
+    }
+
+    public override AstNode VisitListDeclaration(GASParser.ListDeclarationContext context)
+    {
+        var type = context.type().Accept(this) as Type;
+        var identifier = context.identifier().Accept(this) as Identifier;
+        var size = context.expression().Accept(this) as Expression;
+
+        return new ListDeclaration(type, identifier, size) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitIncrement(GASParser.IncrementContext context)
@@ -276,15 +283,32 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
             return new Null();
         if (context.groupTerm() != null)
             return VisitGroupTerm(context.groupTerm());
-        if (context.listTerm() != null)
-            return VisitListTerm(context.listTerm());
+        if (context.arrayTerm() != null)
+            return VisitArrayTerm(context.arrayTerm());
         if (context.recordTerm() != null)
             return context.recordTerm().Accept(this) as Record;
         if (context.attributeIdentifier() != null)
             return context.attributeIdentifier().Accept(this) as Identifier;
+        if(context.listAccessTerm() != null)
+            return context.listAccessTerm().Accept(this) as GetFromList;
+        if(context.listSizeTerm() != null)
+            return context.listSizeTerm().Accept(this) as LengthOfList;
         if (context.identifier() != null)
             return context.identifier().Accept(this) as Identifier;
         throw new NotSupportedException($"Term type not supported: {context.GetText()}");
+    }
+
+    public override AstNode VisitListSizeTerm(GASParser.ListSizeTermContext context)
+    {
+        var identifier = context.identifier().Accept(this) as Identifier;
+        return new LengthOfList(identifier) { LineNum = context.Start.Line };
+    }
+
+    public override AstNode VisitListAccessTerm(GASParser.ListAccessTermContext context)
+    {
+        var identifier = context.identifier().Accept(this) as Identifier;
+        var index = context.expression().Accept(this) as Expression;
+        return new GetFromList(identifier, index) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRecordTerm(GASParser.RecordTermContext context)
@@ -296,11 +320,12 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         return new Record(recordType, identifiers, expressions) { LineNum = context.Start.Line };
     }
 
-    public override AstNode VisitListTerm(GASParser.ListTermContext context)
+    public override AstNode VisitArrayTerm(GASParser.ArrayTermContext context)
     {
-        var type = context.type()?.Accept(this) as Type ?? context.type().Accept(this) as Type;
-        var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
-        return new List(expressions, type) { LineNum = context.Start.Line };
+        var type = context.type().Accept(this) as Type;
+        var expressions = context.expression().Select(e => e.Accept(this) as Expression).ToList();
+
+        return new List(type, expressions) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)

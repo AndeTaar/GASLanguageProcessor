@@ -2,17 +2,18 @@ grammar GAS;
 
 //Program
 program : (statement)* EOF;
-canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | listAssignment | listDeclaration) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
 recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
 
 declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
+listDeclaration : 'List' '<' type '>' identifier '=' '[' expression ']'?;
+listAssignment : identifier '[' expression ']' '=' expression;
 increment : (attributeIdentifier | identifier) ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
@@ -35,11 +36,13 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm;
+term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | arrayTerm | listAccessTerm |
+ functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm | listSizeTerm;
 
 recordTerm: recordTypeIdentifier '{' (identifier '=' expression (',' identifier '=' expression)* )? '}';
-listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
+arrayTerm : '<'type'>''[' (expression (',' expression)*)? ']';
+listAccessTerm : identifier '[' expression ']';
+listSizeTerm : identifier '.' 'count';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
 functionCall : identifier '(' (expression (',' expression)*)? ')';

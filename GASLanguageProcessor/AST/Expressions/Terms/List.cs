@@ -4,7 +4,7 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class List : Term
 {
-    public List(List<Expression> expressions, Type type)
+    public List(Type type, List<Expression> expressions)
     {
         Expressions = expressions;
         Type = type;

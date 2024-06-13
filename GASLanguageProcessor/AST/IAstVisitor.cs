@@ -55,37 +55,13 @@ public interface IAstVisitor<T>
 
     T VisitNull(Null node, TypeEnv envT);
 
-    T VisitText(Text node, TypeEnv envT);
-
-    T VisitCircle(Circle node, TypeEnv envT);
-
-    T VisitRectangle(Rectangle node, TypeEnv envT);
-
-    T VisitPoint(Point node, TypeEnv envT);
-
-    T VisitColor(Color node, TypeEnv envT);
-
-    T VisitSquare(Square node, TypeEnv envT);
-
     T VisitAddToList(AddToList node, TypeEnv envT);
-
-    T VisitEllipse(Ellipse node, TypeEnv envT);
-
-    T VisitSegLine(SegLine node, TypeEnv envT);
-
-    T VisitLine(Line node, TypeEnv envT);
 
     T VisitGetFromList(GetFromList node, TypeEnv envT);
 
     T VisitRemoveFromList(RemoveFromList node, TypeEnv envT);
 
-    T VisitArrow(Arrow node, TypeEnv envT);
-
     T VisitLengthOfList(LengthOfList node, TypeEnv envT);
-
-    T VisitPolygon(Polygon node, TypeEnv envT);
-
-    T VisitTriangle(Triangle node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
 
@@ -94,4 +70,6 @@ public interface IAstVisitor<T>
     T VisitIdentifier(Identifier identifier, TypeEnv envT);
 
     T VisitRecord(Record record, TypeEnv envT);
+
+    T VisitListDeclaration(ListDeclaration listDeclaration, TypeEnv envT);
 }

@@ -5,10 +5,10 @@ namespace GASLanguageProcessor.AST.Expressions.Terms;
 
 public class GetFromList : Term
 {
-    public GetFromList(Expression index, Identifier listIdentifier)
+    public GetFromList(Identifier listIdentifier, Expression index)
     {
-        Index = index;
         ListIdentifier = listIdentifier;
+        Index = index;
     }
 
     public Expression Index { get; protected set; }

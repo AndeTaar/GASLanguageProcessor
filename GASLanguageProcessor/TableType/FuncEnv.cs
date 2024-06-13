@@ -15,23 +15,6 @@ public class FuncEnv
     public FuncEnv(Store store, VarEnv? parentEnv = null, FuncEnv? parent = null)
     {
         Parent = parent;
-
-        if (parent != null) return;
-
-        Bind("AddToList", new Function(new List<String> { "element", "list" },
-            new Return(new AddToList(new Identifier("element"), new Identifier("list"))), new VarEnv(parentEnv), this,
-            store));
-
-        Bind("RemoveFromList", new Function(new List<String> { "index", "list" },
-            new Return(new RemoveFromList(new Identifier("index"), new Identifier("list"))), new VarEnv(parentEnv),
-            this, store));
-
-        Bind("GetFromList", new Function(new List<String> { "index", "list" },
-            new Return(new GetFromList(new Identifier("index"), new Identifier("list"))), new VarEnv(parentEnv), this,
-            store));
-
-        Bind("LengthOfList", new Function(new List<String> { "list" },
-            new Return(new LengthOfList(new Identifier("list"))), new VarEnv(parentEnv), this, store));
     }
 
     public Dictionary<string, Function> Functions { get; protected set; } = new();

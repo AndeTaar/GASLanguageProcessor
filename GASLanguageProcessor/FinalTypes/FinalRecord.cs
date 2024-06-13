@@ -4,10 +4,10 @@ namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalRecord : FinalType
 {
-    public List<FinalType> FinalTypes { get; }
+    public string FinalRecordType { get; set; }
 
-    public FinalRecord(List<FinalType> finalTypes)
+    public FinalRecord(string finalRecordType)
     {
-        FinalTypes = finalTypes;
+        FinalRecordType = finalRecordType;
     }
 }

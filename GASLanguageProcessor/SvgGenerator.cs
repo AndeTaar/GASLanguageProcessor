@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Misc;
 using GASLanguageProcessor.FinalTypes;
+using GASLanguageProcessor.FinalTypes.Colors;
 using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor;
@@ -76,6 +77,20 @@ public class SvgGenerator
                 SvgLines.Add(
                     $"<rect id=\"{varEnv.GetIdentifier(index)}\" x=\"{square.TopLeft.X}\" y=\"{square.TopLeft.Y}\" width=\"{square.Length}\" height=\"{square.Length}\" fill=\"{square.FillColor.ColorToString()}\" fill-opacity=\"{square.FillColor.Alpha}\" rx=\"{square.CornerRounding}\" stroke=\"{square.StrokeColor.ColorToString()}\" stroke-width=\"{square.Stroke}\" />");
                 break;
+            case FinalLinearGradient linearGradient:
+                double angle = linearGradient.Rotation.Value;
+                double radians = angle * (Math.PI / 180.0);
+
+                double x2 = Math.Cos(radians) * 100;
+                double y2 = Math.Sin(radians) * 100;
+                SvgLines.Add($"<linearGradient id=\"{varEnv.GetIdentifier(index)}\" x1=\"0%\" y1=\"0%\" x2=\"{x2}%\" y2=\"{y2}%\">");
+                for (int i = 0; i < linearGradient.Colors.Values.Length; i++)
+                {
+                    SvgLines.Add($"<stop offset=\"{linearGradient.Stops.Values[i]}%\" stop-color=\"{((FinalColors) linearGradient.Colors.Values[i]).ColorToString()}\" />");
+                }
+                SvgLines.Add("</linearGradient>");
+                linearGradient.Id = varEnv.GetIdentifier(index);
+                break;
 
             case FinalGroup group:
                 SvgLines.Add(
@@ -84,14 +99,14 @@ public class SvgGenerator
                 SvgLines.Add("</g>");
                 return;
             case FinalList list:
-                for (var i = 0; i < list.Values.Count; i++) GenerateLine(list.Values[i], -1, varEnv);
+                for (var i = 0; i < list.Values.Length; i++) GenerateLine(list.Values[i], -1, varEnv);
                 return;
             case FinalPolygon polygon:
                 SvgLines.Add(
                     $"<polygon id=\"{varEnv.GetIdentifier(index)}\" points=\"{polygon.Points}\" fill=\"{polygon.Color.ColorToString()}\" fill-opacity=\"{polygon.Color.Alpha}\" stroke=\"{polygon.StrokeColor.ColorToString()}\" stroke-width=\"{polygon.Stroke}\" />");
                 break;
             case FinalRecord record:
-                foreach (var finalType in record.FinalTypes) GenerateLine(finalType, -1, varEnv);
+                foreach (var finalType in record.Fields.Values) GenerateLine(finalType, -1, varEnv);
                 return;
         }
     }
