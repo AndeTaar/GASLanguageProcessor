@@ -7,9 +7,9 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 //Statements
 statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
-complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
+complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recordDefinition;
 
-recDefinition : 'TypeDef' recordTypeIdentifier '{' (allTypes identifier '=' expression  (',' allTypes identifier '=' expression )*)? '}';
+recordDefinition : 'TypeDef' recordTypeIdentifier '{' (declaration | constructorDeclaration)* '}';
 
 declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
@@ -20,6 +20,7 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
 functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
+constructorDeclaration : recordTypeIdentifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
 //Standard data types
 
 allTypes : type | collectionType ;

@@ -177,14 +177,14 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         return new BinaryOp(left, context.GetChild(1).GetText(), right);
     }
 
-    public override AstNode VisitRecDefinition(GASParser.RecDefinitionContext context)
+    public override AstNode VisitRecordDefinition(GASParser.RecordDefinitionContext context)
     {
         var recordType = context.recordTypeIdentifier().Accept(this) as Type;
-        var types = context.allTypes().Select(t => t.Accept(this) as Type).ToList();
-        var identifiers = context.identifier().Select(i => i.Accept(this) as Identifier).ToList();
-        var expressions = context.expression().Select(e => e.Accept(this) as Expression).ToList();
+        var declarations = context.declaration().Select(t => t.Accept(this)).ToList();
+        var constructorDeclarations = context.constructorDeclaration().Select(i => i.Accept(this)).ToList();
+        var compound = ToCompound(declarations.Concat(constructorDeclarations).ToList());
 
-        return new RecordDefinition(recordType, types, identifiers, expressions) { LineNum = context.Start.Line };
+        return new RecordDefinition(recordType, compound) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRecordTypeIdentifier(GASParser.RecordTypeIdentifierContext context)

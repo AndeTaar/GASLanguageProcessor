@@ -341,25 +341,13 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
     public GasType VisitRecordDefinition(RecordDefinition node, TypeEnv envT)
     {
-        var identifiers = node.Identifiers;
-        var types = node.Types.Select(type => type.Accept(this, envT)).ToList();
-        Dictionary<string, (GasType, Expression)> typeIdentDictionary = new();
+        envT = envT.EnterScope();
 
-        var expressionTypes = node.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
+        var recordType = node.RecordType;
+        node.Body.Accept(this, envT);
 
-        for (int i = 0; i < types.Count; i++)
-        {
-            if(types[i] != expressionTypes[i])
-            {
-                errors.Add("Line: " + node.LineNum + " Invalid type for record: " + identifiers[i].Name + " expected: " + types[i] + " got: " + expressionTypes[i]);
-                return GasType.Error;
-            }
+        var bound = envT.RecTypeBind(recordType.Value, recordType.Value, envT);
 
-            typeIdentDictionary.Add(identifiers[i].Name, (types[i], node.Expressions[i]));
-        }
-
-
-        envT.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasType.AnyStruct);
         return GasType.Ok;
     }
 
@@ -528,6 +516,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (error) return GasType.Error;
 
         return returnType ?? GasType.Error;
+    }
+
+    public GasType VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration, TypeEnv envT)
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
