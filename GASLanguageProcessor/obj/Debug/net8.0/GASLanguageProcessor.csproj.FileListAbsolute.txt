@@ -152,3 +152,4 @@ C:/Users/Daniel/RiderProjects/GASLanguageProcessor/GASLanguageProcessor/obj/Debu
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/ref/GASLanguageProcessor.dll
 C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/ParseTree.gas
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/ParseTree.gas
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/ConfigurationManagement.gas

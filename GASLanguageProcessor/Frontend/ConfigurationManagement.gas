@@ -11,7 +11,7 @@ Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
 
 Color blackToBlue = LinearGradient{
     stops=<num>[0, 29, 40, 70, 100],
-    colors=<Color>[green, morOrange, orange, purple, blue],
+    colors=<Color>[purple, morOrange, orange, , blue],
     alpha=1,
     rotation=0
 };

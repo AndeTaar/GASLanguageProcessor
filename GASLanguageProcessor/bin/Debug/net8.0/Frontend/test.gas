@@ -2,16 +2,17 @@
 
 Canvas canvas = Canvas{width=1000, height=505, backgroundColor=white};
 
-Color blue = Color{red=0, green=105, blue=148, alpha=white.alpha};
+Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
 Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
 Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
 Color orange = Color{red=160, green=105, blue=0, alpha=white.alpha};
 Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
 Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
 
 Color blackToBlue = LinearGradient{
-    stops=<num>[0, 29, 40, 70, 100],
-    colors=<Color>[green, morOrange, orange, purple, blue],
+    stops=<num>[0, 50, 100],
+    colors=<Color>[blue, purple, red],
     alpha=1,
     rotation=0
 };

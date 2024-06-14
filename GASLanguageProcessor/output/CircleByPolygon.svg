@@ -1,10 +1,8 @@
 <svg width="1000" height="505" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
 <linearGradient id="blackToBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" stop-color="rgb(20, 148, 127)" />
-<stop offset="29%" stop-color="rgb(190, 125, 0)" />
-<stop offset="40%" stop-color="rgb(160, 105, 0)" />
-<stop offset="70%" stop-color="rgb(128, 0, 128)" />
-<stop offset="100%" stop-color="rgb(0, 105, 148)" />
+<stop offset="0%" stop-color="rgb(0, 0, 265)" />
+<stop offset="50%" stop-color="rgb(128, 0, 128)" />
+<stop offset="100%" stop-color="rgb(255, 0, 0)" />
 </linearGradient>
 <rect id="background" x="0" y="0" width="1000" height="505" fill="url(#blackToBlue)" fill-opacity="1" rx="0" stroke="rgb(255, 255, 255)" stroke-width="0" />
 <rect id="box1" x="106.994896" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
