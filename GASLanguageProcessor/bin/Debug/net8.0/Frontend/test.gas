@@ -57,7 +57,7 @@ parseTreeNode DrawNode(Point center, string content){
         square=Rectangle{
             topLeft=Point{x=center.x-width/2, y=center.y-height/2},
             bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blue, strokeColor=white, rounding=10
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
         },
         arrowTop=Arrow{
             start=Point{x=center.x, y=center.y+height/2},
@@ -83,7 +83,7 @@ parseTreeNode DrawNodeWithOperator(Point center, string content, string operator
         square=Rectangle{
             topLeft=Point{x=center.x-width/2, y=center.y-height/2},
             bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blue, strokeColor=white, rounding=10
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
         },
         arrowTop=Arrow{
             start=Point{x=center.x, y=center.y+height/2},

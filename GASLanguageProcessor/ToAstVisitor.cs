@@ -143,6 +143,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         var identifier = context.identifier()?.Accept(this) as Identifier;
 
         var value = context.expression()?.Accept(this) as Expression;
+        if (value != null && identifier != null)
+        {
+            value.connectedIdentifier = identifier.Name;
+        }
 
         return new Declaration(type, identifier, value) { LineNum = context.Start.Line };
     }

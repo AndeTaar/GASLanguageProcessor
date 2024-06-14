@@ -13,7 +13,6 @@ public class FinalLinearGradient: FinalColors
     public FinalNum Rotation { get; set; }
     public FinalList Colors { get; set; }
     public FinalList Stops { get; set; }
-    public string Id { get; set; }
 
     public override string ColorToString()
     {

@@ -547,9 +547,8 @@ public class Interpreter
 
         var dictionary = identifiers.Zip(expressions, (identifier, expression) => new { identifier, expression })
             .ToDictionary(x => x.identifier.Name, x => x.expression);
-        return new FinalRecord(record.RecordType.Value) { Fields = dictionary };
+        return new FinalRecord(record.RecordType.Value) { Fields = dictionary, Id=record.connectedIdentifier };
     }
-
 
     public object? EvaluateLiterals(Expression expression, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {

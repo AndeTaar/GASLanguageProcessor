@@ -2,4 +2,5 @@
 
 public abstract class Expression : AstNode
 {
+    public string connectedIdentifier { get; set; }
 }
