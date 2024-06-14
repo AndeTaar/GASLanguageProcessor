@@ -1,10 +1,11 @@
 ﻿using System.Numerics;
+using GASLanguageProcessor.FinalTypes.Colors;
 
 namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalArrow : FinalType
 {
-    public FinalArrow(FinalPoint start, FinalPoint end, float stroke, FinalColor strokeColor)
+    public FinalArrow(FinalPoint start, FinalPoint end, float stroke, FinalColors strokeColor)
     {
         Start = start;
         End = end;
@@ -16,7 +17,7 @@ public class FinalArrow : FinalType
     public FinalPoint Start { get; set; }
     public FinalPoint End { get; set; }
     public FinalNum Stroke { get; set; }
-    public FinalColor StrokeColor { get; set; }
+    public FinalColors StrokeColor { get; set; }
     public FinalTriangle ArrowHead { get; set; }
 
     private FinalTriangle GetArrowHead()
@@ -36,7 +37,9 @@ public class FinalArrow : FinalType
         var point2y = basePointY + orthoVector.Y * Stroke.Value;
         var point2 = new FinalPoint(point2x, point2y);
 
-        return new FinalTriangle(new FinalPoint(End.X.Value, End.Y.Value), [point1, point2], Stroke.Value, StrokeColor,
+        var finalList = new FinalList(new object[] {point1, point2, new FinalPoint(End.X.Value, End.Y.Value)});
+
+        return new FinalTriangle(finalList, Stroke.Value, StrokeColor,
             StrokeColor);
     }
 }

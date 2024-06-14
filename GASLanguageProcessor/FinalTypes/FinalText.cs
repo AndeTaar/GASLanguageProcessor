@@ -1,9 +1,11 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes.Colors;
+
+namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalText : FinalType
 {
     public FinalText(string text, FinalPoint position, string font, float fontSize, float fontWeight,
-        FinalColor textColor)
+        FinalColors textColor)
     {
         Text = text;
         Position = position;
@@ -19,5 +21,5 @@ public class FinalText : FinalType
     public FinalNum FontSize { get; set; }
     public FinalNum FontWeight { get; set; }
 
-    public FinalColor TextColor { get; set; }
+    public FinalColors TextColor { get; set; }
 }

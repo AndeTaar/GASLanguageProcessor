@@ -37,6 +37,20 @@ public class SvgGenerator
 
     public void GenerateLine(object obj, int index, VarEnv varEnv)
     {
+        if (obj is not FinalType)
+        {
+            return;
+        }
+
+        FinalType finalType = (FinalType)obj;
+        if (finalType.Fields?.Values.Count != 0 && finalType.Fields != null)
+        {
+            foreach (var ft in finalType.Fields.Values)
+            {
+                GenerateLine(ft, -1, varEnv);
+            }
+        }
+
         switch (obj)
         {
             case FinalCanvas canvas:
@@ -69,6 +83,11 @@ public class SvgGenerator
                 SvgLines.Add(
                     $"<ellipse id=\"{varEnv.GetIdentifier(index)}\" cx=\"{ellipse.Center.X}\" cy=\"{ellipse.Center.Y}\" rx=\"{ellipse.RadiusX}\" ry=\"{ellipse.RadiusY}\" fill=\"{ellipse.Color.ColorToString()}\" stroke=\"{ellipse.StrokeColor.ColorToString()}\" stroke-width=\"{ellipse.Stroke}\" />");
                 break;
+            case FinalTriangle triangle:
+                SvgLines.Add(
+                    $"<polygon id=\"{varEnv.GetIdentifier(index)}\" points=\"{triangle.Points}\" fill=\"{triangle.Color.ColorToString()}\" fill-opacity=\"{triangle.Color.Alpha}\" stroke=\"{triangle.StrokeColor.ColorToString()}\" stroke-width=\"{triangle.Stroke}\" />");
+                break;
+
             case FinalText text:
                 SvgLines.Add(
                     $"<text id=\"{varEnv.GetIdentifier(index)}\" x=\"{text.Position.X}\" y=\"{text.Position.Y}\" xml:space=\"preserve\" fill=\"{text.TextColor.ColorToString()}\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"{text.Font}\" font-weight=\"{text.FontWeight}\" font-size=\"{text.FontSize}\">{text.Text}</text>");
@@ -83,13 +102,12 @@ public class SvgGenerator
 
                 double x2 = Math.Cos(radians) * 100;
                 double y2 = Math.Sin(radians) * 100;
-                SvgLines.Add($"<linearGradient id=\"{varEnv.GetIdentifier(index)}\" x1=\"0%\" y1=\"0%\" x2=\"{x2}%\" y2=\"{y2}%\">");
+                SvgLines.Add($"<linearGradient id=\"{linearGradient.Id}\" x1=\"0%\" y1=\"0%\" x2=\"{x2}%\" y2=\"{y2}%\">");
                 for (int i = 0; i < linearGradient.Colors.Values.Length; i++)
                 {
                     SvgLines.Add($"<stop offset=\"{linearGradient.Stops.Values[i]}%\" stop-color=\"{((FinalColors) linearGradient.Colors.Values[i]).ColorToString()}\" />");
                 }
                 SvgLines.Add("</linearGradient>");
-                linearGradient.Id = varEnv.GetIdentifier(index);
                 break;
 
             case FinalGroup group:
@@ -105,9 +123,6 @@ public class SvgGenerator
                 SvgLines.Add(
                     $"<polygon id=\"{varEnv.GetIdentifier(index)}\" points=\"{polygon.Points}\" fill=\"{polygon.Color.ColorToString()}\" fill-opacity=\"{polygon.Color.Alpha}\" stroke=\"{polygon.StrokeColor.ColorToString()}\" stroke-width=\"{polygon.Stroke}\" />");
                 break;
-            case FinalRecord record:
-                foreach (var finalType in record.Fields.Values) GenerateLine(finalType, -1, varEnv);
-                return;
         }
     }
 }

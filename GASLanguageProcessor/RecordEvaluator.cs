@@ -61,13 +61,24 @@ public class RecordEvaluator
 
         var dictionary = finalRecord?.Fields;
 
+        if (finalRecord?.Fields != null)
+        {
+            foreach (var field in finalRecord.Fields)
+            {
+                if (field.Value is FinalRecord)
+                {
+                    finalRecord.Fields[field.Key] = EvaluateRecord((FinalRecord)field.Value, store);
+                }
+            }
+        }
+
         switch (finalRecord?.FinalRecordType)
         {
             case "Canvas":
                 dictionary.TryGetValue("width", out var widthObj);
                 dictionary.TryGetValue("height", out var heightObj);
                 dictionary.TryGetValue("backgroundColor", out var backgroundColorObj);
-                backgroundColorObj = EvaluateRecord(backgroundColorObj as FinalRecord, store);
+                backgroundColorObj = EvaluateRecord(backgroundColorObj as FinalType, store);
                 var width = widthObj != null ? (float)widthObj : 0.0f;
                 var height = heightObj != null ? (float)heightObj : 0.0f;
                 var backgroundColor = backgroundColorObj != null ? (FinalColors)backgroundColorObj : new FinalColor(0, 0, 0, 1);
@@ -75,14 +86,14 @@ public class RecordEvaluator
 
             case "Circle":
                 dictionary.TryGetValue("center", out var centerObj);
-                centerObj = EvaluateRecord(centerObj as FinalRecord, store);
+                centerObj = EvaluateRecord(centerObj as FinalType, store);
                 dictionary.TryGetValue("radius", out var radiusObj);
                 dictionary.TryGetValue("stroke", out var strokeObj);
-                strokeObj = EvaluateRecord(strokeObj as FinalRecord, store);
+                strokeObj = EvaluateRecord(strokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var colorObj);
-                colorObj = EvaluateRecord(colorObj as FinalRecord, store);
+                colorObj = EvaluateRecord(colorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var strokeColorObj);
-                strokeColorObj = EvaluateRecord(strokeColorObj as FinalRecord, store);
+                strokeColorObj = EvaluateRecord(strokeColorObj as FinalType, store);
                 var center = centerObj != null ? (FinalPoint)centerObj : new FinalPoint(0, 0);
                 var radius = radiusObj != null ? (float)radiusObj : 1.0f;
                 var stroke = strokeObj != null ? (float)strokeObj : 1.0f;
@@ -92,14 +103,14 @@ public class RecordEvaluator
 
             case "Rectangle":
                 dictionary.TryGetValue("topLeft", out var topLeftObj);
-                topLeftObj = EvaluateRecord(topLeftObj as FinalRecord, store);
+                topLeftObj = EvaluateRecord(topLeftObj as FinalType, store);
                 dictionary.TryGetValue("bottomRight", out var bottomRightObj);
-                bottomRightObj = EvaluateRecord(bottomRightObj as FinalRecord, store);
+                bottomRightObj = EvaluateRecord(bottomRightObj as FinalType, store);
                 dictionary.TryGetValue("stroke", out strokeObj);
                 dictionary.TryGetValue("color", out colorObj);
-                colorObj = EvaluateRecord(colorObj as FinalRecord, store);
+                colorObj = EvaluateRecord(colorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out strokeColorObj);
-                strokeColorObj = EvaluateRecord(strokeColorObj as FinalRecord, store);
+                strokeColorObj = EvaluateRecord(strokeColorObj as FinalType, store);
                 dictionary.TryGetValue("rounding", out var roundingObj);
                 var topLeft = topLeftObj != null ? (FinalPoint)topLeftObj : new FinalPoint(0, 0);
                 var bottomRight = bottomRightObj != null ? (FinalPoint)bottomRightObj : new FinalPoint(1, 1);
@@ -139,15 +150,15 @@ public class RecordEvaluator
 
             case "Ellipse":
                 dictionary.TryGetValue("center", out var ellipseCenterObj);
-                ellipseCenterObj = EvaluateRecord(ellipseCenterObj as FinalRecord, store);
+                ellipseCenterObj = EvaluateRecord(ellipseCenterObj as FinalType, store);
                 dictionary.TryGetValue("radiusX", out var ellipseRadiusXObj);
                 dictionary.TryGetValue("radiusY", out var ellipseRadiusYObj);
                 dictionary.TryGetValue("stroke", out var ellipseStrokeObj);
-                ellipseStrokeObj = EvaluateRecord(ellipseStrokeObj as FinalRecord, store);
+                ellipseStrokeObj = EvaluateRecord(ellipseStrokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var ellipseColorObj);
-                ellipseColorObj = EvaluateRecord(ellipseColorObj as FinalRecord, store);
+                ellipseColorObj = EvaluateRecord(ellipseColorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var ellipseStrokeColorObj);
-                ellipseStrokeColorObj = EvaluateRecord(ellipseStrokeColorObj as FinalRecord, store);
+                ellipseStrokeColorObj = EvaluateRecord(ellipseStrokeColorObj as FinalType, store);
                 var ellipseCenter = ellipseCenterObj != null ? (FinalPoint)ellipseCenterObj : new FinalPoint(0, 0);
                 var ellipseRadiusX = ellipseRadiusXObj != null ? (float)ellipseRadiusXObj : 1.0f;
                 var ellipseRadiusY = ellipseRadiusYObj != null ? (float)ellipseRadiusYObj : 1.0f;
@@ -163,85 +174,83 @@ public class RecordEvaluator
                 dictionary.TryGetValue("point1", out var point1Obj);
                 dictionary.TryGetValue("point2", out var point2Obj);
                 dictionary.TryGetValue("point3", out var point3Obj);
-                var point1 = point1Obj != null ? (FinalPoint) EvaluateRecord(point1Obj as FinalRecord, store) : new FinalPoint(0, 0);
-                var point2 = point2Obj != null ? (FinalPoint) EvaluateRecord(point2Obj as FinalRecord, store) : new FinalPoint(1, 1);
-                var point3 = point3Obj != null ? (FinalPoint) EvaluateRecord(point3Obj as FinalRecord, store) : new FinalPoint(2, 2);
-                var points = new List<FinalPoint> { point1, point2, point3 };
+                var point1 = point1Obj != null ? (FinalPoint) EvaluateRecord(point1Obj as FinalType, store) : new FinalPoint(0, 0);
+                var point2 = point2Obj != null ? (FinalPoint) EvaluateRecord(point2Obj as FinalType, store) : new FinalPoint(1, 1);
+                var point3 = point3Obj != null ? (FinalPoint) EvaluateRecord(point3Obj as FinalType, store) : new FinalPoint(2, 2);
+                var points = new FinalList ([ point1, point2, point3 ]);
                 dictionary.TryGetValue("stroke", out var triangleStrokeObj);
-                triangleStrokeObj = EvaluateRecord(triangleStrokeObj as FinalRecord, store);
+                triangleStrokeObj = EvaluateRecord(triangleStrokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var triangleColorObj);
-                triangleColorObj = EvaluateRecord(triangleColorObj as FinalRecord, store);
+                triangleColorObj = EvaluateRecord(triangleColorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var triangleStrokeColorObj);
-                triangleStrokeColorObj = EvaluateRecord(triangleStrokeColorObj as FinalRecord, store);
+                triangleStrokeColorObj = EvaluateRecord(triangleStrokeColorObj as FinalType, store);
                 var triangleStroke = triangleStrokeObj != null ? (float)triangleStrokeObj : 1.0f;
                 var triangleColor =
-                    triangleColorObj != null ? (FinalColor)triangleColorObj : new FinalColor(0, 0, 0, 1);
+                    triangleColorObj != null ? (FinalColors)triangleColorObj : new FinalColor(0, 0, 0, 1);
                 var triangleStrokeColor = triangleStrokeColorObj != null
-                    ? (FinalColor)triangleStrokeColorObj
+                    ? (FinalColors)triangleStrokeColorObj
                     : new FinalColor(0, 0, 0, 1);
-                return new FinalTriangle(point1, points, triangleStroke, triangleColor, triangleStrokeColor)
+                return new FinalTriangle(points, triangleStroke, triangleColor, triangleStrokeColor)
                     { Id=finalRecord.Id, Fields = dictionary };;
 
             case "Polygon":
                 dictionary.TryGetValue("points", out var polygonPointsObj);
-                polygonPointsObj = EvaluateRecord(polygonPointsObj as FinalRecord, store);
+                polygonPointsObj = EvaluateRecord(polygonPointsObj as FinalType, store);
                 dictionary.TryGetValue("stroke", out var polygonStrokeObj);
-                polygonStrokeObj = EvaluateRecord(polygonStrokeObj as FinalRecord, store);
+                polygonStrokeObj = EvaluateRecord(polygonStrokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var polygonColorObj);
-                polygonColorObj = EvaluateRecord(polygonColorObj as FinalRecord, store);
+                polygonColorObj = EvaluateRecord(polygonColorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var polygonStrokeColorObj);
-                polygonStrokeObj = EvaluateRecord(polygonStrokeObj as FinalRecord, store);
+                polygonStrokeColorObj = EvaluateRecord(polygonStrokeColorObj as FinalType, store);
                 var polygonPoints = polygonPointsObj != null ? (FinalList)polygonPointsObj : null;
                 var polygonStroke = polygonStrokeObj != null ? (float)polygonStrokeObj : 1.0f;
-                var polygonColor = polygonColorObj != null ? (FinalColor)polygonColorObj : new FinalColor(0, 0, 0, 1);
+                var polygonColor = polygonColorObj != null ? (FinalColors)polygonColorObj : new FinalColor(0, 0, 0, 1);
                 var polygonStrokeColor = polygonStrokeColorObj != null
-                    ? (FinalColor)polygonStrokeColorObj
+                    ? (FinalColors) polygonStrokeColorObj
                     : new FinalColor(0, 0, 0, 1);
                 return new FinalPolygon(polygonPoints, polygonStroke, polygonColor, polygonStrokeColor)
                     { Id=finalRecord.Id, Fields = dictionary };;
 
-            case "Line":
+            case "SegLine":
                 dictionary.TryGetValue("start", out var linePoint1Obj);
-                linePoint1Obj = EvaluateRecord(linePoint1Obj as FinalRecord, store);
+                linePoint1Obj = EvaluateRecord(linePoint1Obj as FinalType, store);
                 dictionary.TryGetValue("end", out var linePoint2Obj);
-                linePoint2Obj = EvaluateRecord(linePoint2Obj as FinalRecord, store);
+                linePoint2Obj = EvaluateRecord(linePoint2Obj as FinalType, store);
                 dictionary.TryGetValue("stroke", out var lineStrokeObj);
-                lineStrokeObj = EvaluateRecord(lineStrokeObj as FinalRecord, store);
                 dictionary.TryGetValue("color", out var lineColorObj);
-                lineColorObj = EvaluateRecord(lineColorObj as FinalRecord, store);
+                lineColorObj = EvaluateRecord(lineColorObj as FinalType, store);
                 var linePoint1 = linePoint1Obj != null ? (FinalPoint)linePoint1Obj : new FinalPoint(0, 0);
                 var linePoint2 = linePoint2Obj != null ? (FinalPoint)linePoint2Obj : new FinalPoint(1, 1);
                 var lineStroke = lineStrokeObj != null ? (float)lineStrokeObj : 1.0f;
-                var lineColor = lineColorObj != null ? (FinalColor)lineColorObj : new FinalColor(0, 0, 0, 1);
+                var lineColor = lineColorObj != null ? (FinalColors)lineColorObj : new FinalColor(0, 0, 0, 1);
                 return new FinalLine(linePoint1, linePoint2, lineStroke, lineColor) { Id=finalRecord.Id, Fields = dictionary };;
 
             case "Arrow":
                 dictionary.TryGetValue("start", out var arrowStartObj);
-                arrowStartObj = EvaluateRecord(arrowStartObj as FinalRecord, store);
+                arrowStartObj = EvaluateRecord(arrowStartObj as FinalType, store);
                 dictionary.TryGetValue("end", out var arrowEndObj);
-                arrowEndObj = EvaluateRecord(arrowEndObj as FinalRecord, store);
+                arrowEndObj = EvaluateRecord(arrowEndObj as FinalType, store);
                 dictionary.TryGetValue("stroke", out var arrowStrokeObj);
-                arrowStrokeObj = EvaluateRecord(arrowStrokeObj as FinalRecord, store);
                 dictionary.TryGetValue("color", out var arrowColorObj);
-                arrowColorObj = EvaluateRecord(arrowColorObj as FinalRecord, store);
+                arrowColorObj = EvaluateRecord(arrowColorObj as FinalType, store);
                 var arrowStart = arrowStartObj != null ? (FinalPoint)arrowStartObj : new FinalPoint(0, 0);
                 var arrowEnd = arrowEndObj != null ? (FinalPoint)arrowEndObj : new FinalPoint(1, 1);
                 var arrowStroke = arrowStrokeObj != null ? (float)arrowStrokeObj : 1.0f;
-                var arrowColor = arrowColorObj != null ? (FinalColor)arrowColorObj : new FinalColor(0, 0, 0, 1);
+                var arrowColor = arrowColorObj != null ? (FinalColors)arrowColorObj : new FinalColor(0, 0, 0, 1);
                 return new FinalArrow(arrowStart, arrowEnd, arrowStroke, arrowColor) { Id=finalRecord.Id, Fields = dictionary };;
 
             case "Text":
                 dictionary.TryGetValue("point", out var textPositionObj);
-                textPositionObj = EvaluateRecord(textPositionObj as FinalRecord, store);
+                textPositionObj = EvaluateRecord(textPositionObj as FinalType, store);
                 dictionary.TryGetValue("content", out var contentObj);
                 dictionary.TryGetValue("color", out var textColorObj);
-                textColorObj = EvaluateRecord(textColorObj as FinalRecord, store);
+                textColorObj = EvaluateRecord(textColorObj as FinalType, store);
                 dictionary.TryGetValue("font", out var fontObj);
                 dictionary.TryGetValue("size", out var fontSizeObj);
                 dictionary.TryGetValue("weight", out var fontWeightObj);
                 var textPosition = textPositionObj != null ? (FinalPoint)textPositionObj : new FinalPoint(0, 0);
                 var content = contentObj != null ? (string)contentObj : string.Empty;
-                var textColor = textColorObj != null ? (FinalColor)textColorObj : new FinalColor(0, 0, 0, 1);
+                var textColor = textColorObj != null ? (FinalColors)textColorObj : new FinalColor(0, 0, 0, 1);
                 var font = fontObj != null ? (string)fontObj : "Arial";
                 var fontSize = fontSizeObj != null ? (float)fontSizeObj : 12.0f;
                 var fontWeight = fontWeightObj != null ? (float)fontWeightObj : 400.0f;
@@ -250,33 +259,26 @@ public class RecordEvaluator
 
             case "Square":
                 dictionary.TryGetValue("topLeft", out var squareTopLeftObj);
-                squareTopLeftObj = EvaluateRecord(squareTopLeftObj as FinalRecord, store);
+                squareTopLeftObj = EvaluateRecord(squareTopLeftObj as FinalType, store);
                 dictionary.TryGetValue("side", out var squareLengthObj);
                 dictionary.TryGetValue("stroke", out var squareStrokeObj);
                 dictionary.TryGetValue("color", out var squareColorObj);
-                squareColorObj = EvaluateRecord(squareColorObj as FinalRecord, store);
+                squareColorObj = EvaluateRecord(squareColorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var squareStrokeColorObj);
-                squareStrokeObj = EvaluateRecord(squareStrokeObj as FinalRecord, store);
+                squareStrokeColorObj = EvaluateRecord(squareStrokeColorObj as FinalType, store);
                 dictionary.TryGetValue("rounding", out var squareRoundingObj);
                 var squareTopLeft = squareTopLeftObj != null ? (FinalPoint)squareTopLeftObj : new FinalPoint(0, 0);
                 var squareLength = squareLengthObj != null ? (float)squareLengthObj : 1.0f;
                 var squareStroke = squareStrokeObj != null ? (float)squareStrokeObj : 1.0f;
-                var squareColor = squareColorObj != null ? (FinalColor)squareColorObj : new FinalColor(0, 0, 0, 1);
+                var squareColor = squareColorObj != null ? (FinalColors)squareColorObj : new FinalColor(0, 0, 0, 1);
                 var squareStrokeColor = squareStrokeColorObj != null
-                    ? (FinalColor)squareStrokeColorObj
+                    ? (FinalColors)squareStrokeColorObj
                     : new FinalColor(0, 0, 0, 1);
                 var squareRounding = squareRoundingObj != null ? (float)squareRoundingObj : 0.0f;
                 return new FinalSquare(squareTopLeft, squareLength, squareStroke, squareColor, squareStrokeColor,
                     squareRounding) { Id=finalRecord.Id, Fields = dictionary };;
-
-            default:
-                foreach (var field in finalRecord.Fields)
-                {
-                    finalRecord.Fields[field.Key] = EvaluateRecord((FinalRecord)field.Value, store);
-                }
-                return finalRecord;
         }
 
-        return finalRecord;
+        return finalType;
     }
 }

@@ -90,6 +90,10 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         if (identifier == null) Console.WriteLine("error in assignment");
         var op = context.GetChild(1).GetText();
         var value = context.expression().Accept(this) as Expression;
+        if (value != null && identifier != null)
+        {
+            value.connectedIdentifier = identifier.Name;
+        }
 
         return new Assignment(identifier, value, op) { LineNum = context.Start.Line };
     }
@@ -320,6 +324,8 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         var recordType = context.recordTypeIdentifier().Accept(this) as Type;
         var identifiers = context.identifier().Select(i => i.Accept(this) as Identifier).ToList();
         var expressions = context.expression().Select(e => e.Accept(this) as Expression).ToList();
+
+        expressions.ForEach(e => e.connectedIdentifier = identifiers[expressions.IndexOf(e)].Name);
 
         return new Record(recordType, identifiers, expressions) { LineNum = context.Start.Line };
     }

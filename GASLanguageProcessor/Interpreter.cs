@@ -14,8 +14,6 @@ namespace GASLanguageProcessor;
 
 public class Interpreter
 {
-    public float canvasHeight;
-    public float canvasWidth;
     public List<string> errors = new();
 
     public Store EvaluateProgram(AST.Expressions.Terms.Program program, VarEnv varEnv, FuncEnv funcEnv, Store store)

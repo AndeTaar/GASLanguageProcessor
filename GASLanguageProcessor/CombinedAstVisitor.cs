@@ -31,12 +31,6 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             return GasType.Error;
         }
 
-        if (envT.RecLookUp("canvas") == null)
-        {
-            errors.Add("Program missing canvas");
-            return GasType.Error;
-        }
-
         return GasType.Ok;
     }
 
@@ -693,6 +687,9 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             case "Circle":
             case "circle":
                 return GasType.Circle;
+            case "triangle":
+            case "Triangle":
+                return GasType.Triangle;
             case "linearGradient":
             case "LinearGradient":
                 return GasType.Color;
