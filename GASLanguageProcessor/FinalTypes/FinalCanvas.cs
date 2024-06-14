@@ -1,8 +1,10 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes.Colors;
+
+namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalCanvas : FinalType
 {
-    public FinalCanvas(float width, float height, FinalColor backgroundColor)
+    public FinalCanvas(float width, float height, FinalColors backgroundColor)
     {
         Width = new FinalNum(width);
         Height = new FinalNum(height);
@@ -11,5 +13,5 @@ public class FinalCanvas : FinalType
 
     public FinalNum Width { get; set; }
     public FinalNum Height { get; set; }
-    public FinalColor BackgroundColor { get; set; }
+    public FinalColors BackgroundColor { get; set; }
 }

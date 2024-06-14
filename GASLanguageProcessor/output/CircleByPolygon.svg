@@ -1,124 +1,41 @@
-<svg width="950" height="950" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
-<linearGradient id="blackToBlue" x1="0%" y1="0%" x2="6,123233995736766E-15%" y2="100%">
-<stop offset="0%" stop-color="rgb(0, 0, 0)" />
-<stop offset="100%" stop-color="rgb(0, 0, 255)" />
+<svg width="10000" height="5050" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
+<linearGradient id="blackToBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="rgb(20, 148, 127)" />
+<stop offset="29%" stop-color="rgb(190, 125, 0)" />
+<stop offset="40%" stop-color="rgb(160, 105, 0)" />
+<stop offset="70%" stop-color="rgb(128, 0, 128)" />
+<stop offset="100%" stop-color="rgb(0, 105, 148)" />
 </linearGradient>
-<rect id="" x="395" y="70" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="445" y1="130" x2="535" y2="170" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="535,170 533.68005,170.50768 534.4923,168.68004" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="445" y1="130" x2="355" y2="170" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="355,170 355.5077,168.68004 356.31995,170.50768" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="445" y1="130" x2="445" y2="160" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="445,160 444,159 446,159" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="445" y="100" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Expression</text>
-<text id="" x="445" y="180" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="30">&amp;&amp;</text>
-<rect id="" x="275" y="175" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="325" y1="235" x2="325" y2="275" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="325,275 324,274 326,274" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="325" y="205" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">EquExpr</text>
-<rect id="" x="515" y="175" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="565" y1="235" x2="565" y2="275" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="565,275 564,274 566,274" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="565" y="205" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">EquExpr</text>
-<rect id="" x="235" y="280" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="285" y1="340" x2="285" y2="380" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="285,380 284,379 286,379" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="285" y="310" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">RelExpr</text>
-<rect id="" x="555" y="280" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="605" y1="340" x2="605" y2="380" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="605,380 604,379 606,379" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="605" y="310" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">RelExpr</text>
-<rect id="" x="195" y="385" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="245" y1="445" x2="335" y2="485" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="335,485 333.68005,485.5077 334.4923,483.68005" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="245" y1="445" x2="155" y2="485" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="155,485 155.50768,483.68005 156.31996,485.5077" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="245" y1="445" x2="245" y2="475" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="245,475 244,474 246,474" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="245" y="415" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">BinExpr</text>
-<text id="" x="245" y="495" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="30">+</text>
-<rect id="" x="595" y="385" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="645" y1="445" x2="735" y2="485" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="735,485 733.68005,485.5077 734.4923,483.68005" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="645" y1="445" x2="555" y2="485" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="555,485 555.5077,483.68005 556.31995,485.5077" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="645" y1="445" x2="645" y2="475" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="645,475 644,474 646,474" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="645" y="415" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">BinExpr</text>
-<text id="" x="645" y="495" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="30">-</text>
-<rect id="" x="105" y="490" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="155" y1="550" x2="155" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="155,590 154,589 156,589" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="155" y="520" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">MultExpr</text>
-<rect id="" x="315" y="490" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="365" y1="550" x2="455" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="455,590 453.68005,590.5077 454.4923,588.68005" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="365" y1="550" x2="275" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="275,590 275.5077,588.68005 276.31995,590.5077" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="365" y1="550" x2="365" y2="580" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="365,580 364,579 366,579" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="365" y="520" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">MultExpr</text>
-<text id="" x="365" y="600" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="30">*</text>
-<rect id="" x="105" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="155" y1="655" x2="155" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="155,695 154,694 156,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="155" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="105" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="155" y1="760" x2="155" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="155,800 154,799 156,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="155" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Number</text>
-<rect id="" x="235" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="285" y1="655" x2="285" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="285,695 284,694 286,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="285" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="235" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="285" y1="760" x2="285" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="285,800 284,799 286,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="285" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Number</text>
-<rect id="" x="395" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="445" y1="655" x2="445" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="445,695 444,694 446,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="445" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="395" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="445" y1="760" x2="445" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="445,800 444,799 446,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="445" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Identifier</text>
-<rect id="" x="505" y="490" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="555" y1="550" x2="555" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="555,590 554,589 556,589" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="555" y="520" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">MultExpr</text>
-<rect id="" x="705" y="490" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="755" y1="550" x2="845" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="845,590 843.68005,590.5077 844.4923,588.68005" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="755" y1="550" x2="665" y2="590" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="665,590 665.5077,588.68005 666.31995,590.5077" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<line id="" x1="755" y1="550" x2="755" y2="580" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="755,580 754,579 756,579" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="755" y="520" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">MultExpr</text>
-<text id="" x="755" y="600" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="30">/</text>
-<rect id="" x="505" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="555" y1="655" x2="555" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="555,695 554,694 556,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="555" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="505" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="555" y1="760" x2="555" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="555,800 554,799 556,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="555" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Identifier</text>
-<rect id="" x="635" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="685" y1="655" x2="685" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="685,695 684,694 686,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="685" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="635" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="685" y1="760" x2="685" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="685,800 684,799 686,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="685" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Identifier</text>
-<rect id="" x="795" y="595" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="845" y1="655" x2="845" y2="695" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="845,695 844,694 846,694" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="845" y="625" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">UnaExpr</text>
-<rect id="" x="795" y="700" width="100" height="60" fill="url(#blackToBlue)" fill-opacity="1" rx="10" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="845" y1="760" x2="845" y2="800" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<polygon id="" points="845,800 844,799 846,799" fill="rgb(0, 0, 0)" fill-opacity="1" stroke="rgb(0, 0, 0)" stroke-width="1" />
-<text id="" x="845" y="730" xml:space="preserve" fill="rgb(255, 255, 255)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="16">Identifier</text>
-<text id="text" x="475" y="845" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="40">     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b</text>
+<rect id="background" x="0" y="0" width="10000" height="5050" fill="url(#blackToBlue)" fill-opacity="1" rx="0" stroke="rgb(255, 255, 255)" stroke-width="0" />
+<rect id="box1" x="1070" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
+<text id="box1Text" x="1920" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 1</text>
+<text id="box2Text" x="1920" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Terms</text>
+<text id="box3Text" x="1920" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Small AS</text>
+<text id="box4Text" x="1920" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">No semantics</text>
+<text id="box5Text" x="1920" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">First example</text>
+<text id="box6Text" x="1920" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">program</text>
+<rect id="box2" x="3150" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
+<text id="box7Text" x="4000" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 2</text>
+<text id="box8Text" x="4000" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Function Calls</text>
+<text id="box9Text" x="4000" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Larger AS</text>
+<text id="box10Text" x="4000" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Scope is used</text>
+<text id="box11Text" x="4000" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Working small</text>
+<text id="box12Text" x="4000" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">program</text>
+<rect id="box3" x="5230" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
+<text id="box13Text" x="6080" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 3</text>
+<text id="box14Text" x="6080" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Type checking</text>
+<text id="box15Text" x="6080" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Finished AS</text>
+<text id="box16Text" x="6080" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Env Sto is used</text>
+<text id="box17Text" x="6080" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Large working</text>
+<text id="box18Text" x="6080" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">programs</text>
+<text id="box19Text" x="6080" y="3525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Semantics</text>
+<text id="box20Text" x="6080" y="3725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Finished</text>
+<rect id="box4" x="7310" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
+<text id="box21Text" x="8160" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 4</text>
+<text id="box22Text" x="8160" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Ext. AS</text>
+<text id="box23Text" x="8160" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Records and</text>
+<text id="box24Text" x="8160" y="2325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Attributes</text>
+<text id="box25Text" x="8160" y="2725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Record Types</text>
+<text id="box26Text" x="8160" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Cleaned</text>
+<text id="box27Text" x="8160" y="3325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Interpreter</text>
 </svg>

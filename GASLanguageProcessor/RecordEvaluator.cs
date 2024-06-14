@@ -70,7 +70,7 @@ public class RecordEvaluator
                 backgroundColorObj = EvaluateRecord(backgroundColorObj as FinalRecord, store);
                 var width = widthObj != null ? (float)widthObj : 0.0f;
                 var height = heightObj != null ? (float)heightObj : 0.0f;
-                var backgroundColor = backgroundColorObj != null ? (FinalColor)backgroundColorObj : new FinalColor(0, 0, 0, 1);
+                var backgroundColor = backgroundColorObj != null ? (FinalColors)backgroundColorObj : new FinalColor(0, 0, 0, 1);
                 return new FinalCanvas(width, height, backgroundColor) { Id=finalRecord.Id, Fields = dictionary };;
 
             case "Circle":

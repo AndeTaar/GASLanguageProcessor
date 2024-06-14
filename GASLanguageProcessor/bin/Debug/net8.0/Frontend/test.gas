@@ -1,221 +1,316 @@
 ﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
 
-Canvas canvas = Canvas{width=950, height=950, backgroundColor=white};
+Canvas canvas = Canvas{width=10000, height=5050, backgroundColor=white};
 
-num g = white.green;
-
-Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
-
-Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha};
+Color blue = Color{red=0, green=105, blue=148, alpha=white.alpha};
 Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
+Color orange = Color{red=160, green=105, blue=0, alpha=white.alpha};
+Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
+Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
 
 Color blackToBlue = LinearGradient{
-    stops=<num>[0, 100],
-    colors=<Color>[black, blue],
+    stops=<num>[0, 29, 40, 70, 100],
+    colors=<Color>[green, morOrange, orange, purple, blue],
     alpha=1,
-    rotation=90
+    rotation=0
 };
 
-TypeDef parseTreeNode {
-    square: Rectangle,
-    arrowTop: Arrow,
-    arrowBottom: Arrow,
-    operatorArrow: Arrow,
-    nodeType: Text,
-    operator: Text
-}
+Rectangle background = Rectangle{
+    topLeft=Point{x=0, y=0},
+    bottomRight=Point{x=canvas.width, y=canvas.height},
+    stroke=0,
+    color=blackToBlue,
+    strokeColor=white,
+    rounding=0
+};
 
-num width = 100;
-num height = 60;
-num vertDistance = 40;
-num horDistance = 90;
+num offset = 400;
+num width = 1700;
+num height = 3200;
+num x = (canvas.width/5-width/2)-offset/5;
+num y = canvas.height/2-height/2;
+num fixedY = y;
 
-parseTreeNode DrawNodeWithSingleArrow(Point center, string content){
-    return parseTreeNode{
-        square=Rectangle{
-            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
-            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
-        },
-        arrowTop=Arrow{
-            start=Point{x=center.x, y=center.y+height/2},
-            end=Point{x=center.x, y=center.y+height/2+vertDistance},
-            stroke=4
-        },
-        nodeType=Text{
-            point=Point{x=center.x, y=center.y},
-            size=16,
-            content=content,
-            color=white
-        }
-    };
-}
+Rectangle box1 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=50,
+    color=white,
+    strokeColor=black,
+    rounding=200
+};
 
-
-parseTreeNode DrawNode(Point center, string content){
-    return parseTreeNode{
-        square=Rectangle{
-            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
-            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
-        },
-        arrowTop=Arrow{
-            start=Point{x=center.x, y=center.y+height/2},
-            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
-            stroke=4
-        },
-        arrowBottom=Arrow{
-             start=Point{x=center.x, y=center.y+height/2},
-             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
-             stroke=4
-        },
-        nodeType=Text{
-            point=Point{x=center.x, y=center.y},
-            size=16,
-            content=content,
-            color=white
-        }
-    };
-}
-
-parseTreeNode DrawNodeWithOperator(Point center, string content, string operator){
-    return parseTreeNode{
-        square=Rectangle{
-            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
-            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
-            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
-        },
-        arrowTop=Arrow{
-            start=Point{x=center.x, y=center.y+height/2},
-            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
-            stroke=4
-        },
-        arrowBottom=Arrow{
-             start=Point{x=center.x, y=center.y+height/2},
-             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
-             stroke=4
-        },
-        operatorArrow=Arrow{
-            start=Point{x=center.x, y=center.y+height/2},
-            end=Point{x=center.x, y=center.y+height},
-            stroke=4
-        },
-        nodeType=Text{
-            point=Point{x=center.x, y=center.y},
-            size=16,
-            content=content,
-            color=white
-        },
-        operator=Text{
-            point=Point{x=center.x, y=center.y+height+20},
-            size=30,
-            content=operator,
-            color=black
-        }
-    };
-}
-
-Point p = Point{x=canvas.width/2-30, y=100};
-
-List<AnyStruct> shapes = [400];
-num i= 0;
-shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
-i++;
-
-p.y += height + vertDistance+5;
-p.x -= horDistance+30;
-shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
-i++;
-p.x += 2*horDistance+60;
-shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
-i++;
-
-p.y += height + vertDistance+5;
-p.x -= 2*horDistance+100;
-shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
-i++;
-p.x += 2*horDistance+140;
-shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
-i++;
-
-p.y += height + vertDistance+5;
-p.x -= 2*horDistance+180;
-shapes[i] = DrawNodeWithOperator(p, "BinExpr", "+");
-i++;
-Point leftP = Point{x=p.x, y=p.y};
-
-p.x += 2*horDistance+220;
-shapes[i] = DrawNodeWithOperator(p, "BinExpr", "-");
-i++;
-Point rightP = Point{x=p.x, y=p.y};
-
-rightP.y += height + vertDistance+5;
-rightP.x -= 2*horDistance+310;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "MultExpr");
-i++;
-rightP.x += 2*horDistance+30;
-shapes[i] = DrawNodeWithOperator(rightP, "MultExpr", "*");
-i++;
-
-rightP.y += height + vertDistance+5;
-rightP.x -= 2*horDistance+30;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
-i++;
-rightP.y -= height + vertDistance+5;
-
-rightP.x += 2*horDistance-50;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
-i++;
-rightP.y -= height + vertDistance+5;
-rightP.x += 2*horDistance-20;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Identifier");
-i++;
-rightP.y -= height + vertDistance+5;
-
-leftP.y += height + vertDistance+5;
-leftP.x -= 2*horDistance-490;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "MultExpr");
-i++;
-leftP.x += 2*horDistance+20;
-shapes[i] = DrawNodeWithOperator(leftP, "MultExpr", "/");
-i++;
-
-leftP.y += height + vertDistance+5;
-leftP.x -= 2*horDistance+20;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
-leftP.x += 2*horDistance-50;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
-leftP.x += 2*horDistance-20;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
-
-Text text = Text{
-    point=Point{x=canvas.width/2, y=rightP.y+220},
-    size=40,
-    content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
+y += offset;
+Text box1Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=240,
+    content="Version 1",
+    weight=700,
     color=black
 };
 
+y += offset;
+
+Text box2Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Terms",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box3Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Small AS",
+    weight=500,
+    color=black
+};
+y += offset;
+Text box4Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="No semantics",
+    weight=500,
+    color=black
+};
+y += offset;
+Text box5Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="First example",
+    weight=500,
+    color=black
+};
+y += offset/2;
+Text box6Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="program",
+    weight=500,
+    color=black
+};
+x += canvas.width/5 + offset/5;
+y = fixedY;
+
+Rectangle box2 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=50,
+    color=white,
+    strokeColor=black,
+    rounding=200
+};
+
+y += offset;
+Text box7Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=240,
+    content="Version 2",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box8Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Function Calls",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box9Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Larger AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box10Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Scope is used",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box11Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Working small",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box12Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="program",
+    weight=500,
+    color=black
+};
+x += canvas.width/5+ offset/5;
+y = fixedY;
+
+Rectangle box3 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=50,
+    color=white,
+    strokeColor=black,
+    rounding=200
+};
+
+y += offset;
+Text box13Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=240,
+    content="Version 3",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box14Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Type checking",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box15Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Finished AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box16Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Env Sto is used",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box17Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Large working",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box18Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="programs",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box19Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Semantics",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box20Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Finished",
+    weight=500,
+    color=black
+};
+x += canvas.width/5+ offset/5;
+y = fixedY;
+
+Rectangle box4 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=50,
+    color=white,
+    strokeColor=black,
+    rounding=200
+};
+
+y += offset;
+Text box21Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=240,
+    content="Version 4",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box22Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Ext. AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box23Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Records and",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box24Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Attributes",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box25Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Record Types",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box26Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Cleaned",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box27Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=200,
+    content="Interpreter",
+    weight=500,
+    color=black
+};
