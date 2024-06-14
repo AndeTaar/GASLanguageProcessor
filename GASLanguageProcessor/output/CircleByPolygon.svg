@@ -1,4 +1,4 @@
-<svg width="10000" height="5050" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
+<svg width="1000" height="505" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
 <linearGradient id="blackToBlue" x1="0%" y1="0%" x2="100%" y2="0%">
 <stop offset="0%" stop-color="rgb(20, 148, 127)" />
 <stop offset="29%" stop-color="rgb(190, 125, 0)" />
@@ -6,36 +6,36 @@
 <stop offset="70%" stop-color="rgb(128, 0, 128)" />
 <stop offset="100%" stop-color="rgb(0, 105, 148)" />
 </linearGradient>
-<rect id="background" x="0" y="0" width="10000" height="5050" fill="url(#blackToBlue)" fill-opacity="1" rx="0" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<rect id="box1" x="1070" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
-<text id="box1Text" x="1920" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 1</text>
-<text id="box2Text" x="1920" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Terms</text>
-<text id="box3Text" x="1920" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Small AS</text>
-<text id="box4Text" x="1920" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">No semantics</text>
-<text id="box5Text" x="1920" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">First example</text>
-<text id="box6Text" x="1920" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">program</text>
-<rect id="box2" x="3150" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
-<text id="box7Text" x="4000" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 2</text>
-<text id="box8Text" x="4000" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Function Calls</text>
-<text id="box9Text" x="4000" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Larger AS</text>
-<text id="box10Text" x="4000" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Scope is used</text>
-<text id="box11Text" x="4000" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Working small</text>
-<text id="box12Text" x="4000" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">program</text>
-<rect id="box3" x="5230" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
-<text id="box13Text" x="6080" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 3</text>
-<text id="box14Text" x="6080" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Type checking</text>
-<text id="box15Text" x="6080" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Finished AS</text>
-<text id="box16Text" x="6080" y="2525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Env Sto is used</text>
-<text id="box17Text" x="6080" y="2925" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Large working</text>
-<text id="box18Text" x="6080" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">programs</text>
-<text id="box19Text" x="6080" y="3525" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Semantics</text>
-<text id="box20Text" x="6080" y="3725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Finished</text>
-<rect id="box4" x="7310" y="925" width="1700" height="3200" fill="rgb(255, 255, 255)" fill-opacity="1" rx="200" stroke="rgb(0, 0, 0)" stroke-width="50" />
-<text id="box21Text" x="8160" y="1325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="240">Version 4</text>
-<text id="box22Text" x="8160" y="1725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Ext. AS</text>
-<text id="box23Text" x="8160" y="2125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Records and</text>
-<text id="box24Text" x="8160" y="2325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Attributes</text>
-<text id="box25Text" x="8160" y="2725" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Record Types</text>
-<text id="box26Text" x="8160" y="3125" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Cleaned</text>
-<text id="box27Text" x="8160" y="3325" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="200">Interpreter</text>
+<rect id="background" x="0" y="0" width="1000" height="505" fill="url(#blackToBlue)" fill-opacity="1" rx="0" stroke="rgb(255, 255, 255)" stroke-width="0" />
+<rect id="box1" x="106.994896" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box1Text" x="192" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 1</text>
+<text id="box2Text" x="192" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Terms</text>
+<text id="box3Text" x="192" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Small AS</text>
+<text id="box4Text" x="192" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">No semantics</text>
+<text id="box5Text" x="192" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">First example</text>
+<text id="box6Text" x="192" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">program</text>
+<rect id="box2" x="314.9949" y="94.6875" width="170.01022" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box7Text" x="400" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 2</text>
+<text id="box8Text" x="400" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Function Calls</text>
+<text id="box9Text" x="400" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Larger AS</text>
+<text id="box10Text" x="400" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Scope is used</text>
+<text id="box11Text" x="400" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Working small</text>
+<text id="box12Text" x="400" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">program</text>
+<rect id="box3" x="522.9949" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box13Text" x="608" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 3</text>
+<text id="box14Text" x="608" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Type checking</text>
+<text id="box15Text" x="608" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Finished AS</text>
+<text id="box16Text" x="608" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Env Sto is used</text>
+<text id="box17Text" x="608" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Large working</text>
+<text id="box18Text" x="608" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">programs</text>
+<text id="box19Text" x="608" y="354.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Semantics</text>
+<text id="box20Text" x="608" y="374.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Finished</text>
+<rect id="box4" x="730.9949" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box21Text" x="816" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 4</text>
+<text id="box22Text" x="816" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Ext. AS</text>
+<text id="box23Text" x="816" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Records and</text>
+<text id="box24Text" x="816" y="234.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Attributes</text>
+<text id="box25Text" x="816" y="274.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Record Types</text>
+<text id="box26Text" x="816" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Cleaned</text>
+<text id="box27Text" x="816" y="334.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Interpreter</text>
 </svg>

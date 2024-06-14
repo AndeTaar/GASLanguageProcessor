@@ -18,6 +18,9 @@
         <None Update="Frontend\ParseTree.gas">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Frontend\ConfigurationManagement.gas">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
