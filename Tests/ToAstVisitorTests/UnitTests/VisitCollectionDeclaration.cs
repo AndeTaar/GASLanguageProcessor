@@ -3,6 +3,7 @@ using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
+using Array = GASLanguageProcessor.AST.Expressions.Terms.Array;
 
 namespace Tests.Frontend.ToAstVisitorTests.UnitTests;
 
@@ -32,8 +33,8 @@ public class VisitCollectionDeclaration
         Assert.NotNull(collectionDeclaration);
         Assert.Equal("x", collectionDeclaration.Identifier.Name);
         Assert.Equal("list<num>", collectionDeclaration.Type.Value);
-        Assert.IsType<List>(collectionDeclaration.Expression);
-        var list = collectionDeclaration.Expression as List;
+        Assert.IsType<Array>(collectionDeclaration.Expression);
+        var list = collectionDeclaration.Expression as Array;
         Assert.Equal(5, list.Expressions.Count);
         Assert.All(list.Expressions, x => Assert.IsType<Num>(x));
         Assert.Collection(list.Expressions,

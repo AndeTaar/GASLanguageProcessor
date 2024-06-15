@@ -3,8 +3,12 @@ using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
+using GASLanguageProcessor.AST.Types;
+using GASLanguageProcessor.AST.Types.RecordType;
+using GASLanguageProcessor.AST.Types.StatementsType;
+using GASLanguageProcessor.AST.Types.VariableType;
 using GASLanguageProcessor.TableType;
+using Array = GASLanguageProcessor.AST.Expressions.Terms.Array;
 using Assignment = GASLanguageProcessor.AST.Statements.Assignment;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
@@ -24,45 +28,14 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitProgram(AST.Expressions.Terms.Program program, TypeEnv envT)
     {
-        var returnType = program.Statements.Accept(this, envT);
-        if (returnType != GasType.Ok)
+        var returnType = (StatementType) program.Statements.Accept(this, envT);
+        if (returnType.Type != StatementTypes.Ok)
         {
             errors.Add("Invalid return type for program: expected: Ok, got: " + returnType);
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Ok;
-    }
-
-    /// <summary>
-    ///     Visits the canvas node
-    /// </summary>
-    /// <param name="node"></param>
-    /// <param name="envT"></param>
-    /// <returns></returns>
-    public GasType VisitCanvas(Canvas node, TypeEnv envT)
-    {
-        var widthType = node.Width.Accept(this, envT);
-
-        if (widthType != GasType.Num) errors.Add("Invalid type for canvas width: expected: Num, got: " + widthType);
-
-        var heightType = node.Height.Accept(this, envT);
-
-        if (heightType != GasType.Num) errors.Add("Invalid type for canvas height: expected: Num, got: " + heightType);
-
-        var backgroundColorType = node.BackgroundColor?.Accept(this, envT);
-
-        if (backgroundColorType != GasType.Color)
-            errors.Add("Invalid type for canvas background color: expected: Color, got: " + backgroundColorType);
-        var bound = envT.VBind("canvas", GasType.Canvas);
-
-        if (!bound)
-        {
-            errors.Add("Line: " + node.LineNum + " Variable name: canvas cannot be redeclared");
-            return GasType.Error;
-        }
-
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -75,7 +48,9 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     {
         var returnType = node.Statement1?.Accept(this, envT);
         var returnType2 = node.Statement2?.Accept(this, envT);
-        return (returnType != GasType.Ok ? returnType : returnType2) ?? GasType.Ok;
+        if (returnType != null && !returnType.Equals(new StatementType(StatementTypes.Ok)))
+            return returnType;
+        return returnType2 ?? new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -86,12 +61,12 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitIfStatement(If node, TypeEnv envT)
     {
-        var conditionType = node.Condition.Accept(this, envT);
+        var conditionType = (VariableType) node.Condition.Accept(this, envT);
 
-        if (conditionType != GasType.Bool)
+        if (conditionType.Type != VariableTypes.Bool)
         {
             errors.Add("Invalid type for condition: expected: Boolean, got: " + conditionType);
-            return GasType.Error;
+            return new ErrorType();
         }
 
         envT = envT.EnterScope();
@@ -111,7 +86,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             returnType = @else?.Accept(this, envT);
         }
 
-        return returnType ?? GasType.Ok;
+        return returnType ?? new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -128,7 +103,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (parametersAndReturn == null)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         var expectedParameterTypes = parametersAndReturn.Value.Item1;
@@ -143,19 +118,18 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                            .Aggregate((a, b) => a + ", " + b) +
                        "\n got arguments: \n" +
                        parameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
-            return GasType.Error;
+            return new ErrorType();
         }
 
         for (var i = 0; i < expectedParameterTypes.Count; i++)
-            if (parameterTypes[i] != expectedParameterTypes[i] && parameterTypes[i] != GasType.Any &&
-                expectedParameterTypes[i] != GasType.Any)
+            if (parameterTypes[i] != expectedParameterTypes[i])
                 errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
                            " expecting arguments: \n" + expectedParameterTypes.Select(p => p.ToString())
                                .Aggregate((a, b) => a + ", " + b) +
                            "\n got arguments: \n" +
                            parameterTypes.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -167,11 +141,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitWhile(While node, TypeEnv envT)
     {
         envT = envT.EnterScope();
-        var conditionType = node.Condition.Accept(this, envT);
-        if (conditionType != GasType.Bool)
+        var conditionType = (VariableType) node.Condition.Accept(this, envT);
+        if (conditionType.Type != VariableTypes.Bool)
             errors.Add("Invalid type for condition: expected: Boolean, got: " + conditionType);
         var returnType = node.Statements?.Accept(this, envT);
-        return returnType ?? GasType.Ok;
+        return returnType ?? new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -183,23 +157,23 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitFor(For node, TypeEnv envT)
     {
         envT = envT.EnterScope();
-        var initializer = node.Initializer?.Accept(this, envT);
+        var initializer = (StatementType) node.Initializer.Accept(this, envT);
 
-        if (initializer != GasType.Ok && initializer != GasType.Error)
+        if (initializer.Type != StatementTypes.Ok)
             errors.Add("Invalid type for initializer: expected: Ok, got: " + initializer);
 
-        var incrementer = node.Incrementer.Accept(this, envT);
+        var incrementer = (StatementType) node.Incrementer.Accept(this, envT);
 
-        if (incrementer != GasType.Ok && incrementer != GasType.Error)
+        if (incrementer.Type != StatementTypes.Ok)
             errors.Add("Invalid type for incrementer: expected: Ok, got: " + incrementer);
 
-        var condition = node.Condition.Accept(this, envT);
+        var condition = node.Condition.Accept(this, envT) as VariableType;
 
-        if (condition != GasType.Bool) errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
+        if (condition?.Type != VariableTypes.Bool) errors.Add("Invalid type for condition: expected: Boolean, got: " + condition);
 
         var returnType = node.Statements?.Accept(this, envT);
 
-        return returnType ?? GasType.Ok;
+        return returnType ?? new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -232,10 +206,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (variableType == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " not found in scope");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        var expressionType = node.Expression.Accept(this, envT);
+        var expressionType = node.Expression.Accept(this, envT) as VariableType;
 
         switch (node.Operator)
         {
@@ -243,12 +217,12 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             case "-=":
             case "*=":
             case "/=":
-                if (variableType != expressionType || variableType != GasType.Num)
+                if (variableType != expressionType?.Type || variableType != VariableTypes.Num)
                     errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType +
                                " got: " + expressionType);
                 break;
             case "=":
-                if (variableType != expressionType)
+                if (variableType != expressionType?.Type)
                     errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType +
                                " got: " + expressionType);
                 break;
@@ -257,7 +231,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 break;
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -268,36 +242,38 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitDeclaration(Declaration node, TypeEnv envT)
     {
-        if (node.Expression as Record != null) return RecordDeclaration(node, envT);
-
-        var identifier = node.Identifier;
-        var variableType = envT.VLookUp(identifier.Name);
         var type = node.Type.Accept(this, envT);
+        if(type is RecordType)
+            return RecordDeclaration(node, envT);
 
-        if (variableType != null)
+        var variableType = (VariableType)type;
+        var identifier = node.Identifier;
+        var existingVariableType = envT.VLookUp(identifier.Name);
+
+        if (existingVariableType != null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " Can not redeclare variable");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        var expression = node.Expression?.Accept(this, envT);
+        var expression = node.Expression?.Accept(this, envT) as VariableType;
 
-        if (expression != null && expression != GasType.Any && type != expression)
+        if (expression != null && variableType?.Type != expression.Type)
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
                        type + " got: " + expression);
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        var bound = envT.VBind(identifier.Name, type);
+        var bound = envT.VBind(identifier.Name, variableType.Type);
 
         if (!bound)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -315,21 +291,21 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (variableType == null)
         {
             errors.Add("Line: " + increment.LineNum + " Variable name: " + identifier.Name + " not found in scope");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         switch (op)
         {
             case "++":
             case "--":
-                if (variableType != GasType.Num)
+                if (variableType != VariableTypes.Num)
                     errors.Add("Invalid type for variable: " + identifier.Name + " expected: Num, got: " +
                                variableType);
 
                 break;
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     public GasType VisitRecordDefinition(RecordDefinition node, TypeEnv envT)
@@ -339,8 +315,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var typeIdentDictionary = identifiers.Zip(types, (i, t) => new { i, t })
             .ToDictionary(x => x.i.Name, x => x.t.Accept(this, envT));
 
-        envT.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasType.AnyStruct);
-        return GasType.Ok;
+        envT.RecTypeBind(node.RecordType.Value, typeIdentDictionary, GasRecordTypes.AnyStruct);
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -356,12 +332,12 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         var expectedParameterTypes = node.Parameters.Select(parameter =>
         {
-            var type = parameter.Type.Accept(this, envT);
+            var variableType = parameter.Type.Accept(this, envT) as VariableType;
             var structType = envT.RecTypeLookUp(parameter.Type.Value);
             if (structType != null)
                 envT.RecBind(parameter.Identifier.Name, parameter.Type.Value, envT);
             else
-                envT.VBind(parameter.Identifier.Name, type);
+                envT.VBind(parameter.Identifier.Name, variableType?.Type);
 
             return parameter.Type.Accept(this, envT);
         }).ToList();
@@ -370,11 +346,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         var returnType = node.Statements?.Accept(this, envT);
 
-        if (expectedReturnType != returnType && expectedReturnType != GasType.Void)
+        if (!expectedReturnType.Equals(returnType))
         {
             errors.Add("Line: " + node.LineNum + " Invalid return type for function: " + identifier + " expected: " +
                        expectedReturnType + " got: " + returnType);
-            return GasType.Error;
+            return new ErrorType();
         }
 
         envT = envT.ExitScope();
@@ -383,10 +359,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (bound == false)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier + " already exists");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
 
@@ -399,7 +375,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitNum(Num node, TypeEnv envT)
     {
-        return GasType.Num;
+        return new VariableType(VariableTypes.Num);
     }
 
     /// <summary>
@@ -410,7 +386,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitBoolean(Boolean node, TypeEnv envT)
     {
-        return GasType.Bool;
+        return new VariableType(VariableTypes.Bool);
     }
 
     /// <summary>
@@ -421,7 +397,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitString(String node, TypeEnv envT)
     {
-        return GasType.String;
+        return new VariableType(VariableTypes.String);
     }
 
     /// <summary>
@@ -441,7 +417,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             if (record == null)
             {
                 errors.Add("Line: " + node.LineNum + " Record name: " + node.Name + " not found");
-                return GasType.Error;
+                return new ErrorType();
             }
 
             var field = recordFieldTypes?[node.Attribute];
@@ -450,23 +426,23 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             {
                 errors.Add("Line: " + node.LineNum + " Record name: " + node.Name + " does not contain field: " +
                            node.Attribute);
-                return GasType.Error;
+                return new ErrorType();
             }
 
-            return field ?? GasType.Error;
+            return field ?? new ErrorType();
         }
 
-        if (record != null) return returnType ?? GasType.Error;
+        if (record != null) return returnType != null ? new RecordType(returnType ?? GasRecordTypes.AnyStruct) : new ErrorType();
 
         var variableType = envT.VLookUp(node.Name);
 
         if (variableType == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + node.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return variableType ?? GasType.Error;
+        return new VariableType(variableType ?? VariableTypes.String);
     }
 
     public GasType VisitRecord(Record record, TypeEnv envT)
@@ -478,7 +454,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (expectedTypes == null)
         {
             errors.Add("Line: " + record.LineNum + " Record type: " + record.RecordType.Value + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         var identifiers = record.Identifiers;
@@ -497,7 +473,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 continue;
             }
 
-            if (type != expressions[i] && type != GasType.Any && expressions[i] != GasType.Any)
+            if (!type?.Equals(expressions[i]) ?? true)
             {
                 errors.Add("Line: " + record.LineNum + " Invalid type for record: " + identifiers[i].Name +
                            " expected: " + expectedTypes[identifiers[i].Name] + " got: " + expressions[i]);
@@ -505,32 +481,9 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             }
         }
 
-        if (error) return GasType.Error;
+        if (error) return new ErrorType();
 
-        return returnType ?? GasType.Error;
-    }
-
-    public GasType VisitListDeclaration(ListDeclaration listDeclaration, TypeEnv envT)
-    {
-        var type = listDeclaration.Type.Accept(this, envT);
-        var identifier = listDeclaration.Identifier;
-        var size = listDeclaration.Size.Accept(this, envT);
-
-        if (size != GasType.Num)
-        {
-            errors.Add("Invalid type for list size: expected: Num, got: " + size);
-            return GasType.Error;
-        }
-
-        var bound = envT.VBind(identifier.Name, type);
-
-        if (!bound)
-        {
-            errors.Add("Line: " + listDeclaration.LineNum + " Variable name: " + identifier.Name + " already exists");
-            return GasType.Error;
-        }
-
-        return GasType.Ok;
+        return new RecordType(returnType ?? GasRecordTypes.AnyStruct);
     }
 
     /// <summary>
@@ -541,22 +494,22 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitUnaryOp(UnaryOp node, TypeEnv envT)
     {
-        var expression = node.Expression?.Accept(this, envT);
+        var expression = (VariableType) node.Expression?.Accept(this, envT);
         var op = node.Op;
 
         switch (op)
         {
             case "!":
-                if (expression == GasType.Bool) return GasType.Bool;
+                if (expression.Type == VariableTypes.Bool) return new VariableType(VariableTypes.Bool);
                 errors.Add("Invalid type for unary operation: " + op + " expected: Boolean, got: " + expression);
-                return GasType.Error;
+                return new ErrorType();
             case "-":
-                if (expression == GasType.Num) return GasType.Num;
+                if (expression == new VariableType(VariableTypes.Num)) return new VariableType(VariableTypes.Num);
                 errors.Add("Invalid type for unary operation: " + op + " expected: Num, got: " + expression);
-                return GasType.Error;
+                return new ErrorType();
             default:
                 errors.Add("Invalid operator: " + op);
-                return GasType.Error;
+                return new ErrorType();
         }
     }
 
@@ -569,77 +522,71 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitBinaryOp(BinaryOp node, TypeEnv envT)
     {
         var @operator = node.Op;
-        var left = node.Left.Accept(this, envT);
-        var right = node.Right.Accept(this, envT);
+        var left = node.Left.Accept(this, envT) as VariableType;
+        var right = node.Right.Accept(this, envT) as VariableType;
 
         switch (@operator)
         {
             case "+":
-                if (left == GasType.String && right == GasType.String)
+                if (left?.Type == VariableTypes.String && right?.Type == VariableTypes.String)
                 {
-                    node.Type = GasType.String;
-                    return GasType.String;
+                    return new VariableType(VariableTypes.String);
                 }
 
-                if (left == GasType.Num && right == GasType.Num)
+                if (left == new VariableType(VariableTypes.Num) && right == new VariableType(VariableTypes.Num))
                 {
-                    node.Type = GasType.Num;
-                    return GasType.Num;
+                    return new VariableType(VariableTypes.Num);
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Num, got: " +
                            left + " and " + right);
-                return GasType.Error;
+                return new ErrorType();
 
             case "-" or "*" or "/" or "%":
-                if (left == GasType.Num && right == GasType.Num)
+                if (left == new VariableType(VariableTypes.Num) && right == new VariableType(VariableTypes.Num))
                 {
-                    node.Type = GasType.Num;
-                    return GasType.Num;
+                    return new VariableType(VariableTypes.Num);
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left +
                            " and " + right);
-                return GasType.Error;
+                return new ErrorType();
 
             case "<" or ">" or "<=" or ">=":
-                if (left == GasType.Num && right == GasType.Num)
+                if (left == new VariableType(VariableTypes.Num) && right == new VariableType(VariableTypes.Num))
                 {
-                    node.Type = GasType.Bool;
-                    return GasType.Bool;
+                    return new VariableType(VariableTypes.Bool);
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left +
                            " and " + right);
-                return GasType.Error;
+                return new ErrorType();
 
             case "&&" or "||":
-                if (left == GasType.Bool && right == GasType.Bool)
+                if (left.Type == VariableTypes.Bool && right.Type == VariableTypes.Bool)
                 {
-                    node.Type = GasType.Bool;
-                    return GasType.Bool;
+                    return new VariableType(VariableTypes.Bool);
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left +
                            " and " + right);
-                return GasType.Error;
+                return new ErrorType();
 
             case "==" or "!=":
-                if ((left == GasType.Bool && right == GasType.Bool) ||
-                    (left == GasType.Num && right == GasType.Num))
+                if ((left.Type == VariableTypes.Bool && right.Type == VariableTypes.Bool) ||
+                    (left.Type == VariableTypes.String && right.Type == VariableTypes.Num))
                 {
-                    node.Type = GasType.Bool;
-                    return GasType.Bool;
+                    return new VariableType(VariableTypes.Bool);
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left +
                            " and " + right);
-                return GasType.Error;
+                return new ErrorType();
 
 
             default:
                 errors.Add("Invalid operator: " + @operator);
-                return GasType.Error;
+                return new ErrorType();
         }
     }
 
@@ -651,65 +598,64 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitType(Type node, TypeEnv envT)
     {
-        node.Value = node.Value.Replace("list<", "").Replace(">", "");
+        node.Value = node.Value.Replace("[]", "");
         switch (node.Value)
         {
             case "num":
-                return GasType.Num;
+                return new VariableType(VariableTypes.Num);
             case "string":
-                return GasType.String;
+                return new VariableType(VariableTypes.String);
             case "text":
             case "Text":
-                return GasType.Text;
+                return new RecordType(GasRecordTypes.Text);
             case "color":
             case "Color":
-                return GasType.Color;
+                return new RecordType(GasRecordTypes.Color);
             case "boolean":
-                return GasType.Bool;
+            case "bool":
+                return new VariableType(VariableTypes.Bool);
             case "Square":
             case "square":
-                return GasType.Square;
+                return new RecordType(GasRecordTypes.Square);
             case "rectangle":
             case "Rectangle":
-                return GasType.Rectangle;
+                return new RecordType(GasRecordTypes.Rectangle);
             case "Point":
             case "point":
-                return GasType.Point;
+                return new RecordType(GasRecordTypes.Point);
             case "line":
             case "Line":
-                return GasType.Line;
+                return new RecordType(GasRecordTypes.Line);
             case "SegLine":
             case "segLine":
-                return GasType.SegLine;
+                return new RecordType(GasRecordTypes.SegLine);
             case "Canvas":
             case "canvas":
-                return GasType.Canvas;
+                return new RecordType(GasRecordTypes.Canvas);
             case "Circle":
             case "circle":
-                return GasType.Circle;
+                return new RecordType(GasRecordTypes.Circle);
             case "triangle":
             case "Triangle":
-                return GasType.Triangle;
+                return new RecordType(GasRecordTypes.Triangle);
             case "linearGradient":
             case "LinearGradient":
-                return GasType.Color;
-            case "bool":
-                return GasType.Bool;
+                return new RecordType(GasRecordTypes.Color);
             case "group":
-                return GasType.Group;
+                return new GroupType();
             case "ellipse":
             case "Ellipse":
-                return GasType.Ellipse;
+                return new RecordType(GasRecordTypes.Ellipse);
             case "void":
-                return GasType.Void;
+                return new StatementType(StatementTypes.Void);
             case "Polygon":
             case "polygon":
-                return GasType.Polygon;
+                return new RecordType(GasRecordTypes.Polygon);
             case "arrow":
             case "Arrow":
-                return GasType.Arrow;
+                return new RecordType(GasRecordTypes.Arrow);
             default:
-                return GasType.AnyStruct;
+                return new RecordType(GasRecordTypes.AnyStruct);
         }
     }
 
@@ -727,7 +673,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (parametersAndReturnType == null)
         {
             errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         var expectedParameters = parametersAndReturnType?.Item1;
@@ -742,19 +688,22 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                        " expecting arguments: \n" +
                        expectedParameters?.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
                        "\n got arguments: \n" + parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
-            return GasType.Error;
+            return new ErrorType();
         }
 
         for (var i = 0; i < expectedParameters.Count; i++)
-            if (expectedParameters[i] != GasType.Any && parameters[i] != GasType.Any &&
-                expectedParameters[i] != parameters[i])
+        {
+            if (!expectedParameters[i].Equals(parameters[i]))
+            {
                 errors.Add("Line: " + node.LineNum + " Function name: " + identifier.Name +
                            " expecting arguments: \n" +
                            expectedParameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b) +
                            "\n got arguments: \n" +
                            parameters.Select(p => p.ToString()).Aggregate((a, b) => a + ", " + b));
+            }
+        }
 
-        return returnType ?? GasType.Error;
+        return returnType ?? new ErrorType();
     }
 
     /// <summary>
@@ -765,7 +714,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitNull(Null node, TypeEnv envT)
     {
-        return GasType.Null;
+        return new NullType();
     }
 
     /// <summary>
@@ -777,16 +726,16 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitGroup(Group node, TypeEnv envT)
     {
         ;
-        var point = node.Point.Accept(this, envT);
-        if (point != GasType.Point)
+        var point = (RecordType) node.Point.Accept(this, envT);
+        if (point.Type != GasRecordTypes.Point)
         {
             errors.Add("Invalid type for point: expected: Point, got: " + point);
-            return GasType.Error;
+            return new ErrorType();
         }
 
         envT = envT.EnterScope();
         node.Statements?.Accept(this, envT);
-        return GasType.Group;
+        return new GroupType();
     }
 
     /// <summary>
@@ -795,11 +744,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <param name="node"></param>
     /// <param name="envT"></param>
     /// <returns></returns>
-    public GasType VisitList(List node, TypeEnv envT)
+    public GasType VisitList(Array node, TypeEnv envT)
     {
         var expressions = node.Expressions.Select(expression => expression.Accept(this, envT)).ToList();
-        var listType = node.Type?.Accept(this, envT) ?? GasType.Error;
-        return expressions.All(l => l == listType) ? listType : GasType.Error;
+        var listType = node.Type.Accept(this, envT);
+        return expressions.All(l => l == listType) ? listType : new ErrorType();
     }
 
     public GasType VisitSkip(Skip node, TypeEnv envT)
@@ -807,53 +756,53 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
-    public GasType VisitAddToList(AddToList addToList, TypeEnv envT)
+    public GasType VisitAddToArray(AddToArray addToArray, TypeEnv envT)
     {
-        var listIdentifier = addToList.ListIdentifier;
-        var listType = envT.VLookUp(listIdentifier.Name);
-        var indexType = addToList.Index.Accept(this, envT);
-        var valueType = addToList.Value.Accept(this, envT);
+        var listIdentifier = addToArray.ListIdentifier;
+        var listType = envT.ALookUp(listIdentifier.Name);
+        var indexType = addToArray.Index.Accept(this, envT);
+        var valueType = addToArray.Value.Accept(this, envT);
 
         if (listType == null)
         {
-            errors.Add("Line: " + addToList.LineNum + " List name: " + listIdentifier.Name + " not found");
-            return GasType.Error;
+            errors.Add("Line: " + addToArray.LineNum + " List name: " + listIdentifier.Name + " not found");
+            return new ErrorType();
         }
 
-        if (indexType != GasType.Num)
+        if (indexType != new VariableType(VariableTypes.Num))
         {
-            errors.Add("Line: " + addToList.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
-            return GasType.Error;
+            errors.Add("Line: " + addToArray.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
+            return new ErrorType();
         }
 
-        if (valueType != listType)
+        if (!valueType.Equals(listType))
         {
-            errors.Add("Line: " + addToList.LineNum + " Invalid type for value: expected: " + listType + ", got: " + valueType);
-            return GasType.Error;
+            errors.Add("Line: " + addToArray.LineNum + " Invalid type for value: expected: " + listType + ", got: " + valueType);
+            return new ErrorType();
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     public GasType VisitGetFromList(GetFromList node, TypeEnv envT)
     {
         var listIdentifier = node.ListIdentifier;
-        var listType = envT.VLookUp(listIdentifier.Name);
+        var listType = envT.ALookUp(listIdentifier.Name);
         var indexType = node.Index.Accept(this, envT);
 
         if (listType == null)
         {
             errors.Add("Line: " + node.LineNum + " List name: " + listIdentifier.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        if (indexType != GasType.Num)
+        if (indexType != new VariableType(VariableTypes.Num))
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return listType ?? GasType.Error;
+        return listType;
     }
 
     public GasType VisitRemoveFromList(RemoveFromList node, TypeEnv envT)
@@ -861,7 +810,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         throw new NotImplementedException();
     }
 
-    public GasType VisitLengthOfList(LengthOfList node, TypeEnv envT)
+    public GasType VisitLengthOfList(SizeOfArray node, TypeEnv envT)
     {
         var listIdentifier = node.ListIdentifier;
         var listType = envT.VLookUp(listIdentifier.Name);
@@ -869,10 +818,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (listType == null)
         {
             errors.Add("Line: " + node.LineNum + " List name: " + listIdentifier.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Num;
+        return new VariableType(VariableTypes.Num);
     }
 
     public GasType AttributeAssignment(Assignment node, TypeEnv envT){
@@ -886,7 +835,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (record == null)
         {
             errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " not found");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         var expressionType = node.Expression?.Accept(this, envT);
@@ -897,7 +846,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             case "-=":
             case "*=":
             case "/=":
-                if (variableType != expressionType || variableType != GasType.Num)
+                if (variableType != expressionType || variableType != new VariableType(VariableTypes.Num))
                     errors.Add("Invalid type for variable: " + identifier.Name + " expected: " + variableType +
                                " got: " + expressionType);
                 break;
@@ -911,7 +860,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 break;
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     public GasType RecordAssignment(Assignment node, TypeEnv envT)
@@ -924,19 +873,19 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (expectedType == null)
         {
             errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " not declared");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        var type = node.Expression?.Accept(this, envT);
+        var type = (RecordType) node.Expression?.Accept(this, envT);
 
-        if (expectedType != type)
+        if (expectedType != type.Type)
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
                        expectedType + " got: " + type);
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
     /// <summary>
@@ -954,7 +903,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (variableType != null)
         {
             errors.Add("Line: " + node.LineNum + " Record name: " + identifier.Name + " Can not redeclare record");
-            return GasType.Error;
+            return new ErrorType();
         }
 
         envT = envT.EnterScope();
@@ -965,7 +914,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         {
             errors.Add("Line: " + node.LineNum + " Invalid type for variable: " + identifier.Name + " expected: " +
                        expectedType + " got: " + type);
-            return GasType.Error;
+            return new ErrorType();
         }
 
         var bound = envT.TypeEnvParent?.RecBind(identifier.Name, node.Type.Value, envT);
@@ -973,10 +922,10 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (!bound ?? false)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
-            return GasType.Error;
+            return new ErrorType();
         }
 
-        return GasType.Ok;
+        return new StatementType(StatementTypes.Ok);
     }
 
 }

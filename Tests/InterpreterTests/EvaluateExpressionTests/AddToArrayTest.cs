@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests
 {
-    public class AddToListTest
+    public class AddToArrayTest
     {
         [Fact]
         public void EvaluateExpressionAddToListPass()

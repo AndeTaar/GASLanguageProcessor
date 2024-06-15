@@ -1,29 +1,19 @@
-﻿namespace GASLanguageProcessor.AST.Terms;
+﻿namespace GASLanguageProcessor.AST.Types.RecordType;
 
-public enum GasType
+public enum GasRecordTypes
 {
-    Num,
     Text,
-    Null,
-    Void,
-    String,
-    Bool,
     Circle,
     Rectangle,
-    Group,
-    List,
     Square,
     Point,
     Line,
     SegLine,
     Color,
-    Error,
     Ellipse,
-    Any,
     AnyStruct,
     Polygon,
     Arrow,
     Triangle,
-    Ok,
     Canvas
 }

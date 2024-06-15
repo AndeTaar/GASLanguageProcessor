@@ -3,9 +3,9 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class LengthOfList : Term
+public class SizeOfArray : Term
 {
-    public LengthOfList(Identifier listIdentifier)
+    public SizeOfArray(Identifier listIdentifier)
     {
         ListIdentifier = listIdentifier;
     }

@@ -5,14 +5,13 @@ program : (statement)* EOF;
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | listAssignment | listDeclaration) ';';
+simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | listAssignment) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
 recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
 
 declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
-listDeclaration : 'List' '<' type '>' identifier '=' '[' expression ']'?;
 listAssignment : identifier '[' expression ']' '=' expression;
 increment : (attributeIdentifier | identifier) ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
@@ -25,7 +24,7 @@ functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allType
 
 allTypes : type | collectionType ;
 type: 'num' | 'bool' | 'string' | 'void' | recordTypeIdentifier;
-collectionType : 'list' '<' (type) '>' | 'group';
+collectionType : type'['']' | 'group';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
@@ -36,13 +35,14 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | arrayTerm | listAccessTerm |
+term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | arrayTerm | listAccessTerm | listNewTerm |
  functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm | listSizeTerm;
 
 recordTerm: recordTypeIdentifier '{' (identifier '=' expression (',' identifier '=' expression)* )? '}';
 arrayTerm : '<'type'>''[' (expression (',' expression)*)? ']';
 listAccessTerm : identifier '[' expression ']';
 listSizeTerm : identifier '.' 'count';
+listNewTerm: 'new' type '[' expression ']';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
 functionCall : identifier '(' (expression (',' expression)*)? ')';

@@ -74,12 +74,6 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitAssignment([NotNull] GASParser.AssignmentContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitListDeclaration([NotNull] GASParser.ListDeclarationContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.listAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -211,6 +205,12 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitListSizeTerm([NotNull] GASParser.ListSizeTermContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.listNewTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListNewTerm([NotNull] GASParser.ListNewTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.groupTerm"/>.
 	/// </summary>

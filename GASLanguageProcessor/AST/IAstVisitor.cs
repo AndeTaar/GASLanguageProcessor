@@ -3,6 +3,7 @@ using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.TableType;
+using Array = GASLanguageProcessor.AST.Expressions.Terms.Array;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
@@ -17,7 +18,7 @@ public interface IAstVisitor<T>
 
     T VisitGroup(Group node, TypeEnv envT);
 
-    T VisitList(List node, TypeEnv envT);
+    T VisitList(Array node, TypeEnv envT);
 
     T VisitNum(Num node, TypeEnv envT);
 
@@ -30,8 +31,6 @@ public interface IAstVisitor<T>
     T VisitAssignment(Assignment node, TypeEnv envT);
 
     T VisitDeclaration(Declaration node, TypeEnv envT);
-
-    T VisitCanvas(Canvas node, TypeEnv envT);
 
     T VisitWhile(While node, TypeEnv envT);
 
@@ -55,13 +54,13 @@ public interface IAstVisitor<T>
 
     T VisitNull(Null node, TypeEnv envT);
 
-    T VisitAddToList(AddToList node, TypeEnv envT);
+    T VisitAddToArray(AddToArray node, TypeEnv envT);
 
     T VisitGetFromList(GetFromList node, TypeEnv envT);
 
     T VisitRemoveFromList(RemoveFromList node, TypeEnv envT);
 
-    T VisitLengthOfList(LengthOfList node, TypeEnv envT);
+    T VisitLengthOfList(SizeOfArray node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
 
@@ -70,6 +69,4 @@ public interface IAstVisitor<T>
     T VisitIdentifier(Identifier identifier, TypeEnv envT);
 
     T VisitRecord(Record record, TypeEnv envT);
-
-    T VisitListDeclaration(ListDeclaration listDeclaration, TypeEnv envT);
 }

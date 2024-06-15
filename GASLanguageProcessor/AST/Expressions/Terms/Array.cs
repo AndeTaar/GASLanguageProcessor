@@ -2,16 +2,17 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class List : Term
+public class Array : Term
 {
-    public List(Type type, List<Expression> expressions)
+    public Array(Type type, Expression size, List<Expression> expressions)
     {
         Expressions = expressions;
+        Size = size;
         Type = type;
     }
 
     public Type Type { get; set; }
-
+    public Expression Size { get; set; }
     public List<Expression> Expressions { get; protected set; }
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)

@@ -1,4 +1,6 @@
-﻿using GASLanguageProcessor.AST.Terms;
+﻿using GASLanguageProcessor.AST.Types;
+using GASLanguageProcessor.AST.Types.RecordType;
+using GASLanguageProcessor.AST.Types.VariableType;
 
 namespace GASLanguageProcessor.TableType;
 
@@ -12,118 +14,119 @@ public class TypeEnv
 
         RecTypeBind("Canvas", new Dictionary<string, GasType>
         {
-            { "width", GasType.Num },
-            { "height", GasType.Num },
-            { "backgroundColor", GasType.Color }
-        }, GasType.Canvas);
+            { "width", new VariableType(VariableTypes.Num) },
+            { "height", new VariableType(VariableTypes.Num) },
+            { "backgroundColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Canvas);
         RecTypeBind("Color", new Dictionary<string, GasType>
         {
-            { "red", GasType.Num },
-            { "green", GasType.Num },
-            { "blue", GasType.Num },
-            { "alpha", GasType.Num }
-        }, GasType.Color);
+            { "red", new VariableType(VariableTypes.Num) },
+            { "green", new VariableType(VariableTypes.Num) },
+            { "blue", new VariableType(VariableTypes.Num) },
+            { "alpha", new VariableType(VariableTypes.Num) }
+        },GasRecordTypes.Color);
         RecTypeBind("LinearGradient", new Dictionary<string, GasType>
         {
-            { "colors", GasType.Color },
-            { "stops", GasType.Num },
-            { "rotation", GasType.Num},
-            { "alpha", GasType.Num }
-        }, GasType.Color);
+            { "colors", new RecordType(GasRecordTypes.Color) },
+            { "stops", new VariableType(VariableTypes.Num) },
+            { "rotation", new VariableType(VariableTypes.Num)},
+            { "alpha", new VariableType(VariableTypes.Num) }
+        },GasRecordTypes.Color);
         RecTypeBind("Point", new Dictionary<string, GasType>
         {
-            { "x", GasType.Num },
-            { "y", GasType.Num }
-        }, GasType.Point);
+            { "x", new VariableType(VariableTypes.Num) },
+            { "y", new VariableType(VariableTypes.Num) }
+        },GasRecordTypes.Point);
         RecTypeBind("Rectangle", new Dictionary<string, GasType>
         {
-            { "topLeft", GasType.Point },
-            { "bottomRight", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color },
-            { "rounding", GasType.Num }
-        }, GasType.Rectangle);
+            { "topLeft", new RecordType(GasRecordTypes.Point) },
+            { "bottomRight", new RecordType(GasRecordTypes.Point) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) },
+            { "rounding", new VariableType(VariableTypes.Num) }
+        },GasRecordTypes.Rectangle);
         RecTypeBind("Circle", new Dictionary<string, GasType>
         {
-            { "center", GasType.Point },
-            { "radius", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
-        }, GasType.Circle);
+            { "center", new RecordType(GasRecordTypes.Point) },
+            { "radius", new VariableType(VariableTypes.Num) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Circle);
         RecTypeBind("Ellipse", new Dictionary<string, GasType>
         {
-            { "center", GasType.Point },
-            { "radiusX", GasType.Num },
-            { "radiusY", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
-        }, GasType.Ellipse);
+            { "center", new RecordType(GasRecordTypes.Point) },
+            { "radiusX", new VariableType(VariableTypes.Num) },
+            { "radiusY", new VariableType(VariableTypes.Num) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Ellipse);
         RecTypeBind("Triangle", new Dictionary<string, GasType>
         {
-            { "point1", GasType.Point },
-            { "point2", GasType.Point },
-            { "point3", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
-        }, GasType.Triangle);
+            { "point1", new RecordType(GasRecordTypes.Point) },
+            { "point2", new RecordType(GasRecordTypes.Point) },
+            { "point3", new RecordType(GasRecordTypes.Point) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Triangle);
         RecTypeBind("Polygon", new Dictionary<string, GasType>
         {
-            { "points", GasType.Any },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
-        }, GasType.Polygon);
+            { "points", new ArrayType(new RecordType(GasRecordTypes.Point))},
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Polygon);
         RecTypeBind("Line", new Dictionary<string, GasType>
         {
-            { "startX", GasType.Num },
-            { "startY", GasType.Num },
-            { "endX", GasType.Num },
-            { "color", GasType.Color }
-        }, GasType.Line);
+            { "startX", new VariableType(VariableTypes.Num) },
+            { "startY", new VariableType(VariableTypes.Num) },
+            { "endX", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Line);
         RecTypeBind("SegLine", new Dictionary<string, GasType>
         {
-            { "start", GasType.Point },
-            { "end", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color }
-        }, GasType.SegLine);
+            { "start", new RecordType(GasRecordTypes.Point) },
+            { "end", new RecordType(GasRecordTypes.Point) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.SegLine);
         RecTypeBind("Arrow", new Dictionary<string, GasType>
         {
-            { "start", GasType.Point },
-            { "end", GasType.Point },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color }
-        }, GasType.Arrow);
+            { "start", new RecordType(GasRecordTypes.Point) },
+            { "end", new RecordType(GasRecordTypes.Point) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Arrow);
         RecTypeBind("Square", new Dictionary<string, GasType>
         {
-            { "topLeft", GasType.Point },
-            { "side", GasType.Num },
-            { "stroke", GasType.Num },
-            { "color", GasType.Color },
-            { "strokeColor", GasType.Color },
-            { "rounding", GasType.Num }
-        }, GasType.Square);
+            { "topLeft", new RecordType(GasRecordTypes.Point) },
+            { "side", new VariableType(VariableTypes.Num) },
+            { "stroke", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) },
+            { "strokeColor", new RecordType(GasRecordTypes.Color) },
+            { "rounding", new VariableType(VariableTypes.Num) }
+        },GasRecordTypes.Square);
         RecTypeBind("Text", new Dictionary<string, GasType>
         {
-            { "content", GasType.String },
-            { "point", GasType.Point },
-            { "font", GasType.String },
-            { "size", GasType.Num },
-            { "weight", GasType.Num },
-            { "color", GasType.Color }
-        }, GasType.Text);
+            { "content", new VariableType(VariableTypes.String) },
+            { "point", new RecordType(GasRecordTypes.Point) },
+            { "font", new VariableType(VariableTypes.String) },
+            { "size", new VariableType(VariableTypes.Num) },
+            { "weight", new VariableType(VariableTypes.Num) },
+            { "color", new RecordType(GasRecordTypes.Color) }
+        },GasRecordTypes.Text);
     }
 
-    public Dictionary<string, GasType> VTypes { get; set; } = new();
+    public Dictionary<string, VariableTypes> VTypes { get; set; } = new();
 
+    public Dictionary<string, GasType> ATypes { get; set; } = new();
     public Dictionary<string, (List<GasType>, GasType)> FTypes { get; set; } = new();
 
-    public Dictionary<string, (Dictionary<string, GasType>, GasType)> RecordTypes { get; set; } = new();
+    public Dictionary<string, (Dictionary<string, GasType>, GasRecordTypes)> RecordTypes { get; set; } = new();
 
     public Dictionary<string, (string, TypeEnv)> Records { get; set; } = new();
 
@@ -139,10 +142,17 @@ public class TypeEnv
         return TypeEnvParent ?? this;
     }
 
-    public bool VBind(string key, GasType value)
+    public bool VBind(string key, VariableTypes value)
     {
         if (VTypes.ContainsKey(key)) return false;
         VTypes.Add(key, value);
+        return true;
+    }
+
+    public bool ABind(string key, GasType value)
+    {
+        if (ATypes.ContainsKey(key)) return false;
+        ATypes.Add(key, value);
         return true;
     }
 
@@ -160,28 +170,35 @@ public class TypeEnv
         return true;
     }
 
-    public bool RecTypeBind(string key, Dictionary<string, GasType> value, GasType returnType)
+    public bool RecTypeBind(string key, Dictionary<string, GasType> value, GasRecordTypes returnType)
     {
         if (RecordTypes.ContainsKey(key)) return false;
         RecordTypes.Add(key, (value, returnType));
         return true;
     }
 
-    public GasType? VLookUp(string key)
+    public VariableTypes? VLookUp(string key)
     {
         if (VTypes.ContainsKey(key)) return VTypes[key];
 
         return TypeEnvParent?.VLookUp(key);
     }
 
-    public (Dictionary<string, GasType>, GasType)? RecTypeLookUp(string key)
+    public GasType? ALookUp(string key)
+    {
+        if (ATypes.ContainsKey(key)) return ATypes[key];
+
+        return TypeEnvParent?.ALookUp(key);
+    }
+
+    public (Dictionary<string, GasType>, GasRecordTypes)? RecTypeLookUp(string key)
     {
         if (RecordTypes.ContainsKey(key)) return RecordTypes[key];
 
         return TypeEnvParent?.RecTypeLookUp(key);
     }
 
-    public ((Dictionary<string, GasType>, GasType)?, TypeEnv)? RecLookUp(string key)
+    public ((Dictionary<string, GasType>, GasRecordTypes)?, TypeEnv)? RecLookUp(string key)
     {
         if (Records.ContainsKey(key))
         {

@@ -5,6 +5,7 @@ using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
+using Array = GASLanguageProcessor.AST.Expressions.Terms.Array;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
 using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using Num = GASLanguageProcessor.AST.Expressions.Terms.Num;
@@ -117,7 +118,7 @@ public class Interpreter
 
                 return (null, varEnv, funcEnv, store);
 
-            case AddToList addToList:
+            case AddToArray addToList:
                 var listVariableIndex = varEnv.LookUp(addToList.ListIdentifier.Name);
 
                 if (listVariableIndex == null)
@@ -165,14 +166,6 @@ public class Interpreter
                 var decStore = decEval.Item2;
                 var decVarEnv = decEval.Item1;
                 return (null, decVarEnv, funcEnv, decStore);
-
-            case ListDeclaration listDeclaration:
-                var listIdentifier = listDeclaration.Identifier.Name;
-                var size = Convert.ToInt32(EvaluateExpression(listDeclaration.Size, varEnv, funcEnv, store));
-                next = varEnv.GetNext();
-                varEnv.Bind(listIdentifier, next);
-                store.Bind(next, new FinalList(new object[size]));
-                return (null, varEnv, funcEnv, store);
 
             case Return returnStatement:
                 var returnEval = EvaluateExpression(returnStatement.Expression, varEnv, funcEnv, store);
@@ -500,7 +493,7 @@ public class Interpreter
 
                 return valueToGet;
 
-            case LengthOfList lengthOfList:
+            case SizeOfArray lengthOfList:
                 var listToCheckIndex = varEnv.LookUp(lengthOfList.ListIdentifier.Name);
 
                 if (listToCheckIndex == null)
@@ -525,7 +518,7 @@ public class Interpreter
 
                 return (float)listToCheckLength.Values.Length;
 
-            case List list:
+            case Array list:
                 object[] values = new object[list.Expressions.Count];
                 for (var i = 0; i < list.Expressions.Count; i++)
                 {

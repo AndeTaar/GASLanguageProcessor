@@ -15,10 +15,10 @@
         <None Update="Frontend\test.gas">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Frontend\ParseTree.gas">
+        <None Update="Frontend\TestGas\ConfigurationManagement.gas">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Frontend\ConfigurationManagement.gas">
+        <None Update="Frontend\TestGas\ParseTree.gas">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>

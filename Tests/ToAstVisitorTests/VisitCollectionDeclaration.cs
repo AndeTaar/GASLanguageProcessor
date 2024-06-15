@@ -1,6 +1,7 @@
 ﻿using GASLanguageProcessor;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
+using Array = GASLanguageProcessor.AST.Expressions.Terms.Array;
 
 namespace Tests.Frontend.ToAstVisitorTests;
 
@@ -67,8 +68,8 @@ public class VisitCollectionDeclaration
         Assert.NotNull(collectionDeclaration);
         Assert.NotNull(canvas);
         Assert.Equal("points", collectionDeclaration.Identifier.Name);
-        Assert.IsType<List>(collectionDeclaration.Expression);
-        var expression = (List)collectionDeclaration.Expression;
+        Assert.IsType<Array>(collectionDeclaration.Expression);
+        var expression = (Array)collectionDeclaration.Expression;
         Assert.Equal(3, expression.Expressions.Count);
     }
 
