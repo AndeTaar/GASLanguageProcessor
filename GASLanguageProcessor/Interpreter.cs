@@ -519,7 +519,8 @@ public class Interpreter
                 return (float)listToCheckLength.Values.Length;
 
             case Array list:
-                object[] values = new object[list.Expressions.Count];
+                var size = (int) ((float) EvaluateExpression(list.Size, varEnv, funcEnv, store));
+                object[] values = new object[size];
                 for (var i = 0; i < list.Expressions.Count; i++)
                 {
                     values[i] = EvaluateExpression(list.Expressions[i], varEnv, funcEnv, store);

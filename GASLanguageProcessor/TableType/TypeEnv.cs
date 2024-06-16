@@ -27,8 +27,8 @@ public class TypeEnv
         },GasRecordTypes.Color);
         RecTypeBind("LinearGradient", new Dictionary<string, GasType>
         {
-            { "colors", new RecordType(GasRecordTypes.Color) },
-            { "stops", new VariableType(VariableTypes.Num) },
+            { "colors", new ArrayType( new RecordType(GasRecordTypes.Color) ) },
+            { "stops", new ArrayType( new VariableType(VariableTypes.Num) ) },
             { "rotation", new VariableType(VariableTypes.Num)},
             { "alpha", new VariableType(VariableTypes.Num) }
         },GasRecordTypes.Color);
@@ -123,7 +123,7 @@ public class TypeEnv
 
     public Dictionary<string, VariableTypes> VTypes { get; set; } = new();
 
-    public Dictionary<string, GasType> ATypes { get; set; } = new();
+    public Dictionary<string, ArrayType> ATypes { get; set; } = new();
     public Dictionary<string, (List<GasType>, GasType)> FTypes { get; set; } = new();
 
     public Dictionary<string, (Dictionary<string, GasType>, GasRecordTypes)> RecordTypes { get; set; } = new();
@@ -149,7 +149,7 @@ public class TypeEnv
         return true;
     }
 
-    public bool ABind(string key, GasType value)
+    public bool ABind(string key, ArrayType value)
     {
         if (ATypes.ContainsKey(key)) return false;
         ATypes.Add(key, value);
@@ -184,9 +184,12 @@ public class TypeEnv
         return TypeEnvParent?.VLookUp(key);
     }
 
-    public GasType? ALookUp(string key)
+    public ArrayType? ALookUp(string key)
     {
-        if (ATypes.ContainsKey(key)) return ATypes[key];
+        if (ATypes.ContainsKey(key))
+        {
+            return ATypes[key];
+        }
 
         return TypeEnvParent?.ALookUp(key);
     }

@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.AST.Types.RecordType;
 
-public class RecordType: GasType
+public class RecordType: ValueType
 {
     public GasRecordTypes Type { get; set; }
 

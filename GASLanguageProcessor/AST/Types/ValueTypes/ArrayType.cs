@@ -1,8 +1,8 @@
 ﻿namespace GASLanguageProcessor.AST.Types;
 
-public class ArrayType: GasType
+public class ArrayType: ValueType
 {
-    GasType ElementType { get; set; }
+    public GasType ElementType { get; set; }
 
     public ArrayType(GasType elementType)
     {
@@ -11,7 +11,7 @@ public class ArrayType: GasType
 
     public override string ToString()
     {
-        return $"Array of {ElementType}";
+        return $"Array of {ElementType.ToString()}";
     }
 
     public override bool Equals(GasType other)

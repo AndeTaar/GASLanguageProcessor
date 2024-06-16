@@ -1,14 +1,14 @@
 ﻿namespace GASLanguageProcessor.AST.Types;
 
-public class NullType: GasType
+public class GroupType: ValueType
 {
     public override string ToString()
     {
-        return "Null";
+        throw new NotImplementedException();
     }
 
     public override bool Equals(GasType other)
     {
-        return other is NullType;
+        throw new NotImplementedException();
     }
 }

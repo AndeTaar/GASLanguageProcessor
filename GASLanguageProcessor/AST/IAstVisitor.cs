@@ -18,8 +18,6 @@ public interface IAstVisitor<T>
 
     T VisitGroup(Group node, TypeEnv envT);
 
-    T VisitList(Array node, TypeEnv envT);
-
     T VisitNum(Num node, TypeEnv envT);
 
     T VisitIfStatement(If node, TypeEnv envT);
@@ -69,4 +67,6 @@ public interface IAstVisitor<T>
     T VisitIdentifier(Identifier identifier, TypeEnv envT);
 
     T VisitRecord(Record record, TypeEnv envT);
+
+    T VisitArray(Array array, TypeEnv envT);
 }

@@ -1,4 +1,4 @@
-﻿Color white = Color{red=255, green=255, blue=255, alpha=1 };
+Color white = Color{red=255, green=255, blue=255, alpha=1 };
 Canvas canvas = Canvas {width=500, height=500, backgroundColor=white};
 
 num g = white.green;
@@ -34,7 +34,7 @@ Polygon[] polygons = new Polygon[200];
 num polyIndex = 0;
 Point center = Point{x=canvas.width/2, y=canvas.height/2};
 
-void createCircleDiagram(num radius, Point center, num percentage){
+void createCircleDiagram(num radius, Point center, num percentage, color color1, color color2){
     Point[] points = new Point[500];
     num pointIndex = 0;
     num entireCircle = 2 * 3.14;
@@ -68,5 +68,5 @@ void createCircleDiagram(num radius, Point center, num percentage){
 
 num radius = 50;
 
-createCircleDiagram(radius, center, 94);
+createCircleDiagram(radius, center, 94, red, blue);
 

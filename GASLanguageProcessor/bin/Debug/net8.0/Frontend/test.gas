@@ -29,12 +29,13 @@ num Sin(num angle) {
     return result;
 }
 
+Circle c;
 Polygon[] polygons = new Polygon[200];
 num polyIndex = 0;
-Circle c;
+Point center = Point{x=canvas.width/2, y=canvas.height/2};
 
-void createCircleDiagram(num radius, Point center, num percentage, color color1, color color2){
-    Point[] points = new Point[100];
+void createCircleDiagram(num radius, Point center, num percentage){
+    Point[] points = new Point[500];
     num pointIndex = 0;
     num entireCircle = 2 * 3.14;
     entireCircle = entireCircle * percentage / 100;
@@ -56,17 +57,16 @@ void createCircleDiagram(num radius, Point center, num percentage, color color1,
         },
         radius=50,
         stroke=0,
-        color=color1,
+        color=blue,
         strokeColor=red
     };
 
-    Polygon poly = Polygon{points=points, stroke=0, color=color2, strokeColor=white};
+    Polygon poly = Polygon{points=points, stroke=0, color=red, strokeColor=red};
     polygons[polyIndex] = poly;
     polyIndex++;
 }
 
 num radius = 50;
-Point center = Point{x=canvasWidth/2, y=canvasHeight/2};
 
-createCircleDiagram(radius, center, 81, red, blue);
+createCircleDiagram(radius, center, 94);
 

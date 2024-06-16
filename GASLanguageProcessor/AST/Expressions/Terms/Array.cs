@@ -17,6 +17,6 @@ public class Array : Term
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitList(this, envT);
+        return visitor.VisitArray(this, envT);
     }
 }

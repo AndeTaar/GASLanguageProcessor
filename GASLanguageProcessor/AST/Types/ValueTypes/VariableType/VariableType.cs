@@ -1,6 +1,6 @@
 ﻿namespace GASLanguageProcessor.AST.Types.VariableType;
 
-public class VariableType : GasType
+public class VariableType : ValueType
 {
     public VariableTypes Type { get; set; }
 
