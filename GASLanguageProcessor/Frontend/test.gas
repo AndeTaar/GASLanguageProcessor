@@ -40,7 +40,7 @@ void createCircleDiagram(num radius, Point center, num percentage){
     num entireCircle = 360;
     entireCircle = entireCircle * percentage / 100;
 
-    for (num theta = 0; theta <= entireCircle; theta += 90)
+    for (num theta = 0; theta <= entireCircle; theta += 1)
     {
         num x2 = center.x + radius * Sin(theta)*-1;
         num y = center.y + radius * Cos(theta)*-1;
