@@ -89,7 +89,6 @@ public class RecordEvaluator
                 centerObj = EvaluateRecord(centerObj as FinalType, store);
                 dictionary.TryGetValue("radius", out var radiusObj);
                 dictionary.TryGetValue("stroke", out var strokeObj);
-                strokeObj = EvaluateRecord(strokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var colorObj);
                 colorObj = EvaluateRecord(colorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var strokeColorObj);
@@ -197,7 +196,6 @@ public class RecordEvaluator
                 dictionary.TryGetValue("points", out var polygonPointsObj);
                 polygonPointsObj = EvaluateRecord(polygonPointsObj as FinalType, store);
                 dictionary.TryGetValue("stroke", out var polygonStrokeObj);
-                polygonStrokeObj = EvaluateRecord(polygonStrokeObj as FinalType, store);
                 dictionary.TryGetValue("color", out var polygonColorObj);
                 polygonColorObj = EvaluateRecord(polygonColorObj as FinalType, store);
                 dictionary.TryGetValue("strokeColor", out var polygonStrokeColorObj);

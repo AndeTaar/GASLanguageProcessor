@@ -283,8 +283,6 @@ public class Interpreter
         }
 
         finalType.Fields[attribute] = assignVariable;
-        store.Bind(index.Value, UpdateFinalType(finalType, attribute, assignVariable));
-
         return store;
     }
 
@@ -579,70 +577,5 @@ public class Interpreter
             default:
                 throw new NotImplementedException();
         }
-    }
-
-    public object UpdateFinalType(FinalType finalType, string key, object value)
-    {
-        switch (finalType)
-        {
-            case FinalPoint finalPoint:
-                switch (key)
-                {
-                    case "x":
-                        finalPoint.X = new FinalNum((float)value);
-                        break;
-                    case "y":
-                        finalPoint.Y = new FinalNum((float)value);
-                        break;
-                }
-
-                return finalPoint;
-
-            case FinalColor finalColor:
-                switch (key)
-                {
-                    case "red":
-                        finalColor.Red = new FinalNum((float)value);
-                        break;
-                    case "green":
-                        finalColor.Green = new FinalNum((float)value);
-                        break;
-                    case "blue":
-                        finalColor.Blue = new FinalNum((float)value);
-                        break;
-                    case "alpha":
-                        finalColor.Alpha = new FinalNum((float)value);
-                        break;
-                }
-
-                return finalColor;
-
-            case FinalCircle finalCircle:
-                switch (key)
-                {
-                    case "center":
-                        finalCircle.Center = (FinalPoint)value;
-                        break;
-                    case "radius":
-                        finalCircle.Radius = new FinalNum((float)value);
-                        break;
-                    case "stroke":
-                        finalCircle.Stroke = new FinalNum((float)value);
-                        break;
-                    case "color":
-                        finalCircle.FillColor = (FinalColor)value;
-                        break;
-                    case "strokeColor":
-                        finalCircle.StrokeColor = (FinalColor)value;
-                        break;
-
-                }
-
-                return finalCircle;
-
-        }
-
-        return finalType;
-
     }
 }
