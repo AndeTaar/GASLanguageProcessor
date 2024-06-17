@@ -52,6 +52,7 @@ identifier : IDENTIFIER;
 attributeIdentifier : identifier '.' identifier;
 
 COMMENT: '/*' .*? '*/' -> skip;
+LINE_COMMENT: '//' ~[\r\n]* -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUM : '0' | [0-9]* '.' [0-9]+ | [0-9]+ ;
 ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';

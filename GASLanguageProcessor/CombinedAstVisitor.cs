@@ -951,7 +951,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         if (expectedRecordElementType != null)
         {
-            if (expectedRecordElementType.Type != recordValueType?.Type)
+            if (expectedRecordElementType.Type != recordValueType?.Type  && expectedRecordElementType.Type != GasRecordTypes.AnyStruct)
             {
                 errors.Add("Line: " + addToArray.LineNum + " Invalid type for value: expected: " +
                            expectedRecordElementType.Type +

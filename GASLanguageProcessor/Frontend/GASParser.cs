@@ -42,8 +42,8 @@ public partial class GASParser : Parser {
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, 
 		T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
-		T__45=46, T__46=47, T__47=48, COMMENT=49, IDENTIFIER=50, NUM=51, ALLSTRINGS=52, 
-		WS=53;
+		T__45=46, T__46=47, T__47=48, COMMENT=49, LINE_COMMENT=50, IDENTIFIER=51, 
+		NUM=52, ALLSTRINGS=53, WS=54;
 	public const int
 		RULE_program = 0, RULE_statement = 1, RULE_simpleStatement = 2, RULE_complexStatement = 3, 
 		RULE_recDefinition = 4, RULE_declaration = 5, RULE_assignment = 6, RULE_listAssignment = 7, 
@@ -79,7 +79,7 @@ public partial class GASParser : Parser {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "COMMENT", "IDENTIFIER", "NUM", "ALLSTRINGS", "WS"
+		null, "COMMENT", "LINE_COMMENT", "IDENTIFIER", "NUM", "ALLSTRINGS", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -145,7 +145,7 @@ public partial class GASParser : Parser {
 			State = 73;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 				{
 				{
 				State = 70;
@@ -820,7 +820,7 @@ public partial class GASParser : Parser {
 			State = 156;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 				{
 				{
 				State = 153;
@@ -899,7 +899,7 @@ public partial class GASParser : Parser {
 				State = 168;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 					{
 					{
 					State = 165;
@@ -981,7 +981,7 @@ public partial class GASParser : Parser {
 			State = 184;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 				{
 				{
 				State = 181;
@@ -1099,7 +1099,7 @@ public partial class GASParser : Parser {
 			State = 207;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 				{
 				{
 				State = 204;
@@ -1216,7 +1216,7 @@ public partial class GASParser : Parser {
 			State = 229;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900166889472L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800073732096L) != 0)) {
 				{
 				State = 218;
 				allTypes();
@@ -2234,7 +2234,7 @@ public partial class GASParser : Parser {
 			State = 358;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8336638895849472L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 16217938243747840L) != 0)) {
 				{
 				State = 350;
 				expression();
@@ -2457,7 +2457,7 @@ public partial class GASParser : Parser {
 			State = 385;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1125900174295044L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2251800081137668L) != 0)) {
 				{
 				{
 				State = 382;
@@ -2523,7 +2523,7 @@ public partial class GASParser : Parser {
 			State = 401;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8336638895849472L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 16217938243747840L) != 0)) {
 				{
 				State = 393;
 				expression();
@@ -2682,7 +2682,7 @@ public partial class GASParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,53,414,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		4,1,54,414,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
 		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
 		2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,
 		2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,2,28,7,28,
@@ -2787,10 +2787,10 @@ public partial class GASParser : Parser {
 		293,1,0,0,0,295,294,1,0,0,0,296,298,1,0,0,0,297,292,1,0,0,0,297,298,1,
 		0,0,0,298,45,1,0,0,0,299,301,7,7,0,0,300,299,1,0,0,0,301,304,1,0,0,0,302,
 		300,1,0,0,0,302,303,1,0,0,0,303,305,1,0,0,0,304,302,1,0,0,0,305,306,3,
-		48,24,0,306,47,1,0,0,0,307,326,5,51,0,0,308,326,5,42,0,0,309,326,5,43,
+		48,24,0,306,47,1,0,0,0,307,326,5,52,0,0,308,326,5,42,0,0,309,326,5,43,
 		0,0,310,326,5,44,0,0,311,312,5,17,0,0,312,313,3,36,18,0,313,314,5,18,0,
 		0,314,326,1,0,0,0,315,326,3,52,26,0,316,326,3,54,27,0,317,326,3,58,29,
-		0,318,326,3,62,31,0,319,326,5,52,0,0,320,326,3,60,30,0,321,326,3,68,34,
+		0,318,326,3,62,31,0,319,326,5,53,0,0,320,326,3,60,30,0,321,326,3,68,34,
 		0,322,326,3,66,33,0,323,326,3,50,25,0,324,326,3,56,28,0,325,307,1,0,0,
 		0,325,308,1,0,0,0,325,309,1,0,0,0,325,310,1,0,0,0,325,311,1,0,0,0,325,
 		315,1,0,0,0,325,316,1,0,0,0,325,317,1,0,0,0,325,318,1,0,0,0,325,319,1,
@@ -2815,7 +2815,7 @@ public partial class GASParser : Parser {
 		398,3,36,18,0,394,395,5,5,0,0,395,397,3,36,18,0,396,394,1,0,0,0,397,400,
 		1,0,0,0,398,396,1,0,0,0,398,399,1,0,0,0,399,402,1,0,0,0,400,398,1,0,0,
 		0,401,393,1,0,0,0,401,402,1,0,0,0,402,403,1,0,0,0,403,404,5,18,0,0,404,
-		63,1,0,0,0,405,406,5,50,0,0,406,65,1,0,0,0,407,408,5,50,0,0,408,67,1,0,
+		63,1,0,0,0,405,406,5,51,0,0,406,65,1,0,0,0,407,408,5,51,0,0,408,67,1,0,
 		0,0,409,410,3,66,33,0,410,411,5,45,0,0,411,412,3,66,33,0,412,69,1,0,0,
 		0,43,73,80,88,97,112,115,121,126,130,144,156,161,168,174,184,193,200,207,
 		226,229,236,243,250,257,263,265,271,273,279,281,287,289,295,297,302,325,
