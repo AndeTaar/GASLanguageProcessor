@@ -138,9 +138,9 @@ unaryExpression
 term
 recordTerm
 arrayTerm
-listAccessTerm
-listSizeTerm
-listNewTerm
+arrayAccessTerm
+arraySizeTerm
+arrayNewTerm
 groupTerm
 functionCall
 recordTypeIdentifier

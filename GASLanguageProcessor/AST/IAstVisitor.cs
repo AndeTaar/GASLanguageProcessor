@@ -54,11 +54,9 @@ public interface IAstVisitor<T>
 
     T VisitAddToArray(AddToArray node, TypeEnv envT);
 
-    T VisitGetFromList(GetFromList node, TypeEnv envT);
+    T VisitGetFromArray(GetFromArray node, TypeEnv envT);
 
-    T VisitRemoveFromList(RemoveFromList node, TypeEnv envT);
-
-    T VisitLengthOfList(SizeOfArray node, TypeEnv envT);
+    T VisitLengthOfArray(SizeOfArray node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
 

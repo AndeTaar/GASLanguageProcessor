@@ -3,9 +3,9 @@ using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.AST.Expressions.Terms;
 
-public class GetFromList : Term
+public class GetFromArray : Term
 {
-    public GetFromList(Identifier listIdentifier, Expression index)
+    public GetFromArray(Identifier listIdentifier, Expression index)
     {
         ListIdentifier = listIdentifier;
         Index = index;
@@ -16,6 +16,6 @@ public class GetFromList : Term
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitGetFromList(this, envT);
+        return visitor.VisitGetFromArray(this, envT);
     }
 }

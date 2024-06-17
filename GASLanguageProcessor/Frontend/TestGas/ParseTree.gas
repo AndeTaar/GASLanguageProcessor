@@ -117,7 +117,7 @@ parseTreeNode DrawNodeWithOperator(Point center, string content, string operator
 
 Point p = Point{x=canvas.width/2-30, y=100};
 
-AnyStruct[] shapes = AnyStruct[400];
+AnyStruct[] shapes = new AnyStruct[400];
 num i= 0;
 shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
 i++;

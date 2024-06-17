@@ -14,6 +14,6 @@ public class SizeOfArray : Term
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)
     {
-        return visitor.VisitLengthOfList(this, envT);
+        return visitor.VisitLengthOfArray(this, envT);
     }
 }

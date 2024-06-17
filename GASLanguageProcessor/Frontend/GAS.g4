@@ -35,14 +35,14 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | arrayTerm | listAccessTerm | listNewTerm |
- functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm | listSizeTerm;
+term : NUM | 'true' | 'false' | 'null'  | '(' expression ')' | arrayTerm | arrayAccessTerm | arrayNewTerm |
+ functionCall | ALLSTRINGS | groupTerm | attributeIdentifier | identifier | recordTerm | arraySizeTerm;
 
 recordTerm: recordTypeIdentifier '{' (identifier '=' expression (',' identifier '=' expression)* )? '}';
 arrayTerm : '<'type'>''[' (expression (',' expression)*)? ']';
-listAccessTerm : identifier '[' expression ']';
-listSizeTerm : identifier '.' 'count';
-listNewTerm: 'new' type '[' expression ']';
+arrayAccessTerm : identifier '[' expression ']';
+arraySizeTerm : identifier '.' 'count';
+arrayNewTerm: 'new' type '[' expression ']';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
 functionCall : identifier '(' (expression (',' expression)*)? ')';

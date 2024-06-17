@@ -421,47 +421,12 @@ public class Interpreter
                 EvaluateStatement(group.Statements, varEnv, funcEnv, store);
                 return new FinalGroup(finalPoint, varEnv);
 
-            case RemoveFromList removeFromList:
-                var listToRemoveFromIndex = varEnv.LookUp(removeFromList.ListIdentifier.Name);
-
-                if (listToRemoveFromIndex == null)
-                {
-                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} not found in the VariableTable");
-                    return null;
-                }
-
-                var listToRemoveFrom = store.LookUp(listToRemoveFromIndex.Value);
-
-                if (listToRemoveFrom == null)
-                {
-                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} not found in the Store");
-                    return null;
-                }
-
-                if (listToRemoveFrom is not FinalList destinedList)
-                {
-                    errors.Add($"Variable {removeFromList.ListIdentifier.Name} is not a list");
-                    return null;
-                }
-
-                var indexToRemove = Convert.ToInt32(EvaluateExpression(removeFromList.Index, varEnv, funcEnv, store));
-
-                if (indexToRemove < 0 || indexToRemove >= destinedList.Values.Length)
-                {
-                    errors.Add($"Index {indexToRemove} out of range for list {removeFromList.ListIdentifier.Name}");
-                    return null;
-                }
-
-                destinedList.Values[indexToRemove] = null;
-                return null;
-
-
-            case GetFromList getFromList:
-                var listToGetFromIndex = varEnv.LookUp(getFromList.ListIdentifier.Name);
+            case GetFromArray getFromArray:
+                var listToGetFromIndex = varEnv.LookUp(getFromArray.ListIdentifier.Name);
 
                 if (listToGetFromIndex == null)
                 {
-                    errors.Add($"Variable {getFromList.ListIdentifier.Name} not found");
+                    errors.Add($"Variable {getFromArray.ListIdentifier.Name} not found");
                     return null;
                 }
 
@@ -469,21 +434,21 @@ public class Interpreter
 
                 if (listToGetFrom == null)
                 {
-                    errors.Add($"Variable {getFromList.ListIdentifier.Name} not found in the Store");
+                    errors.Add($"Variable {getFromArray.ListIdentifier.Name} not found in the Store");
                     return null;
                 }
 
                 if (listToGetFrom is not FinalList sourceList)
                 {
-                    errors.Add($"Variable {getFromList.ListIdentifier.Name} is not a list");
+                    errors.Add($"Variable {getFromArray.ListIdentifier.Name} is not a list");
                     return null;
                 }
 
-                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromList.Index, varEnv, funcEnv, store));
+                var indexOfValue = Convert.ToInt32(EvaluateExpression(getFromArray.Index, varEnv, funcEnv, store));
 
                 if (indexOfValue < 0 || indexOfValue >= sourceList.Values.Length)
                 {
-                    errors.Add($"Index {indexOfValue} out of range for list {getFromList.ListIdentifier.Name}");
+                    errors.Add($"Index {indexOfValue} out of range for list {getFromArray.ListIdentifier.Name}");
                     return null;
                 }
 

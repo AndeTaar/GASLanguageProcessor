@@ -108,7 +108,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
         return new AddToArray(identifier, index, value) { LineNum = context.Start.Line };
     }
 
-    public override AstNode VisitListNewTerm(GASParser.ListNewTermContext context)
+    public override AstNode VisitArrayNewTerm(GASParser.ArrayNewTermContext context)
     {
         var type = context.type().Accept(this) as Type;
         var size = context.expression().Accept(this) as Expression;
@@ -297,28 +297,28 @@ public class ToAstVisitor : GASBaseVisitor<AstNode>
             return context.recordTerm().Accept(this) as Record;
         if (context.attributeIdentifier() != null)
             return context.attributeIdentifier().Accept(this) as Identifier;
-        if(context.listAccessTerm() != null)
-            return context.listAccessTerm().Accept(this) as GetFromList;
-        if(context.listNewTerm() != null)
-            return context.listNewTerm().Accept(this) as Array;
-        if(context.listSizeTerm() != null)
-            return context.listSizeTerm().Accept(this) as SizeOfArray;
+        if(context.arrayAccessTerm() != null)
+            return context.arrayAccessTerm().Accept(this) as GetFromArray;
+        if(context.arrayNewTerm() != null)
+            return context.arrayNewTerm().Accept(this) as Array;
+        if(context.arraySizeTerm() != null)
+            return context.arraySizeTerm().Accept(this) as SizeOfArray;
         if (context.identifier() != null)
             return context.identifier().Accept(this) as Identifier;
         throw new NotSupportedException($"Term type not supported: {context.GetText()}");
     }
 
-    public override AstNode VisitListSizeTerm(GASParser.ListSizeTermContext context)
+    public override AstNode VisitArraySizeTerm(GASParser.ArraySizeTermContext context)
     {
         var identifier = context.identifier().Accept(this) as Identifier;
         return new SizeOfArray(identifier) { LineNum = context.Start.Line };
     }
 
-    public override AstNode VisitListAccessTerm(GASParser.ListAccessTermContext context)
+    public override AstNode VisitArrayAccessTerm(GASParser.ArrayAccessTermContext context)
     {
         var identifier = context.identifier().Accept(this) as Identifier;
         var index = context.expression().Accept(this) as Expression;
-        return new GetFromList(identifier, index) { LineNum = context.Start.Line };
+        return new GetFromArray(identifier, index) { LineNum = context.Start.Line };
     }
 
     public override AstNode VisitRecordTerm(GASParser.RecordTermContext context)

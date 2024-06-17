@@ -41,6 +41,8 @@ public static class SharedTesting
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
         interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        var recordEvaluator = new RecordEvaluator();
+        sto = recordEvaluator.EvaluateRecords(sto);
 
         return (envV, sto, envT, envF, interpreter.errors);
     }

@@ -79,7 +79,16 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     /// <returns></returns>
     public GasType VisitIfStatement(If node, TypeEnv envT)
     {
-        var conditionType = (VariableType) node.Condition.Accept(this, envT);
+        VariableType conditionType;
+        try
+        {
+            conditionType = (VariableType)node.Condition.Accept(this, envT);
+        }
+        catch (Exception e)
+        {
+            errors.Add("Invalid type for condition: expected: Boolean, got: " + e.Message);
+            return new ErrorType();
+        }
 
         if (conditionType.Type != VariableTypes.Bool)
         {
@@ -654,7 +663,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                 }
 
                 errors.Add("Invalid types for binary operation: " + @operator + " expected: String or Num, got: " +
-                           left + " and " + right);
+                           left?.ToString() + " and " + right?.ToString());
                 return new ErrorType();
 
             case "-" or "*" or "/" or "%":
@@ -663,8 +672,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                     return new VariableType(VariableTypes.Num);
                 }
 
-                errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left +
-                           " and " + right);
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left?.ToString() +
+                           " and " + right?.ToString());
                 return new ErrorType();
 
             case "<" or ">" or "<=" or ">=":
@@ -673,8 +682,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
                     return new VariableType(VariableTypes.Bool);
                 }
 
-                errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left +
-                           " and " + right);
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Num, got: " + left?.ToString() +
+                           " and " + right?.ToString());
                 return new ErrorType();
 
             case "&&" or "||":
@@ -689,13 +698,13 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
             case "==" or "!=":
                 if ((left?.Type == VariableTypes.Bool && right?.Type == VariableTypes.Bool) ||
-                    (left?.Type == VariableTypes.String && right?.Type == VariableTypes.Num))
+                    (left?.Type == VariableTypes.Num && right?.Type == VariableTypes.Num))
                 {
                     return new VariableType(VariableTypes.Bool);
                 }
 
-                errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean, got: " + left +
-                           " and " + right);
+                errors.Add("Invalid types for binary operation: " + @operator + " expected: Boolean or Number, got: " + left?.ToString() +
+                           " and " + right?.ToString());
                 return new ErrorType();
 
 
@@ -925,7 +934,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         if (indexType.Type != VariableTypes.Num)
         {
-            errors.Add("Line: " + addToArray.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
+            errors.Add("Line: " + addToArray.LineNum + " Invalid type for index: expected: Num, got: " + indexType.ToString());
             return new ErrorType();
         }
 
@@ -954,11 +963,11 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         return new StatementType(StatementTypes.Ok);
     }
 
-    public GasType VisitGetFromList(GetFromList node, TypeEnv envT)
+    public GasType VisitGetFromArray(GetFromArray node, TypeEnv envT)
     {
         var listIdentifier = node.ListIdentifier;
-        var listType = envT.ALookUp(listIdentifier.Name);
-        var indexType = node.Index.Accept(this, envT);
+        var listType = envT.ALookUp(listIdentifier.Name)?.ElementType;
+        var indexType = (VariableType) node.Index.Accept(this, envT);
 
         if (listType == null)
         {
@@ -966,21 +975,16 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             return new ErrorType();
         }
 
-        if (indexType != new VariableType(VariableTypes.Num))
+        if (indexType?.Type != VariableTypes.Num)
         {
-            errors.Add("Line: " + node.LineNum + " Invalid type for index: expected: Num, got: " + indexType);
+            errors.Add("Line: " + node.LineNum + " Invalid type for index: expected: Num, got: " + indexType.ToString());
             return new ErrorType();
         }
 
         return listType;
     }
 
-    public GasType VisitRemoveFromList(RemoveFromList node, TypeEnv envT)
-    {
-        throw new NotImplementedException();
-    }
-
-    public GasType VisitLengthOfList(SizeOfArray node, TypeEnv envT)
+    public GasType VisitLengthOfArray(SizeOfArray node, TypeEnv envT)
     {
         var listIdentifier = node.ListIdentifier;
         var listType = envT.VLookUp(listIdentifier.Name);

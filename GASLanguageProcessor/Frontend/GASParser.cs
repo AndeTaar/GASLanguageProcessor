@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from GAS.g4 by ANTLR 4.13.1
+// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -52,8 +52,8 @@ public partial class GASParser : Parser {
 		RULE_allTypes = 15, RULE_type = 16, RULE_collectionType = 17, RULE_expression = 18, 
 		RULE_equalityExpression = 19, RULE_relationExpression = 20, RULE_binaryExpression = 21, 
 		RULE_multExpression = 22, RULE_unaryExpression = 23, RULE_term = 24, RULE_recordTerm = 25, 
-		RULE_arrayTerm = 26, RULE_listAccessTerm = 27, RULE_listSizeTerm = 28, 
-		RULE_listNewTerm = 29, RULE_groupTerm = 30, RULE_functionCall = 31, RULE_recordTypeIdentifier = 32, 
+		RULE_arrayTerm = 26, RULE_arrayAccessTerm = 27, RULE_arraySizeTerm = 28, 
+		RULE_arrayNewTerm = 29, RULE_groupTerm = 30, RULE_functionCall = 31, RULE_recordTypeIdentifier = 32, 
 		RULE_identifier = 33, RULE_attributeIdentifier = 34;
 	public static readonly string[] ruleNames = {
 		"program", "statement", "simpleStatement", "complexStatement", "recDefinition", 
@@ -61,8 +61,8 @@ public partial class GASParser : Parser {
 		"elseStatement", "whileStatement", "forStatement", "returnStatement", 
 		"functionDeclaration", "allTypes", "type", "collectionType", "expression", 
 		"equalityExpression", "relationExpression", "binaryExpression", "multExpression", 
-		"unaryExpression", "term", "recordTerm", "arrayTerm", "listAccessTerm", 
-		"listSizeTerm", "listNewTerm", "groupTerm", "functionCall", "recordTypeIdentifier", 
+		"unaryExpression", "term", "recordTerm", "arrayTerm", "arrayAccessTerm", 
+		"arraySizeTerm", "arrayNewTerm", "groupTerm", "functionCall", "recordTypeIdentifier", 
 		"identifier", "attributeIdentifier"
 	};
 
@@ -1934,11 +1934,11 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ArrayTermContext arrayTerm() {
 			return GetRuleContext<ArrayTermContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ListAccessTermContext listAccessTerm() {
-			return GetRuleContext<ListAccessTermContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ArrayAccessTermContext arrayAccessTerm() {
+			return GetRuleContext<ArrayAccessTermContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ListNewTermContext listNewTerm() {
-			return GetRuleContext<ListNewTermContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ArrayNewTermContext arrayNewTerm() {
+			return GetRuleContext<ArrayNewTermContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
 			return GetRuleContext<FunctionCallContext>(0);
@@ -1956,8 +1956,8 @@ public partial class GASParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public RecordTermContext recordTerm() {
 			return GetRuleContext<RecordTermContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ListSizeTermContext listSizeTerm() {
-			return GetRuleContext<ListSizeTermContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ArraySizeTermContext arraySizeTerm() {
+			return GetRuleContext<ArraySizeTermContext>(0);
 		}
 		public TermContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2030,14 +2030,14 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 7);
 				{
 				State = 316;
-				listAccessTerm();
+				arrayAccessTerm();
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
 				State = 317;
-				listNewTerm();
+				arrayNewTerm();
 				}
 				break;
 			case 9:
@@ -2086,7 +2086,7 @@ public partial class GASParser : Parser {
 				EnterOuterAlt(_localctx, 15);
 				{
 				State = 324;
-				listSizeTerm();
+				arraySizeTerm();
 				}
 				break;
 			}
@@ -2272,30 +2272,30 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class ListAccessTermContext : ParserRuleContext {
+	public partial class ArrayAccessTermContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
 			return GetRuleContext<IdentifierContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public ListAccessTermContext(ParserRuleContext parent, int invokingState)
+		public ArrayAccessTermContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_listAccessTerm; } }
+		public override int RuleIndex { get { return RULE_arrayAccessTerm; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitListAccessTerm(this);
+			if (typedVisitor != null) return typedVisitor.VisitArrayAccessTerm(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ListAccessTermContext listAccessTerm() {
-		ListAccessTermContext _localctx = new ListAccessTermContext(Context, State);
-		EnterRule(_localctx, 54, RULE_listAccessTerm);
+	public ArrayAccessTermContext arrayAccessTerm() {
+		ArrayAccessTermContext _localctx = new ArrayAccessTermContext(Context, State);
+		EnterRule(_localctx, 54, RULE_arrayAccessTerm);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
@@ -2320,27 +2320,27 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class ListSizeTermContext : ParserRuleContext {
+	public partial class ArraySizeTermContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
 			return GetRuleContext<IdentifierContext>(0);
 		}
-		public ListSizeTermContext(ParserRuleContext parent, int invokingState)
+		public ArraySizeTermContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_listSizeTerm; } }
+		public override int RuleIndex { get { return RULE_arraySizeTerm; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitListSizeTerm(this);
+			if (typedVisitor != null) return typedVisitor.VisitArraySizeTerm(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ListSizeTermContext listSizeTerm() {
-		ListSizeTermContext _localctx = new ListSizeTermContext(Context, State);
-		EnterRule(_localctx, 56, RULE_listSizeTerm);
+	public ArraySizeTermContext arraySizeTerm() {
+		ArraySizeTermContext _localctx = new ArraySizeTermContext(Context, State);
+		EnterRule(_localctx, 56, RULE_arraySizeTerm);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
@@ -2363,30 +2363,30 @@ public partial class GASParser : Parser {
 		return _localctx;
 	}
 
-	public partial class ListNewTermContext : ParserRuleContext {
+	public partial class ArrayNewTermContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public TypeContext type() {
 			return GetRuleContext<TypeContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public ListNewTermContext(ParserRuleContext parent, int invokingState)
+		public ArrayNewTermContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_listNewTerm; } }
+		public override int RuleIndex { get { return RULE_arrayNewTerm; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGASVisitor<TResult> typedVisitor = visitor as IGASVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitListNewTerm(this);
+			if (typedVisitor != null) return typedVisitor.VisitArrayNewTerm(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ListNewTermContext listNewTerm() {
-		ListNewTermContext _localctx = new ListNewTermContext(Context, State);
-		EnterRule(_localctx, 58, RULE_listNewTerm);
+	public ArrayNewTermContext arrayNewTerm() {
+		ArrayNewTermContext _localctx = new ArrayNewTermContext(Context, State);
+		EnterRule(_localctx, 58, RULE_arrayNewTerm);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{

@@ -1,4 +1,4 @@
-﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
+Color white = Color{red=255, green=255, blue=255, alpha=1};
 
 Canvas canvas = Canvas{width=950, height=950, backgroundColor=white};
 
@@ -115,107 +115,78 @@ parseTreeNode DrawNodeWithOperator(Point center, string content, string operator
     };
 }
 
+AnyStruct[] shapes = new AnyStruct[400];
+
 Point p = Point{x=canvas.width/2-30, y=100};
 
-AnyStruct[] shapes = new AnyStruct[400];
-num i= 0;
-shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
-i++;
+string[] contents = new string[21];
+contents[0] = "Expression";
+contents[1] = "EquExpr";
+contents[2] = "EquExpr";
+contents[3] = "RelExpr";
+contents[4] = "RelExpr";
+contents[5] = "BinExpr";
+contents[6] = "BinExpr";
+contents[7] = "MultExpr";
+contents[8] = "MultExpr";
+contents[9] = "UnaExpr";
+contents[10] = "Number";
+contents[11] = "UnaExpr";
+contents[12] = "Number";
+contents[13] = "UnaExpr";
+contents[14] = "Identifier";
+contents[15] = "MultExpr";
+contents[16] = "MultExpr";
+contents[17] = "UnaExpr";
+contents[18] = "Identifier";
+contents[19] = "UnaExpr";
+contents[20] = "Identifier";
 
-p.y += height + vertDistance+5;
-p.x -= horDistance+30;
-shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
-i++;
-p.x += 2*horDistance+60;
-shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
-i++;
+string[] operators = new string[20];
+operators[0] = "&amp;&amp;";
+operators[5] = "+";
+operators[6] = "-";
+operators[8] = "*";
+operators[16] = "/";
 
-p.y += height + vertDistance+5;
-p.x -= 2*horDistance+100;
-shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
-i++;
-p.x += 2*horDistance+140;
-shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
-i++;
+for (num i = 0; i < 21; i++) {
+    if (i == 0 || i == 5 || i == 6 || i == 8 || i == 16) {
+        shapes[i] = DrawNodeWithOperator(p, contents[i], operators[i]);
+    } else {
+        shapes[i] = DrawNodeWithSingleArrow(p, contents[i]);
+    }
 
-p.y += height + vertDistance+5;
-p.x -= 2*horDistance+180;
-shapes[i] = DrawNodeWithOperator(p, "BinExpr", "+");
-i++;
-Point leftP = Point{x=p.x, y=p.y};
-
-p.x += 2*horDistance+220;
-shapes[i] = DrawNodeWithOperator(p, "BinExpr", "-");
-i++;
-Point rightP = Point{x=p.x, y=p.y};
-
-rightP.y += height + vertDistance+5;
-rightP.x -= 2*horDistance+310;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "MultExpr");
-i++;
-rightP.x += 2*horDistance+30;
-shapes[i] = DrawNodeWithOperator(rightP, "MultExpr", "*");
-i++;
-
-rightP.y += height + vertDistance+5;
-rightP.x -= 2*horDistance+30;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
-i++;
-rightP.y -= height + vertDistance+5;
-
-rightP.x += 2*horDistance-50;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
-i++;
-rightP.y -= height + vertDistance+5;
-rightP.x += 2*horDistance-20;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
-i++;
-rightP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(rightP, "Identifier");
-i++;
-rightP.y -= height + vertDistance+5;
-
-leftP.y += height + vertDistance+5;
-leftP.x -= 2*horDistance-490;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "MultExpr");
-i++;
-leftP.x += 2*horDistance+20;
-shapes[i] = DrawNodeWithOperator(leftP, "MultExpr", "/");
-i++;
-
-leftP.y += height + vertDistance+5;
-leftP.x -= 2*horDistance+20;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
-leftP.x += 2*horDistance-50;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
-leftP.x += 2*horDistance-20;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
-i++;
-leftP.y += height + vertDistance+5;
-shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
-i++;
-leftP.y -= height + vertDistance+5;
+    if (i == 1 || i == 3 || i == 7 || i == 9 || i == 11 || i == 15 || i == 17 || i == 19) {
+        p.y += height + vertDistance+5;
+        p.x -= horDistance+30;
+    } else if (i == 2 || i == 4 || i == 8 || i == 10 || i == 14 || i == 16 || i == 18 || i == 20) {
+        p.x += 2*horDistance+60;
+    } else if (i == 5) {
+        p.y += height + vertDistance+5;
+        p.x -= 2*horDistance+180;
+    } else if (i == 6) {
+        p.x += 2*horDistance+220;
+    } else if (i == 7) {
+        p.y += height + vertDistance+5;
+        p.x -= 2*horDistance+310;
+    } else if (i == 12) {
+        p.x += 2*horDistance-50;
+    } else if (i == 13) {
+        p.y += height + vertDistance+5;
+    } else if (i == 15) {
+        p.x -= 2*horDistance-490;
+    } else if (i == 16) {
+        p.x += 2*horDistance+20;
+    } else if (i == 18) {
+        p.x += 2*horDistance-50;
+    } else if (i == 20) {
+        p.x += 2*horDistance-20;
+    }
+}
 
 Text text = Text{
-    point=Point{x=canvas.width/2, y=rightP.y+220},
+    point=Point{x=canvas.width/2, y=p.y+220},
     size=40,
     content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
     color=black
 };
-

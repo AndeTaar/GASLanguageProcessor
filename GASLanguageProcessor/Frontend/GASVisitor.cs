@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from GAS.g4 by ANTLR 4.13.1
+// Generated from /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/Frontend/GAS.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -194,23 +194,23 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitArrayTerm([NotNull] GASParser.ArrayTermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listAccessTerm"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.arrayAccessTerm"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitListAccessTerm([NotNull] GASParser.ListAccessTermContext context);
+	Result VisitArrayAccessTerm([NotNull] GASParser.ArrayAccessTermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listSizeTerm"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.arraySizeTerm"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitListSizeTerm([NotNull] GASParser.ListSizeTermContext context);
+	Result VisitArraySizeTerm([NotNull] GASParser.ArraySizeTermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.listNewTerm"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.arrayNewTerm"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitListNewTerm([NotNull] GASParser.ListNewTermContext context);
+	Result VisitArrayNewTerm([NotNull] GASParser.ArrayNewTermContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GASParser.groupTerm"/>.
 	/// </summary>
