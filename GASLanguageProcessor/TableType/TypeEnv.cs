@@ -201,13 +201,13 @@ public class TypeEnv
         return TypeEnvParent?.RecTypeLookUp(key);
     }
 
-    public ((Dictionary<string, GasType>, GasRecordTypes)?, TypeEnv)? RecLookUp(string key)
+    public ((Dictionary<string, GasType>, GasRecordTypes)?, TypeEnv, string)? RecLookUp(string key)
     {
         if (Records.ContainsKey(key))
         {
             var record = Records[key];
             var recordType = RecTypeLookUp(record.Item1);
-            return (recordType, record.Item2);
+            return (recordType, record.Item2, key);
         }
 
         return TypeEnvParent?.RecLookUp(key);

@@ -1084,7 +1084,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var identifier = node.Identifier;
         var recordType = envT.RecLookUp(identifier.Name);
         var expectedType = recordType?.Item1?.Item2;
-        envT = recordType?.Item2;
+        envT = envT.EnterScope();
+        envT.TypeEnvParent.RecBind(identifier.Name, recordType?.Item3, envT);
 
         if (expectedType == null)
         {
