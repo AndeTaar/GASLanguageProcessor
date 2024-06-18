@@ -1,6 +1,6 @@
 ﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
 
-Canvas canvas = Canvas{width=1000, height=505, backgroundColor=white};
+Canvas canvas = Canvas{width=2000, height=1200, backgroundColor=white};
 
 Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
 Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
@@ -26,27 +26,36 @@ Rectangle background = Rectangle{
     rounding=0
 };
 
-num offset = canvas.width/25;
-num width = canvas.width/5.882;
-num height = canvas.height/1.6;
-num x = (canvas.width/5-width/2)-offset/5;
+num offset = canvas.width/24;
+num width = 300;
+num height = canvas.height-630;
+num x = (canvas.width/7-width/2)-offset/5;
 num y = canvas.height/2-height/2;
 num fixedY = y;
-num fontsize = canvas.width/50;
+num fontsize = 33;
 num largeFontSize = canvas.width/41.6;
 num stroke = canvas.width/200;
 num rounding = canvas.width/50;
 
-string[] versions = <string> ["Version 1", "Version 2", "Version 3", "Version 4"];
-string[] contents = <string> [
+string[] versions = <string> ["Version 1", "Version 2", "Version 3", "Version 4", "Version 5"];
+string[] contents = new string[50];
+contents = <string> [
     "Terms", "Small AS", "No semantics", "First example", "program",
-    "Function Calls", "Larger AS", "Scope is used", "Working small", "program",
+    "Function Calls", "Larger AS", "Scope is used", "Small working", "program",
     "Type checking", "Finished AS", "Env Sto is used", "Large working", "programs", "Semantics", "Finished",
-    "Ext. AS", "Records and", "Attributes", "Record Types", "Cleaned", "Interpreter"
+    "Ext. AS", "Records and", "Attributes", "Record Types", "Cleaned", "Interpreter",
+    "Records-", "evaluator", "Arrays and", "not Lists", "Strict typing", ""
 ];
+num contentIndex = 0;
+num[] contentLengths = <num>[5,5,7,6,6];
 
-for (int i = 0; i < 100; i++) {
-    Rectangle box = Rectangle{
+AnyStruct[] boxes = new AnyStruct[300];
+num boxIndex = 0;
+
+for (num i = 0; i < versions.count; i++) {
+    x += offset/7;
+    y = fixedY;
+    boxes[boxIndex] = Rectangle{
         topLeft=Point{x=x, y=y},
         bottomRight=Point{x=x+width, y=y+height},
         stroke=stroke,
@@ -54,27 +63,34 @@ for (int i = 0; i < 100; i++) {
         strokeColor=black,
         rounding=rounding
     };
+    boxIndex++;
 
     y += offset;
-    Text boxText = Text{
+    boxes[boxIndex] = Text{
         point=Point{x=x+width/2, y=y},
         size=largeFontSize,
         content=versions[i],
         weight=700,
         color=black
     };
+    boxIndex++;
+    y+=10;
 
-    for (int j = 0; j < 100; j++) {
-        y += offset;
-        Text contentText = Text{
+    num reach = contentLengths[i];
+
+    for (num j = 0; j < reach; j++) {
+        y += 57;
+        boxes[boxIndex] = Text{
             point=Point{x=x+width/2, y=y},
             size=fontsize,
-            content=contents[i*j],
+            content=contents[contentIndex],
             weight=500,
             color=black
         };
+        boxIndex++;
+        contentIndex++;
     }
 
-    x += canvas.width/5 + offset/5;
+    x += canvas.width/6 + offset/7;
     y = fixedY;
 }

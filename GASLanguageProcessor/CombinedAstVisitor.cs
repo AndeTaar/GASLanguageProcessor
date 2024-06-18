@@ -235,6 +235,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
 
         if (node.Expression as Record != null) return RecordAssignment(node, envT);
 
+        if(node.Expression as Array != null) return ArrayAssignment(node, envT);
+
         if (variableType == null)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " not found in scope");
@@ -261,6 +263,35 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             default:
                 errors.Add("Invalid operator: " + node.Operator);
                 break;
+        }
+
+        return new StatementType(StatementTypes.Ok);
+    }
+
+    private GasType ArrayAssignment(Assignment node, TypeEnv envT)
+    {
+        var identifier = node.Identifier;
+        var arrayType = envT.ALookUp(identifier.Name);
+
+        if (arrayType == null)
+        {
+            errors.Add("Line: " + node.LineNum + " Array name: " + identifier.Name + " not found in scope");
+            return new ErrorType();
+        }
+
+        var expressionType = node.Expression.Accept(this, envT) as ArrayType;
+
+        if (expressionType == null)
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for array: " + identifier.Name);
+            return new ErrorType();
+        }
+
+        if (!arrayType.ElementType.Equals(expressionType.ElementType))
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for array: " + identifier.Name + " expected: " +
+                       arrayType.ElementType + " got: " + expressionType.ElementType);
+            return new ErrorType();
         }
 
         return new StatementType(StatementTypes.Ok);
@@ -1001,7 +1032,7 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     public GasType VisitLengthOfArray(SizeOfArray node, TypeEnv envT)
     {
         var listIdentifier = node.ListIdentifier;
-        var listType = envT.VLookUp(listIdentifier.Name);
+        var listType = envT.ALookUp(listIdentifier.Name);
 
         if (listType == null)
         {
