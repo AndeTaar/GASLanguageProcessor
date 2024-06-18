@@ -310,6 +310,8 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
             return ArrayDeclaration(node, envT);
         if(type is RecordType)
             return RecordDeclaration(node, envT);
+        if (type is GroupType)
+            return GroupDeclaration(node, envT);
 
 
         var variableType = (VariableType)type;
@@ -336,6 +338,29 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         if (!bound)
         {
             errors.Add("Line: " + node.LineNum + " Variable name: " + identifier.Name + " already exists");
+            return new ErrorType();
+        }
+
+        return new StatementType(StatementTypes.Ok);
+    }
+
+    private GasType GroupDeclaration(Declaration node, TypeEnv envT)
+    {
+        var type = (GroupType) node.Type.Accept(this, envT);
+        var identifier = node.Identifier;
+        var existingVariableType = envT.VLookUp(identifier.Name);
+
+        if (existingVariableType != null)
+        {
+            errors.Add("Line: " + node.LineNum + " Group name: " + identifier.Name + " Can not redeclare group");
+            return new ErrorType();
+        }
+
+        var bound = envT.GBind(identifier.Name, type);
+
+        if (!bound)
+        {
+            errors.Add("Line: " + node.LineNum + " Group name: " + identifier.Name + " already exists");
             return new ErrorType();
         }
 

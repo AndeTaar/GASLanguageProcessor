@@ -862,3 +862,7 @@ C:/Users/v/Documents/GitHub/GASLanguageProcessor/Tests/obj/Debug/net8.0/ref/Test
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.pdb
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/Tests/obj/Debug/net8.0/Tests.genruntimeconfig.cache
 /Users/viktorjohnsen/Documents/GitHub/GASLanguageProcessor/Tests/obj/Debug/net8.0/ref/Tests.dll
+/Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/Frontend/TestGas/ConfigurationManagement.gas
+/Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/Frontend/TestGas/ParseTree.gas
+/Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/AcceptanceTests/GasTestFiles/CircleByPolygon.gas
+/Users/thomas/Documents/GASLanguageProcessor/Tests/bin/Debug/net8.0/AcceptanceTests/GasTestFiles/CircleByPolygon.svg

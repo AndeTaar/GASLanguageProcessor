@@ -40,19 +40,20 @@ public static class SharedTesting
 
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
-        interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        var item = interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
         var recordEvaluator = new RecordEvaluator();
-        sto = recordEvaluator.EvaluateRecords(sto);
+        sto = recordEvaluator.EvaluateRecords(item.Item4);
 
-        return (envV, sto, envT, envF, interpreter.errors);
+        return (item.Item2, sto, envT, item.Item3, interpreter.errors);
     }
 
     public static ArrayList<string> GetSvgLines(string input)
     {
-        var env = RunInterpreter(input);
-        var sto = env.Item2;
-        var svgGenerator = new SvgGenerator(sto);
-        var lines = svgGenerator.GenerateSvg(env.Item1);
+        var items = RunInterpreter(input);
+        var recordEvaluator = new RecordEvaluator();
+        var sto = recordEvaluator.EvaluateRecords(items.Item2);
+        var svgGenerator = new SvgGenerator();
+        var lines = svgGenerator.GenerateSvg(sto);
         lines.Add("</svg>");
         return lines;
     }

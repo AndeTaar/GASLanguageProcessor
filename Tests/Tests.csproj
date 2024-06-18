@@ -28,4 +28,13 @@
         <ProjectReference Include="..\GASLanguageProcessor\GASLanguageProcessor.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="AcceptanceTests\GasTestFiles\CircleByPolygon.gas">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="AcceptanceTests\GasTestFiles\CircleByPolygon.svg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

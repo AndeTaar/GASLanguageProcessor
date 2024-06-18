@@ -10,7 +10,7 @@ static void Main(string[] args)
 {
     var outputDirectory = Path.Combine(Directory.GetCurrentDirectory().Split("bin")[0], "output");
     Directory.CreateDirectory(outputDirectory); // Create directory if it doesn't exist
-    var FilePath = Path.Combine(outputDirectory, "CircleByPolygon.svg");
+    var FilePath = Path.Combine(outputDirectory, "output.svg");
 
     var fileContents = File.ReadAllText(args[0]);
 
@@ -41,8 +41,8 @@ static void Main(string[] args)
     if (interpreter.errors.Count > 0) return;
     var recordEvaluator = new RecordEvaluator();
     var recordStore = recordEvaluator.EvaluateRecords(finalStore);
-    var svgGenerator = new SvgGenerator(recordStore);
-    var lines = svgGenerator.GenerateSvg(envV);
+    var svgGenerator = new SvgGenerator();
+    var lines = svgGenerator.GenerateSvg(recordStore);
     lines.Add("</svg>");
     File.WriteAllLines(FilePath, lines);
     Console.WriteLine("SVG file generated at: " + FilePath);

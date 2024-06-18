@@ -123,7 +123,10 @@ public class TypeEnv
 
     public Dictionary<string, VariableTypes> VTypes { get; set; } = new();
 
+    public Dictionary<string, GroupType> GTypes { get; set; } = new();
+
     public Dictionary<string, ArrayType> ATypes { get; set; } = new();
+
     public Dictionary<string, (List<GasType>, GasType)> FTypes { get; set; } = new();
 
     public Dictionary<string, (Dictionary<string, GasType>, GasRecordTypes)> RecordTypes { get; set; } = new();
@@ -146,6 +149,13 @@ public class TypeEnv
     {
         if (VTypes.ContainsKey(key)) return false;
         VTypes.Add(key, value);
+        return true;
+    }
+
+    public bool GBind(string key, GroupType value)
+    {
+        if (GTypes.ContainsKey(key)) return false;
+        GTypes.Add(key, value);
         return true;
     }
 
@@ -192,6 +202,16 @@ public class TypeEnv
         }
 
         return TypeEnvParent?.ALookUp(key);
+    }
+
+    public GroupType? GLookUp(string key)
+    {
+        if (GTypes.ContainsKey(key))
+        {
+            return GTypes[key];
+        }
+
+        return TypeEnvParent?.GLookUp(key);
     }
 
     public (Dictionary<string, GasType>, GasRecordTypes)? RecTypeLookUp(string key)

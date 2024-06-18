@@ -419,7 +419,7 @@ public class Interpreter
                 funcEnv = funcEnv.EnterScope();
 
                 EvaluateStatement(group.Statements, varEnv, funcEnv, store);
-                return new FinalGroup(finalPoint, varEnv);
+                return new FinalGroup(finalPoint, store);
 
             case GetFromArray getFromArray:
                 var listToGetFromIndex = varEnv.LookUp(getFromArray.ListIdentifier.Name);

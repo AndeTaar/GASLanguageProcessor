@@ -4,12 +4,12 @@ namespace GASLanguageProcessor.FinalTypes;
 
 public class FinalGroup : FinalType
 {
-    public FinalGroup(FinalPoint point, VarEnv envV)
+    public FinalGroup(FinalPoint point, Store store)
     {
         Point = point;
-        EnvV = envV;
+        Store = store;
     }
 
     public FinalPoint Point { get; set; }
-    public VarEnv EnvV { get; set; }
+    public Store Store { get; set; }
 }
