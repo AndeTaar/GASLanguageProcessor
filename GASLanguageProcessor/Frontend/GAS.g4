@@ -8,8 +8,6 @@ statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | listAssignment) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
 
-recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
-
 declaration : (type | collectionType) identifier ('=' expression)?;
 assignment : (attributeIdentifier | identifier) ('=' | '+=' | '-=' | '*=' | '/=') expression;
 listAssignment : identifier '[' expression ']' '=' expression;
@@ -20,6 +18,9 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
 functionDeclaration : allTypes identifier '(' (allTypes identifier  (',' allTypes identifier)*)? ')' '{' (statement)* ? '}';
+
+recDefinition : 'TypeDef' recordTypeIdentifier '{' (identifier ':' allTypes (',' identifier ':' allTypes)*)? '}';
+
 //Standard data types
 
 allTypes : type | collectionType ;

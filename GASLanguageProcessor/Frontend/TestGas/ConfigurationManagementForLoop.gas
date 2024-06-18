@@ -1,0 +1,96 @@
+Color white = Color{red=255, green=255, blue=255, alpha=1};
+
+Canvas canvas = Canvas{width=2000, height=1200, backgroundColor=white};
+
+Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
+Color orange = Color{red=160, green=105, blue=0, alpha=white.alpha};
+Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
+Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 50, 100],
+    colors=<Color>[blue, purple, red],
+    alpha=1,
+    rotation=0
+};
+
+Rectangle background = Rectangle{
+    topLeft=Point{x=0, y=0},
+    bottomRight=Point{x=canvas.width, y=canvas.height},
+    stroke=0,
+    color=blackToBlue,
+    strokeColor=white,
+    rounding=0
+};
+
+num offset = canvas.width/24;
+num width = 300;
+num height = canvas.height-630;
+num x = (canvas.width/7-width/2)-offset/5;
+num y = canvas.height/2-height/2;
+num fixedY = y;
+num fontsize = 33;
+num largeFontSize = canvas.width/41.6;
+num stroke = canvas.width/200;
+num rounding = canvas.width/50;
+
+string[] versions = <string> ["Version 1", "Version 2", "Version 3", "Version 4", "Version 5"];
+string[] contents = new string[50];
+contents = <string> [
+    "Terms", "Small AS", "No semantics", "First example", "program",
+    "Function Calls", "Larger AS", "Scope is used", "Small working", "program",
+    "Type checking", "Finished AS", "Env Sto is used", "Large working", "programs", "Semantics", "Finished",
+    "Ext. AS", "Records and", "Attributes", "Record Types", "Cleaned", "Interpreter",
+    "Records-", "evaluator", "Arrays and", "not Lists", "Strict typing", ""
+];
+num contentIndex = 0;
+num[] contentLengths = <num>[5,5,7,6,6];
+
+AnyStruct[] boxes = new AnyStruct[300];
+num boxIndex = 0;
+
+for (num i = 0; i < versions.count; i++) {
+    x += offset/7;
+    y = fixedY;
+    boxes[boxIndex] = Rectangle{
+        topLeft=Point{x=x, y=y},
+        bottomRight=Point{x=x+width, y=y+height},
+        stroke=stroke,
+        color=white,
+        strokeColor=black,
+        rounding=rounding
+    };
+    boxIndex++;
+
+    y += offset;
+    boxes[boxIndex] = Text{
+        point=Point{x=x+width/2, y=y},
+        size=largeFontSize,
+        content=versions[i],
+        weight=700,
+        color=black
+    };
+    boxIndex++;
+    y+=10;
+
+    num reach = contentLengths[i];
+
+    for (num j = 0; j < reach; j++) {
+        y += 57;
+        boxes[boxIndex] = Text{
+            point=Point{x=x+width/2, y=y},
+            size=fontsize,
+            content=contents[contentIndex],
+            weight=500,
+            color=black
+        };
+        boxIndex++;
+        contentIndex++;
+    }
+
+    x += canvas.width/6 + offset/7;
+    y = fixedY;
+}
