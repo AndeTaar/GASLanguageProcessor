@@ -1,86 +1,80 @@
 ﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
-Color black = Color{red=0, green=0, blue=0, alpha=1};
 
-Canvas canvas = Canvas{
-    width=800, height=800, backgroundColor=white
+Canvas canvas = Canvas{width=1000, height=505, backgroundColor=white};
+
+Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
+Color orange = Color{red=160, green=105, blue=0, alpha=white.alpha};
+Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
+Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 50, 100],
+    colors=<Color>[blue, purple, red],
+    alpha=1,
+    rotation=0
 };
 
-Color skinColor = Color{red=255, green=224, blue=189, alpha=1};
-Color shirtColor = Color{red=0, green=100, blue=200, alpha=1};
-Color pantsColor = Color{red=50, green=50, blue=50, alpha=1};
+Rectangle background = Rectangle{
+    topLeft=Point{x=0, y=0},
+    bottomRight=Point{x=canvas.width, y=canvas.height},
+    stroke=0,
+    color=blackToBlue,
+    strokeColor=white,
+    rounding=0
+};
 
-TypeDef personNode {
-    head: Circle,
-    body: SegLine,
-    leftArm: SegLine,
-    rightArm: SegLine,
-    leftLeg: SegLine,
-    rightLeg: SegLine
-}
+num offset = canvas.width/25;
+num width = canvas.width/5.882;
+num height = canvas.height/1.6;
+num x = (canvas.width/5-width/2)-offset/5;
+num y = canvas.height/2-height/2;
+num fixedY = y;
+num fontsize = canvas.width/50;
+num largeFontSize = canvas.width/41.6;
+num stroke = canvas.width/200;
+num rounding = canvas.width/50;
 
-num headRadius = 20;
-num bodyLength = 60;
-num armLength = 40;
-num legLength = 50;
+string[] versions = <string> ["Version 1", "Version 2", "Version 3", "Version 4"];
+string[] contents = <string> [
+    "Terms", "Small AS", "No semantics", "First example", "program",
+    "Function Calls", "Larger AS", "Scope is used", "Working small", "program",
+    "Type checking", "Finished AS", "Env Sto is used", "Large working", "programs", "Semantics", "Finished",
+    "Ext. AS", "Records and", "Attributes", "Record Types", "Cleaned", "Interpreter"
+];
 
-personNode DrawPerson(Point center){
-    return personNode{
-        head=Circle{
-            center=Point{x=center.x, y=center.y-headRadius},
-            radius=headRadius,
-            stroke=0, color=skinColor, strokeColor=white
-        },
-        body=SegLine{
-            start=Point{x=center.x, y=center.y},
-            end=Point{x=center.x, y=center.y+bodyLength},
-            stroke=5, color=shirtColor
-        },
-        leftArm=SegLine{
-            start=Point{x=center.x, y=center.y+10},
-            end=Point{x=center.x-armLength, y=center.y+10},
-            stroke=5, color=shirtColor
-        },
-        rightArm=SegLine{
-            start=Point{x=center.x, y=center.y+10},
-            end=Point{x=center.x+armLength, y=center.y+10},
-            stroke=5, color=shirtColor
-        },
-        leftLeg=SegLine{
-            start=Point{x=center.x, y=center.y+bodyLength},
-            end=Point{x=center.x-legLength/2, y=center.y+bodyLength+legLength},
-            stroke=5, color=pantsColor
-        },
-        rightLeg=SegLine{
-            start=Point{x=center.x, y=center.y+bodyLength},
-            end=Point{x=center.x+legLength/2, y=center.y+bodyLength+legLength},
-            stroke=5, color=pantsColor
-        }
+for (int i = 0; i < 100; i++) {
+    Rectangle box = Rectangle{
+        topLeft=Point{x=x, y=y},
+        bottomRight=Point{x=x+width, y=y+height},
+        stroke=stroke,
+        color=white,
+        strokeColor=black,
+        rounding=rounding
     };
-}
 
-AnyStruct[] shapes = new AnyStruct[400];
+    y += offset;
+    Text boxText = Text{
+        point=Point{x=x+width/2, y=y},
+        size=largeFontSize,
+        content=versions[i],
+        weight=700,
+        color=black
+    };
 
-/* Drawing a person at the center of the canvas */
-Point personCenter = Point{x=100, y=100};
-
-for(num y = 0; y < 6; y++){
-    if(y%2 == 0){
-        for(num x = 0; x < 4; x++){
-            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 75 + 150*x, y=personCenter.y + 80*y});
-        }
+    for (int j = 0; j < 100; j++) {
+        y += offset;
+        Text contentText = Text{
+            point=Point{x=x+width/2, y=y},
+            size=fontsize,
+            content=contents[i*j],
+            weight=500,
+            color=black
+        };
     }
-    else {
-        for(num x = 0; x < 5; x++){
-            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 150*x, y=personCenter.y + 90 *y});
-        }
-    }
+
+    x += canvas.width/5 + offset/5;
+    y = fixedY;
 }
-
-/* Adding text label */
-Text text = Text{
-    point=Point{x=canvas.width/2, y=canvas.height/2 + 300},
-    size=40,
-    content="Stick Figure People",
-    color=black
-};
-

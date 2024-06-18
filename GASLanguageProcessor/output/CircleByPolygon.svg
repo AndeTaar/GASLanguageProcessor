@@ -1,165 +1,44 @@
-<svg width="800" height="800" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
-<circle id="" cx="175" cy="80" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="175" y1="100" x2="175" y2="160" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="110" x2="135" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="110" x2="215" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="160" x2="150" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="175" y1="160" x2="200" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="325" cy="80" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="325" y1="100" x2="325" y2="160" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="110" x2="285" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="110" x2="365" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="160" x2="300" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="325" y1="160" x2="350" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="475" cy="80" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="475" y1="100" x2="475" y2="160" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="110" x2="435" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="110" x2="515" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="160" x2="450" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="475" y1="160" x2="500" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="625" cy="80" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="625" y1="100" x2="625" y2="160" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="110" x2="585" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="110" x2="665" y2="110" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="160" x2="600" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="625" y1="160" x2="650" y2="210" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="100" cy="170" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="100" y1="190" x2="100" y2="250" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="200" x2="60" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="200" x2="140" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="250" x2="75" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="100" y1="250" x2="125" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="250" cy="170" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="250" y1="190" x2="250" y2="250" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="200" x2="210" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="200" x2="290" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="250" x2="225" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="250" y1="250" x2="275" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="400" cy="170" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="400" y1="190" x2="400" y2="250" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="200" x2="360" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="200" x2="440" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="250" x2="375" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="400" y1="250" x2="425" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="550" cy="170" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="550" y1="190" x2="550" y2="250" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="200" x2="510" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="200" x2="590" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="250" x2="525" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="550" y1="250" x2="575" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="700" cy="170" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="700" y1="190" x2="700" y2="250" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="200" x2="660" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="200" x2="740" y2="200" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="250" x2="675" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="700" y1="250" x2="725" y2="300" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="175" cy="240" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="175" y1="260" x2="175" y2="320" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="270" x2="135" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="270" x2="215" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="320" x2="150" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="175" y1="320" x2="200" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="325" cy="240" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="325" y1="260" x2="325" y2="320" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="270" x2="285" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="270" x2="365" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="320" x2="300" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="325" y1="320" x2="350" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="475" cy="240" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="475" y1="260" x2="475" y2="320" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="270" x2="435" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="270" x2="515" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="320" x2="450" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="475" y1="320" x2="500" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="625" cy="240" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="625" y1="260" x2="625" y2="320" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="270" x2="585" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="270" x2="665" y2="270" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="320" x2="600" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="625" y1="320" x2="650" y2="370" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="100" cy="350" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="100" y1="370" x2="100" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="380" x2="60" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="380" x2="140" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="430" x2="75" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="100" y1="430" x2="125" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="250" cy="350" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="250" y1="370" x2="250" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="380" x2="210" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="380" x2="290" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="430" x2="225" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="250" y1="430" x2="275" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="400" cy="350" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="400" y1="370" x2="400" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="380" x2="360" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="380" x2="440" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="430" x2="375" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="400" y1="430" x2="425" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="550" cy="350" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="550" y1="370" x2="550" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="380" x2="510" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="380" x2="590" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="430" x2="525" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="550" y1="430" x2="575" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="700" cy="350" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="700" y1="370" x2="700" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="380" x2="660" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="380" x2="740" y2="380" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="430" x2="675" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="700" y1="430" x2="725" y2="480" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="175" cy="400" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="175" y1="420" x2="175" y2="480" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="430" x2="135" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="430" x2="215" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="175" y1="480" x2="150" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="175" y1="480" x2="200" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="325" cy="400" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="325" y1="420" x2="325" y2="480" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="430" x2="285" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="430" x2="365" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="325" y1="480" x2="300" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="325" y1="480" x2="350" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="475" cy="400" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="475" y1="420" x2="475" y2="480" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="430" x2="435" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="430" x2="515" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="475" y1="480" x2="450" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="475" y1="480" x2="500" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="625" cy="400" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="625" y1="420" x2="625" y2="480" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="430" x2="585" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="430" x2="665" y2="430" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="625" y1="480" x2="600" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="625" y1="480" x2="650" y2="530" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="100" cy="530" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="100" y1="550" x2="100" y2="610" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="560" x2="60" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="560" x2="140" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="100" y1="610" x2="75" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="100" y1="610" x2="125" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="250" cy="530" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="250" y1="550" x2="250" y2="610" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="560" x2="210" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="560" x2="290" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="250" y1="610" x2="225" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="250" y1="610" x2="275" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="400" cy="530" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="400" y1="550" x2="400" y2="610" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="560" x2="360" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="560" x2="440" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="400" y1="610" x2="375" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="400" y1="610" x2="425" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="550" cy="530" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="550" y1="550" x2="550" y2="610" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="560" x2="510" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="560" x2="590" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="550" y1="610" x2="525" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="550" y1="610" x2="575" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<circle id="" cx="700" cy="530" r="20" fill="rgb(255, 224, 189)" fill-opacity="1" stroke="rgb(255, 255, 255)" stroke-width="0" />
-<line id="" x1="700" y1="550" x2="700" y2="610" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="560" x2="660" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="560" x2="740" y2="560" stroke="rgb(0, 100, 200)" stroke-width="5" />
-<line id="" x1="700" y1="610" x2="675" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<line id="" x1="700" y1="610" x2="725" y2="660" stroke="rgb(50, 50, 50)" stroke-width="5" />
-<text id="text" x="400" y="700" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="400" font-size="40">Stick Figure People</text>
+<svg width="1000" height="505" style="background-color: rgb(255, 255, 255)" xmlns="http://www.w3.org/2000/svg">
+<linearGradient id="blackToBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="rgb(0, 0, 265)" />
+<stop offset="50%" stop-color="rgb(128, 0, 128)" />
+<stop offset="100%" stop-color="rgb(255, 0, 0)" />
+</linearGradient>
+<linearGradient id="blackToBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="rgb(0, 0, 265)" />
+<stop offset="50%" stop-color="rgb(128, 0, 128)" />
+<stop offset="100%" stop-color="rgb(255, 0, 0)" />
+</linearGradient>
+<rect id="background" x="0" y="0" width="1000" height="505" fill="url(#blackToBlue)" fill-opacity="1" rx="0" stroke="rgb(255, 255, 255)" stroke-width="0" />
+<rect id="box1" x="106.994896" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box1Text" x="192" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 1</text>
+<text id="box2Text" x="192" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Terms</text>
+<text id="box3Text" x="192" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Small AS</text>
+<text id="box4Text" x="192" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">No semantics</text>
+<text id="box5Text" x="192" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">First example</text>
+<text id="box6Text" x="192" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">program</text>
+<rect id="box2" x="314.9949" y="94.6875" width="170.01022" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box7Text" x="400" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 2</text>
+<text id="box8Text" x="400" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Function Calls</text>
+<text id="box9Text" x="400" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Larger AS</text>
+<text id="box10Text" x="400" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Scope is used</text>
+<text id="box11Text" x="400" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Working small</text>
+<text id="box12Text" x="400" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">program</text>
+<rect id="box3" x="522.9949" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box13Text" x="608" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 3</text>
+<text id="box14Text" x="608" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Type checking</text>
+<text id="box15Text" x="608" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Finished AS</text>
+<text id="box16Text" x="608" y="254.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Env Sto is used</text>
+<text id="box17Text" x="608" y="294.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Large working</text>
+<text id="box18Text" x="608" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">programs</text>
+<text id="box19Text" x="608" y="354.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Semantics</text>
+<text id="box20Text" x="608" y="374.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Finished</text>
+<rect id="box4" x="730.9949" y="94.6875" width="170.0102" height="315.625" fill="rgb(255, 255, 255)" fill-opacity="1" rx="20" stroke="rgb(0, 0, 0)" stroke-width="5" />
+<text id="box21Text" x="816" y="134.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24.038462">Version 4</text>
+<text id="box22Text" x="816" y="174.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Ext. AS</text>
+<text id="box23Text" x="816" y="214.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Records and</text>
+<text id="box24Text" x="816" y="234.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Attributes</text>
+<text id="box25Text" x="816" y="274.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Record Types</text>
+<text id="box26Text" x="816" y="314.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Cleaned</text>
+<text id="box27Text" x="816" y="334.6875" xml:space="preserve" fill="rgb(0, 0, 0)" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-weight="500" font-size="20">Interpreter</text>
 </svg>

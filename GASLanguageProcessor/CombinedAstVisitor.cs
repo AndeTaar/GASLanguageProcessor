@@ -187,12 +187,17 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
         var initializer = (StatementType) node.Initializer.Accept(this, envT);
 
         if (initializer.Type != StatementTypes.Ok)
+        {
             errors.Add("Invalid type for initializer: expected: Ok, got: " + initializer);
+        }
 
-        var incrementer = (StatementType) node.Incrementer.Accept(this, envT);
+        var incrementer = node.Incrementer.Accept(this, envT);
+        var incrementerType = incrementer as StatementType;
 
-        if (incrementer.Type != StatementTypes.Ok)
+        if (incrementerType?.Type != StatementTypes.Ok)
+        {
             errors.Add("Invalid type for incrementer: expected: Ok, got: " + incrementer);
+        }
 
         var condition = node.Condition.Accept(this, envT) as VariableType;
 
@@ -967,7 +972,16 @@ public class CombinedAstVisitor : IAstVisitor<GasType>
     {
         var listIdentifier = node.ListIdentifier;
         var listType = envT.ALookUp(listIdentifier.Name)?.ElementType;
-        var indexType = (VariableType) node.Index.Accept(this, envT);
+        VariableType indexType;
+        try
+        {
+            indexType = (VariableType) node.Index.Accept(this, envT);
+        }
+        catch (Exception e)
+        {
+            errors.Add("Line: " + node.LineNum + " Invalid type for index: expected: Num, got: " + e.Message);
+            return new ErrorType();
+        }
 
         if (listType == null)
         {
