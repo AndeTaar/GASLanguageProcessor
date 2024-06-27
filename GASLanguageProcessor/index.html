@@ -43,7 +43,7 @@
         const codeInput = document.getElementById('codeInput').value;
 
         try {
-            const response = await fetch('http:85.218.242.176:5000/api/svg', {
+            const response = await fetch('../svg', {
                 method: 'PUT',
                 body: JSON.stringify({ code: codeInput }),
                 headers: {

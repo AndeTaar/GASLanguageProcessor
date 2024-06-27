@@ -9,6 +9,21 @@ namespace GASLanguageProcessor.Controllers;
 [ApiController]
 public class SvgController : ControllerBase
 {
+
+    [HttpGet("index.html")]
+    public IActionResult GetIndexHtml()
+    {
+        var filePath = @"C:\Users\coolf\Desktop\GASLanguageProcessor\GASLanguageProcessor\index.html";
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound();
+        }
+
+        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        return File(fileStream, "text/html");
+    }
+
     [HttpPut]
     public async Task<ActionResult<List<string>>> GetSvgFromCode([FromBody] CodeRequest request)
     {

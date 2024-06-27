@@ -26,9 +26,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-app.UseCors(myAllowSpecificOrigins);
+app.UseStaticFiles();
 
-app.UseHttpsRedirection();
+app.UseCors(myAllowSpecificOrigins);
 
 app.UseAuthentication();
 
