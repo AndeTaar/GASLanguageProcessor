@@ -37,8 +37,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-static void Main(string[] args)
-{
-
-}
