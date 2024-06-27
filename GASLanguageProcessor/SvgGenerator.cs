@@ -16,6 +16,7 @@ public class SvgGenerator
             var variable = sto.LookUp(i);
             GenerateLine(variable, i, new VarEnv());
         }
+        SvgLines.Add("</svg>");
 
         return SvgLines;
     }
@@ -40,7 +41,7 @@ public class SvgGenerator
         {
             case FinalCanvas canvas:
                 SvgLines.Add(
-                    $"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColor.ColorToString()}\" xmlns=\"http://www.w3.org/2000/svg\">");
+                    $"<svg width=\"{canvas.Width}\" height=\"{canvas.Height}\" style=\"background-color: {canvas.BackgroundColor.ColorToString()}; object-fit: contain;\" xmlns=\"http://www.w3.org/2000/svg\">");
                 break;
             case FinalCircle circle:
                 SvgLines.Add(

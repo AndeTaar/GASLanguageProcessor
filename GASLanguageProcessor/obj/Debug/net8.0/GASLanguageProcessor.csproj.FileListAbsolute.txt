@@ -154,3 +154,12 @@ C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.
 C:/Users/coolf/Desktop/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/TestGas/ParseTree.gas
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/TestGas/ConfigurationManagement.gas
 /Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/bin/Debug/net8.0/Frontend/TestGas/ParseTree.gas
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.MvcApplicationPartsAssemblyInfo.cache
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets.build.json
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets.development.json
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets/msbuild.GASLanguageProcessor.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets/msbuild.build.GASLanguageProcessor.props
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.GASLanguageProcessor.props
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.GASLanguageProcessor.props
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/thomas/Documents/GASLanguageProcessor/GASLanguageProcessor/obj/Debug/net8.0/scopedcss/bundle/GASLanguageProcessor.styles.css

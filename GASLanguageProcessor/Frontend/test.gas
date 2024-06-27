@@ -1,193 +1,156 @@
-﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
-Color whiteTransparent = Color{red=255, green=255, blue=255, alpha=0};
-
-Canvas canvas = Canvas{width=3000, height=1200, backgroundColor=white};
-
-Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
-Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
-Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
-Color orange = Color{red=255, green=165, blue=0, alpha=white.alpha};
-Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
-Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
-Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
-Color pink = Color{red=255, green=192, blue=203, alpha=white.alpha};
-
-Color blackToBlue = LinearGradient{
-    stops=<num>[0, 50, 100],
-    colors=<Color>[blue, purple, red],
-    alpha=1,
-    rotation=0
+﻿Canvas myCanvas = Canvas{
+    width=1800,
+    height=750,
+    backgroundColor=Color{red=255, green=255, blue=255, alpha=1}
 };
 
-Rectangle background = Rectangle{
-    topLeft=Point{x=0, y=0},
-    bottomRight=Point{x=canvas.width, y=canvas.height},
-    stroke=0,
-    color=blackToBlue,
-    strokeColor=white,
-    rounding=0
+num y=200;
+
+Circle myCircle = Circle{
+    center=Point{x=100, y=y},
+    radius=50,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=255, alpha=1}, Color{red=255, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    }
 };
 
-TypeDef Element {
-    rectangle: Rectangle,
-    text: Text,
-    arrow: Arrow,
-    arrowText: Text
-}
-
-TypeDef ElementGroup{
-    rectangle: Rectangle,
-    element1: Element,
-    element2: Element,
-    element3: Element,
-    text: Text
-}
-
-num width = 1000;
-num elementWidth = 230;
-num height = 400;
-num elementHeight = 200;
-num x = 275;
-num elementX = x+40;
-num y = canvas.height/2-height/2;
-num fixedY = y;
-num fontsize = 33;
-num largeFontSize = canvas.width/41.6;
-num stroke = canvas.width/200;
-num rounding = canvas.width/50;
-num offset = 100;
-
-string[] contents = <string>["Frontend", "Lexical", "Syntax", "Type check.", "Backend", "Interpret.", "Rec eval.", "Svg generat."];
-string[] arrowContents = <string>["Program text", "Tokens", "AST", "Type-annotated AST", "", "Store", "Store", "SVG"];
-Color[] colors = <Color>[blue, blue, purple, blue, green, orange, red, red];
-num contentIndex = 0;
-
-
-AnyStruct[] boxes = new AnyStruct[300];
-num boxIndex = 0;
-
-Arrow arrow = Arrow{
-    start=Point{x=canvas.width/2-140, y=canvas.height/2+60},
-    end=Point{x=canvas.width/2+90, y=canvas.height/2+60},
-    stroke=14,
-    color=white
+Rectangle myRectangle = Rectangle{
+    topLeft=Point{x=200, y=y},
+    bottomRight=Point{x=300, y=y*3},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=0, alpha=1}, Color{red=0, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
 };
 
-Text title = Text{
-    point=Point{x=canvas.width/2-30, y=canvas.height/2-60},
-    size=35,
-    content="Type-annotated",
-    weight=700,
-    color=white
+Ellipse myEllipse = Ellipse{
+    center=Point{x=400, y=y},
+    radiusX=50,
+    radiusY=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=0, alpha=1}, Color{red=0, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
 };
 
-Text title2 = Text{
-    point=Point{x=canvas.width/2-30, y=canvas.height/2-10},
-    size=30,
-    content="Abstract Syntax Tree",
-    weight=700,
-    color=white
+Triangle myTriangle = Triangle{
+    point1=Point{x=500, y=y*2},
+    point2=Point{x=500, y=y},
+    point3=Point{x=600, y=y},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=255, alpha=1}, Color{red=255, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
 };
 
-for (num i = 0; i < 8; i+=4) {
-    contentIndex = i;
-    boxes[boxIndex] = ElementGroup{
-        rectangle=Rectangle{
-            topLeft=Point{x=x, y=y},
-            bottomRight=Point{x=x+width, y=y+height},
-            stroke=stroke,
-            color=white,
-            strokeColor=black,
-            rounding=rounding
-        },
-        text=Text{
-            point=Point{x=x+width/2, y=y+75},
-            size=largeFontSize,
-            content=contents[contentIndex],
-            weight=700,
-            color=black
-        },
-        element1=Element{
-            rectangle=Rectangle{
-                topLeft=Point{x=(elementX+elementWidth-elementWidth/2)-offset, y=y+150},
-                bottomRight=Point{x=(elementX+elementWidth+elementWidth/2)-offset, y=y+elementHeight+150},
-                stroke=0,
-                color=colors[contentIndex],
-                strokeColor=black,
-                rounding=10
-            },
-            text=Text{
-                point=Point{x=(elementX+elementWidth)-offset, y=y+((elementHeight+50)/2)+125},
-                size=fontsize,
-                content=contents[contentIndex+1],
-                weight=700,
-                color=white
-            },
-            arrow=Arrow{
-                start=Point{x=(elementX+elementWidth)+30, y=y+250},
-                end=Point{x=(elementX+elementWidth)+100, y=y+250},
-                stroke=5,
-                color=black
-            },
-            arrowText=Text{
-                point=Point{x=(elementX+elementWidth)+60, y=y+290},
-                size=23,
-                content=arrowContents[contentIndex+1],
-                weight=700,
-                color=black
-            }
+Polygon myPolygon = Polygon{
+    points=<Point>[Point{x=650, y=y}, Point{x=750, y=y+100}, Point{x=800, y=y}, Point{x=800, y=y-50},Point{x=700, y=y-50}],
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=0, blue=255, alpha=1}, Color{red=255, green=255, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
 
-        },
-        element2=Element{
-             rectangle=Rectangle{
-                    topLeft=Point{x=elementX+elementWidth*2-elementWidth/2, y=y+150},
-                    bottomRight=Point{x=elementX+elementWidth*2+elementWidth/2, y=y+elementHeight+150},
-                    stroke=0,
-                    color=colors[contentIndex+1],
-                    strokeColor=black,
-                    rounding=10
-                },
-            text=Text{
-                point=Point{x=elementX+elementWidth*2, y=y+((elementHeight+50)/2)+125},
-                size=fontsize,
-                content=contents[contentIndex+2],
-                weight=700,
-                color=white
-            },
-            arrow=Arrow{
-                start=Point{x=(elementX+elementWidth*2)+130, y=y+250},
-                end=Point{x=(elementX+elementWidth*2)+200, y=y+250},
-                stroke=5,
-                color=black
-            },
-            arrowText=Text{
-                point=Point{x=(elementX+elementWidth*2)+165, y=y+290},
-                size=23,
-                content=arrowContents[contentIndex+2],
-                weight=700,
-                color=black
-            }
-        },
-        element3=Element{
-            rectangle=Rectangle{
-                topLeft=Point{x=(elementX+elementWidth*3-elementWidth/2)+offset, y=y+150},
-                bottomRight=Point{x=(elementX+elementWidth*3+elementWidth/2)+offset, y=y+elementHeight+150},
-                stroke=0,
-                color=colors[contentIndex+2],
-                strokeColor=black,
-                rounding=10
-            },
-            text=Text{
-                point=Point{x=(elementX+elementWidth*3)+offset, y=y+((elementHeight+50)/2)+125},
-                size=fontsize,
-                content=contents[contentIndex+3],
-                weight=700,
-                color=white
-            }
-        }
-    };
-    boxIndex++;
-    x += width + canvas.width/7.5;
-    elementX = x+40;
-    y = fixedY;
-}
+SegLine myLine = SegLine{
+    start=Point{x=900, y=y},
+    end=Point{x=1000, y=y+200},
+    stroke=20,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Arrow myArrow = Arrow{
+    start=Point{x=1100, y=y},
+    end=Point{x=1200, y=y+100},
+    stroke=30,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Text myText = Text{
+    point=Point{x=1400, y=y+50},
+    content="Hello, World!",
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    font="Arial",
+    size=40,
+    weight=400
+};
+
+Square mySquare = Square{
+    topLeft=Point{x=1600, y=y},
+    side=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
+};

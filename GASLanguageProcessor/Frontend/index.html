@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Submission</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .textbox {
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+        .output-box {
+            white-space: pre-wrap;
+        }
+        .svg-container {
+            margin: 10px;
+            padding: 10px;
+            width: 100vw;
+            border: 1px solid #ccc;
+            justify-content: center;
+            display: flex;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to the GAS language</h1>
+<div style="display: flex; gap: 20px;"><h2>Examples:</h2> <button onclick="drawfigures()">Stick figures</button> <button onclick="drawAllShapes()">All shapes</button><button onclick="drawParseTree()">Parse tree</button><button onclick="drawCircleByPolygon()">Circle by polygon</button></div>
+<div class="container" style="width: 100vw; justify-content: center; align-items: center; height: 40vh; display: flex;">
+    <textarea id="codeInput" style="width: 70vw; height: 100%;" class="textbox" placeholder="Write your code here..."></textarea>
+    <textarea id="codeOutput" style="width: 30vw; height: 100%;" class="textbox output-box" readonly placeholder="Response will be shown here..."></textarea>
+</div>
+<button onclick="submitCode()">Submit Code</button>
+<div id="svg-container" class="svg-container">
+
+</div>
+
+
+<script>
+    async function submitCode() {
+        const codeInput = document.getElementById('codeInput').value;
+
+        try {
+            const response = await fetch('http://localhost:5000/api/svg', {
+                method: 'PUT',
+                body: JSON.stringify({ code: codeInput }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+
+            const data = await response.json();
+            const svgContent = data.join('\n');
+
+            document.getElementById('codeOutput').value = svgContent;
+
+            document.getElementById('svg-container').innerHTML = svgContent;
+
+        } catch (error) {
+            document.getElementById('codeOutput').value = 'Error: ' + error.message;
+            document.getElementById('svg-container').innerHTML = '<p>Error loading SVG</p>';
+        }
+    }
+
+    function drawAllShapes() {
+        document.getElementById('codeInput').value = `Canvas myCanvas = Canvas{
+    width=1800,
+    height=750,
+    backgroundColor=Color{red=255, green=255, blue=255, alpha=1}
+};
+
+num y=200;
+
+Circle myCircle = Circle{
+    center=Point{x=100, y=y},
+    radius=50,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=255, alpha=1}, Color{red=255, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Rectangle myRectangle = Rectangle{
+    topLeft=Point{x=200, y=y},
+    bottomRight=Point{x=300, y=y*3},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=0, alpha=1}, Color{red=0, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
+};
+
+Ellipse myEllipse = Ellipse{
+    center=Point{x=400, y=y},
+    radiusX=50,
+    radiusY=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=0, alpha=1}, Color{red=0, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Triangle myTriangle = Triangle{
+    point1=Point{x=500, y=y*2},
+    point2=Point{x=500, y=y},
+    point3=Point{x=600, y=y},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=255, alpha=1}, Color{red=255, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Polygon myPolygon = Polygon{
+    points=<Point>[Point{x=650, y=y}, Point{x=750, y=y+100}, Point{x=800, y=y}, Point{x=800, y=y-50},Point{x=700, y=y-50}],
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=0, blue=255, alpha=1}, Color{red=255, green=255, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+SegLine myLine = SegLine{
+    start=Point{x=900, y=y},
+    end=Point{x=1000, y=y+200},
+    stroke=20,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Arrow myArrow = Arrow{
+    start=Point{x=1100, y=y},
+    end=Point{x=1200, y=y+100},
+    stroke=30,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Text myText = Text{
+    point=Point{x=1400, y=y+50},
+    content="Hello, World!",
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    font="Arial",
+    size=40,
+    weight=400
+};
+
+Square mySquare = Square{
+    topLeft=Point{x=1600, y=y},
+    side=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
+};
+`;
+    }
+    function drawCircleByPolygon() {
+        document.getElementById('codeInput').value = `Color white = Color{red=255, green=255, blue=255, alpha=1 };
+Canvas canvas = Canvas {width=500, height=500, backgroundColor=white};
+
+num g = white.green;
+
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha };
+
+Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha };
+
+num Cos(num angleInDegrees) {
+    num angle = angleInDegrees * 3.14159 / 180;
+    num result = 1;
+    num term = 1;
+    for (num i = 1; i <= 10; i+=1) {
+        term *= -angle * angle / ((2 * i) * (2 * i - 1));
+        result += term;
+    }
+    return result;
+}
+
+num Sin(num angleInDegrees) {
+    num angle = angleInDegrees * 3.14159 / 180;
+    num result = angle;
+    num term = angle;
+    for (num i = 1; i <= 10; i+=1) {
+        term *= -angle * angle / ((2 * i + 1) * (2 * i));
+        result += term;
+    }
+    return result;
+}
+
+Circle c;
+Polygon[] polygons = new Polygon[200];
+num polyIndex = 0;
+Point center = Point{x=canvas.width/2, y=canvas.height/2};
+
+void createCircleDiagram(num radius, Point center, num percentage){
+    Point[] points = new Point[500];
+    num pointIndex = 0;
+    num entireCircle = 360;
+    entireCircle = entireCircle * percentage / 100;
+
+    for (num theta = 0; theta <= entireCircle; theta += 1)
+    {
+        num x2 = center.x + radius * Sin(theta)*-1;
+        num y = center.y + radius * Cos(theta)*-1;
+        points[pointIndex] = Point{x=x2, y=y};
+        pointIndex++;
+    }
+
+    points[pointIndex] = Point{x=center.x, y=center.y};
+    pointIndex++;
+    c = Circle{
+        center=Point{
+            x=center.x,
+            y=center.y
+        },
+        radius=50,
+        stroke=0,
+        color=blue,
+        strokeColor=red
+    };
+
+    Polygon poly = Polygon{points=points, stroke=0, color=red, strokeColor=red};
+    polygons[polyIndex] = poly;
+    polyIndex++;
+}
+
+num radius = 50;
+
+createCircleDiagram(radius, center, 75);`}
+    function drawParseTree() {
+        document.getElementById('codeInput').value = `Color white = Color{red=255, green=255, blue=255, alpha=1};
+
+Canvas canvas = Canvas{width=950, height=950, backgroundColor=white};
+
+num g = white.green;
+
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 100],
+    colors=<Color>[black, blue],
+    alpha=1,
+    rotation=90
+};
+
+TypeDef parseTreeNode {
+    square: Rectangle,
+    arrowTop: Arrow,
+    arrowBottom: Arrow,
+    operatorArrow: Arrow,
+    nodeType: Text,
+    operator: Text
+}
+
+num width = 100;
+num height = 60;
+num vertDistance = 40;
+num horDistance = 90;
+
+parseTreeNode DrawNodeWithSingleArrow(Point center, string content){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
+}
+
+
+parseTreeNode DrawNode(Point center, string content){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
+}
+
+parseTreeNode DrawNodeWithOperator(Point center, string content, string operator){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        operatorArrow=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        },
+        operator=Text{
+            point=Point{x=center.x, y=center.y+height+20},
+            size=30,
+            content=operator,
+            color=black
+        }
+    };
+}
+
+Point p = Point{x=canvas.width/2-30, y=100};
+
+AnyStruct[] shapes = new AnyStruct[400];
+num i= 0;
+shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= horDistance+30;
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
+p.x += 2*horDistance+60;
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+100;
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
+p.x += 2*horDistance+140;
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+180;
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "+");
+i++;
+Point leftP = Point{x=p.x, y=p.y};
+
+p.x += 2*horDistance+220;
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "-");
+i++;
+Point rightP = Point{x=p.x, y=p.y};
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+310;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "MultExpr");
+i++;
+rightP.x += 2*horDistance+30;
+shapes[i] = DrawNodeWithOperator(rightP, "MultExpr", "*");
+i++;
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+30;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
+rightP.y -= height + vertDistance+5;
+
+rightP.x += 2*horDistance-50;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
+rightP.y -= height + vertDistance+5;
+rightP.x += 2*horDistance-20;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Identifier");
+i++;
+rightP.y -= height + vertDistance+5;
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance-490;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "MultExpr");
+i++;
+leftP.x += 2*horDistance+20;
+shapes[i] = DrawNodeWithOperator(leftP, "MultExpr", "/");
+i++;
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance+20;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-50;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-20;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+
+Text text = Text{
+    point=Point{x=canvas.width/2, y=rightP.y+220},
+    size=40,
+    content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
+    color=black
+};`;
+    }
+    function drawfigures() {
+        document.getElementById('codeInput').value = `Color white = Color{red=255, green=255, blue=255, alpha=1};
+Color black = Color{red=0, green=0, blue=0, alpha=1};
+
+Canvas canvas = Canvas{
+    width=800, height=800, backgroundColor=white
+};
+
+Color skinColor = Color{red=255, green=224, blue=189, alpha=1};
+Color shirtColor = Color{red=0, green=100, blue=200, alpha=1};
+Color pantsColor = Color{red=50, green=50, blue=50, alpha=1};
+
+TypeDef personNode {
+    head: Circle,
+    body: SegLine,
+    leftArm: SegLine,
+    rightArm: SegLine,
+    leftLeg: SegLine,
+    rightLeg: SegLine
+}
+
+num headRadius = 20;
+num bodyLength = 60;
+num armLength = 40;
+num legLength = 50;
+
+personNode DrawPerson(Point center){
+    return personNode{
+        head=Circle{
+            center=Point{x=center.x, y=center.y-headRadius},
+            radius=headRadius,
+            stroke=0, color=skinColor, strokeColor=white
+        },
+        body=SegLine{
+            start=Point{x=center.x, y=center.y},
+            end=Point{x=center.x, y=center.y+bodyLength},
+            stroke=5, color=shirtColor
+        },
+        leftArm=SegLine{
+            start=Point{x=center.x, y=center.y+10},
+            end=Point{x=center.x-armLength, y=center.y+10},
+            stroke=5, color=shirtColor
+        },
+        rightArm=SegLine{
+            start=Point{x=center.x, y=center.y+10},
+            end=Point{x=center.x+armLength, y=center.y+10},
+            stroke=5, color=shirtColor
+        },
+        leftLeg=SegLine{
+            start=Point{x=center.x, y=center.y+bodyLength},
+            end=Point{x=center.x-legLength/2, y=center.y+bodyLength+legLength},
+            stroke=5, color=pantsColor
+        },
+        rightLeg=SegLine{
+            start=Point{x=center.x, y=center.y+bodyLength},
+            end=Point{x=center.x+legLength/2, y=center.y+bodyLength+legLength},
+            stroke=5, color=pantsColor
+        }
+    };
+}
+
+AnyStruct[] shapes = new AnyStruct[400];
+
+/* Drawing a person at the center of the canvas */
+Point personCenter = Point{x=100, y=100};
+
+for(num y = 0; y < 6; y++){
+    if(y%2 == 0){
+        for(num x = 0; x < 4; x++){
+            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 75 + 150*x, y=personCenter.y + 80*y});
+        }
+    }
+    else {
+        for(num x = 0; x < 5; x++){
+            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 150*x, y=personCenter.y + 90 *y});
+        }
+    }
+}
+
+/* Adding text label */
+Text text = Text{
+    point=Point{x=canvas.width/2, y=canvas.height/2 + 300},
+    size=40,
+    content="Stick Figure People",
+    color=black
+};`;
+    }
+</script>
+</body>
+</html>

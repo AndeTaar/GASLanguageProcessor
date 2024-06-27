@@ -7,22 +7,27 @@ namespace GASLanguageProcessor;
 
 public class RecordEvaluator
 {
+
+    public bool hasCanvas = false;
     public Store EvaluateRecords(Store store)
     {
-        for (int i = 0; i < store.Values.Count+1; i++)
+        Store recordStore = new();
+        int rsIndex = 1;
+        foreach (var value in store.Values)
         {
-            if (!store.Values.ContainsKey(i))
+            if (value.Value is FinalList || value.Value is FinalRecord)
             {
-                continue;
-            }
-
-            if (store.Values[i] is FinalList || store.Values[i] is FinalRecord)
-            {
-                store.Values[i] = EvaluateRecord((FinalType)store.Values[i], store);
+                recordStore.Bind(rsIndex, EvaluateRecord((FinalType)value.Value, store));
+                rsIndex++;
             }
         }
 
-        return store;
+        if (!hasCanvas)
+        {
+            recordStore.Bind(0, new FinalCanvas(100, 100, new FinalColor(255, 255, 255, 1)));
+        }
+
+        return recordStore;
     }
 
     public object? EvaluateList(FinalList finalList, Store store)
@@ -82,6 +87,7 @@ public class RecordEvaluator
                 var width = widthObj != null ? (float)widthObj : 0.0f;
                 var height = heightObj != null ? (float)heightObj : 0.0f;
                 var backgroundColor = backgroundColorObj != null ? (FinalColors)backgroundColorObj : new FinalColor(0, 0, 0, 1);
+                hasCanvas = true;
                 return new FinalCanvas(width, height, backgroundColor) { Id=finalRecord.Id, Fields = dictionary };;
 
             case "Circle":
