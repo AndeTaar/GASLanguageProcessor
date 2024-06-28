@@ -1,4 +1,4 @@
-﻿using GASLanguageProcessor.FinalTypes;
+﻿using CARLLanguageProcessor.FinalTypes;
 
 namespace Tests.GeneratorTests;
 

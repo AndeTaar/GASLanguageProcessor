@@ -1,0 +1,321 @@
+﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
+
+Canvas canvas = Canvas{width=1000, height=505, backgroundColor=white};
+
+Color blue = Color{red=0, green=0, blue=265, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+Color purple = Color{red=128, green=0, blue=128, alpha=white.alpha};
+Color orange = Color{red=160, green=105, blue=0, alpha=white.alpha};
+Color morOrange = Color{red=190, green=125, blue=0, alpha=white.alpha};
+Color green = Color{red=20, green=148, blue=127, alpha=white.alpha};
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 50, 100],
+    colors=<Color>[blue, purple, red],
+    alpha=1,
+    rotation=0
+};
+
+Rectangle background = Rectangle{
+    topLeft=Point{x=0, y=0},
+    bottomRight=Point{x=canvas.width, y=canvas.height},
+    stroke=0,
+    color=blackToBlue,
+    strokeColor=white,
+    rounding=0
+};
+
+num offset = canvas.width/25;
+num width = canvas.width/5.882;
+num height = canvas.height/1.6;
+num x = (canvas.width/5-width/2)-offset/5;
+num y = canvas.height/2-height/2;
+num fixedY = y;
+num fontsize = canvas.width/50;
+num largeFontSize = canvas.width/41.6;
+num stroke = canvas.width/200;
+num rounding = canvas.width/50;
+
+Rectangle box1 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=stroke,
+    color=white,
+    strokeColor=black,
+    rounding=rounding
+};
+
+y += offset;
+Text box1Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=largeFontSize,
+    content="Version 1",
+    weight=700,
+    color=black
+};
+
+y += offset;
+
+Text box2Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Terms",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box3Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Small AS",
+    weight=500,
+    color=black
+};
+y += offset;
+Text box4Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="No semantics",
+    weight=500,
+    color=black
+};
+y += offset;
+Text box5Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="First example",
+    weight=500,
+    color=black
+};
+y += offset/2;
+Text box6Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="program",
+    weight=500,
+    color=black
+};
+x += canvas.width/5 + offset/5;
+y = fixedY;
+
+Rectangle box2 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=stroke,
+    color=white,
+    strokeColor=black,
+    rounding=rounding
+};
+
+y += offset;
+Text box7Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=largeFontSize,
+    content="Version 2",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box8Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Function Calls",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box9Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Larger AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box10Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Scope is used",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box11Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Working small",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box12Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="program",
+    weight=500,
+    color=black
+};
+x += canvas.width/5+ offset/5;
+y = fixedY;
+
+Rectangle box3 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=stroke,
+    color=white,
+    strokeColor=black,
+    rounding=rounding
+};
+
+y += offset;
+Text box13Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=largeFontSize,
+    content="Version 3",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box14Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Type checking",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box15Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Finished AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box16Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Env Sto is used",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box17Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Large working",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box18Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="programs",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box19Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Semantics",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box20Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Finished",
+    weight=500,
+    color=black
+};
+x += canvas.width/5+ offset/5;
+y = fixedY;
+
+Rectangle box4 = Rectangle{
+    topLeft=Point{x=x, y=y},
+    bottomRight=Point{x=x+width, y=y+height},
+    stroke=stroke,
+    color=white,
+    strokeColor=black,
+    rounding=rounding
+};
+
+y += offset;
+Text box21Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=largeFontSize,
+    content="Version 4",
+    weight=700,
+    color=black
+};
+
+y += offset;
+Text box22Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Ext. AS",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box23Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Records and",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box24Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Attributes",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box25Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Record Types",
+    weight=500,
+    color=black
+};
+
+y += offset;
+Text box26Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Cleaned",
+    weight=500,
+    color=black
+};
+
+y += offset/2;
+Text box27Text = Text{
+    point=Point{x=x+width/2, y=y},
+    size=fontsize,
+    content="Interpreter",
+    weight=500,
+    color=black
+};

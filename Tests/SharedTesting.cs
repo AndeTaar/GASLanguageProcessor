@@ -1,20 +1,20 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
-using GASLanguageProcessor;
-using GASLanguageProcessor.AST;
-using GASLanguageProcessor.Frontend;
-using GASLanguageProcessor.TableType;
+using CARLLanguageProcessor;
+using CARLLanguageProcessor.AST;
+using CARLLanguageProcessor.Frontend;
+using CARLLanguageProcessor.TableType;
 
 namespace Tests;
 
 public static class SharedTesting
 {
-    public static GASParser GetParser(string input)
+    public static CARLParser GetParser(string input)
     {
         var inputStream = new AntlrInputStream(input);
-        var lexer = new GASLexer(inputStream);
+        var lexer = new CARLLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
-        return new GASParser(tokenStream);
+        return new CARLParser(tokenStream);
     }
 
     public static AstNode GetAst(string input)

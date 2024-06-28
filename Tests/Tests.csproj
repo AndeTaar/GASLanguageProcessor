@@ -25,14 +25,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\GASLanguageProcessor\GASLanguageProcessor.csproj"/>
+        <ProjectReference Include="..\CARLLanguageProcessor\CARLLanguageProcessor.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="AcceptanceTests\GasTestFiles\CircleByPolygon.gas">
+      <None Update="AcceptanceTests\CARLTestFiles\CircleByPolygon.CARL">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="AcceptanceTests\GasTestFiles\CircleByPolygon.svg">
+      <None Update="AcceptanceTests\CARLTestFiles\CircleByPolygon.svg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

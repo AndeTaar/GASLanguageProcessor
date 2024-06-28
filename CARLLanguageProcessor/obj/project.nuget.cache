@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ANZ5lJsao7W1KkQOvWifbE3g4ulNR6u88gW/WBblZF8giV6Po8/zOblVHEyYxwMWgaBuKKDcbfL5MsvuhT9h2Q==",
+  "success": true,
+  "projectFilePath": "/Users/thomas/Documents/GASLanguageProcessor/CARLLanguageProcessor/CARLLanguageProcessor.csproj",
+  "expectedPackageFiles": [
+    "/Users/thomas/.nuget/packages/antlr4.runtime.standard/4.13.1/antlr4.runtime.standard.4.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}
