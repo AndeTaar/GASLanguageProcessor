@@ -6,9 +6,9 @@ public class Identifier : Term
 {
     public string Name { get; protected set; }
 
-    public Identifier? ChildAttribute { get; set; }
+    public string? ChildAttribute { get; set; }
 
-    public Identifier(string name, Identifier? childAttribute = null)
+    public Identifier(string name, string? childAttribute = null)
     {
         Name = name;
         ChildAttribute = childAttribute;

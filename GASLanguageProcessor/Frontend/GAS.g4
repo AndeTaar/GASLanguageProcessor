@@ -7,10 +7,11 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 //Statements
 statement : simpleStatement | complexStatement;
 simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
-complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
+complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | structCreation;
 
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
 assignment : IDENTIFIER ('=' | '+=' | '-=' | '*=' | '/=') expression;
+structCreation : IDENTIFIER ':' 'Struct''{' (declaration ';')* '}';
 increment : IDENTIFIER ('++' | '--');
 ifStatement : 'if' '(' expression ')' '{' (statement)* '}' elseStatement?;
 elseStatement : 'else' ('{' (statement)* '}') | 'else'  ifStatement;
@@ -21,8 +22,8 @@ functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allType
 //Standard data types
 
 allTypes : type | collectionType;
-type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line'
-| 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
+type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'col' | 'string' | 'line'
+| 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow' | 'struct';
 collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
@@ -34,11 +35,12 @@ multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpr
 unaryExpression : ('!' | '-')* term;
 
 //Terms
-term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | groupTerm;
+term : IDENTIFIER ('.' IDENTIFIER)? | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
+ functionCall | ALLSTRINGS | groupTerm | structTerm;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
+structTerm : IDENTIFIER '{' (assignment (',' assignment)*) '}';
 
 functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
 

@@ -20,9 +20,17 @@ public enum GasType
     Error,
     Ellipse,
     Any,
+    Struct,
     Polygon,
     Arrow,
     Triangle,
     Ok,
-    Canvas
+    Canvas,
+    Single,
+    Double,
+    Triple,
+    Quadruple,
+    Quintuple,
+    Sextuple,
+    Septuple,
 }

@@ -1,7 +1,11 @@
-num canvasWidth = 500;
-num canvasHeight = 250;
+﻿color white = Color(255, 255, 255, 1);
+Canvas: Struct{
+    num width;
+    num height;
+    color background;
+}
+struct canvasen = Canvas{width=500, height=250, background=white};
 
-color white = Color(255, 255, 255, 1);
 color red = Color(220, 57, 29, 1);
 color blue = Color(0, 0, 255, 1);
 
@@ -29,29 +33,33 @@ num Sin(num angle) {
 
 list<polygon> polygons = List<polygon>{};
 
-void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
+void createCircleDiagram(num radius, any center, num percentage, color color1, color color2){
     list<point> points = List<point>{};
     num entireCircle = 2 * 3.14;
     entireCircle = entireCircle * percentage / 100;
 
+    struct center = Point{x=canvasen.width/2, y=canvasen.height/2};
+
     for (num theta = 0; theta <= entireCircle; theta = theta + 3.14 / 180)
     {
-        num x2 = centerPointX + radius * Sin(theta)*-1;
-        num y = centerPointY + radius * Cos(theta)*-1;
-        AddToList(Point(x2, y), points);
+        num x2 = center.x + radius * Sin(theta)*-1;
+        num y = center.y + radius * Cos(theta)*-1;
+        struct point1 = Point{x=x2, y=y};
+        AddToList(point1, points);
     }
 
-    AddToList(Point(centerPointX, centerPointY), points);
-    circle c = Circle(Point(centerPointX, centerPointY), 50, 0, color1, red);
+    AddToList(center, points);
+    circle c = Circle(center, 50, 0, color1, red);
     AddToList(c, polygons);
     polygon poly = Polygon(points, 0, color2, white);
     AddToList(poly, polygons);
-    circle c1 = Circle(Point(centerPointX, centerPointY), 30, 0, white, white);
+    circle c1 = Circle(center, 30, 0, white, white);
     AddToList(c1, polygons);
 }
-num centerPointX = canvasWidth/2;
-num radius = 50;
-num centerPointY = canvasHeight/2;
-createCircleDiagram(radius, centerPointX, centerPointY, 81, red, blue);
 
-canvas (canvasWidth, canvasHeight, white);
+struct center = Point{x=canvasen.width/2, y=canvasen.height/2};
+
+num radius = 50;
+createCircleDiagram(radius, center, 81, red, blue);
+
+canvas (canvasen.width, canvasen.height, white);

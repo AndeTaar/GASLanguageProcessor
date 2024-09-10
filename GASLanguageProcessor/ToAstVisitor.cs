@@ -278,18 +278,48 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }else if(context.groupTerm() != null)
         {
             return VisitGroupTerm(context.groupTerm());
-        }else if(context.listTerm() != null)
+        }else if (context.listTerm() != null)
         {
             return VisitListTerm(context.listTerm());
         }
+        else if (context.structTerm() != null)
+        {
+            return context.structTerm().Accept(this);
+        }
         else if (context.IDENTIFIER() != null)
         {
-            return new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+            var identifiers = context.IDENTIFIER().ToList();
+            if(identifiers.Count > 1)
+            {
+                return new Identifier(identifiers[0].GetText(), identifiers[1].GetText()) {LineNum = context.Start.Line};
+            }
+            if(identifiers.Count == 1)
+                return new Identifier(identifiers[0].GetText()) { LineNum = context.Start.Line };
+
+            throw new NotSupportedException("Identifier count not supported:" + context.GetText());
         }
         else
         {
             throw new NotSupportedException($"Term type not supported: {context.GetText()}");
         }
+    }
+
+    public override AstNode VisitStructCreation(GASParser.StructCreationContext context)
+    {
+        var structIdentifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+
+        var declarations = context.declaration().Select(a => a.Accept(this) as Declaration).ToList();
+
+        return new StructCreation(structIdentifier, declarations) {LineNum = context.Start.Line};
+    }
+
+    public override AstNode VisitStructTerm(GASParser.StructTermContext context)
+    {
+        var structIdentifier = new Identifier(context.IDENTIFIER().GetText()) {LineNum = context.Start.Line};
+
+        var assignments = context.assignment().Select(a => a.Accept(this) as Assignment).ToList();
+
+        return new StructTerm(structIdentifier, assignments) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitListTerm(GASParser.ListTermContext context)

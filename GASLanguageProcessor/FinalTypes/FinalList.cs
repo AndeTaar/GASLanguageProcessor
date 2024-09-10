@@ -13,6 +13,11 @@ public class FinalList
         Values = values;
     }
 
+    public FinalList(List<FinalPoint> values)
+    {
+        Values = values.Cast<object>().ToList();
+    }
+
     public override string ToString()
     {
         string s = "";

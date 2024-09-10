@@ -12,6 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Update="Frontend\test2.gas">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="Frontend\test.gas">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
