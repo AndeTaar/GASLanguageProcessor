@@ -10,3 +10,5 @@
 
 # Ignore CoverletSourceRootsMapping file
 /Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests
+/Tests/obj
+/GASLanguageProcessor/obj

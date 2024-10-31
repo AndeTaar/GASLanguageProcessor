@@ -6,7 +6,7 @@ canvas : 'canvas' '(' expression ',' expression ',' expression ')';
 
 //Statements
 statement : simpleStatement | complexStatement;
-simpleStatement : (declaration | assignment | functionCall | returnStatement | increment | canvas) ';';
+simpleStatement : (declaration | assignment | functionCallStatement | returnStatement | increment | canvas) ';';
 complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement;
 
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
@@ -18,29 +18,30 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
 functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* ? '}';
-//Standard data types
 
+//Standard data types
 allTypes : type | collectionType;
 type: 'num' | 'bool' | 'point' | 'rectangle' | 'square' | 'circle' | 'polygon' | 'text' | 'color' | 'string' | 'line'
 | 'void' | 'segLine' | 'ellipse'  | 'polygon' | 'arrow';
 collectionType : 'list' '<' type '>' | 'group';
 
 // Expressions
-expression : equalityExpression (('||' | '&&') (equalityExpression | expression))? ;
-equalityExpression : relationExpression (('==' | '!=') (relationExpression | equalityExpression))? ;
-relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') (binaryExpression | relationExpression))? ;
-binaryExpression : multExpression (('+' | '-') (multExpression | binaryExpression))? ;
-multExpression : unaryExpression (('*' | '/' | '%' ) (unaryExpression | multExpression))? ;
+expression : equalityExpression (('||' | '&&') equalityExpression)* ;
+equalityExpression : relationExpression (('==' | '!=') relationExpression)* ;
+relationExpression : binaryExpression (('<' | '>' | '<=' | '>=') binaryExpression)* ;
+binaryExpression : multExpression (('+' | '-') multExpression)* ;
+multExpression : unaryExpression (('*' | '/' | '%' ) unaryExpression)* ;
 unaryExpression : ('!' | '-')* term;
 
 //Terms
 term : IDENTIFIER | NUM | 'true' | 'false' | 'null'  | '(' expression ')' | listTerm |
- functionCall | ALLSTRINGS | groupTerm;
+ functionCallTerm| ALLSTRINGS | groupTerm;
 
 listTerm : 'List' '<' type '>' '{' (expression (',' expression)*)? '}';
 groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 
-functionCall : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCallStatement : IDENTIFIER '(' (expression (',' expression)*)? ')';
+functionCallTerm : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
 COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;

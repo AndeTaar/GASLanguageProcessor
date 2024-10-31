@@ -188,9 +188,15 @@ public interface IGASVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitGroupTerm([NotNull] GASParser.GroupTermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GASParser.functionCall"/>.
+	/// Visit a parse tree produced by <see cref="GASParser.functionCallStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFunctionCall([NotNull] GASParser.FunctionCallContext context);
+	Result VisitFunctionCallStatement([NotNull] GASParser.FunctionCallStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GASParser.functionCallTerm"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallTerm([NotNull] GASParser.FunctionCallTermContext context);
 }

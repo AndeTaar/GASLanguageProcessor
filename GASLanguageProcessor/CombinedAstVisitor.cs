@@ -29,6 +29,7 @@ public class CombinedAstVisitor: IAstVisitor<GasType>
             errors.Add("Invalid return type for program: expected: Ok, got: " + returnType);
             return GasType.Error;
         }
+        
 
         if (envT.VLookUp("canvas") == null)
         {

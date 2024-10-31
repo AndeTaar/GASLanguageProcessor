@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using GASLanguageProcessor.AST;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
+using Expression = GASLanguageProcessor.AST.Expressions.Expression;
 using String = GASLanguageProcessor.AST.Expressions.Terms.String;
 using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
@@ -119,7 +121,7 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new Increment(identifier, op) {LineNum = context.Start.Line};
     }
 
-    public override AstNode VisitGroupTerm(GASParser.GroupTermContext context)
+    public override Group VisitGroupTerm(GASParser.GroupTermContext context)
     {
         var expression = context.expression().Accept(this) as Expression;
 
@@ -159,31 +161,32 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return context.GetChild(0)?.Accept(this);
     }
 
-    public override AstNode VisitExpression(GASParser.ExpressionContext context)
+    public override Expression VisitExpression(GASParser.ExpressionContext context)
     {
-        if (context.children.Count == 1)
+        var equalExpressions = context.equalityExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var left = equalExpressions[0] as Expression;
+        var operatorIndex = 1;
+        for (int i = 1; i < equalExpressions.Count; i++)
         {
-            return base.VisitExpression(context);
+            left = new BinaryOp(left, context.GetChild(operatorIndex).GetText(), equalExpressions[i]) {LineNum = context.Start.Line};
+            operatorIndex += 2;
         }
-
-        var equalExpression = context.equalityExpression().Select(mu => mu.Accept(this) as Expression).ToList();
-        var expression = context.expression()?.Accept(this) as Expression;
-
-        return new BinaryOp(equalExpression[0], context.GetChild(1).GetText(), expression ?? equalExpression[1]) {LineNum = context.Start.Line};
+        
+        return left;
     }
 
-    public override AstNode VisitEqualityExpression(GASParser.EqualityExpressionContext context)
+    public override Expression VisitEqualityExpression(GASParser.EqualityExpressionContext context)
     {
-        if (context.children.Count == 1)
+        var relationExpressions = context.relationExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var left = relationExpressions[0] as Expression;
+        var operatorIndex = 1;
+        for (int i = 1; i < relationExpressions.Count; i++)
         {
-            return base.VisitEqualityExpression(context);
+            left = new BinaryOp(left, context.GetChild(operatorIndex).GetText(), relationExpressions[i]) {LineNum = context.Start.Line};
+            operatorIndex += 2;
         }
-
-        var left = context.GetChild(0).Accept(this) as Expression;
-
-        var right = context.GetChild(2).Accept(this) as Expression;
-
-        return new BinaryOp(left, context.GetChild(1).GetText(), right);
+        
+        return left;
     }
 
     public override AstNode VisitReturnStatement(GASParser.ReturnStatementContext context)
@@ -191,16 +194,19 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         Expression expression = context?.expression().Accept(this) as Expression;
         return new Return(expression);
     }
-
-    public override AstNode VisitFunctionCall(GASParser.FunctionCallContext context)
+    
+    public override FunctionCallStatement VisitFunctionCallStatement(GASParser.FunctionCallStatementContext context)
     {
         var identifier = new Identifier(context.IDENTIFIER().GetText());
         var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
-        if (context.Parent is GASParser.ExpressionContext || context.Parent is GASParser.TermContext)
-        {
-            return new FunctionCallTerm(identifier, arguments) { LineNum = context.Start.Line };
-        }
         return new FunctionCallStatement(identifier, arguments) {LineNum = context.Start.Line};
+    }
+    
+    public override FunctionCallTerm VisitFunctionCallTerm(GASParser.FunctionCallTermContext context)
+    {
+        var identifier = new Identifier(context.IDENTIFIER().GetText());
+        var arguments = context.expression().ToList().Select(expr => expr.Accept(this) as Expression).ToList();
+        return new FunctionCallTerm(identifier, arguments) {LineNum = context.Start.Line};
     }
 
     public override AstNode VisitFunctionDeclaration(GASParser.FunctionDeclarationContext context)
@@ -223,42 +229,43 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         return new FunctionDeclaration(identifier, parameters, body, returnType) {LineNum = context.Start.Line};
     }
 
-    public override AstNode VisitRelationExpression(GASParser.RelationExpressionContext context)
+    public override Expression VisitRelationExpression(GASParser.RelationExpressionContext context)
     {
-        if(context.children.Count == 1)
+        var binaryExpressions = context.binaryExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var left = binaryExpressions[0] as Expression;
+        var operatorIndex = 1;
+        for (int i = 1; i < binaryExpressions.Count; i++)
         {
-            return base.VisitRelationExpression(context);
+            left = new BinaryOp(left, context.GetChild(operatorIndex).GetText(), binaryExpressions[i]) {LineNum = context.Start.Line};
+            operatorIndex += 2;
         }
-
-        var left = context.binaryExpression()[0].Accept(this) as Expression;
-
-        var right = context.binaryExpression()[1].Accept(this) as Expression;
-
-        return new BinaryOp(left, context.GetChild(1).GetText(), right) {LineNum = context.Start.Line};
+        
+        return left;
     }
 
-    public override AstNode VisitBinaryExpression(GASParser.BinaryExpressionContext context)
+    public override Expression VisitBinaryExpression(GASParser.BinaryExpressionContext context)
     {
-        if (context.children.Count == 1)
-        {
-            return base.VisitBinaryExpression(context);
-        }
-
         var multExpressions = context.multExpression().Select(mu => mu.Accept(this) as Expression).ToList();
-        var binaryExpression = context.binaryExpression()?.Accept(this) as Expression;
-
-        return new BinaryOp(multExpressions[0], context.GetChild(1).GetText(), binaryExpression ?? multExpressions[1]) {LineNum = context.Start.Line};
+        var left = multExpressions[0] as Expression;
+        var operatorIndex = 1;
+        for (int i = 1; i < multExpressions.Count; i++)
+        {
+            left = new BinaryOp(left, context.GetChild(operatorIndex).GetText(), multExpressions[i]) {LineNum = context.Start.Line};
+            operatorIndex += 2;
+        }
+        
+        return left;
     }
 
-    public override AstNode VisitTerm(GASParser.TermContext context)
+    public override Expression VisitTerm(GASParser.TermContext context)
     {
         if (context.NUM() != null)
         {
             return new Num(context.NUM().GetText()) {LineNum = context.Start.Line};
         }
-        else if (context.functionCall() != null)
+        else if (context.functionCallTerm() != null)
         {
-            return VisitFunctionCall(context.functionCall());
+            return context.functionCallTerm().Accept(this) as FunctionCallTerm;
         }
         else if (context.ALLSTRINGS() != null)
         {
@@ -292,24 +299,25 @@ public class ToAstVisitor : GASBaseVisitor<AstNode> {
         }
     }
 
-    public override AstNode VisitListTerm(GASParser.ListTermContext context)
+    public override List VisitListTerm(GASParser.ListTermContext context)
     {
         var type = context.type()?.Accept(this) as Type;
         var expressions = context.expression()?.Select(expr => expr.Accept(this) as Expression).ToList();
         return new List(expressions, type) {LineNum = context.Start.Line};
     }
 
-    public override AstNode VisitMultExpression(GASParser.MultExpressionContext context)
+    public override Expression VisitMultExpression(GASParser.MultExpressionContext context)
     {
-        if(context.children.Count == 1)
+        var unaryExpressions = context.unaryExpression().Select(mu => mu.Accept(this) as Expression).ToList();
+        var left = unaryExpressions[0] as Expression;
+        var operatorIndex = 1;
+        for (int i = 1; i < unaryExpressions.Count; i++)
         {
-            return base.VisitMultExpression(context);
+            left = new BinaryOp(left, context.GetChild(operatorIndex).GetText(), unaryExpressions[i]) {LineNum = context.Start.Line};
+            operatorIndex += 2;
         }
-
-        var notExpressions = context.unaryExpression().Select(ne => ne.Accept(this) as Expression).ToList();
-        var multExpression = context.multExpression()?.Accept(this) as Expression;
-
-        return new BinaryOp(notExpressions[0], context.GetChild(1).GetText(), multExpression ?? notExpressions[1]) {LineNum = context.Start.Line};
+        
+        return left;
     }
 
     public override AstNode VisitUnaryExpression(GASParser.UnaryExpressionContext context)
