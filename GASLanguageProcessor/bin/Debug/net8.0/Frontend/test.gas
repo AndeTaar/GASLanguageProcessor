@@ -1,6 +1,7 @@
 ﻿num canvasWidth = 500;
 num canvasHeight = 250;
 
+//Hej dette er en kommentar
 color white = Color(255, 255, 255, 1);
 color red = Color(220, 57, 29, 1);
 color blue = Color(0, 0, 255, 1);
@@ -26,7 +27,6 @@ num Sin(num angle) {
     }
     return result;
 }
-
 list<polygon> polygons = List<polygon>{};
 
 void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
@@ -46,7 +46,7 @@ void createCircleDiagram(num radius, num centerPointX, num centerPointY, num per
     AddToList(c, polygons);
     polygon poly = Polygon(points, 0, color2, white);
     AddToList(poly, polygons);
-    circle c1 = Circle(Point(centerPointX, centerPointY), 30, 0, white, white);
+    circle c1 = Circle( Point(centerPointX, centerPointY), 30, 0, white, white );
     AddToList(c1, polygons);
 }
 num centerPointX = canvasWidth/2;

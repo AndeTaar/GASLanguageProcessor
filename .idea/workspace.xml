@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7a7ca974-741b-4be9-947f-9feec63e7f3f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/rider.project.restore.info" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2oF4FvioGicpoN5fT13tjHzE2hm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/thomas/Desktop/GASLanguageProcessor&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7a7ca974-741b-4be9-947f-9feec63e7f3f" name="Changes" comment="" />
+      <created>1730451890834</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730451890834</updated>
+    </task>
+    <servers />
+  </component>
+</project>

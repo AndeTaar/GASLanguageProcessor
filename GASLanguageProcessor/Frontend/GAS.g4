@@ -43,8 +43,8 @@ groupTerm : 'Group' '(' expression ',' '{' (statement)* '}' ')';
 functionCallStatement : IDENTIFIER '(' (expression (',' expression)*)? ')';
 functionCallTerm : IDENTIFIER '(' (expression (',' expression)*)? ')';
 
-COMMENT: '/*' .*? '*/' -> skip;
-IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
+COMMENT: ('/*' .*? '*/' | '//' .*? '\n') -> skip;
+IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_-]* ;
 NUM : '0' | [0-9]* '.' [0-9]+ | [0-9]+ ;
 ALLSTRINGS : '"' (~["\\] | '\\' .)* '"';
 WS : [ \t\r\n]+ -> skip ; // Ignore/skip whitespace
