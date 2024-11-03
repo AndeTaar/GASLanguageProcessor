@@ -1,0 +1,156 @@
+﻿Canvas myCanvas = Canvas{
+    width=1800,
+    height=750,
+    backgroundColor=Color{red=255, green=255, blue=255, alpha=1}
+};
+
+num y=200;
+
+Circle myCircle = Circle{
+    center=Point{x=100, y=y},
+    radius=50,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=255, alpha=1}, Color{red=255, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 100],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Rectangle myRectangle = Rectangle{
+    topLeft=Point{x=200, y=y},
+    bottomRight=Point{x=300, y=y*3},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=0, alpha=1}, Color{red=0, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
+};
+
+Ellipse myEllipse = Ellipse{
+    center=Point{x=400, y=y},
+    radiusX=50,
+    radiusY=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=0, alpha=1}, Color{red=0, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Triangle myTriangle = Triangle{
+    point1=Point{x=500, y=y*2},
+    point2=Point{x=500, y=y},
+    point3=Point{x=600, y=y},
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=0, green=255, blue=255, alpha=1}, Color{red=255, green=0, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Polygon myPolygon = Polygon{
+    points=<Point>[Point{x=650, y=y}, Point{x=750, y=y+100}, Point{x=800, y=y}, Point{x=800, y=y-50},Point{x=700, y=y-50}],
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=0, blue=255, alpha=1}, Color{red=255, green=255, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+SegLine myLine = SegLine{
+    start=Point{x=900, y=y},
+    end=Point{x=1000, y=y+200},
+    stroke=20,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Arrow myArrow = Arrow{
+    start=Point{x=1100, y=y},
+    end=Point{x=1200, y=y+100},
+    stroke=30,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    }
+};
+
+Text myText = Text{
+    point=Point{x=1400, y=y+50},
+    content="Hello, World!",
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    font="Arial",
+    size=40,
+    weight=400
+};
+
+Square mySquare = Square{
+    topLeft=Point{x=1600, y=y},
+    side=100,
+    stroke=2,
+    color=LinearGradient{
+        colors=<Color>[Color{red=255, green=255, blue=255, alpha=1}, Color{red=0, green=0, blue=0, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    strokeColor=LinearGradient{
+        colors=<Color>[Color{red=0, green=0, blue=0, alpha=1}, Color{red=255, green=255, blue=255, alpha=1}],
+        stops=<num>[0, 1],
+        rotation=45,
+        alpha=1
+    },
+    rounding=10
+};

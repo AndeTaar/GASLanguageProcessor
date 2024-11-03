@@ -1,15 +1,11 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes.Colors;
 
-public class FinalSquare
+namespace GASLanguageProcessor.FinalTypes;
+
+public class FinalSquare : FinalType
 {
-    public FinalPoint TopLeft { get; set; }
-    public FinalNum Length { get; set; }
-    public FinalNum Stroke { get; set; }
-    public FinalColor FillColor { get; set; }
-    public FinalColor StrokeColor { get; set; }
-    public FinalNum CornerRounding { get; set; }
-
-    public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColor fillColor, FinalColor strokeColor, float cornerRounding)
+    public FinalSquare(FinalPoint topLeft, float length, float stroke, FinalColors fillColor, FinalColors strokeColor,
+        float cornerRounding)
     {
         TopLeft = topLeft;
         Length = new FinalNum(length);
@@ -18,4 +14,11 @@ public class FinalSquare
         StrokeColor = strokeColor;
         CornerRounding = new FinalNum(cornerRounding);
     }
+
+    public FinalPoint TopLeft { get; set; }
+    public FinalNum Length { get; set; }
+    public FinalNum Stroke { get; set; }
+    public FinalColors FillColor { get; set; }
+    public FinalColors StrokeColor { get; set; }
+    public FinalNum CornerRounding { get; set; }
 }

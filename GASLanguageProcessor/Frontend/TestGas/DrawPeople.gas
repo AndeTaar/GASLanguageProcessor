@@ -1,0 +1,85 @@
+Color white = Color{red=255, green=255, blue=255, alpha=1};
+Color black = Color{red=0, green=0, blue=0, alpha=1};
+
+Canvas canvas = Canvas{
+    width=800, height=800, backgroundColor=white
+};
+
+Color skinColor = Color{red=255, green=224, blue=189, alpha=1};
+Color shirtColor = Color{red=0, green=100, blue=200, alpha=1};
+Color pantsColor = Color{red=50, green=50, blue=50, alpha=1};
+
+TypeDef personNode {
+    head: Circle,
+    body: SegLine,
+    leftArm: SegLine,
+    rightArm: SegLine,
+    leftLeg: SegLine,
+    rightLeg: SegLine
+}
+
+num headRadius = 20;
+num bodyLength = 60;
+num armLength = 40;
+num legLength = 50;
+
+personNode DrawPerson(Point center){
+    return personNode{
+        head=Circle{
+            center=Point{x=center.x, y=center.y-headRadius},
+            radius=headRadius,
+            stroke=0, color=skinColor, strokeColor=white
+        },
+        body=SegLine{
+            start=Point{x=center.x, y=center.y},
+            end=Point{x=center.x, y=center.y+bodyLength},
+            stroke=5, color=shirtColor
+        },
+        leftArm=SegLine{
+            start=Point{x=center.x, y=center.y+10},
+            end=Point{x=center.x-armLength, y=center.y+10},
+            stroke=5, color=shirtColor
+        },
+        rightArm=SegLine{
+            start=Point{x=center.x, y=center.y+10},
+            end=Point{x=center.x+armLength, y=center.y+10},
+            stroke=5, color=shirtColor
+        },
+        leftLeg=SegLine{
+            start=Point{x=center.x, y=center.y+bodyLength},
+            end=Point{x=center.x-legLength/2, y=center.y+bodyLength+legLength},
+            stroke=5, color=pantsColor
+        },
+        rightLeg=SegLine{
+            start=Point{x=center.x, y=center.y+bodyLength},
+            end=Point{x=center.x+legLength/2, y=center.y+bodyLength+legLength},
+            stroke=5, color=pantsColor
+        }
+    };
+}
+
+AnyStruct[] shapes = new AnyStruct[400];
+
+/* Drawing a person at the center of the canvas */
+Point personCenter = Point{x=100, y=100};
+
+for(num y = 0; y < 6; y++){
+    if(y%2 == 0){
+        for(num x = 0; x < 4; x++){
+            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 75 + 150*x, y=personCenter.y + 80*y});
+        }
+    }
+    else {
+        for(num x = 0; x < 5; x++){
+            shapes[y*10 + x] = DrawPerson(Point{x=personCenter.x + 150*x, y=personCenter.y + 90 *y});
+        }
+    }
+}
+
+/* Adding text label */
+Text text = Text{
+    point=Point{x=canvas.width/2, y=canvas.height/2 + 300},
+    size=40,
+    content="Stick Figure People",
+    color=black
+};

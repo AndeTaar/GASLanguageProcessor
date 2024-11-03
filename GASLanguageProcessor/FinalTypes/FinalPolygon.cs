@@ -1,13 +1,10 @@
+using GASLanguageProcessor.FinalTypes.Colors;
+
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalPolygon
+public class FinalPolygon : FinalType
 {
-    public FinalList Points { get; set; }
-    public FinalNum Stroke { get; set; }
-    public FinalColor Color { get; set; }
-    public FinalColor StrokeColor { get; set; }
-
-    public FinalPolygon(FinalList points, float stroke, FinalColor color, FinalColor strokeColor)
+    public FinalPolygon(FinalList points, float stroke, FinalColors color, FinalColors strokeColor)
     {
         Points = points;
         Color = color;
@@ -15,4 +12,8 @@ public class FinalPolygon
         StrokeColor = strokeColor;
     }
 
+    public FinalList Points { get; set; }
+    public FinalNum Stroke { get; set; }
+    public FinalColors Color { get; set; }
+    public FinalColors StrokeColor { get; set; }
 }

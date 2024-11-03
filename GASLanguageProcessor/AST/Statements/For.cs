@@ -5,11 +5,6 @@ namespace GASLanguageProcessor.AST.Statements;
 
 public class For : Statement
 {
-    public Statement Initializer { get; protected set; }
-    public Expression Condition { get; protected set; }
-    public Statement Incrementer { get; protected set; }
-    public Statement Statements { get; protected set; }
-
     public For(Assignment assignment1, Expression condition, Assignment assignment2, Statement statements)
     {
         Initializer = assignment1;
@@ -41,6 +36,11 @@ public class For : Statement
         Incrementer = increment;
         Statements = statements;
     }
+
+    public Statement Initializer { get; protected set; }
+    public Expression Condition { get; protected set; }
+    public Statement Incrementer { get; protected set; }
+    public Statement Statements { get; protected set; }
 
 
     public override T Accept<T>(IAstVisitor<T> visitor, TypeEnv envT)

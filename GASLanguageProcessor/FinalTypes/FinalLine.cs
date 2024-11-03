@@ -1,17 +1,19 @@
-﻿namespace GASLanguageProcessor.FinalTypes;
+﻿using GASLanguageProcessor.FinalTypes.Colors;
 
-public class FinalLine
+namespace GASLanguageProcessor.FinalTypes;
+
+public class FinalLine : FinalType
 {
-    public FinalPoint Start { get; set; }
-    public FinalPoint End { get; set; }
-    public FinalNum Stroke { get; set; }
-    public FinalColor StrokeColor { get; set; }
-
-    public FinalLine(FinalPoint start, FinalPoint end, float stroke, FinalColor strokeColor)
+    public FinalLine(FinalPoint start, FinalPoint end, float stroke, FinalColors strokeColor)
     {
         Start = start;
         End = end;
         Stroke = new FinalNum(stroke);
         StrokeColor = strokeColor;
     }
+
+    public FinalPoint Start { get; set; }
+    public FinalPoint End { get; set; }
+    public FinalNum Stroke { get; set; }
+    public FinalColors StrokeColor { get; set; }
 }

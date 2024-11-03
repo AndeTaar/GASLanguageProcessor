@@ -1,16 +1,15 @@
-﻿using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.TableType;
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalGroup
+public class FinalGroup : FinalType
 {
-    public FinalPoint Point { get; set; }
-    public VarEnv EnvV { get; set; }
-
-    public FinalGroup(FinalPoint point, VarEnv envV)
+    public FinalGroup(FinalPoint point, Store store)
     {
         Point = point;
-        EnvV = envV;
+        Store = store;
     }
+
+    public FinalPoint Point { get; set; }
+    public Store Store { get; set; }
 }

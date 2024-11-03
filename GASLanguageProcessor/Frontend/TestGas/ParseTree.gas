@@ -1,0 +1,221 @@
+﻿Color white = Color{red=255, green=255, blue=255, alpha=1};
+
+Canvas canvas = Canvas{width=950, height=950, backgroundColor=white};
+
+num g = white.green;
+
+Color red = Color{red=255, green=0, blue=0, alpha=white.alpha};
+
+Color blue = Color{red=0, green=0, blue=255, alpha=white.alpha};
+Color black = Color{red=0, green=0, blue=0, alpha=white.alpha};
+
+Color blackToBlue = LinearGradient{
+    stops=<num>[0, 100],
+    colors=<Color>[black, blue],
+    alpha=1,
+    rotation=90
+};
+
+TypeDef parseTreeNode {
+    square: Rectangle,
+    arrowTop: Arrow,
+    arrowBottom: Arrow,
+    operatorArrow: Arrow,
+    nodeType: Text,
+    operator: Text
+}
+
+num width = 100;
+num height = 60;
+num vertDistance = 40;
+num horDistance = 90;
+
+parseTreeNode DrawNodeWithSingleArrow(Point center, string content){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
+}
+
+
+parseTreeNode DrawNode(Point center, string content){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        }
+    };
+}
+
+parseTreeNode DrawNodeWithOperator(Point center, string content, string operator){
+    return parseTreeNode{
+        square=Rectangle{
+            topLeft=Point{x=center.x-width/2, y=center.y-height/2},
+            bottomRight=Point{x=center.x+width/2, y=center.y+height/2},
+            stroke=0, color=blackToBlue, strokeColor=white, rounding=10
+        },
+        arrowTop=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x+horDistance, y=center.y+height/2+vertDistance},
+            stroke=4
+        },
+        arrowBottom=Arrow{
+             start=Point{x=center.x, y=center.y+height/2},
+             end=Point{x=center.x-horDistance, y=center.y+height/2+vertDistance},
+             stroke=4
+        },
+        operatorArrow=Arrow{
+            start=Point{x=center.x, y=center.y+height/2},
+            end=Point{x=center.x, y=center.y+height},
+            stroke=4
+        },
+        nodeType=Text{
+            point=Point{x=center.x, y=center.y},
+            size=16,
+            content=content,
+            color=white
+        },
+        operator=Text{
+            point=Point{x=center.x, y=center.y+height+20},
+            size=30,
+            content=operator,
+            color=black
+        }
+    };
+}
+
+Point p = Point{x=canvas.width/2-30, y=100};
+
+AnyStruct[] shapes = new AnyStruct[400];
+num i= 0;
+shapes[i] = DrawNodeWithOperator(p, "Expression", "&amp;&amp;");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= horDistance+30;
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
+p.x += 2*horDistance+60;
+shapes[i] = DrawNodeWithSingleArrow(p, "EquExpr");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+100;
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
+p.x += 2*horDistance+140;
+shapes[i] = DrawNodeWithSingleArrow(p, "RelExpr");
+i++;
+
+p.y += height + vertDistance+5;
+p.x -= 2*horDistance+180;
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "+");
+i++;
+Point leftP = Point{x=p.x, y=p.y};
+
+p.x += 2*horDistance+220;
+shapes[i] = DrawNodeWithOperator(p, "BinExpr", "-");
+i++;
+Point rightP = Point{x=p.x, y=p.y};
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+310;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "MultExpr");
+i++;
+rightP.x += 2*horDistance+30;
+shapes[i] = DrawNodeWithOperator(rightP, "MultExpr", "*");
+i++;
+
+rightP.y += height + vertDistance+5;
+rightP.x -= 2*horDistance+30;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
+rightP.y -= height + vertDistance+5;
+
+rightP.x += 2*horDistance-50;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Number");
+i++;
+rightP.y -= height + vertDistance+5;
+rightP.x += 2*horDistance-20;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "UnaExpr");
+i++;
+rightP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(rightP, "Identifier");
+i++;
+rightP.y -= height + vertDistance+5;
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance-490;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "MultExpr");
+i++;
+leftP.x += 2*horDistance+20;
+shapes[i] = DrawNodeWithOperator(leftP, "MultExpr", "/");
+i++;
+
+leftP.y += height + vertDistance+5;
+leftP.x -= 2*horDistance+20;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-50;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+leftP.x += 2*horDistance-20;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "UnaExpr");
+i++;
+leftP.y += height + vertDistance+5;
+shapes[i] = DrawNodeWithSingleArrow(leftP, "Identifier");
+i++;
+leftP.y -= height + vertDistance+5;
+
+Text text = Text{
+    point=Point{x=canvas.width/2, y=rightP.y+220},
+    size=40,
+    content="     10   +  10     *      a  &amp;&amp;  b   -    !a     /     -b",
+    color=black
+};
+

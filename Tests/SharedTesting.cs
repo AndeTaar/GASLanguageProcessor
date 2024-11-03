@@ -2,7 +2,6 @@
 using Antlr4.Runtime.Misc;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
-using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
 using GASLanguageProcessor.TableType;
 
@@ -20,7 +19,7 @@ public static class SharedTesting
 
     public static AstNode GetAst(string input)
     {
-        ParserErrorListener errorListener = new ParserErrorListener();
+        var errorListener = new ParserErrorListener();
         var parser = GetParser(input);
         parser.RemoveErrorListeners();
         parser.AddErrorListener(errorListener);
@@ -37,21 +36,24 @@ public static class SharedTesting
         var envV = new VarEnv();
         var sto = new Store();
         var envT = new TypeEnv();
-        var envF = new FuncEnv(sto, envV, null);
+        var envF = new FuncEnv(sto, envV);
 
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();
-        interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        var item = interpreter.EvaluateStatement(ast as Statement, envV, envF, sto);
+        var recordEvaluator = new RecordEvaluator();
+        sto = recordEvaluator.EvaluateRecords(item.Item4);
 
-        return (envV, sto, envT, envF, interpreter.errors);
+        return (item.Item2, sto, envT, item.Item3, interpreter.errors);
     }
 
     public static ArrayList<string> GetSvgLines(string input)
     {
-        var env = RunInterpreter(input);
-        var sto = env.Item2;
-        var svgGenerator = new SvgGenerator(sto);
-        var lines = svgGenerator.GenerateSvg(env.Item1);
+        var items = RunInterpreter(input);
+        var recordEvaluator = new RecordEvaluator();
+        var sto = recordEvaluator.EvaluateRecords(items.Item2);
+        var svgGenerator = new SvgGenerator();
+        var lines = svgGenerator.GenerateSvg(sto);
         lines.Add("</svg>");
         return lines;
     }
