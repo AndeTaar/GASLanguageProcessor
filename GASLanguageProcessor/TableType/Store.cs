@@ -1,4 +1,6 @@
-﻿namespace GASLanguageProcessor.TableType;
+﻿using System.Collections.Generic;
+
+namespace GASLanguageProcessor.TableType;
 
 public class Store
 {

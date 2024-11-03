@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.AST.Expressions.Terms;
+﻿using System.Collections.Generic;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Terms;
 using String = System.String;
 
@@ -6,13 +7,13 @@ namespace GASLanguageProcessor.TableType;
 
 public class Function
 {
-    public List<String> Parameters { get; protected set; }
+    public List<string> Parameters { get; protected set; }
     public Statement Statements { get; protected set; }
     public VarEnv VarEnv { get; set; }
     public FuncEnv FuncEnv { get; set; }
     public Store Store { get; set; }
 
-    public Function(List<String> parameters, Statement statements, VarEnv varEnv, FuncEnv funcEnv, Store store)
+    public Function(List<string> parameters, Statement statements, VarEnv varEnv, FuncEnv funcEnv, Store store)
     {
         Parameters = parameters;
         Statements = statements;

@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using System;
+using Antlr4.Runtime.Misc;
 using GASLanguageProcessor.FinalTypes;
 using GASLanguageProcessor.TableType;
 

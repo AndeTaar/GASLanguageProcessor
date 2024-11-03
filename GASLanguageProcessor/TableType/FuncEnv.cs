@@ -1,4 +1,5 @@
-﻿using GASLanguageProcessor.AST.Expressions.Terms;
+﻿using System.Collections.Generic;
+using GASLanguageProcessor.AST.Expressions.Terms;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.AST.Terms;
 using String = System.String;
