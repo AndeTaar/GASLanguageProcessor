@@ -27,10 +27,10 @@ num Sin(num angle) {
     return result;
 }
 
-list<polygon> polygons = List<polygon>{};
+List<Polygon> polygons = List<Polygon>{};
 
 void createCircleDiagram(num radius, num centerPointX, num centerPointY, num percentage, color color1, color color2){
-    list<point> points = List<point>{};
+    List<point> points = List<point>{};
     num entireCircle = 2 * 3.14;
     entireCircle = entireCircle * percentage / 100;
 

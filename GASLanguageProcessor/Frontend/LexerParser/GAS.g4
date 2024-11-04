@@ -4,11 +4,13 @@ grammar GAS;
 program : (statement)* EOF;
 
 //Statements
-statement : simpleStatement | complexStatement;
+statement : constantDeclaration | functionDeclaration | classDeclaration ;
 
-simpleStatement : (declaration | assignment | functionCallStatement | returnStatement | increment | listAssignment) ';';
-complexStatement:  whileStatement | functionDeclaration | forStatement | ifStatement | recDefinition;
+classDeclaration : 'class' IDENTIFIER '{' (declaration | functionDeclaration | constantDeclaration)* '}';
+propertyDeclaration : propertyVisibility type IDENTIFIER ('=' expression)? ';';
 
+
+constantDeclaration : 'const' type IDENTIFIER '=' expression;
 declaration : (type | collectionType) IDENTIFIER ('=' expression)?;
 assignment : (IDENTIFIER | ATTRIBUTEIDENTIFIER) ('=' | '+=' | '-=' | '*=' | '/=') expression;
 listAssignment : IDENTIFIER '[' expression ']' '=' expression;
@@ -19,15 +21,14 @@ whileStatement : 'while' '(' expression ')' '{' (statement)* '}';
 forStatement : 'for' '(' (declaration | assignment) ';' expression  ';' (assignment | increment) ')' '{' (statement)* '}';
 returnStatement : 'return' expression;
 
-functionDeclaration : allTypes IDENTIFIER '(' (allTypes IDENTIFIER  (',' allTypes IDENTIFIER)*)? ')' '{' (statement)* ? '}';
-
-recDefinition : 'TypeDef' IDENTIFIER '{' (IDENTIFIER ':' allTypes (',' IDENTIFIER ':' allTypes)*)? '}';
+functionDeclaration : (type | collectionType) IDENTIFIER '(' ((type | collectionType) IDENTIFIER  (',' (type | collectionType) IDENTIFIER)*)? ')' '{' (statement)* ? '}';
 
 //Standard data types
 
-allTypes : type | collectionType ;
-type: 'num' | 'bool' | 'string' | 'void' | IDENTIFIER;
+type: 'num' | 'bool' | 'string' | 'void' | 'var' | IDENTIFIER;
 collectionType : type'['']' | 'group';
+
+propertyVisibility : 'public' | 'private' | 'protected';
 
 // Expressions
 expression : equalityExpression (('||' | '&&') equalityExpression)* ;

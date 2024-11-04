@@ -11,9 +11,9 @@ using Type = GASLanguageProcessor.AST.Expressions.Terms.Type;
 
 namespace GASLanguageProcessor;
 
-public class ToAstVisitor : GASBaseVisitor<AstNode>
+public class ToAstVisitor
 {
-    public override AstNode VisitProgram(GASParser.ProgramContext context)
+    public AstNode ProgramAst(GASParser.ProgramContext context)
     {
         var lines = context.children
             .Select(line => line.Accept(this)).ToList();

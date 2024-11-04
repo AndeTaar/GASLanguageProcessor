@@ -5,12 +5,151 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a7ca974-741b-4be9-947f-9feec63e7f3f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Record.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/AddToArray.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/RecordDefinition.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ErrorType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/GasType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/StatementType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/StatementTypes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/ArrayType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/GroupType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/NullType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/RecordType/GasRecordTypes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/RecordType/RecordType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/ValueType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/VariableType/VariableType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Types/ValueTypes/VariableType/VariableTypes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/Colors/FinalColors.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/Colors/FinalLinearGradient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalRecord.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/AllShapes.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/CircleByPolygon.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/ConfigurationManagement.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/ConfigurationManagementForLoop.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/DrawPeople.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/ParseTree.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/TestGas/ParseTreeForLoop.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/RecordEvaluator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/RecEnv.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/RecTypeEnv.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GASLanguageProcessor/output/output.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tests/AcceptanceTests/CircleByPolygonTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tests/AcceptanceTests/GasTestFiles/CircleByPolygon.gas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tests/AcceptanceTests/GasTestFiles/CircleByPolygon.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/AstNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/AstNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Canvas.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/BinaryOp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/BinaryOp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Expression.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Expression.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/AddToList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/SizeOfArray.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Array.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Array.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Arrow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Boolean.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Boolean.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Circle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Color.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Ellipse.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/FunctionCallTerm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/FunctionCallTerm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/GetFromList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Group.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Group.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Identifier.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Identifier.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/LengthOfList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Line.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/List.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Null.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Null.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Num.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Num.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Parameter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Parameter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Point.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Polygon.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Rectangle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/RemoveFromList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/GetFromArray.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/SegLine.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Square.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/String.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/String.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Term.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Term.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Text.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Triangle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Type.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/Terms/Type.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/UnaryOp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Expressions/UnaryOp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/GasType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/IAstVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/IAstVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Assignment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Assignment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Compound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Compound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Declaration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Declaration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/For.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/For.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/FunctionCallStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/FunctionCallStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/FunctionDeclaration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/FunctionDeclaration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/If.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/If.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Increment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Increment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Return.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Return.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Skip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/Skip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/While.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/AST/Statements/While.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/CombinedAstVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/CombinedAstVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalArrow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalArrow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalCanvas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalCanvas.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalCircle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalCircle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/Colors/FinalColor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalEllipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalEllipse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalGroup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalLine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalNumber.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalNumber.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalPolygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalPolygon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalRectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalRectangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalSegLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalSegLine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalSquare.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalSquare.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalText.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalTriangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/FinalTypes/FinalTriangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GAS.g4" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GAS.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GAS.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GAS.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASBaseListener.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASBaseVisitor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASLexer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASListener.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASParser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/GASVisitor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/ParserErrorListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/ParserErrorListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/test.gas" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Frontend/test.gas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/GASLanguageProcessor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/GASLanguageProcessor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Interpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Interpreter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/Statement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/Statement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/SvgGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/SvgGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/TableType/FuncEnv.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/FuncEnv.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/TableType/Function.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/Function.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/TableType/Store.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/Store.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/TableType/TypeEnv.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/TypeEnv.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/TableType/VarEnv.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/TableType/VarEnv.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/ToAstVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/ToAstVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/Antlr4.Runtime.Standard.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/Frontend/test.gas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/bin/Debug/net8.0/GASLanguageProcessor.runtimeconfig.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/GASLanguageProcessor.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/apphost" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/apphost" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/ref/GASLanguageProcessor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/ref/GASLanguageProcessor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/refint/GASLanguageProcessor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/Debug/net8.0/refint/GASLanguageProcessor.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/GASLanguageProcessor.csproj.nuget.g.props" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.assets.json" afterDir="false" />
@@ -18,12 +157,173 @@
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GASLanguageProcessor/output/CircleByPolygon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/GASLanguageProcessor/output/CircleByPolygon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitAssignment.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitBinaryExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitCanvas.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitEqualityExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitForStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitFunctionCall.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitFunctionDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitGroupDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitIfStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitMultExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitNotExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitProgram.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitRelationExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitReturnStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitTerm.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/CombinedAstVisitorTests/VisitWhileStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/GeneratorTests/GenerateLineTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/GeneratorTests/GenerateLineTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/AddToListTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/EvaluateExpressionGetFromList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/EvaluateExpressionLengthOfList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/EvaluateExpressionRemoveFromList.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/FigureTypesTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/FinalPolygonTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/FunctionCallTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/GenerateArrowTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateExpressionTests/UnaryOpTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateStatementTests/EvaluateFunctionDeclarationAndCall.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateStatementTests/EvaluateIfStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateStatementTests/EvaluateReturnStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/EvaluateStatementTests/EvaluateStatementDeclerationAssignment.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/InterpreterTests/VisitProgram.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/SharedTesting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/SharedTesting.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/Tests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/UnitTests/VisitAssignment.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/UnitTests/VisitCollectionDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/UnitTests/VisitExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/UnitTests/VisitFunctionDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitAssignment.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitBinaryExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitCanvas.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitCollectionDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitEqualityExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitForStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitFunctionCall.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitFunctionDeclaration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitIfStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitMultExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitNotExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitRelationExpression.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitReturnStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitTerm.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/ToAstVisitorTests/VisitWhileStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Antlr4.Runtime.Standard.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/CoverletSourceRootsMapping_Tests" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Frontend/test.gas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/GASLanguageProcessor.runtimeconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.TestPlatform.CommunicationUtilities.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.TestPlatform.CoreUtilities.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.TestPlatform.CrossPlatEngine.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.TestPlatform.PlatformAbstractions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.TestPlatform.Utilities.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.VisualStudio.TestPlatform.Common.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Newtonsoft.Json.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/NuGet.Frameworks.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Tests.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Tests.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Tests.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/Tests.runtimeconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/cs/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/cs/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/cs/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/de/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/de/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/de/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/de/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/es/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/es/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/es/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/es/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/fr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/fr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/fr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/it/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/it/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/it/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/it/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ja/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ja/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ja/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ko/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ko/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ko/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pl/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pl/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pl/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pt-BR/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pt-BR/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pt-BR/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ru/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ru/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ru/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/testhost.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/testhost.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/tr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/tr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/tr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.abstractions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.assert.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.core.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.execution.dotnet.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.runner.reporters.netcoreapp10.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.runner.utility.netcoreapp10.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hans/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hans/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/bin/Debug/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/Tests.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/ref/Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/ref/Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/refint/Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Debug/net8.0/refint/Tests.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.props" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/obj/Tests.csproj.nuget.g.targets" afterDir="false" />
@@ -49,16 +349,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/thomas/Desktop/GASLanguageProcessor&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging Fixes",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/thomas/Desktop/GASLanguageProcessor",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

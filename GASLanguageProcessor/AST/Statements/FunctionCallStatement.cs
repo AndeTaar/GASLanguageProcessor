@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.TableType;
