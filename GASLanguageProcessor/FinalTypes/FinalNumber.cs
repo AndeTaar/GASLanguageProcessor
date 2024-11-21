@@ -2,14 +2,14 @@
 
 namespace GASLanguageProcessor.FinalTypes;
 
-public class FinalNum
+public class FinalNum : FinalType
 {
-    public float Value { get; set; }
-
-    public FinalNum(float value)
+    public FinalNum(object value)
     {
-        Value = value;
+        Value = (float)value;
     }
+
+    public float Value { get; set; }
 
     public override string ToString()
     {

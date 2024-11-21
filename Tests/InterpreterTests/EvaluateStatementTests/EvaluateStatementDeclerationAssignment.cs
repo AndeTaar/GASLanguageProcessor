@@ -1,11 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Antlr4.Runtime;
-using GASLanguageProcessor;
-using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
-using GASLanguageProcessor.TableType;
-
-namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
+﻿namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
 
 public class EvaluateStatementDeclerationAssignment
 {
@@ -19,7 +12,7 @@ public class EvaluateStatementDeclerationAssignment
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);
@@ -40,7 +33,7 @@ public class EvaluateStatementDeclerationAssignment
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("x").Value);
 
         Assert.NotNull(result);

@@ -1,7 +1,4 @@
-﻿using GASLanguageProcessor;
-using GASLanguageProcessor.TableType;
-
-namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
+﻿namespace Tests.OperationalSemantics.InterpreterTests.EvaluateStatementTests;
 
 public class EvaluateReturnStatement
 {
@@ -12,9 +9,9 @@ public class EvaluateReturnStatement
             "canvas (250 * 2, 10 * 50, Color(255, 255, 255, 1));" +
             "num test1;" +
             "void testFunction() {" +
-                "test1 = 10;" +
-                "return test1;" +
-                "test1 = 20;" +
+            "test1 = 10;" +
+            "return test1;" +
+            "test1 = 20;" +
             "}" +
             "testFunction();"
         );

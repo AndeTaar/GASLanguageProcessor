@@ -1,5 +1,6 @@
 ﻿using GASLanguageProcessor.AST.Expressions;
 using GASLanguageProcessor.AST.Expressions.Terms;
+using GASLanguageProcessor.AST.Expressions.Terms.Identifiers;
 using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.TableType;
 using Boolean = GASLanguageProcessor.AST.Expressions.Terms.Boolean;
@@ -23,8 +24,6 @@ public interface IAstVisitor<T>
     T VisitIfStatement(If node, TypeEnv envT);
 
     T VisitBoolean(Boolean node, TypeEnv envT);
-
-    T VisitIdentifier(Identifier node, TypeEnv envT);
 
     T VisitCompound(Compound node, TypeEnv envT);
 
@@ -89,4 +88,10 @@ public interface IAstVisitor<T>
     T VisitTriangle(Triangle node, TypeEnv envT);
 
     T VisitIncrement(Increment node, TypeEnv envT);
+
+    T VisitRecordDefinition(RecordDefinition node, TypeEnv envT);
+
+    T VisitIdentifier(Identifier identifier, TypeEnv envT);
+
+    T VisitRecord(Record record, TypeEnv envT);
 }

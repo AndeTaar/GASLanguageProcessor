@@ -18,9 +18,9 @@ public class EvaluateExpressionRemoveFromList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("listNum").Value) as FinalList;
-        var expected = new FinalList(new List<object> {2f, 3f, 4f, 5f});
+        var expected = new FinalList(new List<object> { 2f, 3f, 4f, 5f });
 
         Assert.NotNull(result);
         Assert.IsType<FinalList>(result);
@@ -45,7 +45,7 @@ public class EvaluateExpressionRemoveFromList
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("listCircle").Value) as FinalList;
         var expected = new FinalList(new List<object>
         {

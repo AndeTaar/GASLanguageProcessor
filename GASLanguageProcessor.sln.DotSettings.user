@@ -1,6 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=22cab3e1_002D4497_002D4f1c_002Da49a_002D276bea876272/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from VisitCollectionDeclaration.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;ProjectFile&gt;5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58/d:ToAstVisitorTests/d:UnitTests/f:VisitCollectionDeclaration.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=24c28ae8_002D5db7_002D4bda_002D941d_002D9ad6b6ae98e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from VisitAssignment.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;ProjectFile&gt;5FB45D48-ADF8-4E73-8D8F-CABCDA68BA58/d:ToAstVisitorTests/d:UnitTests/f:VisitAssignment.cs&lt;/ProjectFile&gt;&#xD;

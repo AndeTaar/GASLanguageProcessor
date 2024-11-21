@@ -8,7 +8,6 @@ namespace Tests.Frontend.ToAstVisitorTests.UnitTests;
 
 public class VisitAssignment
 {
-
     [Fact]
     public void testAssignment()
     {
@@ -16,7 +15,7 @@ public class VisitAssignment
 
         var inputStream = CharStreams.fromString(fileContents);
         var lexer = new GASLexer(inputStream);
-        ParserErrorListener errorListener = new ParserErrorListener();
+        var errorListener = new ParserErrorListener();
 
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new GASParser(tokenStream);
@@ -24,11 +23,11 @@ public class VisitAssignment
         parser.AddErrorListener(errorListener);
         errorListener.StopIfErrors();
         Assert.NotNull(parser);
-        
+
         var astVisitor = new ToAstVisitor();
-        
+
         var assignmentContext = parser.assignment();
-        var assignment = (Assignment) astVisitor.VisitAssignment(assignmentContext);
+        var assignment = (Assignment)astVisitor.VisitAssignment(assignmentContext);
         Assert.NotNull(assignment);
         Assert.Equal("x", assignment.Identifier.Name);
         Assert.IsType<Num>(assignment.Expression);

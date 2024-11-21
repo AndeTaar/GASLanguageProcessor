@@ -2,7 +2,6 @@
 using Antlr4.Runtime.Misc;
 using GASLanguageProcessor;
 using GASLanguageProcessor.AST;
-using GASLanguageProcessor.AST.Statements;
 using GASLanguageProcessor.Frontend;
 using GASLanguageProcessor.TableType;
 
@@ -20,7 +19,7 @@ public static class SharedTesting
 
     public static AstNode GetAst(string input)
     {
-        ParserErrorListener errorListener = new ParserErrorListener();
+        var errorListener = new ParserErrorListener();
         var parser = GetParser(input);
         parser.RemoveErrorListeners();
         parser.AddErrorListener(errorListener);
@@ -37,7 +36,7 @@ public static class SharedTesting
         var envV = new VarEnv();
         var sto = new Store();
         var envT = new TypeEnv();
-        var envF = new FuncEnv(sto, envV, null);
+        var envF = new FuncEnv(sto, envV);
 
         ast.Accept(combinedAstVisitor, envT);
         var interpreter = new Interpreter();

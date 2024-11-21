@@ -21,11 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="OperationalSemantics\" />
+        <Folder Include="OperationalSemantics\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GASLanguageProcessor\GASLanguageProcessor.csproj" />
+        <ProjectReference Include="..\GASLanguageProcessor\GASLanguageProcessor.csproj"/>
     </ItemGroup>
 
 </Project>

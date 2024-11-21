@@ -29,5 +29,4 @@ public class VisitEqualityExpression
         ast.Accept(visitor, new TypeEnv());
         Assert.NotEmpty(visitor.errors);
     }
-
 }

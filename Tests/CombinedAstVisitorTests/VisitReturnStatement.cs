@@ -17,6 +17,7 @@ public class VisitReturnStatement
         ast.Accept(visitor, new TypeEnv());
         Assert.Empty(visitor.errors);
     }
+
     [Fact]
     public void VisitPassVisitReturnStatement1()
     {

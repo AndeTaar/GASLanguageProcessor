@@ -11,10 +11,7 @@ public class Store
 
     public object? LookUp(int key)
     {
-        if (Values.ContainsKey(key))
-        {
-            return Values[key];
-        }
+        if (Values.ContainsKey(key)) return Values[key];
         return null;
     }
 }

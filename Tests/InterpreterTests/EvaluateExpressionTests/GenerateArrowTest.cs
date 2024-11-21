@@ -18,7 +18,7 @@ public class GenerateArrowTest
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("one").Value) as FinalArrow;
         var expected = new FinalArrow(
             new FinalPoint(10, 2),
@@ -58,5 +58,4 @@ public class GenerateArrowTest
         Assert.Equal(triangleExpected.StrokeColor.Green.Value, triangleResult.StrokeColor.Green.Value);
         Assert.Equal(triangleExpected.StrokeColor.Blue.Value, triangleResult.StrokeColor.Blue.Value);
     }
-
 }

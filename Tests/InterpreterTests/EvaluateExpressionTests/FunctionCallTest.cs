@@ -1,12 +1,4 @@
-﻿using Antlr4.Runtime;
-using GASLanguageProcessor;
-using GASLanguageProcessor.AST;
-using GASLanguageProcessor.AST.Expressions;
-using GASLanguageProcessor.AST.Expressions.Terms;
-using GASLanguageProcessor.AST.Statements;
-using GASLanguageProcessor.AST.Terms;
-using GASLanguageProcessor.FinalTypes;
-using GASLanguageProcessor.TableType;
+﻿using GASLanguageProcessor.FinalTypes;
 
 namespace Tests.OperationalSemantics.InterpreterTests.EvaluateExpressionTests;
 
@@ -26,7 +18,7 @@ public class FunctionCallTest
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("funcCallVal").Value);
 
         Assert.NotNull(result);
@@ -50,7 +42,7 @@ public class FunctionCallTest
         var envF = env.Item4;
         var errors = env.Item5;
         Assert.Empty(errors);
-        
+
         var result = sto.LookUp(envV.LookUp("funcCallVal").Value);
 
         Assert.NotNull(result);
